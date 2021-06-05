@@ -11,7 +11,6 @@ createApp({
     render: () =>
         h(InertiaApp, {
             initialPage: JSON.parse(el.dataset.page),
-            // resolveComponent: (name) => require(`./Pages/${name}`).default,
             resolveComponent: name => import(`./Pages/${name}`).then(importedFile => importedFile.default)
         }),
 })

@@ -7,6 +7,7 @@
         </template>
 
         <welcome />
+        <welcome />
     </app-layout>
 </template>
 

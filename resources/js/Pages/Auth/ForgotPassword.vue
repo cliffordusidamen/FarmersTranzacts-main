@@ -1,8 +1,6 @@
 <template>
   <jet-authentication-card>
-    <template #logo>
-      <jet-authentication-card-logo />
-    </template>
+    <h4 class="text-center">Password Reset</h4>
 
     <div class="card-body">
       <div class="mb-2">

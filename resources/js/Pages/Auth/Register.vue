@@ -1,8 +1,6 @@
 <template>
   <jet-authentication-card>
-    <template #logo>
-      <jet-authentication-card-logo />
-    </template>
+    <h4 class="text-center text-primary text-uppercase">Register</h4>
 
     <div class="card-body">
 

@@ -2,7 +2,7 @@
     <div class="sticky-wrapper">
         <div class="header-bottom sticky-header">
             <div class="container">
-                <div class="header-left">
+                <div v-show="showCategories" class="header-left">
                     <div class="dropdown category-dropdown show is-on" data-visible="true">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-display="static" title="Browse Categories">
                             Browse Categories
@@ -60,7 +60,7 @@
                 </div><!-- End. header-center -->
                 
                 <div class="header-right">
-                    <i class="la la-lightbulb-o"></i><p><span>Clearance Up to 30% Off</span></p>
+                    <i class="la la-lightbulb-o"></i><p><span>HOTLINE: +0123 456 789</span></p>
                 </div><!-- End. header-right -->
             </div>
         </div>
@@ -69,8 +69,11 @@
 
 <script>
 export default {
-    mounted() {
-        $('.dropdown-toggle').dropdown();
+    props: {
+        showCategories: {
+            type: Boolean,
+            default: true,
+        }
     },
 }
 </script>

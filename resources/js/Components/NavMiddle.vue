@@ -8,7 +8,7 @@
                 </button>
                 
                 <a href="/" class="logo">
-                    <img src="assets/images/demos/demo-13/logo.png" alt="Molla Logo" width="105" height="25">
+                    LOGO
                 </a>
             </div><!-- End .header-left -->
 
@@ -139,6 +139,25 @@
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .cart-dropdown -->
+
+                    <div class="dropdown compare-dropdown">
+                        <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <i class="icon-user"></i>
+                            <span class="compare-txt">Account</span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right px-0">
+                            <a v-if="isAuthenticated" href="#" class="dropdown-item">Profile</a>
+                            <a v-if="isAuthenticated" href="#" class="dropdown-item" @click.prevent="logout">Log out</a>
+                            <inertia-link v-if="!isAuthenticated" :href="route('login')" class="dropdown-item">
+                                Log in
+                            </inertia-link>
+
+                            <inertia-link v-if="!isAuthenticated" :href="route('register')" class="dropdown-item">
+                                Register
+                            </inertia-link>
+                        </div>
+                    </div>
                 </div>
             </div><!-- End .header-right -->
         </div><!-- End. container -->
@@ -147,9 +166,21 @@
 
 <script>
 export default {
+    computed: {
+        isAuthenticated() {
+            return this.$page.props.user !== null;
+        },
+    },
     methods: {
         toggleMobileMenu() {
             $('body').eq(0).toggleClass('mmenu-active');
+        },
+        logout() {
+            this.$inertia.post(route('logout'), {}, {
+                onFinish: () => {
+                    window.location = '/login'
+                },
+            });
         }
     }
 }

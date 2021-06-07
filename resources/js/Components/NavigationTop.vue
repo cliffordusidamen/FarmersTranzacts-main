@@ -1,8 +1,7 @@
 <template>
     <header class="header header-10 header-intro-clearance">
-        <TopBar />
         <NavMiddle />
-        <NavBottom />
+        <NavBottom :show-categories="showCategories" />
     </header>
 </template>
 
@@ -16,6 +15,12 @@ export default {
         TopBar,
         NavMiddle,
         NavBottom,
-    }
+    },
+    props: {
+        showCategories: {
+            type: Boolean,
+            default: true,
+        }
+    },
 }
 </script>

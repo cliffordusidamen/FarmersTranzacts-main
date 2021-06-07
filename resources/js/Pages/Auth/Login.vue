@@ -1,16 +1,12 @@
 <template>
   <jet-authentication-card>
-    <template #logo>
-      <jet-authentication-card-logo />
-    </template>
-
-    <div class="card-body">
-
       <jet-validation-errors class="mb-3" />
 
       <div v-if="status" class="alert alert-success mb-3 rounded-0" role="alert">
         {{ status }}
       </div>
+
+      <h4 class="text-center text-primary text-uppercase">Log In</h4>
 
       <form @submit.prevent="submit">
         <div class="form-group">
@@ -45,13 +41,11 @@
           </div>
         </div>
       </form>
-    </div>
   </jet-authentication-card>
 </template>
 
 <script>
 import JetAuthenticationCard from '@/Jetstream/AuthenticationCard'
-import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo'
 import JetButton from '@/Jetstream/Button'
 import JetInput from '@/Jetstream/Input'
 import JetCheckbox from '@/Jetstream/Checkbox'
@@ -61,12 +55,11 @@ import JetValidationErrors from '@/Jetstream/ValidationErrors'
 export default {
   components: {
     JetAuthenticationCard,
-    JetAuthenticationCardLogo,
     JetButton,
     JetInput,
     JetCheckbox,
     JetLabel,
-    JetValidationErrors
+    JetValidationErrors,
   },
 
   props: {

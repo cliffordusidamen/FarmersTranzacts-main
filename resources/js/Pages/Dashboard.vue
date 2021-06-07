@@ -1,13 +1,19 @@
 <template>
     <app-layout>
-        <template #header>
-            <h2 class="h4 font-weight-bold">
-                Dashboard
-            </h2>
-        </template>
-
-        <welcome />
-        <welcome />
+        <div class="intro-slider-container">
+            <div class="container intro-content">
+                <div class="row">
+                    <div class="col-auto offset-lg-3 intro-col">
+                        <h2 class="h4 font-weight-bold">
+                            Dashboard
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <welcome />
+        </div>
     </app-layout>
 </template>
 

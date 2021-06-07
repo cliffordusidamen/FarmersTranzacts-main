@@ -1,11 +1,13 @@
 <template>
   <div class="page-wrapper">
-    <navigation-top />
+    <navigation-top :show-categories="showCategories" />
 
     <main class="main">
       <jet-banner />
       <slot></slot>
     </main>
+
+    <app-footer />
   </div>
   <!-- End .page-wrapper -->
   <nav-mobile />
@@ -20,6 +22,7 @@ import JetDropdownLink from "@/Jetstream/DropdownLink";
 import JetNavLink from "@/Jetstream/NavLink";
 import NavigationTop from "@/Components/NavigationTop.vue";
 import NavMobile from "@/Components/NavMobile";
+import AppFooter from "@/Components/AppFooter";
 
 export default {
   components: {
@@ -32,6 +35,14 @@ export default {
     JetNavLink,
     NavigationTop,
     NavMobile,
+    AppFooter,
+  },
+
+  props: {
+    showCategories: {
+      type: Boolean,
+      default: true,
+    }
   },
 
   data() {

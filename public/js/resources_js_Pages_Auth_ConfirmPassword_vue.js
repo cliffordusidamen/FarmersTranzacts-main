@@ -17,6 +17,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": true
     }
+  },
+  computed: {
+    is_super_admin: function is_super_admin() {
+      return this.$page.props.user && this.$page.props.user.is_super_admin;
+    }
   }
 });
 
@@ -595,9 +600,25 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"header-center\"><nav class=\"main-nav\"><ul class=\"menu sf-arrows\"><li><a href=\"#\">Home</a></li><li><a href=\"#\">Page One</a></li><li><a href=\"#\">Page Two</a></li><li><a href=\"#\" class=\"sf-with-ul\">Home</a><ul><li><a href=\"#\" class=\"sf-with-ul\">About</a><ul><li><a href=\"#\">About 01</a></li><li><a href=\"#\">About 02</a></li></ul></li><li><a href=\"#\" class=\"sf-with-ul\">Contact</a><ul><li><a href=\"#\">Contact 01</a></li><li><a href=\"#\">Contact 02</a></li></ul></li><li><a href=\"#\">Login</a></li><li><a href=\"#\">FAQs</a></li><li><a href=\"#\">Error 404</a></li><li><a href=\"#\">Coming Soon</a></li></ul></li></ul></nav></div>", 1);
+var _hoisted_6 = {
+  "class": "header-center"
+};
+var _hoisted_7 = {
+  "class": "main-nav"
+};
+var _hoisted_8 = {
+  "class": "menu sf-arrows"
+};
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<li><a href=\"#\">Home</a></li><li><a href=\"#\">Page One</a></li><li><a href=\"#\">Page Two</a></li><li><a href=\"#\" class=\"sf-with-ul\">Home</a><ul><li><a href=\"#\" class=\"sf-with-ul\">About</a><ul><li><a href=\"#\">About 01</a></li><li><a href=\"#\">About 02</a></li></ul></li><li><a href=\"#\" class=\"sf-with-ul\">Contact</a><ul><li><a href=\"#\">Contact 01</a></li><li><a href=\"#\">Contact 02</a></li></ul></li><li><a href=\"#\">Login</a></li><li><a href=\"#\">FAQs</a></li><li><a href=\"#\">Error 404</a></li><li><a href=\"#\">Coming Soon</a></li></ul></li>", 4);
+
+var _hoisted_13 = {
+  key: 0
+};
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<a href=\"#\" class=\"sf-with-ul\">Admin</a><ul><li><a href=\"#\" class=\"sf-with-ul\">Product Categories</a><ul><li><a href=\"#\">Add</a></li><li><a href=\"#\">List</a></li></ul></li><li><a href=\"#\" class=\"sf-with-ul\">Users</a><ul><li><a href=\"#\">Add</a></li><li><a href=\"#\">List</a></li></ul></li><li><a href=\"#\">Sample Link 1</a></li><li><a href=\"#\">Sample Link 1</a></li></ul>", 2);
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "header-right"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "la la-lightbulb-o"
@@ -608,7 +629,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. category-dropdown ")], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.showCategories]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. header-left "), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. header-center "), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. header-right ")])])]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.showCategories]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. header-left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("nav", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_8, [_hoisted_9, $options.is_super_admin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_13, [_hoisted_14])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. header-center "), _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End. header-right ")])])]);
 }
 
 /***/ }),

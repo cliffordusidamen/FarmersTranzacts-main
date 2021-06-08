@@ -55,6 +55,29 @@
                                     <li><a href="#">Coming Soon</a></li>
                                 </ul>
                             </li>
+                            <li v-if="is_super_admin">
+                                <a href="#" class="sf-with-ul">Admin</a>
+                                <ul>
+                                    <li>
+                                        <a href="#" class="sf-with-ul">Product Categories</a>
+
+                                        <ul>
+                                            <li><a href="#">Add</a></li>
+                                            <li><a href="#">List</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="sf-with-ul">Users</a>
+
+                                        <ul>
+                                            <li><a href="#">Add</a></li>
+                                            <li><a href="#">List</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Sample Link 1</a></li>
+                                    <li><a href="#">Sample Link 1</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                 </div><!-- End. header-center -->
@@ -75,5 +98,11 @@ export default {
             default: true,
         }
     },
+
+    computed: {
+        is_super_admin() {
+            return this.$page.props.user && this.$page.props.user.is_super_admin;
+        }
+    }
 }
 </script>

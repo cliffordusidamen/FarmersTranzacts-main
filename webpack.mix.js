@@ -13,14 +13,15 @@ const mix = require('laravel-mix');
 const templateDir = 'public/molla-template'
 
 const jsFiles = [
-    // templateDir + '/js/bootstrap.bundle.min.js',
-    // templateDir + '/js/main.js',
     'resources/js/app.js'
 ];
 
 mix.js(jsFiles, 'public/js/')
     .vue()
-    .css('resources/css/custom.css', 'public/css/')
+    .styles([
+        'resources/css/app.css',
+        'resources/css/custom.css',
+    ], 'public/css/app.css')
     .webpackConfig(require('./webpack.config'));
 
 if (mix.inProduction()) {

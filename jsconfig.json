@@ -1,9 +1,0 @@
-{
-    "include": [
-        "./resources/js/**/*"
-    ],
-    "eslint.validate": [
-        "javascript",
-        "vue"
-    ]
-}

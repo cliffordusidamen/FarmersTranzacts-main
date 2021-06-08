@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="/molla-template/css/style.css">
     <link rel="stylesheet" href="/molla-template/css/skins/skin-demo-13.css">
     <link rel="stylesheet" href="/molla-template/css/demos/demo-13.css">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     @routes
 </head>

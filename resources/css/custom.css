@@ -1,3 +1,36 @@
+.form-control.is-valid,
+.was-validated .form-control:valid,
+.form-control.is-invalid,
+.was-validated .form-control:invalid,
+.custom-select.is-valid,
+.was-validated .custom-select:valid .custom-select.is-invalid,
+.was-validated .custom-select:invalid {
+    background-position: right calc(0.75em + 0.5rem) center;
+    background-size: calc(0.75em + 0.15rem) calc(0.75em + 0.15rem);
+}
+.form-control.is-valid,
+.was-validated .form-control:valid,
+.custom-select.is-valid,
+.was-validated .custom-select:valid {
+    border-color: #ced4da;
+    background-image: none !important;
+}
+
 .font-weight-semibold {
     font-weight: 600;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+label.required {
+    color: inherit;
+    font-weight: 600;
+}
+
+label.required::after {
+    display: inline;
+    color: rgb(231, 7, 45);
+    content: "*";
 }

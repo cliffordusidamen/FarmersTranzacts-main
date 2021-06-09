@@ -178,7 +178,7 @@ export default {
         logout() {
             this.$inertia.post(route('logout'), {}, {
                 onFinish: () => {
-                    window.location = '/login'
+                    // window.location = '/login'
                 },
             });
         }

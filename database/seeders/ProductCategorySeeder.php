@@ -13,6 +13,6 @@ class ProductCategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        // Create factory, with sub categories
     }
 }

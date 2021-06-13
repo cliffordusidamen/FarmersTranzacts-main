@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ProductCategory;
+use App\Models\ProductSubcategory;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,14 +18,56 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Home');
 })->name('dashboard');
+
+Route::prefix('categories')->name('categories.')->group(function() {
+
+    Route::get('/', fn () => Inertia::render('Admin/CategoriesList', [
+        'categories' => \App\Models\ProductCategory::all(),
+    ]))->name('index');
+
+    Route::get('create', fn() => Inertia::render('Admin/CreateCategory'))->name('create');
+
+    Route::get('show/{category}', function(ProductCategory $category) {
+        $subcategories = $category->subcategories;
+        return Inertia::render('Admin/ShowCategory', compact('category', 'subcategories'));
+    })->name('show');
+
+    Route::get(
+            'edit/{category}',
+            fn(ProductCategory $category)
+                => Inertia::render('Admin/CreateCategory', compact('category'))
+        )->name('edit');
+
+    Route::post('save/{id?}', \App\Actions\ProductCategories\SaveCategoryAction::class)->name('save');
+
+    Route::get(
+            '{category}/subcategory/create',
+            fn(ProductCategory $category)
+                => Inertia::render('Admin/CreateSubcategory', compact('category'))
+        )
+        ->name('create_subcategory');
+
+    Route::get(
+            '{category}/subcategory/edit/{subcategory}',
+            fn(ProductCategory $category, ProductSubcategory $subcategory)
+                => Inertia::render('Admin/CreateSubcategory', compact('category', 'subcategory'))
+        )
+        ->name('edit_subcategory');
+
+    Route::post(
+            '{category}/subcategory/{subcategory?}',
+            \App\Actions\ProductCategories\SaveSubcategoryAction::class
+        )
+        ->name('save_subcategory');
+});

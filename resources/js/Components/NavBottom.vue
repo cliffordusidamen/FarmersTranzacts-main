@@ -27,34 +27,11 @@
                 <div class="header-center">
                     <nav class="main-nav">
                         <ul class="menu sf-arrows">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Page One</a></li>
-                            <li><a href="#">Page Two</a></li>
-                            <li>
-                                <a href="#" class="sf-with-ul">Home</a>
-                                <ul>
-                                    <li>
-                                        <a href="#" class="sf-with-ul">About</a>
-
-                                        <ul>
-                                            <li><a href="#">About 01</a></li>
-                                            <li><a href="#">About 02</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="sf-with-ul">Contact</a>
-
-                                        <ul>
-                                            <li><a href="#">Contact 01</a></li>
-                                            <li><a href="#">Contact 02</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Login</a></li>
-                                    <li><a href="#">FAQs</a></li>
-                                    <li><a href="#">Error 404</a></li>
-                                    <li><a href="#">Coming Soon</a></li>
-                                </ul>
-                            </li>
+                            <li class="d-none d-xl-block"><inertia-link :href="route('home')">Home</inertia-link></li>
+                            <li><a href="#">Shop</a></li>
+                            <li><a href="#">Distributors</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
                             <li v-if="is_super_admin">
                                 <a href="#" class="sf-with-ul">Admin</a>
                                 <ul>
@@ -62,8 +39,8 @@
                                         <a href="#" class="sf-with-ul">Product Categories</a>
 
                                         <ul>
-                                            <li><a href="#">Add</a></li>
-                                            <li><a href="#">List</a></li>
+                                            <li><inertia-link :href="route('categories.create')">Add</inertia-link></li>
+                                            <li><inertia-link :href="route('categories.index')">List</inertia-link></li>
                                         </ul>
                                     </li>
                                     <li>

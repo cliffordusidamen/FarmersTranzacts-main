@@ -17,7 +17,7 @@
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                     <form action="#" method="get">
                         <div class="header-search-wrapper search-wrapper-wide">
-                            <div class="select-custom">
+                            <div class="select-custom d-none">
                                 <select id="cat" name="cat">
                                     <option value="">All Departments</option>
                                     <option value="1">Fashion</option>

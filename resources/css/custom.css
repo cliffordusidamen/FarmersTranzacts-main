@@ -34,3 +34,12 @@ label.required::after {
     color: rgb(231, 7, 45);
     content: "*";
 }
+
+.table-sm td, .table-sm th {
+    padding: 0.3rem;
+}
+
+.font-size-normal {
+    font-size: initial;
+}
+

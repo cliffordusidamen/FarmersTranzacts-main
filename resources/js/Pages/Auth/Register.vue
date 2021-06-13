@@ -18,6 +18,7 @@
                             autofocus
                             autocomplete="first_name"
                         />
+                        <jet-input-error :message="form.errors.first_name" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -33,6 +34,7 @@
                             autofocus
                             autocomplete="last_name"
                         />
+                        <jet-input-error :message="form.errors.last_name" />
                     </div>
                 </div>
             </div>
@@ -49,6 +51,7 @@
                             v-model="form.email"
                             required
                         />
+                        <jet-input-error :message="form.errors.email" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -61,6 +64,7 @@
                             type="text"
                             v-model="form.phone"
                         />
+                        <jet-input-error :message="form.errors.phone" />
                     </div>
                 </div>
             </div>
@@ -77,6 +81,7 @@
 							required
 							autocomplete="new-password"
 						/>
+                        <jet-input-error :message="form.errors.password" />
 					</div>
                 </div>
 
@@ -96,6 +101,7 @@
 							required
 							autocomplete="new-password"
 						/>
+                        <jet-input-error :message="form.errors.password_confirmation" />
 					</div>
 				</div>
 			</div>
@@ -121,6 +127,7 @@
                             >Privacy Policy</a
                         >
                     </label>
+                    <jet-input-error :message="form.errors.terms" />
                 </div>
             </div>
 

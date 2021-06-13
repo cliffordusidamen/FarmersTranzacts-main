@@ -14,20 +14,22 @@
                     </div>
 
                     <div class="card">
-                        <div v-if="$page.props.categories.length == 0" class="card-body">
+                        <div v-if="$page.props.product_categories.length == 0" class="card-body">
                             No category found!
                         </div>
                         <div v-else>
                             <table class="table table-sm table-bordered mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th class="text-right">Actions</th>
+                                        <th class="font-weight-bold">Name</th>
+                                        <th class="font-weight-bold">Subcategories</th>
+                                        <th class="text-right font-weight-bold">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="category in $page.props.categories" :key="category.id">
+                                    <tr v-for="category in $page.props.product_categories" :key="category.id">
                                         <td>{{ category.name }}</td>
+                                        <td>{{ category.subcategories.length }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end">
                                                 <div class="dropdown">

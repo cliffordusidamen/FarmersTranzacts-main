@@ -96,7 +96,12 @@ export default {
     methods: {
         submit() {
             this.form.processing = true;
-            this.form.post(this.route("categories.save", this.category.id ?? null), {
+
+            const actionRoute = undefined == this.category.id
+                ? this.route("categories.save")
+                : this.route("categories.save", this.category.id);
+
+            this.form.post(actionRoute, {
                 errorBag: 'SaveProductCategory',
                 preserveScroll: true,
                  onFinish: () => {

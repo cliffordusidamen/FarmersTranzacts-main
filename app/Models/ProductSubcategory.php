@@ -59,7 +59,7 @@ class ProductSubcategory extends Model
      */
     public static function validationRules(?int $id = null): array
     {
-        $uniqueRule = 'unique:product_categories,name' . (!is_null($id) ? ",{$id}" : '');
+        $uniqueRule = 'unique:product_subcategories,name' . (!is_null($id) ? ",{$id}" : '');
 
         return [
             'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],

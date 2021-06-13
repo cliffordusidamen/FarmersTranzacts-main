@@ -75,8 +75,8 @@ export default {
             jqueryValidator: null,
             form: this.$inertia.form({
                 _method: "POST",
-                name: vueObj.$page.props.subcategory.name ?? "",
-                description: vueObj.$page.props.subcategory.description ?? "",
+                name: vueObj.isEdit() ? vueObj.$page.props.subcategory.name : "",
+                description: vueObj.isEdit() ? vueObj.$page.props.subcategory.description : "",
             }),
         }
     },
@@ -105,13 +105,22 @@ export default {
     methods: {
         submit() {
             this.form.processing = true;
-            this.form.post(this.route("categories.save_subcategory", [this.category.id, this.subcategory.id ?? null]), {
+            
+            const actionRoute = undefined == this.subcategory.id
+                ? this.route("categories.save_subcategory", [this.category.id])
+                : this.route("categories.save_subcategory", [this.category.id, this.subcategory.id]);
+
+            this.form.post(actionRoute, {
                 errorBag: 'SaveProductSubcategory',
                 preserveScroll: true,
                  onFinish: () => {
                     this.form.processing = false;
                 },
             });
+        },
+
+        isEdit() {
+            return undefined != this.subcategory.id;
         }
     }
 }

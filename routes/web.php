@@ -30,11 +30,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Home');
 })->name('dashboard');
 
-Route::prefix('categories')->name('categories.')->group(function() {
+Route::middleware(['auth:sanctum', 'verified'])->prefix('categories')->name('categories.')->group(function() {
 
-    Route::get('/', fn () => Inertia::render('Admin/CategoriesList', [
-        'categories' => \App\Models\ProductCategory::all(),
-    ]))->name('index');
+    Route::get('/', fn () => Inertia::render('Admin/CategoriesList'))->name('index');
 
     Route::get('create', fn() => Inertia::render('Admin/CreateCategory'))->name('create');
 
@@ -70,4 +68,16 @@ Route::prefix('categories')->name('categories.')->group(function() {
             \App\Actions\ProductCategories\SaveSubcategoryAction::class
         )
         ->name('save_subcategory');
+});
+
+
+// SHOP ROUTES
+Route::prefix('shop')->name('shop.')->group(function() {
+    Route::get('/', function() {
+        $products = \App\Models\Product::with(['category', 'images', 'store'])->paginate(12);
+
+        // dd($products);
+
+        return Inertia::render('Shop/ProductsList', compact('products'));
+    })->name('index');
 });

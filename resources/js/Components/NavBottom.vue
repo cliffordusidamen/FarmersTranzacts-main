@@ -2,7 +2,7 @@
     <div class="sticky-wrapper">
         <div class="header-bottom sticky-header">
             <div class="container">
-                <div v-show="showCategories" class="header-left">
+                <div v-show="showCategories && $page.props.product_categories.length > 0" class="header-left">
                     <div class="dropdown category-dropdown show is-on" data-visible="true">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-display="static" title="Browse Categories">
                             Browse Categories
@@ -11,13 +11,15 @@
                         <div class="dropdown-menu show">
                             <nav class="side-nav">
                                 <ul class="menu-vertical sf-arrows">
-                                    <li><a href="#">Home Appliances</a></li>
-                                    <li><a href="#">Healthy & Beauty</a></li>
-                                    <li><a href="#">Shoes & Boots</a></li>
-                                    <li><a href="#">Travel & Outdoor</a></li>
-                                    <li><a href="#">Smart Phones</a></li>
-                                    <li><a href="#">TV & Audio</a></li>
-                                    <li><a href="#">Gift Ideas</a></li>
+                                    <li v-for="category in $page.props.product_categories" :key="category.id" :class="{'sf-with-ul': hasSubcategory(category) }">
+                                        <a href="#">{{ category.name }}</a>
+
+                                        <ul v-if="hasSubcategory(category)">
+                                            <li v-for="subcategory in category.subcategories" :key="subcategory.id">
+                                                <a href="#">{{ subcategory.name }}</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -28,7 +30,7 @@
                     <nav class="main-nav">
                         <ul class="menu sf-arrows">
                             <li class="d-none d-xl-block"><inertia-link :href="route('home')">Home</inertia-link></li>
-                            <li><a href="#">Shop</a></li>
+                            <li><inertia-link :href="route('shop.index')">Shop</inertia-link></li>
                             <li><a href="#">Distributors</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Contact Us</a></li>
@@ -80,6 +82,12 @@ export default {
         is_super_admin() {
             return this.$page.props.user && this.$page.props.user.is_super_admin;
         }
-    }
+    },
+
+    methods: {
+        hasSubcategory(category) {
+            return category.subcategories.length > 0;
+        }
+    },
 }
 </script>

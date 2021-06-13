@@ -43,3 +43,14 @@ label.required::after {
     font-size: initial;
 }
 
+.product-price {
+    font-size: 2rem;
+}
+
+.product-title {
+    font-size: 1.6rem;
+}
+.product-cat {
+    font-size: 1.4rem;
+}
+

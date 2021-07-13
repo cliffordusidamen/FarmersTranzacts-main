@@ -26,9 +26,24 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Home');
-})->name('dashboard');
+/*
+ |-----------------------------------------------------------------------------
+ | Registration routes
+ |-----------------------------------------------------------------------------
+ */
+Route::middleware(['guest'])->prefix('registration')->name('registration.')->group(function() {
+
+    Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm'])->name('shopper');
+    Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper'])->name('save_shopper');
+
+    Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm'])->name('vendor');
+    Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor'])->name('save_vendor');
+});
+
+
+Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
+    ->name('dashboard')
+    ->middleware(['auth:sanctum', 'verified']);
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('categories')->name('categories.')->group(function() {
 
@@ -80,4 +95,13 @@ Route::prefix('shop')->name('shop.')->group(function() {
 
         return Inertia::render('Shop/ProductsList', compact('products'));
     })->name('index');
+});
+
+/*
+ |-----------------------------------------------------------------------------
+ | Vendors routes
+ |-----------------------------------------------------------------------------
+ */
+Route::prefix('vendors')->name('vendors.')->group(function() {
+    Route::get('index', [\App\Http\Controllers\VendorController::class, 'index']);
 });

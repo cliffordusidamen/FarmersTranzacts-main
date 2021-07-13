@@ -1,4 +1,8 @@
 require('./bootstrap');
+require("./util/init-service-worker");
+require("./util/input-transform");
+require("./util/input-filter");
+require("./util/general");
 
 // Import modules...
 import { createApp, h } from 'vue';

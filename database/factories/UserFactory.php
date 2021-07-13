@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -45,6 +46,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($isSuperAdmin) {
             return [
+                'role_id' => Role::ADMIN_ID,
                 'is_super_admin' => $isSuperAdmin,
             ];
         });

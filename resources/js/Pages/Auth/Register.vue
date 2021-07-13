@@ -1,6 +1,13 @@
 <template>
     <jet-authentication-card>
-        <h4 class="text-center text-primary text-uppercase">Register</h4>
+        <p class="text-right pb-2">
+            <inertia-link :href="route('registration.vendor')">
+                Become a vendor
+                &raquo;
+            </inertia-link>
+        </p>
+
+        <h4 class="text-center text-primary text-uppercase">Register As Shopper</h4>
         <jet-validation-errors class="mb-3" />
 
         <form ref="registerForm">
@@ -105,6 +112,7 @@
 					</div>
 				</div>
 			</div>
+            
 
             <div
                 class="form-group"

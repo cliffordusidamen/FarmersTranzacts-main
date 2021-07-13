@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ProductCategorySeeder::class,
+            RoleSeeder::class,
+            StateSeeder::class,
         ]);
         \App\Models\User::factory()->isSuperAdmin()->create();
     }

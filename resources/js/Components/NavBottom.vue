@@ -34,7 +34,7 @@
                             <li><a href="#">Distributors</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Contact Us</a></li>
-                            <li v-if="is_super_admin">
+                            <li v-if="canManageProductCategories">
                                 <a href="#" class="sf-with-ul">Admin</a>
                                 <ul>
                                     <li>
@@ -44,6 +44,9 @@
                                             <li><inertia-link :href="route('categories.create')">Add</inertia-link></li>
                                             <li><inertia-link :href="route('categories.index')">List</inertia-link></li>
                                         </ul>
+                                    </li>
+                                    <li>
+                                        <inertia-link :href="route('vendors.index')">Vendors</inertia-link>
                                     </li>
                                     <li>
                                         <a href="#" class="sf-with-ul">Users</a>
@@ -70,19 +73,17 @@
 </template>
 
 <script>
+import Permissions from '@/Mixins/permissions.js'
+
 export default {
     props: {
         showCategories: {
             type: Boolean,
             default: true,
-        }
+        },
     },
 
-    computed: {
-        is_super_admin() {
-            return this.$page.props.user && this.$page.props.user.is_super_admin;
-        }
-    },
+    mixins: [Permissions],
 
     methods: {
         hasSubcategory(category) {

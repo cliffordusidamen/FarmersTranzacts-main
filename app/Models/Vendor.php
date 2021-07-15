@@ -11,8 +11,8 @@ class Vendor extends Model
     use HasFactory;
 
     const STATUS_PENDING = 'awaiting approval';
-    const STATUS_APPROVED = 'awaiting approved';
-    const STATUS_DISAPPROVED = 'awaiting disapproved';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_DISAPPROVED = 'disapproved';
 
     /**
      * Mass assignable fields

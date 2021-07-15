@@ -103,5 +103,5 @@ Route::prefix('shop')->name('shop.')->group(function() {
  |-----------------------------------------------------------------------------
  */
 Route::prefix('vendors')->name('vendors.')->group(function() {
-    Route::get('index', [\App\Http\Controllers\VendorController::class, 'index']);
+    Route::get('index', [\App\Http\Controllers\VendorController::class, 'index'])->name('index');
 });

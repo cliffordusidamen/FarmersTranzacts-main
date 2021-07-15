@@ -207,6 +207,10 @@ export default {
             this.form.post(this.route("register"), {
                 onFinish: () => {
                     this.form.processing = false;
+                    this.form.reset("password", "password_confirmation");
+                },
+                onSuccess: () => {
+                    this.form.processing = false;
                     this.form.reset();
                 },
                 onError: () => {

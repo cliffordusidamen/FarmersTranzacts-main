@@ -466,6 +466,26 @@ __webpack_require__.r(__webpack_exports__);
     hasErrors: function hasErrors() {
       return Object.keys(this.errors).length > 0;
     }
+  },
+  methods: {
+    getErrorMessages: function getErrorMessages(error) {
+      if (error.constructor === String) {
+        return error;
+      }
+
+      var messages = [];
+      var errorKeys = Object.keys(error);
+
+      if (errorKeys.length == 0) {
+        // console.error('Validation errors format not recognized', error);
+        return '';
+      }
+
+      errorKeys.forEach(function (val, index) {
+        messages.push(error[val]);
+      });
+      return '<span class="badge bg-secondary me-1"></span>' + messages.join('<br /><span class="badge bg-secondary me-1"></span>');
+    }
   }
 });
 
@@ -636,6 +656,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.form.post(this.route("register"), {
         onFinish: function onFinish() {
+          _this.form.processing = false;
+
+          _this.form.reset("password", "password_confirmation");
+        },
+        onSuccess: function onSuccess() {
           _this.form.processing = false;
 
           _this.form.reset();
@@ -2408,18 +2433,22 @@ var _hoisted_1 = {
 };
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "font-weight-bold"
+  "class": "font-weight-bold d-none"
 }, "Whoops! Something went wrong.", -1
 /* HOISTED */
 );
 
+var _hoisted_3 = {
+  "class": "list-unstyled"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $options.hasErrors ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.errors, function (error, key) {
+  return $options.hasErrors ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.errors, function (error, key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
-      key: key
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(error), 1
-    /* TEXT */
-    );
+      key: key,
+      innerHTML: $options.getErrorMessages(error)
+    }, null, 8
+    /* PROPS */
+    , ["innerHTML"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);

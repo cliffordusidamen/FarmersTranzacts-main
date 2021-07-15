@@ -54,3 +54,15 @@ label.required::after {
     font-size: 1.4rem;
 }
 
+.admin-table {
+    margin-bottom: 0;
+}
+
+.admin-table thead {
+    background-color: #f5f5f5;
+}
+
+.admin-table thead th {
+    text-transform: uppercase;
+    color: #272727;
+}

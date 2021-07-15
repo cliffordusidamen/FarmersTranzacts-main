@@ -15,8 +15,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendors = Vendor::with(['users'])->get();
-
+        $vendors = Vendor::with(['users', 'address', 'address.state'])->paginate(10);
         return Inertia::render('Vendors/Index', compact('vendors'));
     }
 

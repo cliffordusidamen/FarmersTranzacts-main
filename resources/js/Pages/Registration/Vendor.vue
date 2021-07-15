@@ -1,7 +1,7 @@
 <template>
     <jet-authentication-card>
         <p class="text-right pb-2">
-            <inertia-link :href="route('registration.shopper')">
+            <inertia-link :href="route('registration.shopper')" class="font-weight-semibold">
                 Register As Shopper
                 &raquo;
             </inertia-link>
@@ -10,7 +10,7 @@
         <h4 class="text-center text-primary text-uppercase">Vendor Registration</h4>
         <jet-validation-errors class="mb-3" />
 
-        <form ref="registerForm">
+        <form ref="registerForm" id="registerForm">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -323,13 +323,16 @@ export default {
     methods: {
         submit() {
             this.form.post(this.route("registration.save_vendor"), {
+                preserveState: true,
                 onFinish: () => {
                     this.form.processing = false;
+                },
+                onSuccess: () => {
                     this.form.reset();
                     this.jqueryValidator.resetForm();
+                    $('#registerForm').removeClass('was-validated');
                 },
                 onError: () => {
-                    this.form.processing = false;
                     this.form.reset("password", "password_confirmation");
                 },
             });

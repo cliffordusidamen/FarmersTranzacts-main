@@ -16,6 +16,7 @@ class Address extends Model
      * @var array
      */
     protected $fillable = [
+        'vendor_id',
         'user_id',
         'state_id',
         'line_1',

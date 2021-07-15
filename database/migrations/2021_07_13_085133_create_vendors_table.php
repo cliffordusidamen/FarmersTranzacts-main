@@ -16,12 +16,12 @@ class CreateVendorsTable extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_individual')->default(false);
-            $table->enum('approval_status', Vendor::getApprovalStatuses())->default(Vendor::STATUS_PENDING);
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('phone', 20)->nullable();
             $table->string('logo_image_path', 2048)->nullable();
+            $table->boolean('is_individual')->default(false);
+            $table->enum('approval_status', Vendor::getApprovalStatuses())->default(Vendor::STATUS_PENDING);
             $table->timestamps();
 
         });

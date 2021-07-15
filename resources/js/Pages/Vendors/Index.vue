@@ -1,14 +1,18 @@
 <template>
     <app-layout :show-categories="false">
-        <div v-if="!vendors.length == 0" class="border p-3 rounded-md lead">
-            No vendor found at the moment!
-        </div>
-        <div v-else class="page-content">
+        <div class="page-content py-4 bg-light">
             <div class="container">
-                <div class="row">
+                <div v-if="vendors.total == 0" class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="border bg-white p-3 rounded-md lead">
+                            No vendor found at the moment!
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="row">
                     <div class="col-md-10">
                         <div class="card">
-                            <table class="table table-bordered table-sm">
+                            <table class="table table-bordered table-sm admin-table">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -18,15 +22,15 @@
                                         <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
-                                <thead>
-                                    <tr v-for="vendor in vendors" :key="vendor.id">
+                                <tbody>
+                                    <tr v-for="vendor in vendors.data" :key="vendor.id">
                                         <td>{{ vendor.name }}</td>
                                         <td>Address</td>
                                         <td>
-                                            {{ vendor.user.full_name }}<br>
-                                            {{ vendor.user.email }}
+                                            {{ `${vendor.users[0].first_name} ${vendor.users[0].last_name}` }}<br>
+                                            {{ vendor.users[0].email }}
                                         </td>
-                                        <td>{{ vendor.status }}</td>
+                                        <td>{{ vendor.approval_status }}</td>
                                         <td class="text-right">
                                             <div class="d-flex justify-content-end">
                                                 <div class="dropdown">
@@ -45,8 +49,11 @@
                                             </div>
                                         </td>
                                     </tr>
-                                </thead>
+                                </tbody>
                             </table>
+                            <div v-show="vendors.last_page > 1" class="card-footer">
+                                <pagination :paginator="vendors" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,3 +61,16 @@
         </div>
     </app-layout>
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout"
+import Pagination from '@/Components/Pagination'
+
+export default {
+    props: ['vendors'],
+    components: {
+        AppLayout,
+        Pagination,
+    },
+}
+</script>

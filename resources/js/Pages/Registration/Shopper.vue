@@ -1,7 +1,7 @@
 <template>
     <jet-authentication-card>
         <p class="text-right pb-2">
-            <inertia-link :href="route('registration.vendor')">
+            <inertia-link :href="route('registration.vendor')" class="font-weight-semibold">
                 Become a vendor
                 &raquo;
             </inertia-link>
@@ -170,6 +170,7 @@ import JetAuthenticationCard from "@/Jetstream/AuthenticationCard";
 import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo";
 import JetButton from "@/Jetstream/Button";
 import JetInput from "@/Jetstream/Input";
+import JetInputError from "@/Jetstream/InputError";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
@@ -180,6 +181,7 @@ export default {
         JetAuthenticationCardLogo,
         JetButton,
         JetInput,
+        JetInputError,
         JetCheckbox,
         JetLabel,
         JetValidationErrors,
@@ -210,13 +212,16 @@ export default {
         submit() {
             const vueObj = this;
             this.form.post(this.route("registration.save_shopper"), {
+                preserveState: true,
                 onFinish: () => {
                     this.form.processing = false;
+                },
+                onSuccess: () => {
                     this.form.reset();
                     this.jqueryValidator.resetForm();
+                    $('#registerForm').removeClass('was-validated');
                 },
                 onError: () => {
-                    this.form.processing = false;
                     this.form.reset("password", "password_confirmation");
                 },
             });

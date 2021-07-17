@@ -104,4 +104,5 @@ Route::prefix('shop')->name('shop.')->group(function() {
  */
 Route::prefix('vendors')->name('vendors.')->group(function() {
     Route::get('index', [\App\Http\Controllers\VendorController::class, 'index'])->name('index');
+    Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
 });

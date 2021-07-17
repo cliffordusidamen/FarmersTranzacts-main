@@ -141,12 +141,23 @@
                     </div><!-- End .cart-dropdown -->
 
                     <div class="dropdown compare-dropdown">
-                        <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <a
+                            href="#"
+                            class="dropdown-toggle"
+                            role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-display="static"
+                            title="{{ !isAuthenticated ? 'Account' : truncatedUserFullName() }}"
+                        >
                             <i class="icon-user"></i>
-                            <span class="compare-txt">Account</span>
+                            <span class="compare-txt">
+                                {{ !isAuthenticated ? 'Account' : truncatedUserName() }}
+                            </span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right px-0">
+                        <div class="dropdown-menu dropdown-menu-right user_nav_menu px-0">
                             <a v-if="isAuthenticated" href="#" class="dropdown-item">Profile</a>
                             <a v-if="isAuthenticated" href="#" class="dropdown-item" @click.prevent="logout">Log out</a>
                             <inertia-link v-if="!isAuthenticated" :href="route('login')" class="dropdown-item">
@@ -169,12 +180,12 @@
 </template>
 
 <script>
+import utility from "@/Mixins/utility.js"
+
 export default {
-    computed: {
-        isAuthenticated() {
-            return this.$page.props.user !== null;
-        },
-    },
+
+    mixins: [utility],
+
     methods: {
         toggleMobileMenu() {
             $('body').eq(0).toggleClass('mmenu-active');
@@ -185,7 +196,7 @@ export default {
                     // window.location = '/login'
                 },
             });
-        }
+        },
     }
 }
 </script>

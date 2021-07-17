@@ -64,7 +64,7 @@ class Role extends Model
     public static function getUserPermissions(): array
     {
         $permissions = [
-            'canManageProductCategories' =>  userIsAdminRole() || userIsAdminRole(),
+            'canManageProductCategories' =>  userIsSuperAdmin() || userIsAdminRole(),
         ];
 
         return $permissions;

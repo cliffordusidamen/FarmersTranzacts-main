@@ -1,0 +1,16 @@
+## Pending Tasks
+---
+- Disapprove vendor registration with reason->send email to owner
+- When vendor logs in, sees disapproved organization information
+- Click edit and resubmit
+- view edit form and edit
+- resubmit for approval
+- admin approves registration -> sends email to owner
+- vendor login to see link to add organization logo
+- vendor adds logo and sees it
+- vendor remove logo
+- vendor change logo
+- vendor registration include product categories
+    - registratoin form
+    - admin view vendor details
+    - vendor resubmisson form

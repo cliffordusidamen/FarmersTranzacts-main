@@ -83,12 +83,25 @@ if (!function_exists('userIsAdminRole')) {
 if (!function_exists('authUserIsShopper')) {
 
     /**
-     * Check if authenticated user is admin
+     * Check if authenticated user is shopper
      * 
      * @return bool
      */
     function authUserIsShopper(): bool
     {
         return auth()->check() && auth()->user()->role_id && auth()->user()->role_id == Role::SHOPPER_ID;
+    }
+}
+
+if (!function_exists('authUserIsVendor')) {
+
+    /**
+     * Check if authenticated user is vendor
+     * 
+     * @return bool
+     */
+    function authUserIsVendor(): bool
+    {
+        return auth()->check() && auth()->user()->role_id && auth()->user()->role_id == Role::VENDOR_ID;
     }
 }

@@ -27,6 +27,7 @@ class Vendor extends Model
         'logo_image_path',
         'is_individual',
         'is_approved',
+        'reject_reason',
     ];
 
     /**

@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class VendorController extends Controller
 {
+    /**
+     * Create instance
+     * 
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +27,54 @@ class VendorController extends Controller
     {
         $vendors = Vendor::with(['users', 'address', 'address.state'])->paginate(10);
         return Inertia::render('Vendors/Index', compact('vendors'));
+    }
+
+    /**
+     * Change vendor approval status
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Vendor  $vendor
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus(Request $request, Vendor $vendor)
+    {
+        $data = $request->only(['approval_status', 'reject_reason']);
+
+        $validator = Validator::make($data, [
+            'approval_status' => [
+                'required',
+                Rule::in(Vendor::getApprovalStatuses()),
+            ],
+
+            'reject_reason' => 'sometimes|nullable|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'failed' => true,
+            ]);
+        }
+
+        if ($vendor->approval_status == $request->input('approval_status')) {
+            return response()->json(compact(
+                'vendor'
+            ));
+        }
+
+        $vendor->approval_status = $request->input('approval_status');
+        $vendor->reject_reason = $vendor->approval_status == Vendor::STATUS_DISAPPROVED
+            ? $vendor->reject_reason
+            : null;
+
+        if ($vendor->save()) {
+            return response()->json(compact(
+                'vendor'
+            ));
+        }
+
+        return response()->json([
+            'failed' => true,
+        ]);
     }
 
     /**

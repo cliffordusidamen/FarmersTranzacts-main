@@ -448,7 +448,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-    "class": "modal fade",
+    "class": "modal modal-blur fade",
     tabindex: "-1",
     id: $props.id,
     "aria-labelledby": $props.id,

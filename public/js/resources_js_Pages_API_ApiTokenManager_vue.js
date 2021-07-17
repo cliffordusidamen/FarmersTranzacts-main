@@ -119,7 +119,7 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     },
     maxWidth: {
-      "default": '2xl'
+      "default": "2xl"
     }
   }
 });
@@ -597,16 +597,17 @@ var _hoisted_1 = {
   "class": "modal-content"
 };
 var _hoisted_2 = {
-  "class": "modal-body"
+  "class": "modal-header"
 };
 var _hoisted_3 = {
-  "class": "d-flex justify-content-start"
+  "class": "modal-title"
+};
+var _hoisted_4 = {
+  "class": "\n                            px-3\n                            d-flex\n                            justify-content-start\n                            align-items-center\n                        "
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mr-3"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "bg-warning p-2 rounded-circle"
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "bg-warning p-2 rounded-circle mr-3"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   stroke: "currentColor",
   fill: "none",
@@ -617,14 +618,24 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
   "stroke-linejoin": "round",
   "stroke-width": "2",
   d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-})])])], -1
+})])], -1
 /* HOISTED */
 );
 
-var _hoisted_5 = {
-  "class": "font-weight-bold"
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  title: "Close (Esc)",
+  type: "button",
+  "class": "mfp-close text-dark",
+  "data-dismiss": "modal",
+  "aria-label": "Close"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "×")], -1
+/* HOISTED */
+);
+
+var _hoisted_7 = {
+  "class": "modal-body p-4"
 };
-var _hoisted_6 = {
+var _hoisted_8 = {
   "class": "modal-footer bg-light"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -635,7 +646,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "max-width": $props.maxWidth
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "title")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "content")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "footer")])])];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "title")])]), _hoisted_6]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "content")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "footer")])])];
     }),
     _: 3
     /* FORWARDED */
@@ -893,7 +904,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-    "class": "modal fade",
+    "class": "modal modal-blur fade",
     tabindex: "-1",
     id: $props.id,
     "aria-labelledby": $props.id,

@@ -33,19 +33,7 @@
                                         <td>{{ vendor.approval_status }}</td>
                                         <td class="text-right">
                                             <div class="d-flex justify-content-end">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuSizeButton"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Actions
-                                                    </button>
-
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuSizeButton">
-                                                        <a href="#" class="dropdown-item text-left font-size-normal">View</a>
-                                                        <a v-if="vendor.status == 'awaiting approval'" href="#" class="dropdown-item text-left font-size-normal">Approve</a>
-                                                        <a v-if="vendor.status == 'awaiting approval'" href="#" class="dropdown-item text-left font-size-normal">Disapprove</a>
-                                                        <!-- <inertia-link class="dropdown-item text-left font-size-normal" :href="route('categories.create_subcategory', category.id)">Add subcategory</inertia-link> -->
-                                                    </div>
-                                                </div>
+                                                <vendor-action-button :vendor="vendor" @status-changed="refreshPage" />
                                             </div>
                                         </td>
                                     </tr>
@@ -65,12 +53,20 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout"
 import Pagination from '@/Components/Pagination'
+import VendorActionButton from '@/Components/VendorActionButton'
 
 export default {
     props: ['vendors'],
     components: {
         AppLayout,
         Pagination,
+        VendorActionButton,
     },
+
+    methods: {
+        refreshPage() {
+            window.location.reload();
+        },
+    }
 }
 </script>

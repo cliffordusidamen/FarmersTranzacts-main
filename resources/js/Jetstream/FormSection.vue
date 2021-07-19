@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row justify-content-center py-4">
     <div class="col-md-4">
       <jet-section-title>
         <template #title><slot name="title"></slot></template>
@@ -11,16 +11,16 @@
       </jet-section-title>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-7">
       <form @submit.prevent="$emit('submitted')">
         <div class="card shadow-sm">
           <div class="card-body">
             <slot name="form"></slot>
+            <div class="border-top py-4 mt-3 d-flex justify-content-end" v-if="hasActions">
+              <slot name="actions"></slot>
+            </div>
           </div>
 
-          <div class="card-footer d-flex justify-content-end" v-if="hasActions">
-            <slot name="actions"></slot>
-          </div>
         </div>
       </form>
     </div>

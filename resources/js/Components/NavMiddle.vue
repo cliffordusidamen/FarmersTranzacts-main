@@ -158,7 +158,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right user_nav_menu px-0">
-                            <a v-if="isAuthenticated" href="#" class="dropdown-item">Profile</a>
+                            <inertia-link v-if="isAuthenticated"  :href="route('profile.show')" class="dropdown-item">Profile</inertia-link>
                             <a v-if="isAuthenticated" href="#" class="dropdown-item" @click.prevent="logout">Log out</a>
                             <inertia-link v-if="!isAuthenticated" :href="route('login')" class="dropdown-item">
                                 Log in

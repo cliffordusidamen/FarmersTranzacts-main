@@ -1,5 +1,6 @@
 ## Pending Tasks
 ---
+- pagination for vendor list
 - Disapprove vendor registration with reason->send email to owner
 - When vendor logs in, sees disapproved organization information
 - Click edit and resubmit

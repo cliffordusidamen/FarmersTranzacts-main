@@ -685,7 +685,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['app_states'],
+  props: ['app_states', 'product_categories'],
   components: {
     JetAuthenticationCard: _Jetstream_AuthenticationCard__WEBPACK_IMPORTED_MODULE_0__.default,
     JetAuthenticationCardLogo: _Jetstream_AuthenticationCardLogo__WEBPACK_IMPORTED_MODULE_1__.default,
@@ -713,7 +713,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         store_address_line_1: '',
         store_address_line_2: '',
         store_city: '',
-        store_state: ''
+        store_state: '',
+        product_categories: []
       })
     };
   },
@@ -726,6 +727,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     submit: function submit() {
       var _this = this;
 
+      console.log('selected categories', this.form['product_categories']);
+      return;
       this.form.post(this.route("registration.save_vendor"), {
         preserveState: true,
         onFinish: function onFinish() {
@@ -798,7 +801,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             minlength: 5
           },
           store_state: 'required',
-          terms: 'required'
+          terms: 'required',
+          'product_categories[]': 'required'
+        },
+        messages: {
+          'product_categories[]': 'Select at least one(1) product category'
         }
       };
     } // [end] validationConfig()
@@ -2793,32 +2800,52 @@ var _hoisted_34 = {
 var _hoisted_35 = {
   "class": "form-group"
 };
-var _hoisted_36 = {
+
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "pb-1 mb-2 border-bottom text-muted text-uppercase"
+}, " Product categories ", -1
+/* HOISTED */
+);
+
+var _hoisted_37 = {
+  "class": "form-group row justify-content-center"
+};
+
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "is-invalid text-danger invalid-feedback"
+}, "Select at least one(1) product category!", -1
+/* HOISTED */
+);
+
+var _hoisted_39 = {
+  "class": "custom-control custom-checkbox"
+};
+var _hoisted_40 = {
   key: 0,
   "class": "form-group"
 };
-var _hoisted_37 = {
+var _hoisted_41 = {
   "class": "custom-control custom-checkbox"
 };
-var _hoisted_38 = {
+var _hoisted_42 = {
   "class": "custom-control-label",
   "for": "terms"
 };
 
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" I agree to the ");
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" I agree to the ");
 
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" and ");
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" and ");
 
-var _hoisted_41 = {
+var _hoisted_45 = {
   "class": "mb-0"
 };
-var _hoisted_42 = {
+var _hoisted_46 = {
   "class": "d-flex justify-content-center align-items-baseline"
 };
 
-var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Already registered? Login Now. ");
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Already registered? Login Now. ");
 
-var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register ");
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
@@ -3098,24 +3125,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         message: $data.form.errors.store_state
       }, null, 8
       /* PROPS */
-      , ["message"])])])]), _ctx.$page.props.jetstream.hasTermsAndPrivacyPolicyFeature ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRODUCTS CATERGORIES "), _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [_hoisted_38, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.product_categories, function (category) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+          key: category.id,
+          "class": "col-5"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+          "class": "custom-control-input",
+          name: "product_categories[]",
+          type: "checkbox",
+          id: 'category_' + category.id,
+          value: category.id,
+          "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+            return $data.form.product_categories = $event;
+          }),
+          required: ""
+        }, null, 8
+        /* PROPS */
+        , ["id", "value"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.form.product_categories]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+          "class": "custom-control-label",
+          "for": 'category_' + category.id
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 9
+        /* TEXT, PROPS */
+        , ["for"])])]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] - PRODUCTS CATERGORIES "), _ctx.$page.props.jetstream.hasTermsAndPrivacyPolicyFeature ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         "class": "custom-control-input",
         name: "terms",
         type: "checkbox",
         id: "terms",
         value: "1",
-        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
           return $data.form.terms = $event;
         }),
         required: ""
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.form.terms]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.form.terms]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
         target: "_blank",
         href: _ctx.route('terms.show')
       }, "Terms of Service", 8
       /* PROPS */
-      , ["href"]), _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+      , ["href"]), _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
         target: "_blank",
         href: _ctx.route('policy.show')
       }, "Privacy Policy", 8
@@ -3124,12 +3175,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         message: $data.form.errors.terms
       }, null, 8
       /* PROPS */
-      , ["message"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
+      , ["message"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
         href: _ctx.route('login'),
         "class": "flex-fill text-muted mr-3 text-decoration-none"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_43];
+          return [_hoisted_47];
         }),
         _: 1
         /* STABLE */
@@ -3143,7 +3194,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         disabled: $data.form.processing
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_44];
+          return [_hoisted_48];
         }),
         _: 1
         /* STABLE */

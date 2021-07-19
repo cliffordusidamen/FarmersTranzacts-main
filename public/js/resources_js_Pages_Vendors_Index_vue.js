@@ -2280,7 +2280,7 @@ var _hoisted_3 = {
   "class": "modal-title"
 };
 var _hoisted_4 = {
-  "class": "\n                            px-3\n                            d-flex\n                            justify-content-start\n                            align-items-center\n                        "
+  "class": "\r\n                            px-3\r\n                            d-flex\r\n                            justify-content-start\r\n                            align-items-center\r\n                        "
 };
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {

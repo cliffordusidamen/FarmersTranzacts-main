@@ -213,6 +213,37 @@
                 </div>
             </div>
 
+            <!-- PRODUCTS CATERGORIES -->
+            
+            <p class="pb-1 mb-2 border-bottom text-muted text-uppercase">
+                Product categories
+            </p>
+            <div class="form-group row justify-content-center">
+                <span class="is-invalid text-danger invalid-feedback">Select at least one(1) product category!</span>
+                <div
+                    v-for="category in product_categories" :key="category.id"
+                    class="col-5"
+                >
+                    <div class="custom-control custom-checkbox">
+                        <input
+                            class="custom-control-input"
+                            name="product_categories[]"
+                            type="checkbox"
+                            :id="'category_' + category.id"
+                            :value="category.id"
+                            v-model="form.product_categories"
+                            required
+                        />
+
+                        <label class="custom-control-label" :for="'category_' + category.id">
+                            {{ category.name }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [END] - PRODUCTS CATERGORIES -->
+
             <div
                 class="form-group"
                 v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
@@ -276,7 +307,7 @@ import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
 
 export default {
-    props: ['app_states'],
+    props: ['app_states', 'product_categories'],
 
     components: {
         JetAuthenticationCard,
@@ -307,6 +338,7 @@ export default {
                 store_address_line_2: '',
                 store_city: '',
                 store_state: '',
+                product_categories: [],
             }),
         };
     },
@@ -322,6 +354,8 @@ export default {
 
     methods: {
         submit() {
+            console.log('selected categories', this.form['product_categories'])
+            return;
             this.form.post(this.route("registration.save_vendor"), {
                 preserveState: true,
                 onFinish: () => {
@@ -398,6 +432,11 @@ export default {
                     },
                     store_state: 'required',
                     terms: 'required',
+                    'product_categories[]': 'required',
+                },
+
+                messages: {
+                    'product_categories[]': 'Select at least one(1) product category',
                 },
             };
         }, // [end] validationConfig()

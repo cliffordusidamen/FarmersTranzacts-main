@@ -82,4 +82,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    /**
+     * Get full name
+     * 
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return ucwords(strtolower($this->first_name . ' ' . $this->last_name));
+    }
 }

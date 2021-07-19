@@ -73,14 +73,14 @@
 
                     <a href="#" class="wishlist-link">
                         <i class="icon-heart-o"></i>
-                        <span class="wishlist-count">3</span>
+                        <span class="wishlist-count">0</span>
                         <span class="wishlist-txt">Wishlist</span>
                     </a>
 
                     <div class="dropdown cart-dropdown">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                             <i class="icon-shopping-cart"></i>
-                            <span class="cart-count">2</span>
+                            <span class="cart-count">0</span>
                             <span class="cart-txt">Cart</span>
                         </a>
 
@@ -149,7 +149,7 @@
                             aria-haspopup="true"
                             aria-expanded="false"
                             data-display="static"
-                            title="{{ !isAuthenticated ? 'Account' : truncatedUserFullName() }}"
+                            :title="!isAuthenticated ? 'Account' : truncatedUserFullName()"
                         >
                             <i class="icon-user"></i>
                             <span class="compare-txt">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
@@ -49,6 +50,14 @@ class Vendor extends Model
     }
 
     /**
+     * Relatioship: belongs to many product categories
+     */
+    public function productCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductCategory::class);
+    }
+
+    /**
      * Set name attribute handler
      * 
      * @param  string  $value
@@ -75,5 +84,25 @@ class Vendor extends Model
         ];
 
         return $asKeys ? $types : array_keys($types);
+    }
+
+    /**
+     * Determine if vendor is disapproved
+     * 
+     * @return bool
+     */
+    public function getIsDisapprovedAttributed()
+    {
+        return $this->approval_status == self::STATUS_DISAPPROVED;
+    }
+
+    /**
+     * Determine if vendor is approved
+     * 
+     * @return bool
+     */
+    public function getIsApprovedAttributed()
+    {
+        return $this->approval_status == self::STATUS_APPROVED;
     }
 }

@@ -103,6 +103,16 @@ Route::prefix('shop')->name('shop.')->group(function() {
  |-----------------------------------------------------------------------------
  */
 Route::prefix('vendors')->name('vendors.')->group(function() {
-    Route::get('index', [\App\Http\Controllers\VendorController::class, 'index'])->name('index');
     Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
+});
+Route::resource('vendors', \App\Http\Controllers\VendorController::class);
+
+/*
+ |-----------------------------------------------------------------------------
+ | Profile routes
+ |-----------------------------------------------------------------------------
+ */
+Route::prefix('profile')->name('profile.')->group(function() {
+    Route::get('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedVendorForm'])->name('edit_vendor_disapproval');
+    Route::post('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('save_vendor_disapproval');
 });

@@ -13,7 +13,7 @@
         </button>
 
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuSizeButton">
-            <a href="#" class="dropdown-item text-left font-size-normal">View</a>
+            <inertia-link :href="route('vendors.show', vendor)" class="dropdown-item text-left font-size-normal">View</inertia-link>
             <a v-if="approvalPending" @click.prevent="setApprovalStatus" :href="`#${approvalModalId}`" class="dropdown-item text-left font-size-normal" data-toggle="modal">Approve</a>
             <a v-if="approvalPending" @click.prevent="setDisapprovalStatus" :href="`#${disapproveModalId}`" class="dropdown-item text-left font-size-normal" data-toggle="modal">Disapprove</a>
         </div>
@@ -61,6 +61,8 @@ import ConfirmationModal from "@/Jetstream/ConfirmationModal";
 
 export default {
     props: ['vendor'],
+
+    emits: ['statusChanged'],
 
     components: {
         JetTextarea,
@@ -114,7 +116,7 @@ export default {
         },
 
         sendRequest() {
-            console.log('Processing request...', this.approval_status, {
+            console.log('Processing request...', {
                 'approval_status': this.approval_status,
                 'reject_reason': this.reject_reason,
             });

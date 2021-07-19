@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VendorApprovalStatusChangedEvent;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ class VendorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth.admin');
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +26,10 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendors = Vendor::with(['users', 'address', 'address.state'])->paginate(10);
+        $vendors = Vendor::with([
+            'users', 'address', 'address.state',
+            'productCategories',
+        ])->paginate(10);
         return Inertia::render('Vendors/Index', compact('vendors'));
     }
 
@@ -63,10 +67,13 @@ class VendorController extends Controller
 
         $vendor->approval_status = $request->input('approval_status');
         $vendor->reject_reason = $vendor->approval_status == Vendor::STATUS_DISAPPROVED
-            ? $vendor->reject_reason
+            ? $request->input('reject_reason')
             : null;
 
         if ($vendor->save()) {
+            event(new VendorApprovalStatusChangedEvent(
+                $vendor, $vendor->users()->first()
+            ));
             return response()->json(compact(
                 'vendor'
             ));
@@ -106,7 +113,13 @@ class VendorController extends Controller
      */
     public function show($id)
     {
-        //
+        $vendor = Vendor::with([
+            'users', 'address', 'address.state',
+        ])->findOrFail((int) $id);
+
+        $vendorProductCategories = $vendor->productCategories->pluck('name', 'id');
+
+        return Inertia::render('Vendors/Show', compact('vendor', 'vendorProductCategories'));
     }
 
     /**

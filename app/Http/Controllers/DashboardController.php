@@ -52,7 +52,10 @@ class DashboardController extends Controller
      */
     public function _admin()
     {
-        return Inertia::render('Dashboards/AdminDashboard');
+        $showCategories = false;
+        return Inertia::render('Dashboards/AdminDashboard', compact(
+            'showCategories'
+        ));
 
     }
 }

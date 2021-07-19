@@ -72,29 +72,27 @@ class RegistrationController extends Controller
         $user = false;
         DB::transaction(function() use ($request, &$user) {
 
-            // create user
             $userData = $request->only([
                 'first_name', 'last_name', 'phone', 'email', 'password',
             ]);
             $userData['role_id'] = Role::VENDOR_ID;
             $user = User::create($userData);
 
-            // create vendor
             $vendor = Vendor::create([
                 'name' => $request->input('store_name'),
                 'phone' => $request->input('store_phone'),
             ]);
 
-            // create address (associate address with vendor)
+            $vendor->productCategories()->attach($request->input('product_categories'));
+
             $address = Address::create([
                 'vendor_id' => $vendor->id,
                 'line_1' => $request->input('store_address_line_1'),
                 'line_2' => $request->input('store_address_line_2'),
                 'city' => $request->input('store_city'),
-                'state' => $request->input('store_state'),
-            ]); 
+                'state_id' => $request->input('store_state'),
+            ]);
 
-            // associate user with vendor
             $user->vendors()->attach($vendor);
 
         });
@@ -105,7 +103,7 @@ class RegistrationController extends Controller
         }
 
         event(new Registered($user));
-        flashMessage('success', 'Registration successfull! Please, check you email in click on the verification link.');
+        flashMessage('success', 'Registration successful! Please, check you email in click on the verification link.');
         return back();
     }
 }

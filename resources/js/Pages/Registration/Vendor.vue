@@ -354,8 +354,6 @@ export default {
 
     methods: {
         submit() {
-            console.log('selected categories', this.form['product_categories'])
-            return;
             this.form.post(this.route("registration.save_vendor"), {
                 preserveState: true,
                 onFinish: () => {
@@ -432,7 +430,10 @@ export default {
                     },
                     store_state: 'required',
                     terms: 'required',
-                    'product_categories[]': 'required',
+                    'product_categories[]': {
+                        required: true,
+                        rangelength: [1, vueObj.product_categories.length]
+                    }
                 },
 
                 messages: {

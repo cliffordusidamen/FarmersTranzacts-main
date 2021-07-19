@@ -93,6 +93,22 @@ if (!function_exists('authUserIsShopper')) {
     }
 }
 
+if (!function_exists('userVendorIsApproved')) {
+    /**
+     * Check if user is a vendor and has approved registration
+     * 
+     * @return bool
+     */
+    function userVendorIsApproved(): bool
+    {
+        if (!authUserIsVendor()) {
+            return false;
+        }
+
+        return auth()->user()->vendors()->first()->approval_status == \App\Models\Vendor::STATUS_APPROVED;
+    }
+}
+
 if (!function_exists('authUserIsVendor')) {
 
     /**

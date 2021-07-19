@@ -16,6 +16,14 @@ export default {
                 ? this.$page.props.user.first_name
                 : this.$page.props.user.first_name.substr(0, 5) + '...'
         },
+        productCategoriesList(vendorProductCategories) {
+            let list = [];
+
+            for(const propKey in vendorProductCategories) {
+                list.push(vendorProductCategories[propKey].name);
+            }
+            return list.join(', ');
+        },
     },
 
 }

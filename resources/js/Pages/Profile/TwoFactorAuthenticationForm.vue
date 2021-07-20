@@ -43,7 +43,7 @@
           </div>
 
           <div class="w-75 bg-light rounded p-3">
-            <div v-for="code in recoveryCodes">
+            <div v-for="code in recoveryCodes" :key="code">
               {{ code }}
             </div>
           </div>
@@ -53,7 +53,7 @@
       <div class="mt-3">
         <div v-if="! twoFactorEnabled">
           <jet-confirms-password @confirmed="enableTwoFactorAuthentication">
-            <jet-button type="button" :class="{ 'text-white-50': enabling }" :disabled="enabling">
+            <jet-button type="button" context-class="btn-primary" :class="{ 'text-white-50': enabling }" :disabled="enabling">
               Enable
             </jet-button>
           </jet-confirms-password>
@@ -76,6 +76,7 @@
           <jet-confirms-password @confirmed="disableTwoFactorAuthentication">
             <jet-danger-button
                 :class="{ 'text-white-50': disabling }"
+                context-class="btn-primary"
                 :disabled="disabling">
               Disable
             </jet-danger-button>

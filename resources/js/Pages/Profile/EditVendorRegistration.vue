@@ -195,6 +195,7 @@ export default {
     data() {
         return {
             jqueryValidator: null,
+            processing: true,
             form: this.$inertia.form({
                 store_name: this.user_vendor.name,
                 store_phone: this.user_vendor.phone,
@@ -224,18 +225,12 @@ export default {
     
     methods: {
         submit() {
-            this.form.post(this.route("profile.save_vendor_disapproval"), {
+            this.processing = true;
+
+            this.form.post(this.route("profile.update_vendor_profile"), {
                 preserveState: true,
                 onFinish: () => {
-                    this.form.processing = false;
-                },
-                // onSuccess: () => {
-                //     this.form.reset();
-                //     this.jqueryValidator.resetForm();
-                //     $('#registerForm').removeClass('was-validated');
-                // },
-                onError: () => {
-                    this.form.reset("password", "password_confirmation");
+                    this.processing = false;
                 },
             });
         }, // [end] submit()
@@ -275,7 +270,6 @@ export default {
                         minlength: 5,
                     },
                     store_state: 'required',
-                    terms: 'required',
                     'product_categories[]': {
                         required: true,
                         rangelength: [1, vueObj.product_categories.length]

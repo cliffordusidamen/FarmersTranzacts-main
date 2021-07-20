@@ -91,7 +91,7 @@ class Vendor extends Model
      * 
      * @return bool
      */
-    public function getIsDisapprovedAttributed()
+    public function getIsDisapprovedAttribute()
     {
         return $this->approval_status == self::STATUS_DISAPPROVED;
     }
@@ -101,7 +101,7 @@ class Vendor extends Model
      * 
      * @return bool
      */
-    public function getIsApprovedAttributed()
+    public function getIsApprovedAttribute()
     {
         return $this->approval_status == self::STATUS_APPROVED;
     }

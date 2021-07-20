@@ -15,7 +15,7 @@
 
                     <!-- Profile Photo -->
                     <div
-                        class="form-group mb-2"
+                        class="form-group mt-2 mb-2"
                         v-if="$page.props.jetstream.managesProfilePhotos"
                     >
                         <!-- Profile Photo File Input -->
@@ -141,7 +141,7 @@
                             <jet-label
                                 for="phone"
                                 value="Phone"
-                                class="col-sm-5 text-sm-right col-form-label required"
+                                class="col-sm-5 text-sm-right col-form-label"
                             />
                             <div class="col-sm-6">
                                 <jet-input
@@ -151,7 +151,6 @@
                                     data-cfilter="digits"
                                     v-model="form.phone"
                                     :class="{ 'is-invalid': form.errors.phone }"
-                                    required
                                 />
                                 <jet-input-error :message="form.errors.phone" />
                             </div>
@@ -162,6 +161,7 @@
                         <jet-button
                             :class="{ 'text-white-50': form.processing }"
                             :disabled="form.processing"
+                            context-class="btn-primary"
                         >
                             Save
                         </jet-button>
@@ -221,7 +221,7 @@ export default {
             if (this.$refs.photo) {
                 this.form.photo = this.$refs.photo.files[0];
             }
-            console.log('Sibmittin', this.form)
+
             this.form.post(route("user-profile-information.update"), {
                 errorBag: "updateProfileInformation",
                 preserveScroll: true,

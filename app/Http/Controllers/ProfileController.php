@@ -20,6 +20,7 @@ class ProfileController extends Controller
         $this->middleware('auth.vendor')->only([
             'showEditDisapprovedVendorForm',
             'saveDisapprovedVendor',
+            'showEditVendorForm',
         ]);
     }
 
@@ -47,6 +48,29 @@ class ProfileController extends Controller
             'product_category_ids'
         ));
     }
+    
+    /**
+     * Show the vendor edit form, for approved vendor
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function showEditVendorForm()
+    {
+        $user_vendor = auth()->user()->vendors()->with([
+            'address', 'address.state', 'productCategories'
+        ])->first();
+
+        if (!$user_vendor->is_approved) {
+            return redirect()->route('dashboard');
+        }
+        $showCategories = false;
+
+        $app_states = State::pluck('state_name', 'id');
+
+        return Inertia::render('Profile/EditVendorForm', compact(
+            'user_vendor', 'showCategories', 'app_states'
+        ));
+    }
 
     /**
      * Save updated information
@@ -66,7 +90,10 @@ class ProfileController extends Controller
                 'name' => $request->input('store_name'),
                 'phone' => $request->input('store_phone'),
             ]);
-            $user_vendor->approval_status = Vendor::STATUS_PENDING;
+
+            if ($request->input('product_categories')) {
+                $user_vendor->approval_status = Vendor::STATUS_PENDING;
+            }
             $user_vendor->save();
 
             $user_vendor->address->forceFill([
@@ -77,18 +104,25 @@ class ProfileController extends Controller
             ]);
             $user_vendor->address->save();
 
-            $user_vendor->productCategories()->detach();
-            $user_vendor->productCategories()->attach($request->input('product_categories'));
+            if ($request->input('product_categories')) {
+                $user_vendor->productCategories()->detach();
+                $user_vendor->productCategories()->attach($request->input('product_categories'));
+            }
 
             $saved = true;
         });
 
+        $actionDescription = $request->input('product_categories')
+            ? 'Re-submission' : 'Vendor update ';
+
         if (!$saved) {
-            flashMessage('warning', 'Re-submission failed! Please, try again.');
+            flashMessage('warning', $actionDescription . ' failed! Please, try again.');
             return back()->withInput();
         }
 
-        flashMessage('success', 'Re-submission successful!');
-        return redirect()->route('dashboard');
+        flashMessage('success', $actionDescription . ' successful!');
+        return $request->input('product_categories')
+            ? redirect()->route('dashboard')
+            : back();
     }
 }

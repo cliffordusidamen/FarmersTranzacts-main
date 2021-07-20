@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'product_categories' => \App\Models\ProductCategory::with('subcategories')->get(),
             'permissions' => \App\Models\Role::getUserPermissions(),
+            'userIsVendor' => authUserIsVendor(),
         ]);
     }
 }

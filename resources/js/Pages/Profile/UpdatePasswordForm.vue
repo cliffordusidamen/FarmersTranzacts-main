@@ -38,7 +38,7 @@
     </template>
 
     <template #actions>
-      <jet-button :class="{ 'text-white-50': form.processing }" :disabled="form.processing">
+      <jet-button :class="{ 'text-white-50': form.processing }" context-class="btn-primary" :disabled="form.processing">
         Save
       </jet-button>
     </template>

@@ -49,7 +49,7 @@
       </div>
 
       <div class="d-flex mt-3">
-        <jet-button @click="confirmLogout">
+        <jet-button @click="confirmLogout" context-class="btn-primary">
           Log out Other Browser Sessions
         </jet-button>
       </div>
@@ -79,7 +79,7 @@
             Cancel
           </jet-secondary-button>
 
-          <jet-button class="ml-2" @click="logoutOtherBrowserSessions" :class="{ 'text-white-50': form.processing }" :disabled="form.processing">
+          <jet-button class="ml-2" context-class="btn-primary" @click="logoutOtherBrowserSessions" :class="{ 'text-white-50': form.processing }" :disabled="form.processing">
             Log out Other Browser Sessions
           </jet-button>
         </template>

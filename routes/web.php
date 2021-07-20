@@ -113,6 +113,7 @@ Route::resource('vendors', \App\Http\Controllers\VendorController::class);
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->name('profile.')->group(function() {
+    Route::get('vendor-details', [\App\Http\Controllers\ProfileController::class, 'showEditVendorForm'])->name('edit_vendor_details');
     Route::get('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedVendorForm'])->name('edit_vendor_disapproval');
-    Route::post('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('save_vendor_disapproval');
+    Route::post('update-vendor-profile', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('update_vendor_profile');
 });

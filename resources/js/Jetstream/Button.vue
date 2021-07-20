@@ -1,5 +1,5 @@
 <template>
-  <button :type="type" class="btn btn-dark text-uppercase">
+  <button :type="type" :class="`btn ${contextClass} text-uppercase`">
     <slot></slot>
   </button>
 </template>
@@ -10,6 +10,11 @@
       type: {
         type: String,
         default: 'submit',
+      },
+
+      contextClass: {
+        type: String,
+        default: 'btn-dark',
       },
     }
   }

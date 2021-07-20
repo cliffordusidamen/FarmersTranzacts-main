@@ -96,6 +96,10 @@ __webpack_require__.r(__webpack_exports__);
     type: {
       type: String,
       "default": 'submit'
+    },
+    contextClass: {
+      type: String,
+      "default": 'btn-dark'
     }
   }
 });
@@ -251,7 +255,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.form.photo = this.$refs.photo.files[0];
       }
 
-      console.log('Sibmittin', this.form);
       this.form.post(route("user-profile-information.update"), {
         errorBag: "updateProfileInformation",
         preserveScroll: true
@@ -459,9 +462,9 @@ __webpack_require__.r(__webpack_exports__);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     type: $props.type,
-    "class": "btn btn-dark text-uppercase"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 8
-  /* PROPS */
+    "class": "btn ".concat($props.contextClass, " text-uppercase")
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 10
+  /* CLASS, PROPS */
   , ["type"]);
 }
 
@@ -640,7 +643,7 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 
 var _hoisted_7 = {
   key: 0,
-  "class": "form-group mb-2"
+  "class": "form-group mt-2 mb-2"
 };
 var _hoisted_8 = {
   "class": "mt-2"
@@ -864,7 +867,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Phone "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
         "for": "phone",
         value: "Phone",
-        "class": "col-sm-5 text-sm-right col-form-label required"
+        "class": "col-sm-5 text-sm-right col-form-label"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
         id: "phone",
         name: "phone",
@@ -876,8 +879,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         "class": {
           'is-invalid': $data.form.errors.phone
-        },
-        required: ""
+        }
       }, null, 8
       /* PROPS */
       , ["modelValue", "class"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
@@ -888,7 +890,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": {
           'text-white-50': $data.form.processing
         },
-        disabled: $data.form.processing
+        disabled: $data.form.processing,
+        "context-class": "btn-primary"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [_hoisted_22];

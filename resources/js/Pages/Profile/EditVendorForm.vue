@@ -14,10 +14,58 @@
                     <form ref="registerForm" id="registerForm">
                         <div class="card">
                             <div class="card-body">
-                                
-                                <p class="pb-1 mb-2 border-bottom text-muted text-uppercase">
-                                    Organization/Store Information
-                                </p>
+
+                                <!-- LOGO -->
+                                <div class="form-group mt-2 mb-2">
+                                    <!-- Logo File Input -->
+                                    <input
+                                        type="file"
+                                        hidden
+                                        name="logo"
+                                        ref="logo"
+                                        @change="updateLogoPreview"
+                                    />
+
+                                    <!-- Current Logo -->
+                                    <div class="mt-2" v-if="user_vendor.logo_image_path && !logoPreview">
+                                        <img
+                                            :src="user_vendor.logo_image_path"
+                                            alt="Current Logo"
+                                            class="rounded-circle"
+                                            style="width: 80px; height: 80px;"
+                                        />
+                                    </div>
+
+                                    <!-- New Logo Preview -->
+                                    <div class="mt-2" v-show="logoPreview">
+                                        <img
+                                            :src="logoPreview"
+                                            class="rounded-circle d-none"
+                                            ref="logoPreviewElem"
+                                            style="width: 80px; height: 80px;"
+                                        />
+                                    </div>
+
+                                    <jet-secondary-button
+                                        class="mt-2 me-2 btn-sm"
+                                        type="button"
+                                        @click.prevent="selectNewLogo"
+                                    >
+                                        Select A New Logo
+                                    </jet-secondary-button>
+
+                                    <jet-secondary-button
+                                        type="button"
+                                        class="mt-2"
+                                        @click.prevent="deleteLogo"
+                                        v-if="user_vendor.logo_image_path"
+                                    >
+                                        Remove Logo
+                                    </jet-secondary-button>
+
+                                    <jet-input-error :message="form.errors.logo" class="mt-2" />
+                                </div>
+
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -159,6 +207,7 @@ export default {
         return {
             jqueryValidator: null,
             processing: false,
+            logoPreview: null,
             form: this.$inertia.form({
                 store_name: this.user_vendor.name,
                 store_phone: this.user_vendor.phone,
@@ -229,6 +278,27 @@ export default {
                 },
             };
         }, // [end] validationConfig()
+
+        selectNewLogo() {
+            this.$refs.logo.click();
+        },
+
+        updateLogoPreview() {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.logoPreview = e.target.result;
+            };
+            reader.readAsDataURL(this.$refs.logo.files[0]);
+            this.$refs.logoPreviewElem.classList.remove('d-none');
+
+        },
+
+        deleteLogo() {
+            this.$inertia.delete(route("profile.destroy_vendor_logo"), {
+                preserveScroll: true,
+                onSuccess: () => (this.logoPreview = null),
+            });
+        },
     },
 }
 </script>

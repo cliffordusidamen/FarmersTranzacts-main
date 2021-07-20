@@ -661,6 +661,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       jqueryValidator: null,
       processing: false,
+      logoPreview: null,
       form: this.$inertia.form({
         store_name: this.user_vendor.name,
         store_phone: this.user_vendor.phone,
@@ -724,8 +725,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           store_state: 'required'
         }
       };
-    } // [end] validationConfig()
+    },
+    // [end] validationConfig()
+    selectNewLogo: function selectNewLogo() {
+      this.$refs.logo.click();
+    },
+    updateLogoPreview: function updateLogoPreview() {
+      var _this2 = this;
 
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        _this2.logoPreview = e.target.result;
+      };
+
+      reader.readAsDataURL(this.$refs.logo.files[0]);
+      this.$refs.logoPreviewElem.classList.remove('d-none');
+    },
+    deleteLogo: function deleteLogo() {
+      var _this3 = this;
+
+      this.$inertia["delete"](route("profile.destroy_vendor_logo"), {
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          return _this3.logoPreview = null;
+        }
+      });
+    }
   }
 });
 
@@ -2604,69 +2630,79 @@ var _hoisted_5 = {
 var _hoisted_6 = {
   "class": "card-body"
 };
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "pb-1 mb-2 border-bottom text-muted text-uppercase"
-}, " Organization/Store Information ", -1
-/* HOISTED */
-);
-
+var _hoisted_7 = {
+  "class": "form-group mt-2 mb-2"
+};
 var _hoisted_8 = {
-  "class": "row"
+  key: 0,
+  "class": "mt-2"
 };
 var _hoisted_9 = {
-  "class": "col-md-6"
+  "class": "mt-2"
 };
-var _hoisted_10 = {
-  "class": "form-group"
-};
-var _hoisted_11 = {
-  "class": "col-md-6"
-};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Select A New Logo ");
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove Logo ");
+
 var _hoisted_12 = {
-  "class": "form-group"
+  "class": "row"
 };
 var _hoisted_13 = {
-  "class": "row"
+  "class": "col-md-6"
 };
 var _hoisted_14 = {
-  "class": "col-md-6"
+  "class": "form-group"
 };
 var _hoisted_15 = {
-  "class": "form-group"
+  "class": "col-md-6"
 };
 var _hoisted_16 = {
-  "class": "col-md-6"
+  "class": "form-group"
 };
 var _hoisted_17 = {
-  "class": "form-group"
-};
-var _hoisted_18 = {
   "class": "row"
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   "class": "col-md-6"
+};
+var _hoisted_19 = {
+  "class": "form-group"
 };
 var _hoisted_20 = {
-  "class": "form-group"
-};
-var _hoisted_21 = {
   "class": "col-md-6"
 };
-var _hoisted_22 = {
+var _hoisted_21 = {
   "class": "form-group"
 };
+var _hoisted_22 = {
+  "class": "row"
+};
 var _hoisted_23 = {
+  "class": "col-md-6"
+};
+var _hoisted_24 = {
+  "class": "form-group"
+};
+var _hoisted_25 = {
+  "class": "col-md-6"
+};
+var _hoisted_26 = {
+  "class": "form-group"
+};
+var _hoisted_27 = {
   "class": "form-group text-center"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_validation_errors = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-validation-errors");
 
+  var _component_jet_secondary_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-secondary-button");
+
+  var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
+
   var _component_jet_label = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-label");
 
   var _component_jet_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input");
-
-  var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
 
   var _component_custom_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("custom-select");
 
@@ -2686,7 +2722,71 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_validation_errors, {
             "class": "mb-3"
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LOGO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Logo File Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+            type: "file",
+            hidden: "",
+            name: "logo",
+            ref: "logo",
+            onChange: _cache[1] || (_cache[1] = function () {
+              return $options.updateLogoPreview && $options.updateLogoPreview.apply($options, arguments);
+            })
+          }, null, 544
+          /* HYDRATE_EVENTS, NEED_PATCH */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Current Logo "), $props.user_vendor.logo_image_path && !$data.logoPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+            src: $props.user_vendor.logo_image_path,
+            alt: "Current Logo",
+            "class": "rounded-circle",
+            style: {
+              "width": "80px",
+              "height": "80px"
+            }
+          }, null, 8
+          /* PROPS */
+          , ["src"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" New Logo Preview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+            src: $data.logoPreview,
+            "class": "rounded-circle d-none",
+            ref: "logoPreviewElem",
+            style: {
+              "width": "80px",
+              "height": "80px"
+            }
+          }, null, 8
+          /* PROPS */
+          , ["src"])], 512
+          /* NEED_PATCH */
+          ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.logoPreview]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_secondary_button, {
+            "class": "mt-2 me-2 btn-sm",
+            type: "button",
+            onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($options.selectNewLogo, ["prevent"])
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_10];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["onClick"]), $props.user_vendor.logo_image_path ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_jet_secondary_button, {
+            key: 1,
+            type: "button",
+            "class": "mt-2",
+            onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($options.deleteLogo, ["prevent"])
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_11];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+            message: $data.form.errors.logo,
+            "class": "mt-2"
+          }, null, 8
+          /* PROPS */
+          , ["message"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_name",
             value: "Name"
@@ -2696,7 +2796,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "store_name",
             type: "text",
             modelValue: $data.form.store_name,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
               return $data.form.store_name = $event;
             }),
             required: ""
@@ -2706,7 +2806,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_name
           }, null, 8
           /* PROPS */
-          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_phone",
             value: "Phone"
@@ -2716,7 +2816,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "store_phone",
             type: "text",
             modelValue: $data.form.store_phone,
-            "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
               return $data.form.store_phone = $event;
             }),
             required: "",
@@ -2727,7 +2827,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_phone
           }, null, 8
           /* PROPS */
-          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_address_line_1",
             value: "Address Line 1"
@@ -2737,7 +2837,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "store_address_line_1",
             type: "text",
             modelValue: $data.form.store_address_line_1,
-            "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+            "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
               return $data.form.store_address_line_1 = $event;
             }),
             required: "",
@@ -2748,7 +2848,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_address_line_1
           }, null, 8
           /* PROPS */
-          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "for": "store_address_line_2",
             value: "Address Line 2"
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2757,7 +2857,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "store_address_line_2",
             type: "text",
             modelValue: $data.form.store_address_line_2,
-            "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+            "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
               return $data.form.store_address_line_2 = $event;
             }),
             autocomplete: "store_address_line_2"
@@ -2767,7 +2867,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_address_line_2
           }, null, 8
           /* PROPS */
-          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "for": "store_city",
             value: "City"
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2776,7 +2876,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "store_city",
             type: "text",
             modelValue: $data.form.store_city,
-            "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+            "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
               return $data.form.store_city = $event;
             }),
             autocomplete: "store_city"
@@ -2786,7 +2886,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_city
           }, null, 8
           /* PROPS */
-          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_state",
             value: "State"
@@ -2794,7 +2894,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             id: "type",
             name: "type",
             modelValue: $data.form.store_state,
-            "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+            "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
               return $data.form.store_state = $event;
             }),
             options: $props.app_states,
@@ -2805,7 +2905,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_state
           }, null, 8
           /* PROPS */
-          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
             type: "submit",
             "class": "btn btn-primary",
             disabled: $data.processing

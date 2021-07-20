@@ -109,6 +109,10 @@ class ProfileController extends Controller
                 $user_vendor->productCategories()->attach($request->input('product_categories'));
             }
 
+            if ($request->file('logo')) {
+                $user_vendor->updateLogo($request->file('logo'));
+            }
+
             $saved = true;
         });
 

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Vendor extends Model
@@ -15,6 +17,8 @@ class Vendor extends Model
     const STATUS_PENDING = 'awaiting approval';
     const STATUS_APPROVED = 'approved';
     const STATUS_DISAPPROVED = 'disapproved';
+
+    const LOGO_STORAGE_PATH = 'vendor-logos';
 
     /**
      * Mass assignable fields
@@ -104,5 +108,65 @@ class Vendor extends Model
     public function getIsApprovedAttribute()
     {
         return $this->approval_status == self::STATUS_APPROVED;
+    }
+
+    /**
+     * Update the user's profile photo.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @return void
+     */
+    public function updateLogo(UploadedFile $photo)
+    {
+        tap($this->vendor_image_path, function ($previous) use ($photo) {
+            $this->forceFill([
+                'vendor_image_path' => $photo->storePublicly(
+                    self::LOGO_STORAGE_PATH
+                ),
+            ])->save();
+
+            if ($previous) {
+                Storage::disk()->delete($previous);
+            }
+        });
+    }
+
+    /**
+     * Delete the user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteLogo()
+    {
+        if ($this->vendor_image_path) {
+            Storage::disk()->delete($this->vendor_image_path);
+        }
+
+
+        $this->forceFill([
+            'vendor_image_path' => null,
+        ])->save();
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     *
+     * @return string
+     */
+    public function getLogoUrlAttribute()
+    {
+        return $this->vendor_image_path
+                    ? Storage::disk()->url($this->vendor_image_path)
+                    : $this->defaultLogoUrl();
+    }
+
+    /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     *
+     * @return string
+     */
+    protected function defaultLogoUrl()
+    {
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
     }
 }

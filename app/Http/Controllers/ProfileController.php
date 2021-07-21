@@ -109,8 +109,8 @@ class ProfileController extends Controller
                 $user_vendor->productCategories()->attach($request->input('product_categories'));
             }
 
-            if ($request->file('logo')) {
-                $user_vendor->updateLogo($request->file('logo'));
+            if ($request->file('logo_image_path')) {
+                $user_vendor->updateLogo($request->file('logo_image_path'));
             }
 
             $saved = true;
@@ -128,5 +128,23 @@ class ProfileController extends Controller
         return $request->input('product_categories')
             ? redirect()->route('dashboard')
             : back();
+    }
+
+    /**
+     * Delete current vendor logo
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyVendorLogo()
+    {
+        $user_vendor = auth()->user()->vendors()->first();
+        if (
+            $user_vendor->logo_image_path
+            && $user_vendor->deleteLogo()
+        ) {
+            flashMessage('success', 'Logo deleted!');
+        }
+
+        return back();
     }
 }

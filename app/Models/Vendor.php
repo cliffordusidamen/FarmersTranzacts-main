@@ -18,7 +18,7 @@ class Vendor extends Model
     const STATUS_APPROVED = 'approved';
     const STATUS_DISAPPROVED = 'disapproved';
 
-    const LOGO_STORAGE_PATH = 'vendor-logos';
+    const LOGO_STORAGE_PATH = 'public/vendor-logos';
 
     /**
      * Mass assignable fields
@@ -118,9 +118,9 @@ class Vendor extends Model
      */
     public function updateLogo(UploadedFile $photo)
     {
-        tap($this->vendor_image_path, function ($previous) use ($photo) {
+        tap($this->logo_image_path, function ($previous) use ($photo) {
             $this->forceFill([
-                'vendor_image_path' => $photo->storePublicly(
+                'logo_image_path' => $photo->storePublicly(
                     self::LOGO_STORAGE_PATH
                 ),
             ])->save();
@@ -138,13 +138,13 @@ class Vendor extends Model
      */
     public function deleteLogo()
     {
-        if ($this->vendor_image_path) {
-            Storage::disk()->delete($this->vendor_image_path);
+        if ($this->logo_image_path) {
+            Storage::disk()->delete($this->logo_image_path);
         }
 
 
         $this->forceFill([
-            'vendor_image_path' => null,
+            'logo_image_path' => null,
         ])->save();
     }
 
@@ -155,8 +155,8 @@ class Vendor extends Model
      */
     public function getLogoUrlAttribute()
     {
-        return $this->vendor_image_path
-                    ? Storage::disk()->url($this->vendor_image_path)
+        return $this->logo_image_path
+                    ? Storage::disk()->url($this->logo_image_path)
                     : $this->defaultLogoUrl();
     }
 

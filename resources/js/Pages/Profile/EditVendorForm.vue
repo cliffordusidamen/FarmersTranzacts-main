@@ -17,19 +17,19 @@
 
                                 <!-- LOGO -->
                                 <div class="form-group mt-2 mb-2">
+                                    <jet-label for="logo_image_path" value="Logo" /><br>
                                     <!-- Logo File Input -->
                                     <input
                                         type="file"
-                                        hidden
-                                        name="logo"
-                                        ref="logo"
+                                        name="logo_image_path"
+                                        ref="logo_image_path"
                                         @change="updateLogoPreview"
                                     />
 
                                     <!-- Current Logo -->
                                     <div class="mt-2" v-if="user_vendor.logo_image_path && !logoPreview">
                                         <img
-                                            :src="user_vendor.logo_image_path"
+                                            :src="user_vendor.logo_image_path.replace('public/', '/storage/')"
                                             alt="Current Logo"
                                             class="rounded-circle"
                                             style="width: 80px; height: 80px;"
@@ -47,7 +47,7 @@
                                     </div>
 
                                     <jet-secondary-button
-                                        class="mt-2 me-2 btn-sm"
+                                        class="mt-2 me-2 btn-sm d-none"
                                         type="button"
                                         @click.prevent="selectNewLogo"
                                     >
@@ -215,6 +215,7 @@ export default {
                 store_address_line_2: this.user_vendor.address.line_2,
                 store_city: this.user_vendor.address.city,
                 store_state: this.user_vendor.address.state_id,
+                logo_image_path: this.user_vendor.logo_image_path,
             }),
         };
     },
@@ -275,22 +276,49 @@ export default {
                         minlength: 5,
                     },
                     store_state: 'required',
+                    logo_image_path: {
+                        extension: 'jpg,png,gif',
+                        max_file_size: 250,
+                    },
                 },
             };
         }, // [end] validationConfig()
 
         selectNewLogo() {
-            this.$refs.logo.click();
+            this.$refs.logo_image_path.click();
+        },
+        
+        selectedFileIsImage() {
+            const fileParts = this.$refs.logo_image_path.files[0].name.split('.');
+
+            if (fileParts.length == 0) {
+                return false;
+            }
+
+            const imageExtensions = ['jpg', 'gif', 'png'];
+
+            const extension = fileParts[fileParts.length - 1];
+
+            return imageExtensions.indexOf(extension) >= 0;
         },
 
         updateLogoPreview() {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.logoPreview = e.target.result;
-            };
-            reader.readAsDataURL(this.$refs.logo.files[0]);
-            this.$refs.logoPreviewElem.classList.remove('d-none');
+            const isImage = this.selectedFileIsImage()
 
+            if (isImage) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.logoPreview = e.target.result;
+                };
+                reader.readAsDataURL(this.$refs.logo_image_path.files[0]);
+                this.$refs.logoPreviewElem.classList.remove('d-none');
+                this.form.logo_image_path = this.$refs.logo_image_path.files[0];
+                return;
+            }
+
+            this.form.logo_image_path = null;
+
+            this.$refs.logoPreviewElem.classList.add('d-none');
         },
 
         deleteLogo() {

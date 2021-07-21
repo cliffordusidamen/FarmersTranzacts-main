@@ -668,7 +668,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         store_address_line_1: this.user_vendor.address.line_1,
         store_address_line_2: this.user_vendor.address.line_2,
         store_city: this.user_vendor.address.city,
-        store_state: this.user_vendor.address.state_id
+        store_state: this.user_vendor.address.state_id,
+        logo_image_path: this.user_vendor.logo_image_path
       })
     };
   },
@@ -722,25 +723,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             required: false,
             minlength: 5
           },
-          store_state: 'required'
+          store_state: 'required',
+          logo_image_path: {
+            extension: 'jpg,png,gif',
+            max_file_size: 250
+          }
         }
       };
     },
     // [end] validationConfig()
     selectNewLogo: function selectNewLogo() {
-      this.$refs.logo.click();
+      this.$refs.logo_image_path.click();
+    },
+    selectedFileIsImage: function selectedFileIsImage() {
+      var fileParts = this.$refs.logo_image_path.files[0].name.split('.');
+
+      if (fileParts.length == 0) {
+        return false;
+      }
+
+      var imageExtensions = ['jpg', 'gif', 'png'];
+      var extension = fileParts[fileParts.length - 1];
+      return imageExtensions.indexOf(extension) >= 0;
     },
     updateLogoPreview: function updateLogoPreview() {
       var _this2 = this;
 
-      var reader = new FileReader();
+      var isImage = this.selectedFileIsImage();
 
-      reader.onload = function (e) {
-        _this2.logoPreview = e.target.result;
-      };
+      if (isImage) {
+        var reader = new FileReader();
 
-      reader.readAsDataURL(this.$refs.logo.files[0]);
-      this.$refs.logoPreviewElem.classList.remove('d-none');
+        reader.onload = function (e) {
+          _this2.logoPreview = e.target.result;
+        };
+
+        reader.readAsDataURL(this.$refs.logo_image_path.files[0]);
+        this.$refs.logoPreviewElem.classList.remove('d-none');
+        this.form.logo_image_path = this.$refs.logo_image_path.files[0];
+        return;
+      }
+
+      this.form.logo_image_path = null;
+      this.$refs.logoPreviewElem.classList.add('d-none');
     },
     deleteLogo: function deleteLogo() {
       var _this3 = this;
@@ -2633,74 +2658,79 @@ var _hoisted_6 = {
 var _hoisted_7 = {
   "class": "form-group mt-2 mb-2"
 };
-var _hoisted_8 = {
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_9 = {
   key: 0,
   "class": "mt-2"
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   "class": "mt-2"
 };
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Select A New Logo ");
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Select A New Logo ");
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove Logo ");
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove Logo ");
 
-var _hoisted_12 = {
-  "class": "row"
-};
 var _hoisted_13 = {
-  "class": "col-md-6"
+  "class": "row"
 };
 var _hoisted_14 = {
-  "class": "form-group"
+  "class": "col-md-6"
 };
 var _hoisted_15 = {
-  "class": "col-md-6"
+  "class": "form-group"
 };
 var _hoisted_16 = {
-  "class": "form-group"
+  "class": "col-md-6"
 };
 var _hoisted_17 = {
-  "class": "row"
+  "class": "form-group"
 };
 var _hoisted_18 = {
-  "class": "col-md-6"
-};
-var _hoisted_19 = {
-  "class": "form-group"
-};
-var _hoisted_20 = {
-  "class": "col-md-6"
-};
-var _hoisted_21 = {
-  "class": "form-group"
-};
-var _hoisted_22 = {
   "class": "row"
 };
-var _hoisted_23 = {
+var _hoisted_19 = {
   "class": "col-md-6"
+};
+var _hoisted_20 = {
+  "class": "form-group"
+};
+var _hoisted_21 = {
+  "class": "col-md-6"
+};
+var _hoisted_22 = {
+  "class": "form-group"
+};
+var _hoisted_23 = {
+  "class": "row"
 };
 var _hoisted_24 = {
-  "class": "form-group"
-};
-var _hoisted_25 = {
   "class": "col-md-6"
 };
-var _hoisted_26 = {
+var _hoisted_25 = {
   "class": "form-group"
 };
+var _hoisted_26 = {
+  "class": "col-md-6"
+};
 var _hoisted_27 = {
+  "class": "form-group"
+};
+var _hoisted_28 = {
   "class": "form-group text-center"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_validation_errors = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-validation-errors");
 
+  var _component_jet_label = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-label");
+
   var _component_jet_secondary_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-secondary-button");
 
   var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
-
-  var _component_jet_label = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-label");
 
   var _component_jet_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input");
 
@@ -2722,18 +2752,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_validation_errors, {
             "class": "mb-3"
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LOGO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Logo File Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LOGO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+            "for": "logo_image_path",
+            value: "Logo"
+          }), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Logo File Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
             type: "file",
-            hidden: "",
-            name: "logo",
-            ref: "logo",
+            name: "logo_image_path",
+            ref: "logo_image_path",
             onChange: _cache[1] || (_cache[1] = function () {
               return $options.updateLogoPreview && $options.updateLogoPreview.apply($options, arguments);
             })
           }, null, 544
           /* HYDRATE_EVENTS, NEED_PATCH */
-          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Current Logo "), $props.user_vendor.logo_image_path && !$data.logoPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-            src: $props.user_vendor.logo_image_path,
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Current Logo "), $props.user_vendor.logo_image_path && !$data.logoPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+            src: $props.user_vendor.logo_image_path.replace('public/', '/storage/'),
             alt: "Current Logo",
             "class": "rounded-circle",
             style: {
@@ -2742,7 +2774,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }
           }, null, 8
           /* PROPS */
-          , ["src"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" New Logo Preview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+          , ["src"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" New Logo Preview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
             src: $data.logoPreview,
             "class": "rounded-circle d-none",
             ref: "logoPreviewElem",
@@ -2755,12 +2787,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           , ["src"])], 512
           /* NEED_PATCH */
           ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.logoPreview]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_secondary_button, {
-            "class": "mt-2 me-2 btn-sm",
+            "class": "mt-2 me-2 btn-sm d-none",
             type: "button",
             onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($options.selectNewLogo, ["prevent"])
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_10];
+              return [_hoisted_11];
             }),
             _: 1
             /* STABLE */
@@ -2774,7 +2806,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($options.deleteLogo, ["prevent"])
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_11];
+              return [_hoisted_12];
             }),
             _: 1
             /* STABLE */
@@ -2786,7 +2818,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "class": "mt-2"
           }, null, 8
           /* PROPS */
-          , ["message"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_name",
             value: "Name"
@@ -2806,7 +2838,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_name
           }, null, 8
           /* PROPS */
-          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_phone",
             value: "Phone"
@@ -2827,7 +2859,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_phone
           }, null, 8
           /* PROPS */
-          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_address_line_1",
             value: "Address Line 1"
@@ -2848,7 +2880,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_address_line_1
           }, null, 8
           /* PROPS */
-          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "for": "store_address_line_2",
             value: "Address Line 2"
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2867,7 +2899,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_address_line_2
           }, null, 8
           /* PROPS */
-          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "for": "store_city",
             value: "City"
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2886,7 +2918,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_city
           }, null, 8
           /* PROPS */
-          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+          , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
             "class": "required",
             "for": "store_state",
             value: "State"
@@ -2905,7 +2937,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             message: $data.form.errors.store_state
           }, null, 8
           /* PROPS */
-          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
             type: "submit",
             "class": "btn btn-primary",
             disabled: $data.processing

@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
             'product_categories' => \App\Models\ProductCategory::with('subcategories')->get(),
             'permissions' => \App\Models\Role::getUserPermissions(),
             'userIsVendor' => authUserIsVendor(),
+            'config' => config(),
         ]);
     }
 }

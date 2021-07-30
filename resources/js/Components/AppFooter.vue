@@ -95,9 +95,9 @@
                                     <h4 class="widget-title">Information</h4><!-- End .widget-title -->
 
                                     <ul class="widget-list">
-                                        <li><a href="about.html">About Molla</a></li>
-                                        <li><a href="#">How to shop on Molla</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
+                                        <li><a href="#">About {{ this.$page.props.config_app.name }}</a></li>
+                                        <li><a href="#">How to shop</a></li>
+                                        <li><a href="#">FAQ</a></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-md-4 -->
@@ -109,7 +109,7 @@
                                     <ul class="widget-list">
                                         <li><a href="#">Terms and conditions</a></li>
                                         <li><a href="#">Privacy Policy</a></li>
-                                        <li><a href="contact.html">Contact us</a></li>
+                                        <li><a href="#">Contact us</a></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-md-4 -->

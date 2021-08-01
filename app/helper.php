@@ -3,6 +3,15 @@
 use App\Models\Role;
 use Illuminate\Http\Request;
 
+
+if (!defined('DATABASE_STRING_MAXLENGTH')) {
+    define('DATABASE_STRING_MAXLENGTH', 191);
+}
+
+if (!defined('INPUT_TEXTAREA_MAXLENGTH')) {
+    define('INPUT_TEXTAREA_MAXLENGTH', 1000);
+}
+
 if (!function_exists('carbon')) {
     /**
      * Create \Carbon\Carbon dateTime object

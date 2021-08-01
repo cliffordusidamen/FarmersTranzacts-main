@@ -29,6 +29,8 @@ class CreateProductCategoriesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('product_categories');
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -27,7 +27,9 @@ class RedirectIfAuthenticated
                     return redirect('dashboard');
                 }
 
-                return redirect(RouteServiceProvider::HOME);
+                return !$request->expectsJson()
+                    ? redirect(RouteServiceProvider::HOME)
+                    : response()->json();
             }
         }
 

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->enum('gender', ['female', 'male'])->nullable();
             $table->string('email')->unique();
             $table->string('phone')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -26,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->unsignedMediumInteger('role_id')->default(Role::SHOPPER_ID)->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->boolean('is_super_admin')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
 
             $table->foreign('role_id')

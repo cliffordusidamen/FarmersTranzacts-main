@@ -15,5 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    $user->profile_photo_url;
+    return $user;
+});
+
+Route::middleware('guest:sanctum')->post('/login', function (Request $request) {
+})->name('login');
+
+Route::post('/logout', function (Request $request) {
+    auth()->logout();
+
+    $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
+
+    return response()->json();
+});
+
+/*
+|-------------------------------------------------------------------------
+| Departments routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('departments')->name('departments.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\DepartmentController::class, 'index'])->name('index');
+    Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store'])->name('store');
 });

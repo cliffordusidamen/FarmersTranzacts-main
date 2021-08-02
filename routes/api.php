@@ -20,15 +20,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $user;
 });
 
-Route::middleware('guest:sanctum')->post('/login', function (Request $request) {
-})->name('login');
-
 Route::post('/logout', function (Request $request) {
     auth()->logout();
+    if (auth()->check()) {
 
-    $request->session()->invalidate();
+        $request->session()->invalidate();
 
-    $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
+    }
 
     return response()->json();
 });

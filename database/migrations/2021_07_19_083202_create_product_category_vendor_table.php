@@ -40,6 +40,6 @@ class CreateProductCategoryVendorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendor_product_categories');
+        Schema::dropIfExists('product_category_vendor');
     }
 }

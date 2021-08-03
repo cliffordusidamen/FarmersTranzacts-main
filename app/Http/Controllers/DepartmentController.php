@@ -37,9 +37,10 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->only(['name']), Department::validationRules())->validate();
+        $data = $request->only(['name', 'description']);
+        Validator::make($data, Department::validationRules())->validate();
 
-        $department = Department::create($request->only(['name']));
+        $department = Department::create($data);
 
         if (!$department) {
             throw ValidationException::withMessages([
@@ -72,7 +73,20 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $department = Department::with('sections')->findOrFail((int) $id);
+        $data = $request->only(['name', 'description']);
+        Validator::make($data, Department::validationRules((int) $id))->validate();
+
+        $department->forceFill($data);
+
+        if (!$department->save()) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Department not saved! Please, try again.'
+            ]);
+        }
+
+        return response()->json(compact('department'));
     }
 
     /**

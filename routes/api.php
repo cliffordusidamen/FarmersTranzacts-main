@@ -40,4 +40,6 @@ Route::post('/logout', function (Request $request) {
 Route::prefix('departments')->name('departments.')->group(function() {
     Route::get('/', [\App\Http\Controllers\DepartmentController::class, 'index'])->name('index');
     Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store'])->name('store');
+    Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
+    Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
 });

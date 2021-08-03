@@ -102,4 +102,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return ucwords(strtolower($this->first_name . ' ' . $this->last_name));
     }
+
+    /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     *
+     * @return string
+     */
+    protected function defaultProfilePhotoUrl()
+    {
+        return '/img/user_male_default.jpg';
+    }
 }

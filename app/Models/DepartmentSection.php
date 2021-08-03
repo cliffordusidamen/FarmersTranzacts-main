@@ -27,7 +27,7 @@ class DepartmentSection extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function sections(): BelongsTo
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id');
     }

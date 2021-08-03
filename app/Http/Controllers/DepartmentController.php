@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\DepartmentSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -98,5 +99,62 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Add section to department
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeSection(Request $request, $id)
+    {
+        $department = Department::with('sections')->findOrFail((int) $id);
+        $data = $request->only(['name', 'description']);
+        $data = Validator::make($data, DepartmentSection::validationRules())->validate();
+
+        $department_section = DepartmentSection::create(
+            array_merge($data, ['department_id' => $department->id])
+        );
+
+        if (!$department_section) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Department section not saved! Please, try again.'
+            ]);
+        }
+
+        return response()->json(compact('department_section'));
+    }
+
+    /**
+     * Update department section details
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $department_id
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSection(Request $request, $department_id, $id)
+    {
+        $department_section = DepartmentSection::with('department')
+            ->where('id', (int) $id)
+            ->where('department_id', (int) $department_id)
+            ->firstOrFail();
+
+        $data = $request->only(['name', 'description']);
+        $data = Validator::make($data, DepartmentSection::validationRules((int) $id))->validate();
+
+        $department_section->forceFill($data);
+
+        if (!$department_section->save()) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Department section not saved! Please, try again.'
+            ]);
+        }
+
+        return response()->json(compact('department_section'));
     }
 }

@@ -42,4 +42,15 @@ Route::prefix('departments')->name('departments.')->group(function() {
     Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store'])->name('store');
     Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
     Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
+    Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection'])->name('store_section');
+    Route::post('{department_id}/update-section/{section_id}', [\App\Http\Controllers\DepartmentController::class, 'updateSection'])->name('update_section');
 });
+
+
+/*
+|-------------------------------------------------------------------------
+| Model fetcher:
+| This is used to fetch multiple model entities at once, linke GraphQL
+|-------------------------------------------------------------------------
+*/
+Route::middleware('auth:sanctum')->post('/get-model-data', \App\Http\Controllers\ModelFetcherController::class);

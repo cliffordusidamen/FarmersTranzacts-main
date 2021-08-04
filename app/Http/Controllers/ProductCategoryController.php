@@ -141,4 +141,34 @@ class ProductCategoryController extends Controller
         return response()->json(compact('product_subcategory'));
 
     }
+
+    /**
+     * Update subcategory details
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $category_id
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSubcategory(Request $request, $category_id, $id)
+    {
+        $product_subcategory = ProductSubcategory::with('category')
+            ->where('id', (int) $id)
+            ->where('category_id', (int) $category_id)
+            ->firstOrFail();
+
+        $data = $request->only(['name', 'description']);
+        $data = Validator::make($data, ProductSubcategory::validationRules((int) $id))->validate();
+
+        $product_subcategory->forceFill($data);
+
+        if (!$product_subcategory->save()) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Product category not saved! Please, try again.'
+            ]);
+        }
+
+        return response()->json(compact('product_subcategory'));
+    }
 }

@@ -53,6 +53,7 @@ Route::prefix('departments')->name('departments.')->group(function() {
 */
 Route::prefix('product_categories')->name('product_categories.')->group(function() {
     Route::post('{id}/store-subcategory', [\App\Http\Controllers\ProductCategoryController::class, 'storeSubcategory'])->name('store_subcategory');
+    Route::put('{category_id}/update-subcategory/{id}', [\App\Http\Controllers\ProductCategoryController::class, 'updateSubcategory'])->name('update_subcategory');
     // Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
     // Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
     // Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection'])->name('store_section');

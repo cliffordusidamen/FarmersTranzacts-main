@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -47,7 +48,7 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['name', 'description']);
+        $data = $request->only(['name', 'description', 'is_active']);
         Validator::make($data, ProductCategory::validationRules())->validate();
 
         $product_category = ProductCategory::create($data);

@@ -20,6 +20,7 @@ class ProductCategory extends Model
         'name',
         'slug',
         'description',
+        'is_active',
     ];
 
     /**
@@ -72,7 +73,8 @@ class ProductCategory extends Model
 
         return [
             'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],
-            'description' => ['nullable', 'min:3', 'max:255', ],
+            'description' => ['nullable', 'min:15', 'max:255', ],
+            'is_active' => ['sometimes', 'boolean'],
         ];
     }
 }

@@ -4,9 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class ProductCategoryController extends Controller
 {
+
+    /**
+     * Create instance of the controller
+     */
+    public function __construct()
+    {
+        // To do: add middleware for adminstrators only
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,16 +40,6 @@ class ProductCategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -45,7 +47,18 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['name', 'description']);
+        Validator::make($data, ProductCategory::validationRules())->validate();
+
+        $product_category = ProductCategory::create($data);
+
+        if (!$product_category) {
+            throw ValidationException::withMessages([
+                'name' => 'product category not saved! Please, try again.',
+            ]);
+        }
+
+        return response()->json(compact('product_category'));
     }
 
     /**

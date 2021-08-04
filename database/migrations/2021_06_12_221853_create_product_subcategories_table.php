@@ -19,6 +19,7 @@ class CreateProductSubcategoriesTable extends Migration
             $table->string('name', 255);
             $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
 
             $table->foreign('category_id')

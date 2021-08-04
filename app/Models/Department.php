@@ -64,6 +64,7 @@ class Department extends Model
         $rules = [
             'name' => $nameRules,
             'description' => 'sometimes|nullable|string|min:15|max:' . INPUT_TEXTAREA_MAXLENGTH,
+            'is_active' => ['sometimes', 'boolean'],
         ];
 
         return $rules;

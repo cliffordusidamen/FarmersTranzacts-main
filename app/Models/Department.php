@@ -32,6 +32,16 @@ class Department extends Model
     }
 
     /**
+     * Relationship: Has many users
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'department_id');
+    }
+
+    /**
      * Default validation rules
      * 
      * @param  int|null  $id

@@ -46,6 +46,20 @@ Route::prefix('departments')->name('departments.')->group(function() {
     Route::post('{department_id}/update-section/{section_id}', [\App\Http\Controllers\DepartmentController::class, 'updateSection'])->name('update_section');
 });
 
+/*
+|-------------------------------------------------------------------------
+| Product categories routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('product_categories')->name('product_categories.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\ProductCategoryController::class, 'index'])->name('index');
+    // Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store'])->name('store');
+    // Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
+    // Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
+    // Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection'])->name('store_section');
+    // Route::post('{department_id}/update-section/{section_id}', [\App\Http\Controllers\DepartmentController::class, 'updateSection'])->name('update_section');
+});
+
 
 /*
 |-------------------------------------------------------------------------

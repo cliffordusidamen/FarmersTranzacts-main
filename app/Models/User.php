@@ -34,6 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role_id',
         'is_active',
+        'department_id',
+        'department_section_id',
     ];
 
     /**
@@ -80,6 +82,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Relationship: Belongs to department
+     */
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    /**
+     * Relationship: Belongs to department_section
+     */
+    public function departmentSection(): BelongsTo
+    {
+        return $this->belongsTo(DepartmentSection::class, 'department_section_id');
     }
 
     /**

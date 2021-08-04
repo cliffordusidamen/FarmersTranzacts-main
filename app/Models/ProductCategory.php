@@ -33,6 +33,16 @@ class ProductCategory extends Model
     }
 
     /**
+     * Relationship: Has many products
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'category_id');
+    }
+
+    /**
      * Mutator: create unique slug, based on name
      * 
      * @param  string  $value

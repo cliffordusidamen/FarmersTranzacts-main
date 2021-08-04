@@ -26,7 +26,17 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::with('sections')->orderByDesc('id')->get();
+        $departments = Department::with('sections')
+            ->withCount(['users'])
+            ->orderByDesc('id')
+            ->get();
+
+        if ($departments->count()) {
+            $departments->map(function($department, $deptKey) {
+                $department->sections->map(fn ($section, $key) => $section->loadCount('users'));
+            });
+        }
+
         return response()->json(compact('departments'));
     }
 
@@ -61,7 +71,13 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        $department = Department::with('sections')->findOrFail((int) $id);
+        $department = Department::with('sections')
+            ->findOrFail((int) $id);
+        
+        if ($department->sections->count()) {
+            $department->sections->map(fn ($section, $key) => $section->loadCount('users'));
+        }
+
         return response()->json(compact('department'));
     }
 

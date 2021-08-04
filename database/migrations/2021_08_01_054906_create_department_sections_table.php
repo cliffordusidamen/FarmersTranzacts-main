@@ -14,7 +14,7 @@ class CreateDepartmentSectionsTable extends Migration
     public function up()
     {
         Schema::create('department_sections', function (Blueprint $table) {
-            $table->id();
+            $table->smallIncrements('id');
             $table->unsignedSmallInteger('department_id');
             $table->string('name');
             $table->string('description', 2000)->nullable();

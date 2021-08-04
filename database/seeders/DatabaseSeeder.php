@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ProductCategorySeeder::class,
-            RoleSeeder::class,
+            DesignationSeeder::class,
             StateSeeder::class,
         ]);
         \App\Models\User::factory([

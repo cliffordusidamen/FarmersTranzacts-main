@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Role;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 
 
@@ -76,16 +76,16 @@ if (!function_exists('userIsSuperAdmin')) {
     }
 }
 
-if (!function_exists('userIsAdminRole')) {
+if (!function_exists('userIsAdminDesignation')) {
 
     /**
      * Check if authenticated user is admin
      * 
      * @return bool
      */
-    function userIsAdminRole(): bool
+    function userIsAdminDesignation(): bool
     {
-        return auth()->check() && auth()->user()->role_id && auth()->user()->role_id == Role::ADMIN_ID;
+        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::ADMIN_ID;
     }
 }
 
@@ -98,7 +98,7 @@ if (!function_exists('authUserIsShopper')) {
      */
     function authUserIsShopper(): bool
     {
-        return auth()->check() && auth()->user()->role_id && auth()->user()->role_id == Role::SHOPPER_ID;
+        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::SHOPPER_ID;
     }
 }
 
@@ -127,6 +127,6 @@ if (!function_exists('authUserIsVendor')) {
      */
     function authUserIsVendor(): bool
     {
-        return auth()->check() && auth()->user()->role_id && auth()->user()->role_id == Role::VENDOR_ID;
+        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::VENDOR_ID;
     }
 }

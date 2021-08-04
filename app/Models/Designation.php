@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Role extends Model
+class Designation extends Model
 {
     use HasFactory;
 
@@ -36,7 +36,7 @@ class Role extends Model
      */
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, 'role_id');
+        return $this->hasMany(User::class, 'designation_id');
     }
 
     /**
@@ -64,7 +64,7 @@ class Role extends Model
     public static function getUserPermissions(): array
     {
         $permissions = [
-            'canManageProductCategories' =>  userIsSuperAdmin() || userIsAdminRole(),
+            'canManageProductCategories' =>  userIsSuperAdmin() || userIsAdminDesignation(),
         ];
 
         return $permissions;

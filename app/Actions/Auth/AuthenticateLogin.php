@@ -2,7 +2,7 @@
 
 namespace App\Actions\Auth;
 
-use App\Models\Role;
+use App\Models\Designation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,16 +24,16 @@ class AuthenticateLogin
      */
     public function handle(Request $request)
     {
-        $data = $request->only(['email', 'password', 'as_role']);
-        $roleNames = [
-            Role::ADMIN_NAME,
-            Role::SHOPPER_NAME,
-            Role::VENDOR_NAME,
+        $data = $request->only(['email', 'password', 'as_designation']);
+        $designationNames = [
+            Designation::ADMIN_NAME,
+            Designation::SHOPPER_NAME,
+            Designation::VENDOR_NAME,
         ];
         $rules = [
             'email' => 'required|string|min:5',
             'password' => 'required|string|min:6',
-            'as_role' => ['sometimes', 'string', Rule::in($roleNames)],
+            'as_designation' => ['sometimes', 'string', Rule::in($designationNames)],
         ];
         $messages = [
             'email.min' => 'Invalid email address',
@@ -57,10 +57,10 @@ class AuthenticateLogin
             ]);
         }
 
-        $isMatchingRole = empty($request->as_role)
-            || strtolower($user->role->name) == $request->as_role;
+        $isMatchingDesignation = empty($request->as_designation)
+            || strtolower($user->designation->name) == $request->as_designation;
 
-        if (!$user->is_super_admin && !$isMatchingRole) {
+        if (!$user->is_super_admin && !$isMatchingDesignation) {
             throw ValidationException::withMessages([
                 'email' => ['Access denied!'],
             ]);

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Role;
+use App\Models\Designation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,15 +24,15 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->unsignedMediumInteger('role_id')->default(Role::SHOPPER_ID)->nullable();
+            $table->unsignedMediumInteger('designation_id')->default(Designation::SHOPPER_ID)->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->boolean('is_super_admin')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
-            $table->foreign('role_id')
+            $table->foreign('designation_id')
                 ->references('id')
-                ->on('roles')
+                ->on('designations')
                 ->onUpdate('cascade')
                 ->onDelete('set null');
         });

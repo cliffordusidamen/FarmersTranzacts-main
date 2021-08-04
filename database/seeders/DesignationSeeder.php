@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Models\Designation;
 use Illuminate\Database\Seeder;
 
-class RoleSeeder extends Seeder
+class DesignationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,8 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        foreach (Role::getList(true) as $id => $name) {
-            Role::firstOrCreate(compact('id', 'name'));
+        foreach (Designation::getList(true) as $id => $name) {
+            Designation::firstOrCreate(compact('id', 'name'));
         }
     }
 }

@@ -32,7 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'phone',
         'password',
-        'role_id',
+        'designation_id',
         'is_active',
         'department_id',
         'department_section_id',
@@ -77,11 +77,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Relationship: The role that belong to the user.
+     * Relationship: The designation of the user.
      */
-    public function role(): BelongsTo
+    public function designation(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Designation::class);
     }
 
     /**

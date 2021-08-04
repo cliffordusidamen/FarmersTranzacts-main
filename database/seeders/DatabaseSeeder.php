@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             StateSeeder::class,
         ]);
-        \App\Models\User::factory()->isSuperAdmin()->create();
+        \App\Models\User::factory([
+            'email' => 'admin@website.com',
+        ])->isSuperAdmin()->create();
     }
 }

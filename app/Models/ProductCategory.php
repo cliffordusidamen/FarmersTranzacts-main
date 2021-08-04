@@ -24,6 +24,15 @@ class ProductCategory extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    /**
      * Relationship: Has many sub categories
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

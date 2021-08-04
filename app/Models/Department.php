@@ -69,4 +69,14 @@ class Department extends Model
 
         return $rules;
     }
+
+    /**
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return defaultModelPermissions();
+    }
 }

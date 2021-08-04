@@ -2,7 +2,8 @@
 
 use App\Models\Designation;
 use Illuminate\Http\Request;
-
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Str;
 
 if (!defined('DATABASE_STRING_MAXLENGTH')) {
     define('DATABASE_STRING_MAXLENGTH', 191);
@@ -10,6 +11,69 @@ if (!defined('DATABASE_STRING_MAXLENGTH')) {
 
 if (!defined('INPUT_TEXTAREA_MAXLENGTH')) {
     define('INPUT_TEXTAREA_MAXLENGTH', 1000);
+}
+
+if (!defined('MODEL_PERMISSION_CREATE')) {
+    /**
+     * Permission to create model entity
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_CREATE', 'create');
+}
+
+if (!defined('MODEL_PERMISSION_UPDATE')) {
+    /**
+     * Permission to update model entity
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_UPDATE', 'update');
+}
+
+if (!defined('MODEL_PERMISSION_DELETE')) {
+    /**
+     * Permission to delete model entity
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_DELETE', 'delete');
+}
+
+if (!defined('MODEL_PERMISSION_FORCE_DELETE')) {
+    /**
+     * Permission to delete model entity, if trashed
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_FORCE_DELETE', 'forceDelete');
+}
+
+if (!defined('MODEL_PERMISSION_RESTORE')) {
+    /**
+     * Permission to restore model entity, from trash
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_RESTORE', 'restore');
+}
+
+if (!defined('MODEL_PERMISSION_VIEW')) {
+    /**
+     * Permission to view a single model entity
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_VIEW', 'view');
+}
+
+if (!defined('MODEL_PERMISSION_VIEW_ANY')) {
+    /**
+     * Permission to update model entity
+     * 
+     * @return string
+     */
+    define('MODEL_PERMISSION_VIEW_ANY', 'viewAny');
 }
 
 if (!function_exists('carbon')) {
@@ -128,5 +192,92 @@ if (!function_exists('authUserIsVendor')) {
     function authUserIsVendor(): bool
     {
         return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::VENDOR_ID;
+    }
+}
+
+if (!function_exists('getClassNames')) {
+    /**
+     * Get a list of all class names of php files in the given directory
+     * 
+     * @return array
+     */
+    function getClassNames($path) {
+        $out = [];
+        $results = scandir($path);
+        foreach ($results as $result) {
+            if ($result === '.' || $result === '..') {
+                continue;
+            }
+
+            $isPhpFile = preg_match('/(\.php)$/', $result);
+
+            if (!$isPhpFile) {
+                continue;
+            }
+
+            $filename = $result;
+            if (is_dir($filename)) {
+                $out = array_merge($out, getClassNames($filename));
+            } else {
+                $out[] = substr($filename,0,-4);
+            }
+        }
+        return $out;
+    }
+}
+
+if (!function_exists('getModelNames')) {
+    /**
+     * Get list of names of all models in projects
+     * 
+     * @return array
+     */
+    function getModelNames()
+    {
+        return getClassNames(app_path() . '/Models');
+    }
+}
+
+if (!function_exists('initModelPermissions')) {
+    /**
+     * Initialize all model related permissions recognizable in the application
+     * 
+     * @return void
+     */
+    function initModelPermissions() {
+        $modelNames = getModelNames();
+
+        foreach($modelNames as $modelName) {
+            $modelClassName = "\\App\\Models\\{$modelName}";
+            $definesPermissions = method_exists($modelClassName, 'getPermissions');
+            if (!$definesPermissions) {
+                continue;
+            }
+            $permissions = collect($modelClassName::getPermissions());
+
+            $permissions->map(fn($permissionName, $key) => (
+                Permission::firstOrCreate([
+                    'name' => $permissionName . ' ' . Str::snake($modelName),
+                ])
+            ));
+        }
+    }
+}
+
+if (!function_exists('defaultModelPermissions')) {
+    /**
+     * Get list of default model permissions
+     * 
+     * @return array
+     */
+    function defaultModelPermissions(): array
+    {
+        return [
+            MODEL_PERMISSION_VIEW_ANY,
+            MODEL_PERMISSION_VIEW,
+            MODEL_PERMISSION_CREATE,
+            MODEL_PERMISSION_UPDATE,
+            MODEL_PERMISSION_DELETE,
+        ];
     }
 }

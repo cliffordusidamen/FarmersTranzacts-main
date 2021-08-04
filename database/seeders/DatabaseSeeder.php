@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             ProductCategorySeeder::class,
             DesignationSeeder::class,
             StateSeeder::class,
+            ModelPermissionsSeeder::class,
         ]);
+
         \App\Models\User::factory([
             'email' => 'admin@website.com',
         ])->isSuperAdmin()->create();

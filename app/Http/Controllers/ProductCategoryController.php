@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -115,5 +116,29 @@ class ProductCategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Store a newly created subcategory to database
+     * 
+     * @param  int  $productCategoryId
+     * @return \Illuminate\Http\Response
+     */
+    public function storeSubcategory(Request $request, $productCategoryId)
+    {
+        $product_category = ProductCategory::findOrFail((int) $productCategoryId);
+        $data = $request->only(['name', 'description', 'is_active']);
+        Validator::make($data, ProductSubcategory::validationRules())->validate();
+
+        $product_subcategory = $product_category->subcategories()->create($data);
+
+        if (!$product_subcategory) {
+            throw ValidationException::withMessages([
+                'name' => 'Product subcategory not saved! Please, try again.',
+            ]);
+        }
+
+        return response()->json(compact('product_subcategory'));
+
     }
 }

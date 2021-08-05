@@ -79,7 +79,19 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $data = $request->only(['name', 'description', 'is_active']);
+        Validator::make($data, AppRole::validationRules($role->id))->validate();
+
+        $role->forceFill($data);
+
+        if (!$role->save()) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Role not saved! Please, try again.'
+            ]);
+        }
+
+        return response()->json(compact('role'));
     }
 
     /**

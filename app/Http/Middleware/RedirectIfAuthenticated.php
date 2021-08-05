@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if (auth()->user()->role_id == \App\Models\Role::VENDOR_ID) {
+                if (auth()->user()->role_id == \App\Models\Designation::VENDOR_ID) {
                     return redirect('dashboard');
                 }
 

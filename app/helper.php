@@ -264,6 +264,32 @@ if (!function_exists('initModelPermissions')) {
     }
 }
 
+if (!function_exists('getModelPermissions')) {
+    /**
+     * Get all model related permissions recognizable in the application
+     * 
+     * @return array
+     */
+    function getModelPermissions(): array
+    {
+        $modelPermissions = [];
+
+        $modelNames = getModelNames();
+
+        foreach($modelNames as $modelName) {
+            $modelClassName = "\\App\\Models\\{$modelName}";
+            $definesPermissions = method_exists($modelClassName, 'getPermissions');
+            if (!$definesPermissions) {
+                continue;
+            }
+
+            $modelPermissions[$modelName] = $modelClassName::getPermissions();
+        }
+
+        return $modelPermissions;
+    }
+}
+
 if (!function_exists('defaultModelPermissions')) {
     /**
      * Get list of default model permissions

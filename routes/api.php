@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/logout', function (Request $request) {
-    auth()->logout();
+    Auth::logout();
     if (auth()->check()) {
 
         $request->session()->invalidate();
@@ -54,13 +55,19 @@ Route::prefix('departments')->name('departments.')->group(function() {
 Route::prefix('product_categories')->name('product_categories.')->group(function() {
     Route::post('{id}/store-subcategory', [\App\Http\Controllers\ProductCategoryController::class, 'storeSubcategory'])->name('store_subcategory');
     Route::put('{category_id}/update-subcategory/{id}', [\App\Http\Controllers\ProductCategoryController::class, 'updateSubcategory'])->name('update_subcategory');
-    // Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
-    // Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
-    // Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection'])->name('store_section');
-    // Route::post('{department_id}/update-section/{section_id}', [\App\Http\Controllers\DepartmentController::class, 'updateSection'])->name('update_section');
 });
 Route::apiResource('product_categories', \App\Http\Controllers\ProductCategoryController::class);
 
+
+/*
+|-------------------------------------------------------------------------
+| Product categories routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('roles')->name('roles.')->group(function() {
+    Route::get('permissions', [\App\Http\Controllers\RoleController::class, 'permissions']);
+});
+Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 
 /*
 |-------------------------------------------------------------------------

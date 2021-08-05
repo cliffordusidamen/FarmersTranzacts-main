@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Role as AppRole;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleController extends Controller
 {
@@ -26,7 +28,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::get();
+        $roles = Role::orderByDesc('id')->get();
         $roles->map(fn ($role, $key) => $role->loadCount('users'));
 
         return response()->json(compact('roles'));
@@ -40,16 +42,28 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['name', 'description', 'is_active']);
+        $data = $request->only(['name', 'description', 'is_active', 'role_permissions']);
         Validator::make($data, AppRole::validationRules())->validate();
 
-        $role = AppRole::create(array_merge($data, [
-            'guard_name' => 'web',
-        ]));
+        $role = null;
+
+        DB::transaction(function() use ($data, &$role) {
+            $role = AppRole::create([
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'is_active' => $data['is_active'],
+                'guard_name' => 'web',
+            ]);
+
+            app()[PermissionRegistrar::class]->forgetCachedPermissions();
+            $role->syncPermissions($data['role_permissions']);
+        });
+
 
         if (!$role) {
-            throw ValidationException::withMessages([
-                'name' => 'ROle not saved! Please, try again.',
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Role not saved! Please, try again.'
             ]);
         }
 
@@ -79,12 +93,24 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $data = $request->only(['name', 'description', 'is_active']);
+        $data = $request->only(['name', 'description', 'is_active', 'role_permissions']);
         Validator::make($data, AppRole::validationRules($role->id))->validate();
 
-        $role->forceFill($data);
+        $saved = false;
+        DB::transaction(function() use ($data, &$saved, $role) {
+            $role->forceFill([
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'is_active' => $data['is_active'],
+                'guard_name' => 'web',
+            ]);
+            $saved = $role->save();
 
-        if (!$role->save()) {
+            app()[PermissionRegistrar::class]->forgetCachedPermissions();
+            $role->syncPermissions($data['role_permissions']);
+        });
+
+        if (!$saved) {
             return response()->json([
                 'save_failed' => true,
                 'message' => 'Role not saved! Please, try again.'

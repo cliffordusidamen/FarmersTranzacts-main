@@ -282,8 +282,13 @@ if (!function_exists('getModelPermissions')) {
             if (!$definesPermissions) {
                 continue;
             }
+            $modelNameSnakeCase = Str::snake($modelName);
 
-            $modelPermissions[$modelName] = $modelClassName::getPermissions();
+            $permissions = collect($modelClassName::getPermissions())->mapWithKeys(function($permName, $perKey) use ($modelNameSnakeCase) {
+                return ["{$permName} {$modelNameSnakeCase}" => $permName];
+            });
+
+            $modelPermissions[$modelName] = $permissions->toArray();
         }
 
         return $modelPermissions;

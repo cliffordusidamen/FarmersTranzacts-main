@@ -22,6 +22,7 @@ class Role extends SpatieRole
             'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],
             'description' => ['nullable', 'min:15', 'max:255', ],
             'is_active' => ['sometimes', 'boolean'],
+            'role_permissions' => ['required', 'array', 'min:1', ],
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RoleResource;
 use App\Models\Role as AppRole;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
@@ -28,9 +29,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderByDesc('id')->get();
-        $roles->map(fn ($role, $key) => $role->loadCount('users'));
-
+        $roles = RoleResource::collection(Role::orderByDesc('id')->get());
         return response()->json(compact('roles'));
     }
 
@@ -78,10 +77,9 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $role->loadCount('users');
-        $role->load('permissions');
-
-        return response()->json(compact('role'));
+        return response()->json([
+            'role' => (new RoleResource($role)),
+        ]);
     }
 
     /**
@@ -138,7 +136,7 @@ class RoleController extends Controller
      */
     public function permissions()
     {
-        $model = getModelPermissions();
+        $model = getModelPermissions(true);
         return response()->json(compact('model'));
     }
 }

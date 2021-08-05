@@ -86,4 +86,14 @@ class ProductCategory extends Model
             'is_active' => ['sometimes', 'boolean'],
         ];
     }
+
+    /**
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return defaultModelPermissions();
+    }
 }

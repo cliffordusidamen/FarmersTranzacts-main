@@ -268,9 +268,10 @@ if (!function_exists('getModelPermissions')) {
     /**
      * Get all model related permissions recognizable in the application
      * 
+     * @param  bool  $readableModelName
      * @return array
      */
-    function getModelPermissions(): array
+    function getModelPermissions(bool $readableModelName = false): array
     {
         $modelPermissions = [];
 
@@ -283,12 +284,15 @@ if (!function_exists('getModelPermissions')) {
                 continue;
             }
             $modelNameSnakeCase = Str::snake($modelName);
+            $modelKey = $readableModelName
+                ? ucwords(strtolower(str_replace('_', ' ', $modelNameSnakeCase)))
+                : $modelNameSnakeCase;
 
             $permissions = collect($modelClassName::getPermissions())->mapWithKeys(function($permName, $perKey) use ($modelNameSnakeCase) {
                 return ["{$permName} {$modelNameSnakeCase}" => $permName];
             });
 
-            $modelPermissions[$modelName] = $permissions->toArray();
+            $modelPermissions[$modelKey] = $permissions->toArray();
         }
 
         return $modelPermissions;
@@ -310,5 +314,43 @@ if (!function_exists('defaultModelPermissions')) {
             MODEL_PERMISSION_UPDATE,
             MODEL_PERMISSION_DELETE,
         ];
+    }
+}
+
+if (!function_exists('lastWordInText')) {
+    /**
+     * Get last word in text
+     * 
+     * @param  string  $text
+     * @return string
+     */
+    function lastWordInText($text): string
+    {   
+        $pos = strrpos($text, ' ');
+
+        if(!$pos) {
+            return $text;
+        }
+
+        $lastWord = substr($text,$pos + 1);
+
+        return $lastWord;
+    }
+
+}
+
+if (!function_exists('spaceCamelCase')) {
+    /**
+     * convert camel/pascal case string to normal spaced
+     * 
+     * @param  string  $text
+     * @param  bool  $lowerCase
+     * @return string
+     */
+    function spaceCamelCase(string $text, bool $lowerCase = false): string
+    {
+        $spaced = trim(str_replace('_', ' ', Str::snake($text)));
+
+        return $lowerCase ? strtolower($spaced) : $spaced;
     }
 }

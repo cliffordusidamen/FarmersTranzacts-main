@@ -69,6 +69,18 @@ Route::prefix('roles')->name('roles.')->group(function() {
 });
 Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 
+
+/*
+|-------------------------------------------------------------------------
+| Users routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('users')->name('users.')->group(function() {
+    Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
+});
+Route::apiResource('users', \App\Http\Controllers\UserController::class);
+
+
 /*
 |-------------------------------------------------------------------------
 | Model fetcher:

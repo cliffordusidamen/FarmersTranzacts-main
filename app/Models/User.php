@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -130,6 +131,27 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected function defaultProfilePhotoUrl()
     {
-        return '/img/user_male_default.jpg';
+        $gender = $this->gender ?? 'male';
+        return "/img/user_{$gender}_default.jpg";
+    }
+
+    /**
+     * filter by designation
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string $designationName
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDesignated(Builder $query, $designationName): Builder
+    {
+        $designations = [
+            Designation::ADMIN_NAME     => Designation::ADMIN_ID,
+            Designation::SHOPPER_NAME   => Designation::SHOPPER_ID,
+            Designation::VENDOR_NAME    => Designation::VENDOR_ID,
+        ];
+
+        $designationName = strtolower($designationName);
+        $designationId = $designations[$designationName] ?? 0;
+        return $query->where('designation_id', $designationId);
     }
 }

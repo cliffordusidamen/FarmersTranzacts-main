@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -153,5 +154,28 @@ class User extends Authenticatable implements MustVerifyEmail
         $designationName = strtolower($designationName);
         $designationId = $designations[$designationName] ?? 0;
         return $query->where('designation_id', $designationId);
+    }
+
+    /**
+     * filter by name, email and phone
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string $searchText
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilterNameAndContact(Builder $query, $searchText): Builder
+    {
+        $searchText = trim($searchText);
+
+        if (!isset($searchText[2])) {
+            return $query;
+        }
+
+        return $query->where(function(Builder $q) use ($searchText) {
+            $q->where(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$searchText}%")
+                ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$searchText}%")
+                ->orWhere('email', 'LIKE', "%{$searchText}%")
+                ->orWhere('phone', 'LIKE', "%{$searchText}%");
+        });
     }
 }

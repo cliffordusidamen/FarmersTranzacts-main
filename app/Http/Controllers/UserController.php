@@ -27,7 +27,9 @@ class UserController extends Controller
      */
     public function list($designation)
     {
+        $searchText = trim(request()->query('q', ''));
         $users = User::designated(Str::singular($designation))
+            ->filterNameAndContact($searchText)
             ->paginate(15);
 
         return new UserCollection($users);

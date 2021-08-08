@@ -149,7 +149,7 @@ if (!function_exists('userIsAdminDesignation')) {
      */
     function userIsAdminDesignation(): bool
     {
-        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::ADMIN_ID;
+        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::STAFF_ID;
     }
 }
 

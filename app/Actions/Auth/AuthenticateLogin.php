@@ -26,7 +26,7 @@ class AuthenticateLogin
     {
         $data = $request->only(['email', 'password', 'as_designation']);
         $designationNames = [
-            Designation::ADMIN_NAME,
+            Designation::STAFF_NAME,
             Designation::SHOPPER_NAME,
             Designation::VENDOR_NAME,
         ];

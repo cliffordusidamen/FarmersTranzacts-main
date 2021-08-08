@@ -10,13 +10,13 @@ class Designation extends Model
 {
     use HasFactory;
 
-    const ADMIN_ID = 1;
+    const STAFF_ID = 1;
     const SHOPPER_ID = 2;
-    const VENDOR_ID = 3;
+    const SELLER_ID = 3;
 
-    const ADMIN_NAME = 'admin';
+    const STAFF_NAME = 'staff';
     const SHOPPER_NAME = 'shopper';
-    const VENDOR_NAME = 'vendor';
+    const SELLER_NAME = 'seller';
     
     /**
      * The attributes that are mass assignable.
@@ -48,9 +48,9 @@ class Designation extends Model
     public static function getList(bool $asKeys = false): array
     {
         $types = [
-            self::ADMIN_ID => ucwords(self::ADMIN_NAME),
+            self::STAFF_ID => ucwords(self::STAFF_NAME),
             self::SHOPPER_ID => ucwords(self::SHOPPER_NAME),
-            self::VENDOR_ID => ucwords(self::VENDOR_NAME),
+            self::SELLER_ID => ucwords(self::SELLER_NAME),
         ];
 
         return $asKeys ? $types : array_keys($types);

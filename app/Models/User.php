@@ -146,9 +146,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeDesignated(Builder $query, $designationName): Builder
     {
         $designations = [
-            Designation::ADMIN_NAME     => Designation::ADMIN_ID,
+            Designation::STAFF_NAME     => Designation::STAFF_ID,
             Designation::SHOPPER_NAME   => Designation::SHOPPER_ID,
-            Designation::VENDOR_NAME    => Designation::VENDOR_ID,
+            Designation::SELLER_NAME    => Designation::SELLER_ID,
         ];
 
         $designationName = strtolower($designationName);

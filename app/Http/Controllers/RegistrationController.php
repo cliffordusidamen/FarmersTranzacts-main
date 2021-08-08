@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShopperRequest;
 use App\Http\Requests\StoreVendorRequest;
 use App\Models\Address;
-use App\Models\Role;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\State;
@@ -75,7 +75,7 @@ class RegistrationController extends Controller
             $userData = $request->only([
                 'first_name', 'last_name', 'phone', 'email', 'password',
             ]);
-            $userData['role_id'] = Role::VENDOR_ID;
+            $userData['designation_id'] = Designation::VENDOR_ID;
             $user = User::create($userData);
 
             $vendor = Vendor::create([

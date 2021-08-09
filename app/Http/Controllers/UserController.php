@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
+use App\Models\Designation;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -28,9 +33,9 @@ class UserController extends Controller
     public function list($designation)
     {
         $searchText = trim(request()->query('q', ''));
-        // dd(Str::singular($designation));
         $users = User::designated(Str::singular($designation))
             ->filterNameAndContact($searchText)
+            ->orderByDesc('id')
             ->paginate(15);
 
         return new UserCollection($users);
@@ -45,6 +50,84 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Store a newly created staff in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeStaff(Request $request)
+    {
+        $data = $request->only([
+            'first_name', 'last_name', 'phone', 'email', 'gender',
+            'is_admin',
+            'department_id', 'department_section_id',
+            'line_1', 'line_2', 'city', 'state_id',
+            'role_id',
+        ]);
+
+        $rules = [
+            'first_name' => ['required', 'string', 'min:3', 'max:20'],
+            'last_name' => ['required', 'string', 'min:3', 'max:20'],
+            'phone' => ['required', 'string', 'min:11', 'max:15', 'unique:users,phone'],
+            'email' => ['required', 'string', 'email', 'unique:users,email'],
+            'gender' => ['sometimes', 'nullable', Rule::in(User::GENDER_FEMALE, User::GENDER_MALE)],
+            'is_admin' => ['sometimes', 'nullable', 'boolean'],
+            'department_id' => ['sometimes', 'nullable', 'exists:departments,id'],
+            'department_section_id' => ['sometimes', 'nullable', 'exists:department_sections,id'],
+            'line_1' => ['required', 'string', 'min:5', 'max:100'],
+            'line_2' => ['sometimes', 'nullable', 'string', 'min:5', 'max:100'],
+            'city' => ['sometimes', 'nullable', 'string', 'min:5', 'max:100'],
+            'state_id' => ['sometimes', 'nullable', 'exists:states,id'],
+            'role_id' => ['sometimes', 'nullable', 'exists:roles,id'],
+        ];
+
+        $data = Validator::make($data, $rules)->validate();
+        $password = Str::random(8);
+
+        $user = null;
+
+        DB::transaction(function() use ($data, $password, &$user) {
+            $user = User::create([
+                'password' => $password,
+                'designation_id' => Designation::STAFF_ID,
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'phone' => $data['phone'],
+                'email' => $data['email'],
+                'gender' => $data['gender'] ?? null,
+                'department_id' => $data['department_id'] ?? null,
+                'department_section_id' => $data['department_section_id'] ?? null,
+                'is_admin' => $data['is_admin'] ?? false,
+                'require_password_change' => true,
+            ]);
+
+            $user->address()->create([
+                'line_1' => $data['line_1'],
+                'line_2' => $data['line_2'] || null,
+                'city' => $data['city'] || null,
+                'state_id' => $data['state_id'],
+            ]);
+
+            if ($data['is_admin']) {
+                $role = Role::findOrFail($data['role_id']);
+                $user->assignRole($role->name);
+            }
+
+        });
+
+        if (!$user) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Staff information not saved! Please, try again.'
+            ]);
+        }
+
+        //  To do: trigger event to send password to staff email
+
+        return response()->json(compact('user'));
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use TwoFactorAuthenticatable;
     use HasRoles;
 
+    const GENDER_FEMALE = 'female';
+    const GENDER_MALE = 'male';
     /**
      * The attributes that are mass assignable.
      *
@@ -40,6 +43,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_active',
         'department_id',
         'department_section_id',
+        'is_admin',
+        'require_password_change',
     ];
 
     /**
@@ -102,6 +107,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function departmentSection(): BelongsTo
     {
         return $this->belongsTo(DepartmentSection::class, 'department_section_id');
+    }
+
+    /**
+     * Relationship: Has one address
+     */
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class, 'user_id');
     }
 
     /**

@@ -191,7 +191,7 @@ if (!function_exists('authUserIsVendor')) {
      */
     function authUserIsVendor(): bool
     {
-        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::VENDOR_ID;
+        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::SELLER_ID;
     }
 }
 

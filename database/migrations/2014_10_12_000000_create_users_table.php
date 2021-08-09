@@ -27,7 +27,9 @@ class CreateUsersTable extends Migration
             $table->unsignedMediumInteger('designation_id')->default(Designation::SHOPPER_ID)->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->boolean('is_super_admin')->default(false);
+            $table->boolean('is_admin')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->boolean('require_password_change')->default(false);
             $table->timestamps();
 
             $table->foreign('designation_id')

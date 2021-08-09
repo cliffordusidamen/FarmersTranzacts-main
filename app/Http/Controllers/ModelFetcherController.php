@@ -32,11 +32,13 @@ class ModelFetcherController extends Controller
             $modelCamelCase = Str::camel(Str::singular($modelSnakeCase));
             $className = "\\App\\Models\\{$modelCamelCase}";
             if (class_exists($className)) {
+                $fetchAll = strtolower($modelId) == 'all';
                 $whereMethod = is_array($modelId) && count($modelId) > 1
                     ? 'whereIn'
                     : 'where';
 
-                $findMethod = is_array($modelId) && count($modelId) > 1
+                $findMethod = $fetchAll
+                    || (is_array($modelId) && count($modelId) > 1)
                     ? 'get'
                     : 'first';
 
@@ -44,7 +46,11 @@ class ModelFetcherController extends Controller
                     ? (count($modelId) == 1 ? (int) array_shift($modelId) : $modelId)
                     : (int) $modelId;
 
-                $records[$modelSnakeCase] = (new $className)->$whereMethod('id', $methodArg)->$findMethod();
+                $recordBuilder = $fetchAll
+                    ? (new $className)
+                    : (new $className)->$whereMethod('id', $methodArg);
+
+                $records[$modelSnakeCase] = $recordBuilder->$findMethod();
             }
         }
 

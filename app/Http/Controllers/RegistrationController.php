@@ -75,7 +75,7 @@ class RegistrationController extends Controller
             $userData = $request->only([
                 'first_name', 'last_name', 'phone', 'email', 'password',
             ]);
-            $userData['designation_id'] = Designation::VENDOR_ID;
+            $userData['designation_id'] = Designation::SELLER_ID;
             $user = User::create($userData);
 
             $vendor = Vendor::create([

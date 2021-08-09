@@ -28,7 +28,7 @@ class AuthenticateLogin
         $designationNames = [
             Designation::STAFF_NAME,
             Designation::SHOPPER_NAME,
-            Designation::VENDOR_NAME,
+            Designation::SELLER_NAME,
         ];
         $rules = [
             'email' => 'required|string|min:5',

@@ -28,6 +28,7 @@ class UserResource extends JsonResource
                 ? null : Carbon::parse($this->email_verified_at)->toString(),
             'profile_photo' => $this->profile_photo_url,
             'is_active' => (bool) $this->is_active,
+            'is_admin' => (bool) $this->is_admin,
             'password_change_required' => (bool) $this->password_change_required,
             'designation' => $this->designation_id
                 ? $this->designation->name : null,
@@ -37,6 +38,9 @@ class UserResource extends JsonResource
             'department_section_id' => $this->department_section_id,
             'department_section' => $this->department_section_id
                 ? $this->departmentSection->name : null,
+            'role' => $this->roles_count
+                ? $this->roles->first()->only(['id', 'name'])
+                : null,
         ];
     }
 }

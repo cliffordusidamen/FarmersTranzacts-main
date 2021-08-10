@@ -46,7 +46,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($isSuperAdmin) {
             return [
-                'designation_id' => Designation::ADMIN_ID,
+                'designation_id' => null,
                 'is_super_admin' => $isSuperAdmin,
             ];
         });

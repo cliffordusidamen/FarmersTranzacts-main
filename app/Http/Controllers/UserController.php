@@ -33,7 +33,11 @@ class UserController extends Controller
     public function list($designation)
     {
         $searchText = trim(request()->query('q', ''));
-        $users = User::designated(Str::singular($designation))
+        $users = User::with([
+                'roles', 'designation', 'department', 'departmentSection',
+            ])
+            ->withCount('roles')
+            ->designated(Str::singular($designation))
             ->filterNameAndContact($searchText)
             ->orderByDesc('id')
             ->paginate(15);
@@ -60,63 +64,15 @@ class UserController extends Controller
      */
     public function storeStaff(Request $request)
     {
-        $data = $request->only([
-            'first_name', 'last_name', 'phone', 'email', 'gender',
-            'is_admin',
-            'department_id', 'department_section_id',
-            'line_1', 'line_2', 'city', 'state_id',
-            'role_id',
-        ]);
+        $data = $this->_getStaffRequestData();
 
-        $rules = [
-            'first_name' => ['required', 'string', 'min:3', 'max:20'],
-            'last_name' => ['required', 'string', 'min:3', 'max:20'],
-            'phone' => ['required', 'string', 'min:11', 'max:15', 'unique:users,phone'],
-            'email' => ['required', 'string', 'email', 'unique:users,email'],
-            'gender' => ['sometimes', 'nullable', Rule::in(User::GENDER_FEMALE, User::GENDER_MALE)],
-            'is_admin' => ['sometimes', 'nullable', 'boolean'],
-            'department_id' => ['sometimes', 'nullable', 'exists:departments,id'],
-            'department_section_id' => ['sometimes', 'nullable', 'exists:department_sections,id'],
-            'line_1' => ['required', 'string', 'min:5', 'max:100'],
-            'line_2' => ['sometimes', 'nullable', 'string', 'min:5', 'max:100'],
-            'city' => ['sometimes', 'nullable', 'string', 'min:5', 'max:100'],
-            'state_id' => ['sometimes', 'nullable', 'exists:states,id'],
-            'role_id' => ['sometimes', 'nullable', 'exists:roles,id'],
-        ];
+        $rules = $this->_getStaffValidationRules();
 
-        $data = Validator::make($data, $rules)->validate();
         $password = Str::random(8);
+        $data = Validator::make($data, $rules)->validate();
+        $data['password'] = $password;
 
-        $user = null;
-
-        DB::transaction(function() use ($data, $password, &$user) {
-            $user = User::create([
-                'password' => $password,
-                'designation_id' => Designation::STAFF_ID,
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'phone' => $data['phone'],
-                'email' => $data['email'],
-                'gender' => $data['gender'] ?? null,
-                'department_id' => $data['department_id'] ?? null,
-                'department_section_id' => $data['department_section_id'] ?? null,
-                'is_admin' => $data['is_admin'] ?? false,
-                'require_password_change' => true,
-            ]);
-
-            $user->address()->create([
-                'line_1' => $data['line_1'],
-                'line_2' => $data['line_2'] || null,
-                'city' => $data['city'] || null,
-                'state_id' => $data['state_id'],
-            ]);
-
-            if ($data['is_admin']) {
-                $role = Role::findOrFail($data['role_id']);
-                $user->assignRole($role->name);
-            }
-
-        });
+        $user = $this->_createOrUpdateStaff($data);
 
         if (!$user) {
             return response()->json([
@@ -126,6 +82,34 @@ class UserController extends Controller
         }
 
         //  To do: trigger event to send password to staff email
+
+        return response()->json(compact('user'));
+    }
+
+    /**
+     * Store a newly created staff in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStaff(Request $request, $id)
+    {
+        $user = User::findOrFail((int) $id);
+        $data = $this->_getStaffRequestData();
+
+        $rules = $this->_getStaffValidationRules((int) $id);
+
+        $data = Validator::make($data, $rules)->validate();
+
+        $user = $this->_createOrUpdateStaff($data, $user);
+
+        if (!$user) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Staff information not saved! Please, try again.'
+            ]);
+        }
 
         return response()->json(compact('user'));
     }
@@ -162,5 +146,120 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Read expected keys from the request for creating/updating staff details
+     * 
+     * @return array
+     */
+    public function _getStaffRequestData(): array
+    {
+        return request()->only([
+            'first_name', 'last_name', 'phone', 'email', 'gender',
+            'is_admin',
+            'department_id', 'department_section_id',
+            'line_1', 'line_2', 'city', 'state_id',
+            'role_id',
+        ]);
+    }
+
+    /**
+     * Get validation rules for staff creation/edit request
+     * 
+     * @param  int|null  $userId
+     * @return array
+     */
+    public function _getStaffValidationRules(?int $userId = null): array
+    {
+        $phoneUniqueRule = Rule::unique('users', 'phone');
+        $emailUniqueRule = Rule::unique('users', 'email');
+
+        if (!is_null($userId)) {
+            $phoneUniqueRule->ignore((int) $userId);
+            $emailUniqueRule->ignore((int) $userId);
+        }
+
+        $rules = [
+            'first_name' => ['required', 'string', 'min:3', 'max:20'],
+            'last_name' => ['required', 'string', 'min:3', 'max:20'],
+            'phone' => ['required', 'string', 'min:11', 'max:15', $phoneUniqueRule],
+            'email' => ['required', 'string', 'email', $emailUniqueRule],
+            'gender' => ['sometimes', 'nullable', Rule::in(User::GENDER_FEMALE, User::GENDER_MALE)],
+            'is_admin' => ['sometimes', 'nullable', 'boolean'],
+            'department_id' => ['sometimes', 'nullable', 'exists:departments,id'],
+            'department_section_id' => ['sometimes', 'nullable', 'exists:department_sections,id'],
+            'line_1' => ['required', 'string', 'min:5', 'max:100'],
+            'line_2' => ['sometimes', 'nullable', 'string', 'min:5', 'max:100'],
+            'city' => ['sometimes', 'nullable', 'string', 'min:3', 'max:100'],
+            'state_id' => ['sometimes', 'nullable', 'exists:states,id'],
+            'role_id' => ['sometimes', 'nullable', 'exists:roles,id'],
+        ];
+        
+        return $rules;
+    }
+
+    /**
+     * Saves (create/update) staff record in the database
+     * 
+     * @param  array  $data
+     * @param  User|null  $user
+     * @return User|bool
+     */
+    private function _createOrUpdateStaff(array $data, ?User $user = null)
+    {
+        $isCreate = is_null($user);
+        $user = $user ?? new User();
+        $savedUser = false;
+
+        DB::transaction(function() use ($data, $isCreate, &$savedUser, &$user) {
+            $dataToSave = [
+                'designation_id' => Designation::STAFF_ID,
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'phone' => $data['phone'],
+                'email' => $data['email'],
+                'gender' => $data['gender'] ?? null,
+                'department_id' => $data['department_id'] ?? null,
+                'department_section_id' => $data['department_section_id'] ?? null,
+                'is_admin' => $data['is_admin'] ?? false,
+            ];
+
+            if (!empty($data['password'])) {
+                $dataToSave['password'] = $data['password'];
+                $dataToSave['require_password_change'] = true;
+            }
+
+            $user->forceFill($dataToSave);
+            $user->save();
+
+            $addressData = [
+                'line_1' => $data['line_1'],
+                'line_2' => $data['line_2'] ?? null,
+                'city' => $data['city'] ?? null,
+                'state_id' => $data['state_id'],
+            ];
+
+            $addressSaved = $isCreate
+                ? $user->address()->make($addressData)->save()
+                : $user->address->forceFill($addressData)->save();
+
+            if (
+                !$isCreate
+                && $user->roles()->count()
+                && $user->roles->first()->id != $data['role_id']
+            ){
+                $user->removeRole($user->roles->first()->name);
+            }
+
+            if (!$data['is_admin']) {
+                $role = Role::findOrFail($data['role_id']);
+                $user->assignRole($role->name);
+            }
+
+            $savedUser = true;
+        });
+
+        return $savedUser ? $user : false;
     }
 }

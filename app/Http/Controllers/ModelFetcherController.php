@@ -27,11 +27,25 @@ class ModelFetcherController extends Controller
         }
 
         $records = [];
-        foreach ($data['models'] as $modelSnakeCase => $modelId) {
+        foreach ($data['models'] as $modelSnakeCase => $modelRequest) {
+            $modelId = is_array($modelRequest)
+                ? $modelRequest['id']
+                : $modelRequest;
+
             $records[$modelSnakeCase] = null;
             $modelCamelCase = Str::camel(Str::singular($modelSnakeCase));
             $className = "\\App\\Models\\{$modelCamelCase}";
             if (class_exists($className)) {
+                $modelObj = new $className;
+
+                $modelRelationships = collect();
+
+                if (is_array($modelRequest) && isset($modelRequest['with'])) {
+                    $modelRelationships = collect(explode(',', $modelRequest['with']))->map(
+                        fn($relation) => trim($relation)
+                    );
+                }
+
                 $fetchAll = strtolower($modelId) == 'all';
                 $whereMethod = is_array($modelId) && count($modelId) > 1
                     ? 'whereIn'
@@ -47,8 +61,12 @@ class ModelFetcherController extends Controller
                     : (int) $modelId;
 
                 $recordBuilder = $fetchAll
-                    ? (new $className)
-                    : (new $className)->$whereMethod('id', $methodArg);
+                    ? $modelObj
+                    : $modelObj->$whereMethod('id', $methodArg);
+
+                if (count($modelRelationships)) {
+                    $recordBuilder->with($modelRelationships->toArray());
+                }
 
                 $records[$modelSnakeCase] = $recordBuilder->$findMethod();
             }

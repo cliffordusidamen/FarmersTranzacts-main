@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\StaffRegistrationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -202,5 +203,15 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->orWhere('email', 'LIKE', "%{$searchText}%")
                 ->orWhere('phone', 'LIKE', "%{$searchText}%");
         });
+    }
+
+    /**
+     * Send email for registration notification with auto-generated password
+     * 
+     * @return void
+     */
+    public function sendStaffWelcomeNotification($password)
+    {
+        $this->notify(new StaffRegistrationNotification($password));
     }
 }

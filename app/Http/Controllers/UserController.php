@@ -81,7 +81,7 @@ class UserController extends Controller
             ]);
         }
 
-        //  To do: trigger event to send password to staff email
+        $user->sendStaffWelcomeNotification($password);
 
         return response()->json(compact('user'));
     }

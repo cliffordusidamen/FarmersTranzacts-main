@@ -15,6 +15,15 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     /**
+     * Create instance of the controller
+     */
+    public function __construct()
+    {
+        // To do: add middleware for adminstrators only
+        $this->middleware('auth:sanctum');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

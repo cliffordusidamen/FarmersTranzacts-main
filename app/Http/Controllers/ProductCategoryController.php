@@ -32,12 +32,6 @@ class ProductCategoryController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        // if ($productCategories->count()) {
-        //     $productCategories->map(function($department, $deptKey) {
-        //         $department->sections->map(fn ($section, $key) => $section->loadCount('products'));
-        //     });
-        // }
-
         return response()->json(compact('productCategories'));
     }
 

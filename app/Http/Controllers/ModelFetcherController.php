@@ -9,6 +9,15 @@ use Illuminate\Support\Str;
 class ModelFetcherController extends Controller
 {
     /**
+     * Create instance of the controller
+     */
+    public function __construct()
+    {
+        // To do: add middleware for adminstrators only
+        $this->middleware('auth:sanctum');
+    }
+
+    /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request

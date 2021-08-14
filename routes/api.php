@@ -35,6 +35,16 @@ Route::post('/logout', function (Request $request) {
 
 /*
 |-------------------------------------------------------------------------
+| Dashboard route
+|-------------------------------------------------------------------------
+*/
+Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
+    ->name('dashboard')
+    ->middleware(['auth:sanctum']);
+
+
+/*
+|-------------------------------------------------------------------------
 | Departments routes
 |-------------------------------------------------------------------------
 */

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Designation;
+use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -53,6 +55,20 @@ class DashboardController extends Controller
     public function _admin()
     {
         $showCategories = false;
+
+        // Count shoppers, and sellers
+        $shoppersCount = User::designated(Designation::SHOPPER_ID)->count();
+        $sellersCount = User::designated(Designation::SELLER_ID)->count();
+        // count orders, with pending
+        // count products with pending approval
+
+        $responseData = compact(
+            'shoppersCount', 'sellersCount',
+        );
+
+        if (request()->wantsJson()) {
+            return response()->json($responseData);
+        }
         return Inertia::render('Dashboards/AdminDashboard', compact(
             'showCategories'
         ));

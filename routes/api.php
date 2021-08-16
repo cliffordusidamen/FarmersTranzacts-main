@@ -40,7 +40,7 @@ Route::post('/logout', function (Request $request) {
 */
 Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
     ->name('dashboard')
-    ->middleware(['auth:sanctum']);
+    ->middleware(['auth:sanctum', 'admin_app']);
 
 
 /*

@@ -88,6 +88,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Relationship: The vendors that belong to the user.
+     */
+    public function unapprovedVendors(): BelongsToMany
+    {
+        return $this->vendors()->where('approval_status', Vendor::STATUS_PENDING);
+    }
+
+    /**
      * Relationship: The designation of the user.
      */
     public function designation(): BelongsTo

@@ -118,3 +118,14 @@ Route::prefix('profile')->name('profile.')->group(function() {
     Route::post('update-vendor-profile', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('update_vendor_profile');
     Route::delete('destroy-vendor-logo', [\App\Http\Controllers\ProfileController::class, 'destroyVendorLogo'])->name('destroy_vendor_logo');
 });
+
+
+Route::get('/abc', function() {
+    $record = \App\Models\User::has('vendors')
+        ->with(['unapprovedVendors'])
+        ->paginate();
+
+    return response()->json($record);
+
+    dd($record);
+});

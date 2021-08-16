@@ -16,7 +16,7 @@ class CreateAddressesTable extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->unsignedInteger('vendor_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedMediumInteger('state_id')->nullable();
             $table->string('line_1', 255);

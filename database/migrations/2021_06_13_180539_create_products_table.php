@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('subcategory_id')->nullable();
-            $table->unsignedInteger('store_id');
+            $table->unsignedInteger('vendor_id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
@@ -26,9 +26,9 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('in_stock')->default(0);
             $table->timestamps();
 
-            $table->foreign('store_id')
+            $table->foreign('vendor_id')
                 ->references('id')
-                ->on('stores')
+                ->on('vendors')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

@@ -16,7 +16,7 @@ class CreateUserVendorTable extends Migration
         Schema::create('user_vendor', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedInteger('vendor_id');
             $table->timestamps();
 
             $table->foreign('user_id')

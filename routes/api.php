@@ -86,6 +86,7 @@ Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 |-------------------------------------------------------------------------
 */
 Route::prefix('users')->name('users.')->group(function() {
+    Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
     Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
     Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
     Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);

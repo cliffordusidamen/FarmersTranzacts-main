@@ -15,7 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             'id' => $this->id,
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
@@ -42,5 +42,11 @@ class UserResource extends JsonResource
                 ? $this->roles->first()->only(['id', 'name'])
                 : null,
         ];
+
+        if ($this->relationLoaded('vendors')) {
+            $data['vendor'] = $this->vendors->first() ?? [];
+        }
+
+        return $data;
     }
 }

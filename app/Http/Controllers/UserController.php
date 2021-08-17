@@ -42,11 +42,19 @@ class UserController extends Controller
     public function list($designation)
     {
         $searchText = trim(request()->query('q', ''));
-        $users = User::with([
-                'roles', 'designation', 'department', 'departmentSection',
-            ])
+        $searchDesignation = Str::singular($designation);
+        $relations = [
+            'roles', 'designation', 'department', 'departmentSection',
+        ];
+
+        if (strtolower($searchDesignation) == Designation::SELLER_NAME) {
+            $relations[] = 'vendors';
+            $relations[] = 'vendors.productCategories';
+        }
+
+        $users = User::with($relations)
             ->withCount('roles')
-            ->designated(Str::singular($designation))
+            ->designated($searchDesignation)
             ->filterNameAndContact($searchText)
             ->orderByDesc('id')
             ->paginate(15);

@@ -25,7 +25,6 @@ class HandleAdminAppRequests
         //     'extra_data' => 'Hello, From middlewatre!'
         // ]);
         // $response->setData($responseData);
-        Log::info($response);
         return $response;
     }
 

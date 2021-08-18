@@ -109,3 +109,11 @@ Route::get('/test-model-list', function () {
 
     response()->json(getModelNames());
 });
+
+
+/*
+|-------------------------------------------------------------------------
+| Vendors routes
+|-------------------------------------------------------------------------
+*/
+Route::apiResource('vendors', \App\Http\Controllers\VendorController::class);

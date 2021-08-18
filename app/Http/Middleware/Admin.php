@@ -18,7 +18,7 @@ class Admin
     {
         if (
             !auth()->check()
-            || !(userIsAdminRole() || userIsSuperAdmin())
+            || !(userIsAdminDesignation() || userIsSuperAdmin())
         ) {
             return redirect()->route('dashboard');
         }

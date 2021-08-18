@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -168,5 +170,31 @@ class Vendor extends Model
     protected function defaultLogoUrl()
     {
         return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
+    }
+
+    /**
+     * filter by name, email and phone
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string $searchText
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchByText(Builder $query, $searchText): Builder
+    {
+        $searchText = trim($searchText);
+
+        if (!isset($searchText[2])) {
+            return $query;
+        }
+
+        return $query->where(function(Builder $q) use ($searchText) {
+            $q->where('name', 'LIKE', "%{$searchText}%")
+                ->orWhereHas('users', function(Builder $query) use ($searchText) {
+                    $query->where(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$searchText}%")
+                        ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$searchText}%")
+                        ->orWhere('email', 'LIKE', "%{$searchText}%")
+                        ->orWhere('phone', 'LIKE', "%{$searchText}%");
+                });
+        });
     }
 }

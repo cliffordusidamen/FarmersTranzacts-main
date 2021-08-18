@@ -17,7 +17,7 @@ class VendorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth.admin');
+        $this->middleware(['auth:sanctum', 'admin_app']);
     }
     /**
      * Display a listing of the resource.
@@ -26,11 +26,19 @@ class VendorController extends Controller
      */
     public function index()
     {
+        $searchText = trim(request()->query('q', ''));
         $vendors = Vendor::with([
             'users', 'address', 'address.state',
             'productCategories',
-        ])->paginate(10);
-        return Inertia::render('Vendors/Index', compact('vendors'));
+        ])
+        ->searchByText($searchText)
+        ->paginate(10);
+
+        if (request()->wantsJson()) {
+            return response()->json(compact('vendors'));
+        }
+
+        return Inertia::render('Vendors/Index', );
     }
 
     /**
@@ -118,6 +126,10 @@ class VendorController extends Controller
         ])->findOrFail((int) $id);
 
         $vendorProductCategories = $vendor->productCategories->pluck('name', 'id');
+
+        if (request()->wantsJson()) {
+            return response()->json(compact('vendor', 'vendorProductCategories'));
+        }
 
         return Inertia::render('Vendors/Show', compact('vendor', 'vendorProductCategories'));
     }

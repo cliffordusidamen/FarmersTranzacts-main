@@ -116,4 +116,7 @@ Route::get('/test-model-list', function () {
 | Vendors routes
 |-------------------------------------------------------------------------
 */
+Route::prefix('vendors')->name('vendors.')->group(function() {
+    Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
+});
 Route::apiResource('vendors', \App\Http\Controllers\VendorController::class);

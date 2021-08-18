@@ -93,6 +93,16 @@ class Vendor extends Model
     }
 
     /**
+     * Filter, limit to records awaiting approval only
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     */
+    public function scopeAwaitingApproval(Builder $q): Builder
+    {
+        return $q->where('approval_status', self::STATUS_PENDING);
+    }
+
+    /**
      * Determine if vendor is disapproved
      * 
      * @return bool

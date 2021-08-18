@@ -32,13 +32,16 @@ class VendorController extends Controller
             'productCategories',
         ])
         ->searchByText($searchText)
+        ->orderByDesc('id')
         ->paginate(10);
 
+        
         if (request()->wantsJson()) {
-            return response()->json(compact('vendors'));
+            $approvalStatuses = Vendor::getApprovalStatuses(true);
+            return response()->json(compact('vendors', 'approvalStatuses'));
         }
 
-        return Inertia::render('Vendors/Index', );
+        return Inertia::render('Vendors/Index', compact('vendors'));
     }
 
     /**
@@ -125,10 +128,11 @@ class VendorController extends Controller
             'users', 'address', 'address.state',
         ])->findOrFail((int) $id);
 
-        $vendorProductCategories = $vendor->productCategories->pluck('name', 'id');
-
+        $approvalStatuses = Vendor::getApprovalStatuses(true);
+        
         if (request()->wantsJson()) {
-            return response()->json(compact('vendor', 'vendorProductCategories'));
+            $vendorProductCategories = $vendor->productCategories->pluck('name', 'id');
+            return response()->json(compact('vendor', 'vendorProductCategories', 'approvalStatuses'));
         }
 
         return Inertia::render('Vendors/Show', compact('vendor', 'vendorProductCategories'));

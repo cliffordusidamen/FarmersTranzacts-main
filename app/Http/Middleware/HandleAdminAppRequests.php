@@ -35,9 +35,9 @@ class HandleAdminAppRequests
      */
     private function _attachUnapprovedSellersReg(&$response)
     {
-        $unapproved_vendors = \App\Models\User::has('vendors')
-            ->with(['unapprovedVendors'])
-            ->paginate(6)
+        $unapproved_vendors = \App\Models\Vendor::awaitingApproval()
+            ->with(['users'])
+            ->paginate(5)
             ->toArray();
 
         $responseData = array_merge($response->getData(true), compact('unapproved_vendors'));

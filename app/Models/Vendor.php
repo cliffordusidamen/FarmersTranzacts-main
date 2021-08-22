@@ -22,19 +22,27 @@ class Vendor extends Model
 
     const LOGO_STORAGE_PATH = 'public/vendor-logos';
 
+    const OWNERSHIP_COMPANY = 'company';
+    const OWNERSHIP_INDIVIDUAL = 'individual';
+
     /**
      * Mass assignable fields
      * 
      * @var array
      */
     protected $fillable = [
-        'name',
+        'shop_name',
+        'business_name',
+        'tin',
+        'is_vat_registered',
         'slug',
         'phone',
         'logo_image_path',
-        'is_individual',
+        'ownership_type',
         'is_approved',
         'reject_reason',
+        'entity_country_id',
+        'shipping_country_id',
     ];
 
     /**
@@ -69,14 +77,14 @@ class Vendor extends Model
      * @param  string  $value
      * @return void
      */
-    public function setNameAttribute($value)
+    public function setShopNameAttribute($value)
     {
-        $this->attributes['name'] = $value;
+        $this->attributes['shop_name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 
     /**
-     * Get list of roles
+     * Get list of statuses
      *
      * @param  bool $asKeys
      * @return array
@@ -87,6 +95,22 @@ class Vendor extends Model
             self::STATUS_PENDING => ucwords(self::STATUS_PENDING),
             self::STATUS_APPROVED => ucwords(self::STATUS_APPROVED),
             self::STATUS_DISAPPROVED => ucwords(self::STATUS_DISAPPROVED),
+        ];
+
+        return $asKeys ? $types : array_keys($types);
+    }
+
+    /**
+     * Get list of ownership types
+     *
+     * @param  bool $asKeys
+     * @return array
+     */
+    public static function getOwnershipTypes(bool $asKeys = false): array
+    {
+        $types = [
+            self::OWNERSHIP_COMPANY => ucwords(self::OWNERSHIP_COMPANY),
+            self::OWNERSHIP_INDIVIDUAL => ucwords(self::OWNERSHIP_INDIVIDUAL),
         ];
 
         return $asKeys ? $types : array_keys($types);

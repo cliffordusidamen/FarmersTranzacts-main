@@ -19,9 +19,11 @@ class CreateAddressesTable extends Migration
             $table->unsignedInteger('vendor_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedMediumInteger('state_id')->nullable();
+            $table->unsignedSmallInteger('country_id')->nullable();
             $table->string('line_1', 255);
             $table->string('line_2', 255)->nullable();
             $table->string('city', 50)->nullable();
+            $table->string('postal_code', 25)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -39,6 +41,12 @@ class CreateAddressesTable extends Migration
             $table->foreign('state_id')
                 ->references('id')
                 ->on('states')
+                ->onUpdate('cascade')
+                ->onDelete('set null');
+
+            $table->foreign('country_id')
+                ->references('id')
+                ->on('countries')
                 ->onUpdate('cascade')
                 ->onDelete('set null');
         });

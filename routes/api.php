@@ -117,3 +117,17 @@ Route::get('/test-model-list', function () {
 |-------------------------------------------------------------------------
 */
 Route::apiResource('vendors', \App\Http\Controllers\VendorController::class);
+
+/*
+ |-----------------------------------------------------------------------------
+ | Registration routes
+ |-----------------------------------------------------------------------------
+ */
+Route::middleware(['guest'])->prefix('registration')->name('registration.')->group(function() {
+
+    Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm'])->name('shopper');
+    Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper'])->name('save_shopper');
+
+    Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm'])->name('vendor');
+    Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor'])->name('save_vendor');
+});

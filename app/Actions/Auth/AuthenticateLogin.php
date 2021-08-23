@@ -25,9 +25,7 @@ class AuthenticateLogin
     public function handle(Request $request)
     {
         $data = $request->only(['email', 'password', 'as_designation']);
-        
 
-        Log::info('Success login ', $data);
         $designationNames = [
             Designation::STAFF_NAME,
             Designation::SHOPPER_NAME,
@@ -53,7 +51,6 @@ class AuthenticateLogin
         ) {
             return false;
         }
-
         if (!$user->is_active) {
             throw ValidationException::withMessages([
                 'email' => ['Account has been deactivated. Contact Admin'],

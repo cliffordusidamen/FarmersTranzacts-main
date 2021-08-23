@@ -115,6 +115,17 @@ class RegistrationController extends Controller
 
         });
 
+        if ($request->wantsJson()) {
+            if (!$user) {
+                return response()->json([
+                    'failed' => true,
+                ]);
+            }
+
+            event(new Registered($user));
+            return response()->json(compact('user'));
+        }
+
         if (!$user) {
             flashMessage('warning', 'Registration failed! Please, try again.');
             return back()->withInput();

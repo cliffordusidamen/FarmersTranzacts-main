@@ -35,6 +35,10 @@ class HandleAdminAppRequests
      */
     private function _attachUnapprovedSellersReg(&$response)
     {
+        if (!method_exists($response, 'getData')) {
+            return;
+        }
+
         $unapproved_vendors = \App\Models\Vendor::awaitingApproval()
             ->with(['users'])
             ->paginate(5)

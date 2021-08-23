@@ -37,7 +37,7 @@ class StoreVendorRequest extends FormRequest
             'shop_name' => ['required', 'max:150', 'unique:vendors,shop_name'],
             'business_name' => ['required', 'max:150', 'unique:vendors,business_name'],
             'entity_country_id' => ['nullable', 'exists:countries,id'],
-            'tin' => ['required', 'min:5', 'max:150', 'unique:vendors,tin'],
+            'tin' => ['min:5', 'max:150', 'unique:vendors,tin'],
             'ownership_type' => ['required',Rule::in(Vendor::getOwnershipTypes())],
             'address_line_1' => ['required', 'min:5', 'max:50'],
             'address_line_2' => ['nullable', 'min:5', 'max:50'],

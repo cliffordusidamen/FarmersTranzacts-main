@@ -42,9 +42,15 @@ class DashboardController extends Controller
         $approvalPending = $user_vendor->approval_status == Vendor::STATUS_PENDING;
         $approvalDisapproved = $user_vendor->approval_status == Vendor::STATUS_DISAPPROVED;
 
-        return Inertia::render('Dashboards/VendorDashboard', compact(
+        $responseData = compact(
             'showCategories', 'user_vendor', 'approvalPending', 'approvalDisapproved'
-        ));
+        );
+
+        if (request()->wantsJson()) {
+            return response()->json($responseData);
+        }
+
+        return Inertia::render('Dashboards/VendorDashboard', $responseData);
     }
 
     /**

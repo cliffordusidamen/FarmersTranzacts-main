@@ -220,5 +220,17 @@ class Vendor extends Model
                         ->orWhere('phone', 'LIKE', "%{$searchText}%");
                 });
         });
+
+    }
+
+    /**
+     * filter by status(awaiting approval only)
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAwaitingApproval(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_PENDING);
     }
 }

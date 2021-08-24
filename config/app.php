@@ -53,6 +53,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'seller_app_url' => env('SELLER_APP_URL'),
+    'admin_app_url' => env('ADMIN_APP_URL'),
 
     'asset_url' => env('ASSET_URL', null),
 

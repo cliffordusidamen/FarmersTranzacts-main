@@ -17,7 +17,7 @@ class VendorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:sanctum', 'admin_app']);
+        $this->middleware(['auth:sanctum', 'frontend']);
     }
     /**
      * Display a listing of the resource.

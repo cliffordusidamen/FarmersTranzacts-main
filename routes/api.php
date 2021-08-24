@@ -15,11 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request $request) {
     $user = $request->user();
     $user->profile_photo_url;
     return $user;
 });
+
+/**
+ * Resend Email Verification
+ */
+Route::middleware(['auth:sanctum', 'throttle:6,1', 'frontend'])
+    ->post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json();
+    });
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();

@@ -15,7 +15,7 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware(['auth', 'verified', 'frontend']);
 
         $this->middleware('auth.vendor')->only([
             'showEditDisapprovedVendorForm',

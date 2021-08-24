@@ -16,7 +16,7 @@ class DepartmentController extends Controller
     public function __construct()
     {
         // To do: add middleware for adminstrators only
-        $this->middleware(['auth:sanctum', 'admin_app']);
+        $this->middleware(['auth:sanctum', 'frontend']);
     }
 
     /**

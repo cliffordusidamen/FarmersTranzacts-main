@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,16 +21,6 @@ Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request 
     $user->profile_photo_url;
     return $user;
 });
-
-/**
- * Resend Email Verification
- */
-Route::middleware(['auth:sanctum', 'throttle:6,1', 'frontend'])
-    ->post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-
-        return response()->json();
-    });
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -141,3 +132,26 @@ Route::middleware(['guest'])->prefix('registration')->name('registration.')->gro
     Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm'])->name('vendor');
     Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor'])->name('save_vendor');
 });
+
+
+
+
+/*
+ |-----------------------------------------------------------------------------
+ | Resend Email Verification ROutes
+ |-----------------------------------------------------------------------------
+ */
+Route::middleware(['auth:sanctum', 'throttle:6,1', 'frontend'])
+    ->post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json();
+    });
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return response()->json([
+        'user' => $request->user(),
+    ]);
+})->middleware(['auth:sanctum', 'signed']);

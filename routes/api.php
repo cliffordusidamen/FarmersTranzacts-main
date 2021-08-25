@@ -143,6 +143,9 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     $request->fulfill();
 
     return response()->json([
-        'user' => \App\Models\User::find($request->user()->getKey()),
+        'user' => \App\Models\User::with([
+            'vendors', 'vendors.productCategories', 'vendors.address'
+        ])
+            ->find($request->user()->getKey()),
     ], 202);
 })->middleware(['auth:sanctum']);

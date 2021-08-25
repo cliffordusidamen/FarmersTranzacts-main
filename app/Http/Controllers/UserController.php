@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
+use App\Models\Department;
+use App\Models\DepartmentSection;
 use App\Models\Designation;
 use App\Models\Role;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -71,6 +74,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Fetch data needed to render form for staff
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function addStaff()
+    {
+        $states = State::all();
+        $departments = Department::all();
+        $department_sections = DepartmentSection::all();
+        $roles = Role::all();
+
+        return response()->json(compact(
+            'states', 'departments', 'department_sections', 'roles'
+        ));
     }
 
     /**

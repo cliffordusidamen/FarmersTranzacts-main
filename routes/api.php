@@ -15,24 +15,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request $request) {
     $user = $request->user();
     $user->profile_photo_url;
     return $user;
 });
 
-Route::post('/logout', function (Request $request) {
-    Auth::logout();
-    if (auth()->check()) {
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-    }
-
-    return response()->json();
-});
+Route::post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
+Route::middleware(['auth:sanctum'])->post('/logout', [\App\Http\Controllers\AuthFrontendController::class, 'logout']);
 
 /*
 |-------------------------------------------------------------------------
@@ -41,7 +31,7 @@ Route::post('/logout', function (Request $request) {
 */
 Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
     ->name('dashboard')
-    ->middleware(['auth:sanctum', 'admin_app']);
+    ->middleware(['auth:sanctum', 'frontend']);
 
 
 /*

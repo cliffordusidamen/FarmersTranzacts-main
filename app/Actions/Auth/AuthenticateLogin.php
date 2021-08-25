@@ -24,7 +24,12 @@ class AuthenticateLogin
      */
     public function handle(Request $request)
     {
-        $data = $request->only(['email', 'password', 'as_designation']);
+        $data = $request->only([
+            'email',
+            'password',
+            'as_designation',
+            'device_name',
+        ]);
 
         $designationNames = [
             Designation::STAFF_NAME,
@@ -34,7 +39,8 @@ class AuthenticateLogin
         $rules = [
             'email' => 'required|string|min:5',
             'password' => 'required|string|min:6',
-            'as_designation' => ['sometimes', 'string', Rule::in($designationNames)],
+            'as_designation' => ['required', 'string', Rule::in($designationNames)],
+            'device_name' => 'required',
         ];
         $messages = [
             'email.min' => 'Invalid email address',
@@ -57,12 +63,14 @@ class AuthenticateLogin
             ]);
         }
 
-        $isMatchingDesignation = empty($request->as_designation)
+        $isMatchingDesignation = $user->is_super_admin
             || strtolower($user->designation->name) == $request->as_designation;
 
-        if (!$user->is_super_admin && !$isMatchingDesignation) {
+        $isStaffLogin = $request->input('as_designation') == Designation::STAFF_NAME;
+
+        if (!$isStaffLogin && !$user->is_super_admin && !$isMatchingDesignation) {
             throw ValidationException::withMessages([
-                'email' => ['Access denied!'],
+                'email' => ['Invalid username or password!'],
             ]);
         }
 

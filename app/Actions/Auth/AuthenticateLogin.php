@@ -66,9 +66,9 @@ class AuthenticateLogin
         $isMatchingDesignation = $user->is_super_admin
             || strtolower($user->designation->name) == $request->as_designation;
 
-        $isStaffLogin = $request->input('as_designation') == Designation::STAFF_NAME;
+        $loginAsStaff = $request->input('as_designation') == Designation::STAFF_NAME;
 
-        if (!$isStaffLogin && !$user->is_super_admin && !$isMatchingDesignation) {
+        if ((!$loginAsStaff && $user->is_super_admin) || !$isMatchingDesignation) {
             throw ValidationException::withMessages([
                 'email' => ['Invalid username or password!'],
             ]);

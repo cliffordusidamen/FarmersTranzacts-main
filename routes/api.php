@@ -107,7 +107,9 @@ Route::get('/test-model-list', function () {
 |-------------------------------------------------------------------------
 */
 Route::prefix('vendors')->name('vendors.')->middleware(['auth:sanctum', 'frontend'])->group(function() {
-    Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
+    Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus']);
+    Route::get('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedVendorForm']);
+    Route::post('save-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('update_vendor_profile');
 });
 Route::apiResource('vendors', \App\Http\Controllers\VendorController::class)->middleware(['auth:sanctum', 'frontend']);
 

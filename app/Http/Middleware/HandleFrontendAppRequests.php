@@ -47,7 +47,7 @@ class HandleFrontendAppRequests
         $user->profile_photo_url;
         $user->vendorData = $user->vendor_data;
 
-        $responseData = array_merge($response->getData(true), $user);
+        $responseData = array_merge($response->getData(true), $user->toArray());
         $response->setData($responseData);
     }
 

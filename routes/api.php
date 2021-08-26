@@ -106,7 +106,10 @@ Route::get('/test-model-list', function () {
 | Vendors routes
 |-------------------------------------------------------------------------
 */
-Route::apiResource('vendors', \App\Http\Controllers\VendorController::class);
+Route::prefix('vendors')->name('vendors.')->middleware(['auth:sanctum', 'frontend'])->group(function() {
+    Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
+});
+Route::apiResource('vendors', \App\Http\Controllers\VendorController::class)->middleware(['auth:sanctum', 'frontend']);
 
 /*
  |-----------------------------------------------------------------------------

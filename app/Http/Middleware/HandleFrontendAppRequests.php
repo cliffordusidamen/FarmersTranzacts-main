@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Designation;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -42,13 +43,11 @@ class HandleFrontendAppRequests
             return;
         }
 
-        $vendorData = $request->user()
-            ->vendors()
-            ->with(['productCategories', 'address'])
-            ->first()
-            ->toArray();
+        $user = User::find($request->user()->getKey());
+        $user->profile_photo_url;
+        $user->vendorData = $user->vendor_data;
 
-        $responseData = array_merge($response->getData(true), compact('vendorData'));
+        $responseData = array_merge($response->getData(true), $user);
         $response->setData($responseData);
     }
 
@@ -67,12 +66,15 @@ class HandleFrontendAppRequests
             return;
         }
 
+        $user = User::find($request->user()->getKey());
+        $user->profile_photo_url;
+
         $unapproved_vendors = \App\Models\Vendor::awaitingApproval()
             ->with(['users'])
             ->paginate(5)
             ->toArray();
 
-        $responseData = array_merge($response->getData(true), compact('unapproved_vendors'));
+        $responseData = array_merge($user->toArray(), $response->getData(true), compact('unapproved_vendors'));
         $response->setData($responseData);
     }
 }

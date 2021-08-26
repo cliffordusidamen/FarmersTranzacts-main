@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request $request) {
-    $user = $request->user();
-    $user->profile_photo_url;
-    return $user;
+    return response()->json();
 });
 
 Route::post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
@@ -142,10 +140,5 @@ Route::middleware(['auth:sanctum', 'throttle:6,1', 'frontend'])
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
-    return response()->json([
-        'user' => \App\Models\User::with([
-            'vendors', 'vendors.productCategories', 'vendors.address'
-        ])
-            ->find($request->user()->getKey()),
-    ], 202);
-})->middleware(['auth:sanctum']);
+    return response()->json([], 202);
+})->middleware(['auth:sanctum', 'frontend']);

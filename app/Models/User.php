@@ -171,6 +171,20 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Get vendor information of this user
+     * 
+     * @return \App\Models\Vendor|null
+     */
+    public function getVendorDataAttribute()
+    {
+        $vendorData = $this->vendors()
+            ->with(['productCategories', 'address'])
+            ->first();
+
+        return $vendorData;
+    }
+
+    /**
      * filter by designation
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query

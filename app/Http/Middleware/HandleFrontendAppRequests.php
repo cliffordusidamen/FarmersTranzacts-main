@@ -66,15 +66,29 @@ class HandleFrontendAppRequests
             return;
         }
 
+
+
         $user = User::find($request->user()->getKey());
         $user->profile_photo_url;
+
+        $permissions = [];
+
+        if (!$user->is_super_admin) {
+            $permissions = $user->roles()
+                ->where('is_active', true)
+                ->first()->permissions->mapWithKeys(fn ($permission, $i) => (
+                    [$permission['name'] => $permission['id']]
+                ));
+        }
 
         $unapproved_vendors = \App\Models\Vendor::awaitingApproval()
             ->with(['users'])
             ->paginate(5)
             ->toArray();
 
-        $responseData = array_merge($user->toArray(), $response->getData(true), compact('unapproved_vendors'));
+        $responseData = array_merge($user->toArray(), $response->getData(true), compact(
+            'unapproved_vendors', 'permissions'
+        ));
         $response->setData($responseData);
     }
 }

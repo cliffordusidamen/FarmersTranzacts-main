@@ -115,7 +115,11 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        $department = Department::withCount('users')->findOrFail((int) $id);
+        $department = Department::withCount('users')->find((int) $id);
+
+        if (!$department) {
+            return response()->json(['success' => true]);
+        }
 
         if ($department->users_count) {
             throw ValidationException::withMessages([

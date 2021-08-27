@@ -77,6 +77,30 @@ class UserController extends Controller
     }
 
     /**
+     * Get data needed for rendering staff form
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editStaff($id)
+    {
+        $user= User::with(['address', 'roles'])
+            ->designated(Designation::STAFF_NAME)
+            ->where('id', (int) $id)
+            ->firstOrFail();
+
+        $states = State::all();
+        $departments = Department::all();
+        $department_sections = DepartmentSection::all();
+        $roles = Role::all();
+
+        return response()->json(compact(
+            'states', 'departments', 'department_sections', 'roles',
+            'user'
+        ));
+    }
+
+    /**
      * Fetch data needed to render form for staff
      * 
      * @return \Illuminate\Http\Response

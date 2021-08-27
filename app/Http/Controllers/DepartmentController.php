@@ -72,6 +72,7 @@ class DepartmentController extends Controller
     public function show($id)
     {
         $department = Department::with('sections')
+            ->withCount('users')
             ->findOrFail((int) $id);
         
         if ($department->sections->count()) {
@@ -114,7 +115,16 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $department = Department::withCount('users')->findOrFail((int) $id);
+
+        if ($department->users_count) {
+            throw ValidationException::withMessages([
+                'message' => 'Cannot delete department with people!',
+            ]);
+        }
+
+        $success = $department->delete();
+        return response()->json(compact('success'));
     }
 
     /**

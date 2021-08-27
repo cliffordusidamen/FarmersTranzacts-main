@@ -39,6 +39,7 @@ Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
 Route::prefix('departments')->name('departments.')->group(function() {
     Route::get('/', [\App\Http\Controllers\DepartmentController::class, 'index'])->name('index');
     Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store'])->name('store');
+    Route::delete('{id}', [\App\Http\Controllers\DepartmentController::class, 'destroy'])->name('destroy');
     Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
     Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
     Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection'])->name('store_section');
@@ -76,6 +77,7 @@ Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 Route::prefix('users')->name('users.')->group(function() {
     Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
     Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
+    Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);
     Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
     Route::get('add-staff', [\App\Http\Controllers\UserController::class, 'addStaff']);
     Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);

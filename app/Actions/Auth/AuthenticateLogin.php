@@ -57,10 +57,19 @@ class AuthenticateLogin
         ) {
             return false;
         }
+
         if (!$user->is_active) {
             throw ValidationException::withMessages([
                 'email' => ['Account has been deactivated. Contact Admin'],
             ]);
+        }
+
+        $role = $user->roles()->first();
+
+        if (!$user->is_super_admin && (!$role || !$role->is_active)){
+            throw ValidationException::withMessages([
+                'email' => ['Account deactivated!'],
+            ]); 
         }
 
         $isMatchingDesignation = $user->is_super_admin

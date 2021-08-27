@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request 
     return response()->json();
 });
 
-Route::post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
+Route::middleware(['frontend'])->post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
 Route::middleware(['auth:sanctum'])->post('/logout', [\App\Http\Controllers\AuthFrontendController::class, 'logout']);
 
 /*

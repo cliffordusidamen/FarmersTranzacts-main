@@ -233,4 +233,14 @@ class Vendor extends Model
     {
         return $query->where('approval_status', self::STATUS_PENDING);
     }
+
+    /**
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return defaultModelPermissions();
+    }
 }

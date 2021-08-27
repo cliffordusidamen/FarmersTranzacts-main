@@ -21,12 +21,12 @@ class HandleFrontendAppRequests
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        $this->_attachDataForAdminApp($request, $response);
-        $this->_attachDataForSellerApp($request, $response);
-        // $responseData = array_merge($response->getData(true), [
-        //     'extra_data' => 'Hello, From middlewatre!'
-        // ]);
-        // $response->setData($responseData);
+
+        if ($request->user()) {
+            $this->_attachDataForAdminApp($request, $response);
+            $this->_attachDataForSellerApp($request, $response);
+        }
+
         return $response;
     }
 
@@ -74,9 +74,13 @@ class HandleFrontendAppRequests
         $permissions = [];
 
         if (!$user->is_super_admin) {
-            $permissions = $user->roles()
+            $role = $user->roles()
                 ->where('is_active', true)
-                ->first()->permissions->mapWithKeys(fn ($permission, $i) => (
+                ->first();
+
+            $permissions = !$role
+                ? []
+                : $role->permissions->mapWithKeys(fn ($permission, $i) => (
                     [$permission['name'] => $permission['id']]
                 ));
         }

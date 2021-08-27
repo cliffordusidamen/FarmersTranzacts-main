@@ -65,4 +65,18 @@ class DepartmentSection extends Model
 
         return $rules;
     }
+
+    /**
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return [
+            MODEL_PERMISSION_CREATE,
+            MODEL_PERMISSION_UPDATE,
+            MODEL_PERMISSION_DELETE,
+        ];
+    }
 }

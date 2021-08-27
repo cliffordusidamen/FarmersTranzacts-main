@@ -236,4 +236,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new StaffRegistrationNotification($password));
     }
+
+    /**
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return defaultModelPermissions();
+    }
 }

@@ -126,7 +126,24 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        if ($role->users()->count()) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'A role that is assigned to a user cannot be deleted!'
+            ], 400); 
+        }
+
+        if (!$role->delete()) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Role not deleted. Please, try again!'
+            ], 500); 
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Role deleted!'
+        ], 200);
     }
 
     /**

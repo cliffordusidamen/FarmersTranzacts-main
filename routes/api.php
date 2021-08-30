@@ -148,3 +148,11 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
     return response()->json([], 202);
 })->middleware(['auth:sanctum', 'frontend']);
+
+
+/*
+|-------------------------------------------------------------------------
+| Product routes
+|-------------------------------------------------------------------------
+*/
+Route::apiResource('products', \App\Http\Controllers\ProductController::class);

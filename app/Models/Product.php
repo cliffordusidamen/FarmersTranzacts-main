@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,10 @@ use Illuminate\Support\Str;
 class Product extends Model
 {
     use HasFactory;
+
+    const STATUS_PENDING = 'awaiting approval';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_DISAPPROVED = 'disapproved';
     
     /**
      * Mass assignable fields
@@ -27,6 +32,10 @@ class Product extends Model
         'price',
         'old_price',
         'in_stock',
+        'disapproval_reason',
+        'approval_status',
+        'submitted_at',
+        'approved_at',
     ];
 
     /**
@@ -101,5 +110,33 @@ class Product extends Model
             'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],
             'description' => ['nullable', 'min:3', 'max:255', ],
         ];
+    }
+
+    /**
+     * Get list of statuses
+     *
+     * @param  bool $asKeys
+     * @return array
+     */
+    public static function getApprovalStatuses(bool $asKeys = false): array
+    {
+        $types = [
+            self::STATUS_PENDING => ucwords(self::STATUS_PENDING),
+            self::STATUS_APPROVED => ucwords(self::STATUS_APPROVED),
+            self::STATUS_DISAPPROVED => ucwords(self::STATUS_DISAPPROVED),
+        ];
+
+        return $asKeys ? $types : array_keys($types);
+    }
+
+    /**
+     * filter by submitted
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSubmitted(Builder $query): Builder
+    {
+        return $query->where('submitted_at', '!=', NULL)
+            ->where('approval_status', Product::STATUS_PENDING);
     }
 }

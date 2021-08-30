@@ -64,9 +64,11 @@ class AuthenticateLogin
             ]);
         }
 
+        $loginAsStaff = $request->input('as_designation') == Designation::STAFF_NAME;
+
         $role = $user->roles()->first();
 
-        if (!$user->is_super_admin && (!$role || !$role->is_active)){
+        if ($loginAsStaff && !$user->is_super_admin && (!$role || !$role->is_active)){
             throw ValidationException::withMessages([
                 'email' => ['Account deactivated!'],
             ]); 
@@ -74,8 +76,6 @@ class AuthenticateLogin
 
         $isMatchingDesignation = $user->is_super_admin
             || strtolower($user->designation->name) == $request->as_designation;
-
-        $loginAsStaff = $request->input('as_designation') == Designation::STAFF_NAME;
 
         if ((!$loginAsStaff && $user->is_super_admin) || !$isMatchingDesignation) {
             throw ValidationException::withMessages([

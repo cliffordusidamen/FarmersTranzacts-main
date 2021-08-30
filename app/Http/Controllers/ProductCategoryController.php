@@ -109,7 +109,24 @@ class ProductCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = ProductCategory::find((int) $id);
+
+        if (!$category) {
+            return response()->json();
+        }
+
+        if ($category->products()->count()) {
+            throw new \Exception('A product category that has products cannot be deleted. You may only deactivate it!');
+        }
+        
+        if (!$category->delete()) {
+            throw new \Exception('Product category not deleted. Please, try again!');
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product category deleted!'
+        ], 200);
     }
 
     /**

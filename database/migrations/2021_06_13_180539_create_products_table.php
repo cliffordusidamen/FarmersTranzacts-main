@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('subcategory_id')->nullable();
             $table->unsignedInteger('vendor_id');
+            $table->unsignedMediumInteger('packaging_id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
@@ -46,6 +47,12 @@ class CreateProductsTable extends Migration
             $table->foreign('subcategory_id')
                 ->references('id')
                 ->on('product_subcategories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('packaging_id')
+                ->references('id')
+                ->on('vendor_packagings')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

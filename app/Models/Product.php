@@ -79,6 +79,16 @@ class Product extends Model
     }
 
     /**
+     * Relationship: belongs to product packaging
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function packaging(): BelongsTo
+    {
+        return $this->belongsTo(VendorPackaging::class, 'packaging_id');
+    }
+
+    /**
      * Mutator: create unique slug, based on name
      * 
      * @param  string  $value

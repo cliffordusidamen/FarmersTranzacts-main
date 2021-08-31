@@ -155,4 +155,4 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 | Product routes
 |-------------------------------------------------------------------------
 */
-Route::apiResource('products', \App\Http\Controllers\ProductController::class);
+Route::resource('products', \App\Http\Controllers\ProductController::class);

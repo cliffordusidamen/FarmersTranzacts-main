@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\VendorPackaging;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    /**
+     * Create instance of the controller
+     */
+    public function __construct()
+    {
+        // To do: add middleware for adminstrators only
+        $this->middleware(['auth:sanctum', 'frontend']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +34,26 @@ class ProductController extends Controller
         }
 
         return response()->json(compact('products'));
+    }
+
+    /**
+     * Get all parameters needed for rendering product creation form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $vendorData = $request->user()->vendorData;
+        $productCategoryList = $vendorData->productCategories->pluck('name', 'id');
+        $productCategoryIds = $vendorData->productCategories->pluck('id', 'id');
+        $productSubcategories = ProductSubcategory::whereIn('category_id', $productCategoryIds)
+            ->get();
+        $packagingList = VendorPackaging::pluck('name', 'id');
+
+        return response()->json(compact(
+            'productCategoryList', 'productSubcategories', 'packagingList'
+        ));
     }
 
     /**

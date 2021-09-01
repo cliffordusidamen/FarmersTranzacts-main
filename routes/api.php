@@ -159,3 +159,11 @@ Route::prefix('products')->name('products.')->middleware(['auth:sanctum', 'front
     Route::post('changeStatus/{product}', [\App\Http\Controllers\ProductController::class, 'changeStatus']);
 });
 Route::resource('products', \App\Http\Controllers\ProductController::class);
+
+
+/*
+|-------------------------------------------------------------------------
+| Packagings routes
+|-------------------------------------------------------------------------
+*/
+Route::resource('packagings', \App\Http\Controllers\VendorPackagingController::class);

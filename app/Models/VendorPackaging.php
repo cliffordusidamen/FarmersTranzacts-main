@@ -10,6 +10,8 @@ class VendorPackaging extends Model
 {
     use HasFactory;
 
+    protected $table = 'vendor_packagings';
+
     /**
      * mass assignable fields
      * 
@@ -28,5 +30,19 @@ class VendorPackaging extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'packaging_id');
+    }
+
+    /**
+     * Validation rules
+     * 
+     * @param  int|null  $id
+     * @return array
+     */
+    public static function validationRules(?int $id = null): array
+    {
+        return [
+            'name' => 'required|string|min:3|max:100|unique:vendor_packaging,name',
+            'description' => 'max:500',
+        ];
     }
 }

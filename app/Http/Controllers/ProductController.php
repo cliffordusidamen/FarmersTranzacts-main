@@ -18,7 +18,6 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        // To do: add middleware for adminstrators only
         $this->middleware(['auth:sanctum', 'frontend']);
     }
 

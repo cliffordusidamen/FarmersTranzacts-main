@@ -65,13 +65,23 @@ class Vendor extends Model
     }
 
     /**
-     * Relatioship: has one address
+     * Relatioship: has many products
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'vendor_id');
+    }
+
+    /**
+     * Relatioship: has many packagings
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function packagings(): HasMany
+    {
+        return $this->hasMany(VendorPackaging::class, 'vendor_id');
     }
 
     /**

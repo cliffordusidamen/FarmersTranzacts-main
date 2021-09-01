@@ -166,11 +166,7 @@
                             </inertia-link>
 
                             <inertia-link v-if="!isAuthenticated" :href="route('register')" class="dropdown-item">
-                                Register as shopper
-                            </inertia-link>
-
-                            <inertia-link v-if="!isAuthenticated" :href="route('registration.vendor')" class="dropdown-item">
-                                Become a vendor
+                                Register
                             </inertia-link>
                         </div>
                     </div>

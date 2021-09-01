@@ -9,6 +9,8 @@ class Country extends Model
 {
     use HasFactory;
 
+    const NIGERIA = 160;
+
     /**
      * Mass assignable fields
      * 

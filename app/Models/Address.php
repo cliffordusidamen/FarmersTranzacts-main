@@ -18,10 +18,12 @@ class Address extends Model
     protected $fillable = [
         'vendor_id',
         'user_id',
-        'state_id',
         'line_1',
         'line_2',
         'city',
+        'postal_code',
+        'state_id',
+        'country_id',
     ];
 
     /**
@@ -45,12 +47,22 @@ class Address extends Model
     }
 
     /**
-     * Relationship: Belongs to user
+     * Relationship: Belongs to state
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function state(): BelongsTo
     {
         return $this->belongsTo(State::class);
+    }
+
+    /**
+     * Relationship: Belongs to country
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 }

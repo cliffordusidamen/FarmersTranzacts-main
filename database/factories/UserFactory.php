@@ -3,8 +3,10 @@
 namespace Database\Factories;
 
 use App\Models\Designation;
+use App\Models\ProductCategory;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
@@ -34,6 +36,35 @@ class UserFactory extends Factory
             'password' => 'password',
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * Designate use as seller
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function seller()
+    {
+        return $this->state(fn (array $attributes) => [
+            'designation_id' => Designation::SELLER_ID,
+        ]);
+    }
+
+    /**
+     * Indicate that the use should have a vendor
+     * 
+     * @return $this
+     */
+    public function withVendor()
+    {
+        $productCategories = ProductCategory::inRandomOrder()->take(mt_rand(1, 3))->get();
+        $vendor = Vendor::factory()
+            ->hasAttached($productCategories, [], 'productCategories')
+            ->withAddress()
+            ->withPackagings(3)
+            ->withProducts(mt_rand(5, 15), $productCategories->pluck('id', 'id'));
+
+        return $this->has($vendor);
     }
 
     /**

@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
 
                 $url = 'http:/localhost:5000/' . $urlPath;
                 return (new MailMessage)
-                    ->subject('Verify Email Address')
+                    ->subject('You are almost there!')
                     ->line('Click the button below to verify your email address.')
                     ->action('Verify Email Address', $url);
             });

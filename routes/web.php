@@ -129,3 +129,7 @@ Route::get('/abc', function() {
 
     dd($record);
 });
+
+Route::get('/test-mail', function() {
+    \App\Models\User::find(2)->sendEmailVerificationNotification();
+});

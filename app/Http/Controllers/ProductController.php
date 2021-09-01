@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductApprovalStatusChangedEvent;
+use App\Http\Requests\SaveProductRequest;
 use App\Models\Product;
 use App\Models\VendorPackaging;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -26,11 +30,18 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        // TO DO: Limit list by designation of the signed-in user
         if (authUserIsVendor()) {
-            $products = $request->user()->vendorData->products()->paginate(10);
+            $products = $request->user()->vendorData
+                ->products()
+                ->with(['packaging', 'category', 'subcategory'])
+                ->paginate(10);
         } else {
-            $products = Product::submitted()->paginate(10);
+            $products = Product::with([
+                    'packaging', 'category', 'subcategory',
+                    'vendor',
+                ])
+                ->submitted()
+                ->paginate(10);
         }
 
         return response()->json(compact('products'));
@@ -44,50 +55,99 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        $vendorData = $request->user()->vendorData;
-        $productCategoryList = $vendorData->productCategories->pluck('name', 'id');
-        $productCategoryIds = $vendorData->productCategories->pluck('id', 'id');
-        $productSubcategories = ProductSubcategory::whereIn('category_id', $productCategoryIds)
-            ->get();
-        $packagingList = VendorPackaging::pluck('name', 'id');
+        $viewVariables = $this->_getProductFormVariables($request);
 
-        return response()->json(compact(
-            'productCategoryList', 'productSubcategories', 'packagingList'
-        ));
+        return response()->json($viewVariables);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\SaveProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveProductRequest $request)
     {
-        //
+        $data = $request->only([
+            'name',
+            'category_id',
+            'subcategory_id',
+            'description',
+            'price',
+            'packaging_id',
+        ]);
+
+        $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
+
+        $product = $request->user()->vendorData->products()->create($data);
+        if (!$product) {
+            throw new \Exception('Product not saved! Please, try again.');
+        }
+
+        return response()->json(compact('product'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        $product->load([
+            'packaging', 'category', 'subcategory',
+            'vendor',
+        ]);
+        $this->_abortIfNotVendorProduct($product);
+        return response()->json(compact('product'));
+    }
+
+    /**
+     * Get all parameters needed for rendering product edit form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, Product $product)
+    {
+        $this->_abortIfNotVendorProduct($product);
+        $viewVariables = $this->_getProductFormVariables($request);
+        $viewVariables['product'] = $product;
+
+        return response()->json($viewVariables);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\SaveProductRequest  $request
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SaveProductRequest $request, Product $product)
     {
-        //
+        $this->_abortIfNotVendorProduct($product);
+        $data = $request->only([
+            'name',
+            'category_id',
+            'subcategory_id',
+            'description',
+            'price',
+            'packaging_id',
+        ]);
+
+        $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
+        $data['approval_status'] = $request->is_draft ? $product->approval_status : Product::STATUS_PENDING;
+
+        $saved = $product->forceFill($data)->save();
+        if (!$saved) {
+            throw new \Exception('Product not saved! Please, try again.');
+        }
+
+        return response()->json(compact('product'));
     }
 
     /**
@@ -99,5 +159,93 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+    /**
+     * Change vendor approval status
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus(Request $request, Product $product)
+    {
+        $this->_abortIfNotVendorProduct($product);
+        $data = $request->only(['approval_status', 'disapproval_reason']);
+
+        $validator = Validator::make($data, [
+            'approval_status' => [
+                'required',
+                Rule::in(Product::getApprovalStatuses()),
+            ],
+
+            'disapproval_reason' => 'sometimes|nullable|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'failed' => true,
+            ]);
+        }
+
+        if ($product->approval_status == $request->input('approval_status')) {
+            return response()->json(compact(
+                'product'
+            ));
+        }
+
+        $product->approval_status = $request->input('approval_status');
+        $product->disapproval_reason = $product->approval_status == Product::STATUS_DISAPPROVED
+            ? $request->input('disapproval_reason')
+            : null;
+
+        if ($product->save()) {
+            $accountManager = $product->vendor->users()->first();
+            event(new ProductApprovalStatusChangedEvent(
+                $product, $accountManager
+            ));
+            return response()->json(compact(
+                'product'
+            ));
+        }
+
+        return response()->json([
+            'failed' => true,
+        ]);
+    }
+
+    /**
+     * Prepare variables for rendering product form
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function _getProductFormVariables($request)
+    {
+        $vendorData = $request->user()->vendorData;
+        $productCategoryList = $vendorData->productCategories->pluck('name', 'id');
+        $productCategoryIds = $vendorData->productCategories->pluck('id', 'id');
+        $productSubcategories = ProductSubcategory::whereIn('category_id', $productCategoryIds)
+            ->get();
+        $packagingList = VendorPackaging::pluck('name', 'id');
+
+        return compact(
+            'productCategoryList', 'productSubcategories', 'packagingList'
+        );
+    }
+
+    /**
+     * Prevent access to product if it does not belong to the current user
+     * 
+     * @throws \Exception
+     * @return void
+     */
+    public function _abortIfNotVendorProduct(Product $product)
+    {
+        if (authUserIsVendor()) {
+            abort_if(
+                $product->vendor_id != request()->user()->vendorData->id,
+                404
+            );
+        }
     }
 }

@@ -23,9 +23,10 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'store_id',
+        'vendor_id',
         'category_id',
         'subcategory_id',
+        'packaging_id',
         'name',
         'slug',
         'description',
@@ -63,9 +64,9 @@ class Product extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function store(): BelongsTo
+    public function vendor(): BelongsTo
     {
-        return $this->belongsTo(Store::class, 'store_id');
+        return $this->belongsTo(Vendor::class, 'vendor_id');
     }
 
     /**
@@ -114,11 +115,13 @@ class Product extends Model
      */
     public static function validationRules(?int $id = null): array
     {
-        $uniqueRule = 'unique:stores,name' . (!is_null($id) ? ",{$id}" : '');
-
         return [
-            'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],
-            'description' => ['nullable', 'min:3', 'max:255', ],
+            'name' => 'required|string|min:5|max:100',
+            'description' => 'required|min:25|max:1000',
+            'price' => 'required|numeric|max:99999999',
+            'packaging_id' => 'required|exists:vendor_packagings,id',
+            'category_id' => 'required|exists:product_categories,id',
+            'subcategory_id' => 'required|exists:product_subcategories,id',
         ];
     }
 
@@ -147,6 +150,9 @@ class Product extends Model
     public function scopeSubmitted(Builder $query): Builder
     {
         return $query->where('submitted_at', '!=', NULL)
-            ->where('approval_status', Product::STATUS_PENDING);
+            ->whereIn('approval_status', [
+                Product::STATUS_PENDING,
+                Product::STATUS_APPROVED,
+            ]);
     }
 }

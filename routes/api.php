@@ -155,4 +155,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 | Product routes
 |-------------------------------------------------------------------------
 */
+Route::prefix('products')->name('products.')->middleware(['auth:sanctum', 'frontend'])->group(function() {
+    Route::post('changeStatus/{product}', [\App\Http\Controllers\ProductController::class, 'changeStatus']);
+});
 Route::resource('products', \App\Http\Controllers\ProductController::class);

@@ -12,6 +12,14 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     /**
+     * Create instance of the controller
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum', 'frontend']);
+    }
+
+    /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request

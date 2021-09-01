@@ -27,8 +27,7 @@ Route::middleware(['auth:sanctum'])->post('/logout', [\App\Http\Controllers\Auth
 | Dashboard route
 |-------------------------------------------------------------------------
 */
-Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
-    ->middleware(['auth:sanctum', 'frontend']);
+Route::get('dashboard', \App\Http\Controllers\DashboardController::class);
 
 
 /*

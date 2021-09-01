@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Validation\Rule;
 
 class VendorPackaging extends Model
 {
@@ -40,8 +41,14 @@ class VendorPackaging extends Model
      */
     public static function validationRules(?int $id = null): array
     {
+        $uniqueRule = Rule::unique('vendor_packagings', 'name');
+
+        if (!is_null($id)) {
+            $uniqueRule->ignore((int) $id);
+        }
+
         return [
-            'name' => 'required|string|min:3|max:100|unique:vendor_packaging,name',
+            'name' => ['required', 'string', 'min:3', 'max:100', $uniqueRule],
             'description' => 'max:500',
         ];
     }

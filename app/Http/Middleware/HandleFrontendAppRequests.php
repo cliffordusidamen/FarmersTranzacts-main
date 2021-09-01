@@ -66,8 +66,6 @@ class HandleFrontendAppRequests
             return;
         }
 
-
-
         $user = User::find($request->user()->getKey());
         $user->profile_photo_url;
 
@@ -90,8 +88,13 @@ class HandleFrontendAppRequests
             ->paginate(5)
             ->toArray();
 
+        $unapproved_products = \App\Models\Product::awaitingApproval()
+            ->with(['vendor', 'packaging'])
+            ->paginate(5)
+            ->toArray();
+
         $responseData = array_merge($user->toArray(), $response->getData(true), compact(
-            'unapproved_vendors', 'permissions'
+            'unapproved_vendors', 'unapproved_products', 'permissions'
         ));
         $response->setData($responseData);
     }

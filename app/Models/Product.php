@@ -121,7 +121,7 @@ class Product extends Model
             'price' => 'required|numeric|max:99999999',
             'packaging_id' => 'required|exists:vendor_packagings,id',
             'category_id' => 'required|exists:product_categories,id',
-            'subcategory_id' => 'required|exists:product_subcategories,id',
+            'subcategory_id' => 'sometimes|nullable|exists:product_subcategories,id',
         ];
     }
 
@@ -154,5 +154,16 @@ class Product extends Model
                 Product::STATUS_PENDING,
                 Product::STATUS_APPROVED,
             ]);
+    }
+
+    /**
+     * filter by status(awaiting approval only)
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAwaitingApproval(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_PENDING);
     }
 }

@@ -47,54 +47,18 @@ Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('categories')->name('categories.')->group(function() {
 
-    Route::get('/', fn () => Inertia::render('Admin/CategoriesList'))->name('index');
-
-    Route::get('create', fn() => Inertia::render('Admin/CreateCategory'))->name('create');
-
-    Route::get('show/{category}', function(ProductCategory $category) {
-        $subcategories = $category->subcategories;
-        return Inertia::render('Admin/ShowCategory', compact('category', 'subcategories'));
-    })->name('show');
-
-    Route::get(
-            'edit/{category}',
-            fn(ProductCategory $category)
-                => Inertia::render('Admin/CreateCategory', compact('category'))
-        )->name('edit');
-
-    Route::post('save/{id?}', \App\Actions\ProductCategories\SaveCategoryAction::class)->name('save');
-
-    Route::get(
-            '{category}/subcategory/create',
-            fn(ProductCategory $category)
-                => Inertia::render('Admin/CreateSubcategory', compact('category'))
-        )
-        ->name('create_subcategory');
-
-    Route::get(
-            '{category}/subcategory/edit/{subcategory}',
-            fn(ProductCategory $category, ProductSubcategory $subcategory)
-                => Inertia::render('Admin/CreateSubcategory', compact('category', 'subcategory'))
-        )
-        ->name('edit_subcategory');
-
-    Route::post(
-            '{category}/subcategory/{subcategory?}',
-            \App\Actions\ProductCategories\SaveSubcategoryAction::class
-        )
-        ->name('save_subcategory');
 });
 
 
-// SHOP ROUTES
+/*
+ |-----------------------------------------------------------------------------
+ | Shop routes
+ |-----------------------------------------------------------------------------
+ */
 Route::prefix('shop')->name('shop.')->group(function() {
-    Route::get('/', function() {
-        $products = \App\Models\Product::with(['category', 'images', 'store'])->paginate(12);
-
-        // dd($products);
-
-        return Inertia::render('Shop/ProductsList', compact('products'));
-    })->name('index');
+    Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
+    Route::get('{categorySlug}/{subcategorySlug}', [\App\Http\Controllers\ShopController::class, 'subcategorized'])->name('subcategorized');
+    Route::get('{slug}', [\App\Http\Controllers\ShopController::class, 'categorized'])->name('categorized');
 });
 
 /*
@@ -119,17 +83,14 @@ Route::prefix('profile')->name('profile.')->group(function() {
     Route::delete('destroy-vendor-logo', [\App\Http\Controllers\ProfileController::class, 'destroyVendorLogo'])->name('destroy_vendor_logo');
 });
 
-
-Route::get('/abc', function() {
-    $record = \App\Models\User::has('vendors')
-        ->with(['unapprovedVendors'])
-        ->paginate();
-
-    return response()->json($record);
-
-    dd($record);
-});
-
-Route::get('/test-mail', function() {
-    \App\Models\User::find(2)->sendEmailVerificationNotification();
+/*
+ |-----------------------------------------------------------------------------
+ | Shopping cart routes
+ |-----------------------------------------------------------------------------
+ */
+Route::prefix('shopping-cart')->name('shopping_cart.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\ShoppingCartController::class, 'view'])->name('view');
+    Route::post('/', [\App\Http\Controllers\ShoppingCartController::class, 'addItem'])->name('add_item');
+    Route::post('remove-item', [\App\Http\Controllers\ShoppingCartController::class, 'removeItem'])->name('remove_item');
+    Route::post('update-items', [\App\Http\Controllers\ShoppingCartController::class, 'updateCartItems'])->name('update_all');
 });

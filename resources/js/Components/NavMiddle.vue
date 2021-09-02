@@ -46,7 +46,7 @@
 
             <div class="header-right">
                 <div class="header-dropdown-link">
-                    <div class="dropdown compare-dropdown">
+                    <div class="dropdown compare-dropdown d-none">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
                             <i class="icon-random"></i>
                             <span class="compare-txt">Compare</span>
@@ -71,7 +71,7 @@
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .compare-dropdown -->
 
-                    <a href="#" class="wishlist-link">
+                    <a href="#" class="wishlist-link d-none">
                         <i class="icon-heart-o"></i>
                         <span class="wishlist-count">0</span>
                         <span class="wishlist-txt">Wishlist</span>
@@ -80,21 +80,21 @@
                     <div class="dropdown cart-dropdown">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                             <i class="icon-shopping-cart"></i>
-                            <span class="cart-count">0</span>
+                            <span v-show="cartHasItems" class="cart-count">{{ cartItemsCount > 10 ? '*' : cartItemsCount }}</span>
                             <span class="cart-txt">Cart</span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div v-if="cartHasItems" class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-cart-products">
-                                <div class="product">
+                                <div class="product" v-for="{product, quantity} in cartItems" :key="product.id">
                                     <div class="product-cart-details">
                                         <h4 class="product-title">
-                                            <a href="#">Beige knitted elastic runner shoes</a>
+                                            <inertia-link href="#">{{product.name}}</inertia-link>
                                         </h4>
 
                                         <span class="cart-product-info">
-                                            <span class="cart-product-qty">1</span>
-                                            x $84.00
+                                            <span class="cart-product-qty">{{Number(quantity).toLocaleString()}}</span>
+                                            x &#8358;{{Number(product.price).toLocaleString()}}
                                         </span>
                                     </div><!-- End .product-cart-details -->
 
@@ -103,44 +103,24 @@
                                             <img src="assets/images/products/cart/product-1.jpg" alt="product">
                                         </a>
                                     </figure>
-                                    <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                </div><!-- End .product -->
-
-                                <div class="product">
-                                    <div class="product-cart-details">
-                                        <h4 class="product-title">
-                                            <a href="#">Blue utility pinafore denim dress</a>
-                                        </h4>
-
-                                        <span class="cart-product-info">
-                                            <span class="cart-product-qty">1</span>
-                                            x $76.00
-                                        </span>
-                                    </div><!-- End .product-cart-details -->
-
-                                    <figure class="product-image-container">
-                                        <a href="#" class="product-image">
-                                            <img src="assets/images/products/cart/product-2.jpg" alt="product">
-                                        </a>
-                                    </figure>
-                                    <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    <a href="#" class="btn-remove" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
                                 </div><!-- End .product -->
                             </div><!-- End .cart-product -->
 
                             <div class="dropdown-cart-total">
                                 <span>Total</span>
 
-                                <span class="cart-total-price">$160.00</span>
+                                <span class="cart-total-price">&#8358;{{cart?.grand_total.toLocaleString()}}</span>
                             </div><!-- End .dropdown-cart-total -->
 
-                            <div class="dropdown-cart-action">
-                                <a href="#" class="btn btn-primary">View Cart</a>
+                            <div v-show="!processing" class="dropdown-cart-action">
+                                <inertia-link :href="route('shopping_cart.view')" class="btn btn-primary">View Cart</inertia-link>
                                 <a href="#" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .cart-dropdown -->
 
-                    <div class="dropdown compare-dropdown">
+                    <div class="dropdown compare-dropdown user-dropdown">
                         <a
                             href="#"
                             class="dropdown-toggle"
@@ -169,7 +149,7 @@
                                 Register
                             </inertia-link>
                         </div>
-                    </div>
+                    </div><!-- End .user-dropdown -->
                 </div>
             </div><!-- End .header-right -->
         </div><!-- End. container -->
@@ -177,23 +157,47 @@
 </template>
 
 <script>
+import { Inertia } from '@inertiajs/inertia'
 import utility from "@/Mixins/utility.js"
+import { usePage } from '@inertiajs/inertia-vue3';
+import useCartManager from '@/composables/useCartManager'
 
 export default {
 
     mixins: [utility],
 
-    methods: {
-        toggleMobileMenu() {
-            $('body').eq(0).toggleClass('mmenu-active');
-        },
-        logout() {
-            this.$inertia.post(route('logout'), {}, {
+    setup() {
+        const {
+            cart,
+            cartItems,
+            cartItemsCount,
+            cartHasItems,
+            processing,
+            removeItem,
+        } =  useCartManager()
+
+        const logout = () => {
+            Inertia.post(route('logout'), {}, {
                 onFinish: () => {
                     // window.location = '/login'
                 },
             });
-        },
-    }
+        }
+
+        const toggleMobileMenu = () => {
+            $('body').eq(0).toggleClass('mmenu-active');
+        }
+
+        return {
+            cart,
+            cartItems,
+            cartItemsCount,
+            cartHasItems,
+            processing,
+            removeItem,
+            toggleMobileMenu,
+            logout,
+        }
+    },
 }
 </script>

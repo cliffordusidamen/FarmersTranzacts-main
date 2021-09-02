@@ -1,0 +1,73 @@
+<template>
+    <form class="d-block w-100">
+        <button
+            href="#"
+            :class="{
+                'btn-product btn-block btn-cart text-white': true,
+                'bg-primary bg-primary': !isInCart && !processing,
+                'bg-danger border-danger': isInCart && !processing,
+                'bg-secondary border-secondary': processing,
+            }"
+            @click.prevent="updateCart()"
+            :disabled="processing"
+        >
+            <span class="text-white">
+                {{
+                    processing
+                        ? 'processing'
+                        : (isInCart ? 'remove from cart' : 'add to cart')
+                }}
+            </span>
+        </button>
+    </form>
+</template>
+
+<script>
+import { ref } from '@vue/reactivity'
+import { usePage } from '@inertiajs/inertia-vue3'
+import axios from 'axios'
+
+export default {
+    props: {
+        product: {
+            required: true,
+            type: Object,
+        },
+    },
+
+    setup({product}) {
+
+        const processing = ref(false)
+        const { cart } = usePage().props.value
+
+        const isInCart = cart?.items && undefined != cart?.items[product.id]
+
+        const targetRoute = isInCart
+            ? route('shopping_cart.remove_item')
+            : route('shopping_cart.add_item');
+
+        const updateCart = () => {
+            processing.value = true
+
+            axios.post(targetRoute, { 'product_id': product.id })
+            .then(() => {
+                window.location.reload()
+            })
+            .catch(errors => {
+                console.log(`Error while ${isInCart ? 'removing' : 'adding'} item`, {
+                    product,
+                    error: errors,
+                })
+                processing.value = false
+            })
+
+        }
+
+        return  {
+            isInCart,
+            updateCart,
+            processing
+        }
+    },
+}
+</script>

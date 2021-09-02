@@ -30,4 +30,5 @@ if (mix.inProduction()) {
     mix.browserSync({
         proxy: 'xpress1.test'
     });
+    mix.disableNotifications();
 }

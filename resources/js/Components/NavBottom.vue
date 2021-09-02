@@ -12,11 +12,11 @@
                             <nav class="side-nav">
                                 <ul class="menu-vertical sf-arrows">
                                     <li v-for="category in $page.props.product_categories" :key="category.id" :class="{'sf-with-ul': hasSubcategory(category) }">
-                                        <a href="#">{{ category.name }}</a>
+                                        <inertia-link :href="route('shop.categorized', category.slug)">{{ category.name }}</inertia-link>
 
                                         <ul v-if="hasSubcategory(category)">
                                             <li v-for="subcategory in category.subcategories" :key="subcategory.id">
-                                                <a href="#">{{ subcategory.name }}</a>
+                                                <inertia-link href="#">{{ subcategory.name }}</inertia-link>
                                             </li>
                                         </ul>
                                     </li>

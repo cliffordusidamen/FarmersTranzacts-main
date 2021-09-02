@@ -16606,6 +16606,311 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./public/molla-template/js/bootstrap-input-spinner.js":
+/*!*************************************************************!*\
+  !*** ./public/molla-template/js/bootstrap-input-spinner.js ***!
+  \*************************************************************/
+/***/ (() => {
+
+/**
+ * Author and copyright: Stefan Haack (https://shaack.com)
+ * Repository: https://github.com/shaack/bootstrap-input-spinner
+ * License: MIT, see file 'LICENSE'
+ */
+(function ($) {
+  "use strict";
+
+  var spacePressed = false;
+  var originalVal = $.fn.val;
+
+  $.fn.val = function (value) {
+    if (arguments.length >= 1) {
+      if (this[0] && this[0]["bootstrap-input-spinner"] && this[0].setValue) {
+        this[0].setValue(value);
+      }
+    }
+
+    return originalVal.apply(this, arguments);
+  };
+
+  $.fn.InputSpinner = $.fn.inputSpinner = function (options) {
+    var config = {
+      decrementButton: "<strong>-</strong>",
+      // button text
+      incrementButton: "<strong>+</strong>",
+      // ..
+      groupClass: "",
+      // css class of the resulting input-group
+      buttonsClass: "btn-outline-secondary",
+      buttonsWidth: "2.5rem",
+      textAlign: "center",
+      autoDelay: 500,
+      // ms holding before auto value change
+      autoInterval: 100,
+      // speed of auto value change
+      boostThreshold: 10,
+      // boost after these steps
+      boostMultiplier: "auto",
+      // you can also set a constant number as multiplier
+      locale: null // the locale for number rendering; if null, the browsers language is used
+
+    };
+
+    for (var option in options) {
+      config[option] = options[option];
+    }
+
+    var html = '<div class="input-group ' + config.groupClass + '">' + '<div class="input-group-prepend">' + '<button style="min-width: ' + config.buttonsWidth + '" class="btn btn-decrement ' + config.buttonsClass + '" type="button">' + config.decrementButton + '</button>' + '</div>' + '<input type="text" style="text-align: ' + config.textAlign + '" class="form-control"/>' + '<div class="input-group-append">' + '<button style="min-width: ' + config.buttonsWidth + '" class="btn btn-increment ' + config.buttonsClass + '" type="button">' + config.incrementButton + '</button>' + '</div>' + '</div>';
+    var locale = config.locale || navigator.language || "en-US";
+    this.each(function () {
+      var $original = $(this);
+      $original[0]["bootstrap-input-spinner"] = true;
+      $original.hide();
+      var autoDelayHandler = null;
+      var autoIntervalHandler = null;
+      var autoMultiplier = config.boostMultiplier === "auto";
+      var boostMultiplier = autoMultiplier ? 1 : config.boostMultiplier;
+      var $inputGroup = $(html);
+      var $buttonDecrement = $inputGroup.find(".btn-decrement");
+      var $buttonIncrement = $inputGroup.find(".btn-increment");
+      var $input = $inputGroup.find("input");
+      var min = null;
+      var max = null;
+      var step = null;
+      var stepMax = null;
+      var decimals = null;
+      updateAttributes();
+      var numberFormat = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+      var value = parseFloat($original[0].value);
+      var boostStepsCount = 0;
+      var prefix = $original.attr("data-prefix") || "";
+      var suffix = $original.attr("data-suffix") || "";
+
+      if (prefix) {
+        var prefixElement = $('<span class="input-group-text">' + prefix + '</span>');
+        $inputGroup.find(".input-group-prepend").append(prefixElement);
+      }
+
+      if (suffix) {
+        var suffixElement = $('<span class="input-group-text">' + suffix + '</span>');
+        $inputGroup.find(".input-group-append").prepend(suffixElement);
+      }
+
+      $original[0].setValue = function (newValue) {
+        setValue(newValue);
+      };
+
+      var observer = new MutationObserver(function () {
+        updateAttributes();
+        setValue(value, true);
+      });
+      observer.observe($original[0], {
+        attributes: true
+      });
+      $original.after($inputGroup);
+      setValue(value);
+      $input.on("paste input change focusout", function (event) {
+        var newValue = $input[0].value;
+        var focusOut = event.type === "focusout";
+        newValue = parseLocaleNumber(newValue);
+        setValue(newValue, focusOut);
+        dispatchEvent($original, event.type);
+      });
+      onPointerDown($buttonDecrement[0], function () {
+        stepHandling(-step);
+      });
+      onPointerDown($buttonIncrement[0], function () {
+        stepHandling(step);
+      });
+      onPointerUp(document.body, function () {
+        resetTimer();
+      });
+
+      function setValue(newValue, updateInput) {
+        if (updateInput === undefined) {
+          updateInput = true;
+        }
+
+        if (isNaN(newValue) || newValue === "") {
+          $original[0].value = "";
+
+          if (updateInput) {
+            $input[0].value = "";
+          }
+
+          value = 0;
+        } else {
+          newValue = parseFloat(newValue);
+          newValue = Math.min(Math.max(newValue, min), max);
+          newValue = Math.round(newValue * Math.pow(10, decimals)) / Math.pow(10, decimals);
+          $original[0].value = newValue;
+
+          if (updateInput) {
+            $input[0].value = numberFormat.format(newValue);
+          }
+
+          value = newValue;
+        }
+      }
+
+      function dispatchEvent($element, type) {
+        if (type) {
+          setTimeout(function () {
+            var event;
+
+            if (typeof Event === 'function') {
+              event = new Event(type, {
+                bubbles: true
+              });
+            } else {
+              // IE
+              event = document.createEvent('Event');
+              event.initEvent(type, true, true);
+            }
+
+            $element[0].dispatchEvent(event);
+          });
+        }
+      }
+
+      function stepHandling(step) {
+        if (!$input[0].disabled) {
+          calcStep(step);
+          resetTimer();
+          autoDelayHandler = setTimeout(function () {
+            autoIntervalHandler = setInterval(function () {
+              if (boostStepsCount > config.boostThreshold) {
+                if (autoMultiplier) {
+                  calcStep(step * parseInt(boostMultiplier, 10));
+
+                  if (boostMultiplier < 100000000) {
+                    boostMultiplier = boostMultiplier * 1.1;
+                  }
+
+                  if (stepMax) {
+                    boostMultiplier = Math.min(stepMax, boostMultiplier);
+                  }
+                } else {
+                  calcStep(step * boostMultiplier);
+                }
+              } else {
+                calcStep(step);
+              }
+
+              boostStepsCount++;
+            }, config.autoInterval);
+          }, config.autoDelay);
+        }
+      }
+
+      function calcStep(step) {
+        if (isNaN(value)) {
+          value = 0;
+        }
+
+        setValue(Math.round(value / step) * step + step);
+        dispatchEvent($original, "input");
+        dispatchEvent($original, "change");
+      }
+
+      function resetTimer() {
+        boostStepsCount = 0;
+        boostMultiplier = boostMultiplier = autoMultiplier ? 1 : config.boostMultiplier;
+        clearTimeout(autoDelayHandler);
+        clearTimeout(autoIntervalHandler);
+      }
+
+      function updateAttributes() {
+        // copy properties from original to the new input
+        $input.prop("required", $original.prop("required"));
+        $input.prop("placeholder", $original.prop("placeholder"));
+        var disabled = $original.prop("disabled");
+        $input.prop("disabled", disabled);
+        $buttonIncrement.prop("disabled", disabled);
+        $buttonDecrement.prop("disabled", disabled);
+
+        if (disabled) {
+          resetTimer();
+        }
+
+        var originalClass = $original.prop("class");
+        var groupClass = ""; // sizing
+
+        if (/form-control-sm/g.test(originalClass)) {
+          groupClass = "input-group-sm";
+        } else if (/form-control-lg/g.test(originalClass)) {
+          groupClass = "input-group-lg";
+        }
+
+        var inputClass = originalClass.replace(/form-control(-(sm|lg))?/g, "");
+        $inputGroup.prop("class", "input-group " + groupClass + " " + config.groupClass);
+        $input.prop("class", "form-control " + inputClass); // update the main attributes
+
+        min = parseFloat($original.prop("min")) || 0;
+        max = isNaN($original.prop("max")) || $original.prop("max") === "" ? Infinity : parseFloat($original.prop("max"));
+        step = parseFloat($original.prop("step")) || 1;
+        stepMax = parseInt($original.attr("data-step-max")) || 0;
+        var newDecimals = parseInt($original.attr("data-decimals")) || 0;
+
+        if (decimals !== newDecimals) {
+          decimals = newDecimals;
+          numberFormat = new Intl.NumberFormat(locale, {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+          });
+        }
+      }
+
+      function parseLocaleNumber(stringNumber) {
+        var numberFormat = new Intl.NumberFormat(locale);
+        var thousandSeparator = numberFormat.format(1111).replace(/1/g, '');
+        var decimalSeparator = numberFormat.format(1.1).replace(/1/g, '');
+        return parseFloat(stringNumber.replace(new RegExp('\\' + thousandSeparator, 'g'), '').replace(new RegExp('\\' + decimalSeparator), '.'));
+      }
+    });
+  };
+
+  function onPointerUp(element, callback) {
+    element.addEventListener("mouseup", function (e) {
+      callback(e);
+    });
+    element.addEventListener("touchend", function (e) {
+      callback(e);
+    });
+    element.addEventListener("keyup", function (e) {
+      if (e.keyCode === 32) {
+        spacePressed = false;
+        callback(e);
+      }
+    });
+  }
+
+  function onPointerDown(element, callback) {
+    element.addEventListener("mousedown", function (e) {
+      e.preventDefault();
+      callback(e);
+    });
+    element.addEventListener("touchstart", function (e) {
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+
+      callback(e);
+    });
+    element.addEventListener("keydown", function (e) {
+      if (e.keyCode === 32 && !spacePressed) {
+        spacePressed = true;
+        callback(e);
+      }
+    });
+  }
+})(jQuery);
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -37686,6 +37991,14 @@ var map = {
 		"./resources/js/Pages/Auth/VerifyEmail.vue",
 		"resources_js_Pages_Auth_VerifyEmail_vue"
 	],
+	"./Cart/View": [
+		"./resources/js/Pages/Cart/View.vue",
+		"resources_js_Pages_Cart_View_vue"
+	],
+	"./Cart/View.vue": [
+		"./resources/js/Pages/Cart/View.vue",
+		"resources_js_Pages_Cart_View_vue"
+	],
 	"./Dashboards/AdminDashboard": [
 		"./resources/js/Pages/Dashboards/AdminDashboard.vue",
 		"resources_js_Pages_Dashboards_AdminDashboard_vue"
@@ -37902,6 +38215,18 @@ module.exports = webpackAsyncContext;
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -37932,7 +38257,7 @@ module.exports = webpackAsyncContext;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"7494517f238318a54d3a","resources_js_Pages_API_Index_vue":"ef8a3f5bcb2a0c53d013","resources_js_Pages_Admin_CategoriesList_vue":"096653d39761ac2e41b2","resources_js_Pages_Admin_CreateCategory_vue":"180d2afb746a543e16b5","resources_js_Pages_Admin_CreateSubcategory_vue":"a1dadd2a9607e0620380","resources_js_Pages_Admin_ShowCategory_vue":"889cdda810bf72f73463","resources_js_Pages_Auth_ConfirmPassword_vue":"6447ce90b594067b4f27","resources_js_Pages_Auth_ForgotPassword_vue":"2ef2d9ea318d19584c10","resources_js_Pages_Auth_Login_vue":"76bf9daacbf15fe3c2ec","resources_js_Pages_Auth_Register_vue":"27bfb7d8194c2754be6a","resources_js_Pages_Auth_ResetPassword_vue":"a2cbb9ecb0183d0cb51f","resources_js_Pages_Auth_TwoFactorChallenge_vue":"ed16bfabab4d7ee4a73b","resources_js_Pages_Auth_VerifyEmail_vue":"fe1c73c834a62fc41b96","resources_js_Pages_Dashboards_AdminDashboard_vue":"2a826f750fafa80d1c8c","resources_js_Pages_Dashboards_VendorDashboard_vue":"9e8de3fa71cb02f0944b","resources_js_Pages_Home_vue":"695d15792c9468259e6a","resources_js_Pages_PrivacyPolicy_vue":"294551ec9e7ce0a8cede","resources_js_Pages_Profile_DeleteUserForm_vue":"d6f2544ceedd8bdf033e","resources_js_Pages_Profile_EditVendorForm_vue":"2882244ac81f4e970512","resources_js_Pages_Profile_EditVendorRegistration_vue":"a10fca9121ed02a4284a","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"108074c4202a502ecc7b","resources_js_Pages_Profile_Show_vue":"2af4806d6ed8f5bd3be2","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"793e7526758087579a27","resources_js_Pages_Profile_UpdatePasswordForm_vue":"17a33e0b4f9d8a821aab","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"1d33982cd8e6fb745279","resources_js_Pages_Registration_Shopper_vue":"609230c2117a725a111d","resources_js_Pages_Registration_Vendor_vue":"31bb1457db44fde4b1f9","resources_js_Pages_Shop_ProductsList_vue":"efd87c0c3bd09fa0bd73","resources_js_Pages_TermsOfService_vue":"1c24708e5227d7c18190","resources_js_Pages_Vendors_Index_vue":"48e3ac2e53f59e85b225","resources_js_Pages_Vendors_Show_vue":"df61266deed1532de121","resources_js_Pages_Welcome_vue":"2466c7d02fd86dc472a2"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"7494517f238318a54d3a","resources_js_Pages_API_Index_vue":"67a2c1f060fc97070688","resources_js_Pages_Admin_CategoriesList_vue":"41fcd9b86e1e1a23c935","resources_js_Pages_Admin_CreateCategory_vue":"89330858d9098be13c6a","resources_js_Pages_Admin_CreateSubcategory_vue":"ac2327601ca1202539b6","resources_js_Pages_Admin_ShowCategory_vue":"ccced859f4737477fd8a","resources_js_Pages_Auth_ConfirmPassword_vue":"187adb48e149de50602a","resources_js_Pages_Auth_ForgotPassword_vue":"62f6fcc676888d69d333","resources_js_Pages_Auth_Login_vue":"b0ff89222f47e9dc89cd","resources_js_Pages_Auth_Register_vue":"e974aea57fb01acf8f80","resources_js_Pages_Auth_ResetPassword_vue":"c2b50280ae31b4a8e535","resources_js_Pages_Auth_TwoFactorChallenge_vue":"722b2262b1e3ec5992bf","resources_js_Pages_Auth_VerifyEmail_vue":"9eb16f954eb2b11da280","resources_js_Pages_Cart_View_vue":"b4f9fbf02099eafc8372","resources_js_Pages_Dashboards_AdminDashboard_vue":"5f978a0b1ca51d94e2bf","resources_js_Pages_Dashboards_VendorDashboard_vue":"39620a6d3bc84e73a2f2","resources_js_Pages_Home_vue":"58ec9bf95d52cff33d8f","resources_js_Pages_PrivacyPolicy_vue":"294551ec9e7ce0a8cede","resources_js_Pages_Profile_DeleteUserForm_vue":"d6f2544ceedd8bdf033e","resources_js_Pages_Profile_EditVendorForm_vue":"0be32b7f4c68a202a3e9","resources_js_Pages_Profile_EditVendorRegistration_vue":"88c2985f337793cb1dda","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"108074c4202a502ecc7b","resources_js_Pages_Profile_Show_vue":"9b9d15a8d256424e669d","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"793e7526758087579a27","resources_js_Pages_Profile_UpdatePasswordForm_vue":"17a33e0b4f9d8a821aab","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"1d33982cd8e6fb745279","resources_js_Pages_Registration_Shopper_vue":"09669be8e98ebcbd35f3","resources_js_Pages_Registration_Vendor_vue":"6c4e4c1854605af069a4","resources_js_Pages_Shop_ProductsList_vue":"3cdb564b8e2b7e66c69f","resources_js_Pages_TermsOfService_vue":"1c24708e5227d7c18190","resources_js_Pages_Vendors_Index_vue":"31d28fb40ed684d6912b","resources_js_Pages_Vendors_Show_vue":"18cfc8bc6edb4eab6b7c","resources_js_Pages_Welcome_vue":"2466c7d02fd86dc472a2"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -38134,6 +38459,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var _inertiajs_progress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/progress */ "./node_modules/@inertiajs/progress/dist/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+__webpack_require__(/*! ../../public/molla-template/js/bootstrap-input-spinner */ "./public/molla-template/js/bootstrap-input-spinner.js");
 
 __webpack_require__(/*! ./util/init-service-worker */ "./resources/js/util/init-service-worker.js");
 

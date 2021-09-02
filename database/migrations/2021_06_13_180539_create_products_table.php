@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedDecimal('price');
             $table->unsignedDecimal('old_price')->nullable();
-            $table->unsignedInteger('in_stock')->default(0);
+            $table->unsignedInteger('in_stock')->default(1);
             $table->string('disapproval_reason', 255)->nullable();
             $table->enum('approval_status', Product::getApprovalStatuses())->default(Product::STATUS_PENDING);
             $table->dateTime('submitted_at')->nullable();

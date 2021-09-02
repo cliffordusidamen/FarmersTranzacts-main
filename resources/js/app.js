@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('../../public/molla-template/js/bootstrap-input-spinner')
 require("./util/init-service-worker");
 require("./util/input-transform");
 require("./util/input-filter");

@@ -98,9 +98,14 @@ class VendorFactory extends Factory
     {
         return $this->has(
             Product::factory()->count($count)->state(function(array $attributes, Vendor $vendor) {
+                $category = $vendor->productCategories()->inRandomOrder()->first();
+                $hasSubcategories = $category->subcategories()->count();
                 return [
                     'packaging_id' => $vendor->packagings()->inRandomOrder()->first()->id,
-                    'category_id' => $vendor->productCategories()->inRandomOrder()->first()->id,
+                    'category_id' => $category->id,
+                    'subcategory_id' => !$hasSubcategories
+                        ?  null
+                        : $category->subcategories()->inRandomOrder()->first()->id,
                 ];
             }),
             'products'

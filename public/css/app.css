@@ -111,3 +111,28 @@ label.required::after {
      font-size: 1.2rem;
      color: #b7b7b7;
  }
+
+ /* 
+ |------------------------------------------------------------------
+ | Accordion caret effect
+ |------------------------------------------------------------------
+ |
+  */
+ a.with-caret.collapsed:before {
+    content: '\f110';
+    color: #8c8c8c;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+ a.with-caret:before {
+    content: '\e802';
+    display: inline-block;
+    right: 1.2rem;
+    top: 50%;
+    color: #c96;
+    font-family: "molla";
+    line-height: 0;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transition: all 0.3s;
+}

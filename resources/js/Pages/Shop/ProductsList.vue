@@ -1,87 +1,172 @@
 <template>
     <app-layout :show-categories="false">
-        <div v-if="!productsAvailable()" class="border p-3 rounded-md lead">
-            No product available at the moment!
-        </div>
 
-        <div v-else class="page-content">
+        <div class="page-content">
             <div class="container">
                 <div class="row mt-3 justify-content-center">
+
+                    <!-- Side menu -->
                     <div class="col-lg-3">
                         <h4>Categories</h4>
                         <div class="list-group list-group-flush">
-                            <a v-for="category in $page.props.product_categories" :key="category.id" href="#" class="list-group-item list-group-item-action">
-                                {{ category.name }}
-                            </a>
+                            <div
+                                :class="{
+                                    'list-group-item': true,
+                                    'active': isCurrentCategory(category.slug) && !category?.subcategories?.length
+                                }"
+                                v-for="category in $page.props.product_categories"
+                                :key="category.id"
+                            >
+                                <inertia-link
+                                    v-if="(
+                                        !isCurrentCategory(category.slug)
+                                        && !category?.subcategories?.length
+                                    )"
+                                    :href="route('shop.categorized', category.slug)"
+                                    :class="{
+                                        'd-block': true,
+                                        'text-white': isCurrentCategory(category.slug)
+                                    }"
+                                >
+                                    {{ category.name }}
+                                </inertia-link>
+                                <div
+                                    v-else-if="category?.subcategories?.length"
+                                >
+                                    <a
+                                        :href="`#category_menu_${category.id}`"
+                                        class="with-caret d-block d-flex flex-row-reverse align-items-center justify-content-between"
+                                        :class="{
+                                            'collapsed': !isCurrentCategory(category.slug)
+                                        }"
+                                        :aria-expanded="isCurrentCategory(category.slug) ? 'true' : 'false'"
+                                        data-toggle="collapse"
+                                        :data-target="`#category_menu_${category.id}`"
+                                    >
+                                        {{ category.name }}
+                                    </a>
+                                </div>
+                                <span v-else>{{ category.name }}</span>
+                                <div
+                                    v-if="category?.subcategories?.length"
+                                    :id="`category_menu_${category.id}`"
+                                    class="collapse mx-2 border mt-1"
+                                    :class="{
+                                        'show': isCurrentCategory(category.slug)
+                                    }"
+                                >
+                                    <div
+                                        class="list-group list-group-flush"
+                                    >
+                                        <inertia-link
+                                            v-if="category.subcategories.length > 1"
+                                            :href="route('shop.categorized', category.slug)"
+                                            :class="{
+                                                'list-group-item': true,
+                                                'active': isCurrentCategory(category.slug) && !isSubcategorized(),
+                                            }"
+                                        >
+                                            All
+                                        </inertia-link>
+
+                                        <inertia-link
+                                            :href="route('shop.subcategorized', {
+                                                categorySlug: category.slug,
+                                                subcategorySlug: subcategory.slug
+                                            })"
+                                            v-for="subcategory in category.subcategories"
+                                            :key="subcategory.id"
+                                            :class="{
+                                                'list-group-item': true,
+                                                'active': isCurrentSubcategory(subcategory.slug)
+                                            }"
+                                        >
+                                            {{subcategory.name}}
+                                        </inertia-link>
+                                    </div>
+                                </div>
+                                <!-- END MENU -->
+                            </div>
                         </div>
                     </div>
+                    <!-- [END] side menu -->
+
                     <div class="col-lg-9">
-                        <p class="text-muted my-2 lead">
-                            {{ getShownPortion() }}
-                        </p>
+                        <products-list-breadcrumb :category="$page.props?.productCategory || {}" />
+                        <div v-if="isCategorized()">
+                            <h3>
+                                {{
+                                    !isSubcategorized()
+                                    ? $page.props.productCategory.name
+                                    : $page.props.subcategory.name
+                                }}
+                            </h3>
+                        </div>
 
-                        <div class="products mb-3">
-                            <div class="row justify-content-center">
-                                <div v-for="product in $page.props.products.data" :key="product.id" class="col-11 col-sm-6 col-md-4 col-lg-4">
-                                    <div class="product product-7 text-center mb-3 shadow">
-                                        <figure class="product-media bg-light">
-                                            <span v-if="Number(product.in_stock) <= 0" class="product-label label-out">Out of Stock</span>
-                                            <a href="#">
-                                                <img src="/img/default_product.png" alt="Product image" class="product-image">
-                                            </a>
+                        <div v-if="!productsAvailable()" class="border p-3 rounded-md lead">
+                            No product available at the moment!
+                        </div>
 
-                                            <div class="product-action-vertical">
-                                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                                <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                                                <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                                            </div><!-- End .product-action-vertical -->
+                        <div v-else>
+                            <p class="text-muted my-2 lead">
+                                {{ getShownPortion() }}
+                            </p>
 
-                                            <div class="product-action">
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                            </div><!-- End .product-action -->
-                                        </figure><!-- End .product-media -->
-
-                                        <div class="product-body">
-                                            <div class="product-cat">
-                                                <a href="#">{{ product.category.name }}</a>
-                                            </div><!-- End .product-cat -->
-                                            <h3 class="product-title"><a href="#">{{ product.name }}</a></h3><!-- End .product-title -->
-                                            <div class="product-price">
-                                                &#8358;{{ Number(product.price).toLocaleString() }}
-                                            </div><!-- End .product-price -->
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                                </div><!-- End .ratings -->
-                                                <span class="ratings-text">( 2 Reviews )</span>
-                                            </div><!-- End .rating-container -->
-
-                                            <div v-if="product.images > 0" class="product-nav product-nav-thumbs">
-                                                <a href="#" class="active">
-                                                    <img src="assets/images/products/product-4-thumb.jpg" alt="product desc">
-                                                </a>
+                            <div class="products mb-3">
+                                <div class="row justify-content-center">
+                                    <div v-for="product in $page.props.products.data" :key="product.id" class="col-11 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="product product-7 text-center mb-3 shadow">
+                                            <figure class="product-media bg-light">
+                                                <span v-if="!Number(product.in_stock)" class="product-label label-out">Out of Stock</span>
                                                 <a href="#">
-                                                    <img src="assets/images/products/product-4-2-thumb.jpg" alt="product desc">
+                                                    <img src="/img/default_product.png" alt="Product image" class="product-image">
                                                 </a>
 
-                                                <a href="#">
-                                                    <img src="assets/images/products/product-4-3-thumb.jpg" alt="product desc">
-                                                </a>
-                                            </div><!-- End .product-nav -->
-                                        </div><!-- End .product-body -->
-                                    </div><!-- End .product -->
+                                                <div class="product-action-vertical">
+                                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                                </div><!-- End .product-action-vertical -->
 
+                                                <div class="product-action">
+                                                    <cart-update-button :product="product" />
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="#">{{ product.category.name }}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="#">{{ product.name }}</a></h3><!-- End .product-title -->
+                                                <div class="product-price">
+                                                    &#8358;{{ Number(product.price).toLocaleString() }}
+                                                </div><!-- End .product-price -->
+
+                                                <div class="mt-n4 product-packaging">
+                                                    per {{product.packaging.name}}
+                                                </div>
+
+                                                <div v-if="product.images > 0" class="product-nav product-nav-thumbs">
+                                                    <a href="#" class="active">
+                                                        <img src="assets/images/products/product-4-thumb.jpg" alt="product desc">
+                                                    </a>
+                                                    <a href="#">
+                                                        <img src="assets/images/products/product-4-2-thumb.jpg" alt="product desc">
+                                                    </a>
+
+                                                    <a href="#">
+                                                        <img src="assets/images/products/product-4-3-thumb.jpg" alt="product desc">
+                                                    </a>
+                                                </div><!-- End .product-nav -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!-- End .products(all) -->
+                            </div><!-- End .products(all) -->
 
-                        <nav v-if="$page.props.products.links.length > 0" aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li v-for="link in $page.props.products.links" :key="link.label" class="page-item" :class="{ 'active': Number(link.label) == $page.props.products.current_page }">
-                                    <inertia-link class="page-link" :href="link.url" v-html="link.label"></inertia-link>
-                                </li>
-                            </ul>
-                        </nav><!-- End .pagination -->
+                            <pagination :paginator="$page.props.products" />
+                        </div>
 
                     </div><!-- End .col-lg-9 -->
                 </div><!-- End .row -->
@@ -92,15 +177,37 @@
 
 <script>
 import AppLayout from '@/Layouts/AppLayout'
+import ProductsListBreadcrumb from '@/Components/Utils/ProductsListBreadcrumb.vue'
+import Pagination from '@/Components/Pagination.vue'
+import CartUpdateButton from '@/Components/Controls/CartUpdateButton.vue'
 
 export default {
     components: {
         AppLayout,
+        ProductsListBreadcrumb,
+        Pagination,
+        CartUpdateButton,
     },
 
     methods: {
         productsAvailable() {
             return this.$page.props.products.data.length > 0;
+        },
+
+        isCategorized() {
+            return this.$page.props?.productCategory?.id
+        },
+
+        isSubcategorized() {
+            return this.$page.props?.subcategory?.id
+        },
+
+        isCurrentCategory(slug) {
+            return this.isCategorized() && this.$page.props.productCategory.slug == slug
+        },
+
+        isCurrentSubcategory(slug) {
+            return this.isSubcategorized() && this.$page.props.subcategory.slug == slug
         },
 
         getShownPortion() {

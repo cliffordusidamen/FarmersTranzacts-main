@@ -41,6 +41,7 @@ class HandleInertiaRequests extends Middleware
             'permissions' => \App\Models\Designation::getUserPermissions(),
             'userIsVendor' => authUserIsVendor(),
             'config_app' => config('app'),
+            'cart' => $request->session()->get('cart'),
         ]);
     }
 }

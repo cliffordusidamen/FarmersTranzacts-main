@@ -166,4 +166,16 @@ class Product extends Model
     {
         return $query->where('approval_status', self::STATUS_PENDING);
     }
+
+    /**
+     * filter by available for sale:
+     *     approved
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAvailableForSale(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_APPROVED);
+    }
 }

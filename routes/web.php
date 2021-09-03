@@ -57,6 +57,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('categories')->name('cat
  */
 Route::prefix('shop')->name('shop.')->group(function() {
     Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('index');
+    Route::get('product/{slug}', [\App\Http\Controllers\ShopController::class, 'showProduct'])->name('show_product');
     Route::get('{categorySlug}/{subcategorySlug}', [\App\Http\Controllers\ShopController::class, 'subcategorized'])->name('subcategorized');
     Route::get('{slug}', [\App\Http\Controllers\ShopController::class, 'categorized'])->name('categorized');
 });

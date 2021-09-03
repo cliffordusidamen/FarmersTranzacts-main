@@ -118,26 +118,32 @@
                                         <div class="product product-7 text-center mb-3 shadow">
                                             <figure class="product-media bg-light">
                                                 <span v-if="!Number(product.in_stock)" class="product-label label-out">Out of Stock</span>
-                                                <a href="#">
+                                                <inertia-link :href="route('shop.show_product', {slug: product.slug})">
                                                     <img src="/img/default_product.png" alt="Product image" class="product-image">
-                                                </a>
+                                                </inertia-link>
 
-                                                <div class="product-action-vertical">
+                                                <div class="product-action-vertical d-none">
                                                     <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                                     <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
                                                     <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
                                                 </div><!-- End .product-action-vertical -->
 
-                                                <div class="product-action">
+                                                <div v-if="Number(product.in_stock)" class="product-action">
                                                     <cart-update-button :product="product" />
                                                 </div><!-- End .product-action -->
                                             </figure><!-- End .product-media -->
 
                                             <div class="product-body">
                                                 <div class="product-cat">
-                                                    <a href="#">{{ product.category.name }}</a>
+                                                    <inertia-link :href="route('shop.categorized', {slug: product.category.slug})">
+                                                        {{ product.category.name }}
+                                                    </inertia-link>
                                                 </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="#">{{ product.name }}</a></h3><!-- End .product-title -->
+                                                <h3 class="product-title">
+                                                    <inertia-link :href="route('shop.show_product', {slug: product.slug})">
+                                                        {{ product.name }}
+                                                    </inertia-link>
+                                                </h3><!-- End .product-title -->
                                                 <div class="product-price">
                                                     &#8358;{{ Number(product.price).toLocaleString() }}
                                                 </div><!-- End .product-price -->

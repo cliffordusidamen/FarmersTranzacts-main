@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -83,5 +84,19 @@ class ShopController extends Controller
         return Inertia::render('Shop/ProductsList', compact(
             'products', 'productCategory', 'subcategory'
         ));
+    }
+
+    /**
+     * View product details
+     * 
+     * @param  string  $slug
+     */
+    public function showProduct($slug)
+    {
+        $product = Product::where('slug', $slug)
+            ->with(['category', 'subcategory', 'vendor', 'packaging'])
+            ->firstOrFail();
+
+        return Inertia::render('Shop/ShowProduct.vue', compact('product'));
     }
 }

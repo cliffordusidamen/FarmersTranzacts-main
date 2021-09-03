@@ -40,7 +40,7 @@ class AuthenticateLogin
             'email' => 'required|string|min:5',
             'password' => 'required|string|min:6',
             'as_designation' => ['required', 'string', Rule::in($designationNames)],
-            'device_name' => 'required',
+            'device_name' => 'sometimes',
         ];
         $messages = [
             'email.min' => 'Invalid email address',

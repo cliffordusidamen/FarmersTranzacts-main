@@ -88,7 +88,7 @@
                                     </tbody>
                                 </table><!-- End .table table-summary -->
 
-                                <a href="checkout.html" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                <inertia-link :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</inertia-link>
                             </div><!-- End .summary -->
 
                             <inertia-link :href="route('shop.index')" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></inertia-link>

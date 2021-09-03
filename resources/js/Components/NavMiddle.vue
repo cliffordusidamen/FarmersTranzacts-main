@@ -115,7 +115,7 @@
 
                             <div v-show="!processing" class="dropdown-cart-action">
                                 <inertia-link :href="route('shopping_cart.view')" class="btn btn-primary">View Cart</inertia-link>
-                                <a href="#" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                <inertia-link :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
                             </div><!-- End .dropdown-cart-total -->
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .cart-dropdown -->

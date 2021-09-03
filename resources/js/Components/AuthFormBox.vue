@@ -1,7 +1,7 @@
 <template>
-    <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-image: url('/molla-template/images/login-bg.jpg')">
+    <div class="login-page bg-light pt-8 pb-8 pt-md-4 pb-md-12 pb-lg-17">
         <div class="container">
-            <div class="form-box">
+            <div class="form-box p-3">
                 <slot></slot>
             </div>
         </div>

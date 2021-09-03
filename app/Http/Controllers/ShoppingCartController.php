@@ -11,6 +11,15 @@ use Inertia\Inertia;
 class ShoppingCartController extends Controller
 {
     /**
+     * Create controller instance
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum', 'verified'])->only([
+            'checkout',
+        ]);
+    }
+    /**
      * View cart content
      * 
      * @param  \Illuminate\Http\Request  $request

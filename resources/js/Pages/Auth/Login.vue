@@ -1,93 +1,64 @@
 <template>
-  <jet-authentication-card>
-      <jet-validation-errors class="mb-3" />
+    <jet-authentication-card>
+        <jet-validation-errors class="mb-3" />
 
-      <div v-if="status" class="alert alert-success mb-3 rounded-0" role="alert">
-        {{ status }}
-      </div>
-
-      <h4 class="text-center text-primary text-uppercase">Log In</h4>
-
-      <form @submit.prevent="submit">
-        <div class="form-group">
-          <jet-label for="email" value="Email" />
-          <jet-input id="email" type="email" v-model="form.email" required autofocus />
+        <div
+            v-if="status"
+            class="alert alert-success mb-3 rounded-0"
+            role="alert"
+        >
+            {{ status }}
         </div>
 
-        <div class="form-group">
-          <jet-label for="password" value="Password" />
-          <jet-input id="password" type="password" v-model="form.password" required autocomplete="current-password" />
+        <div class="form-tab">
+            <ul class="nav nav-pills nav-fill" role="tablist">
+                <li class="nav-item">
+                    <a
+                        class="nav-link active"
+                        id="signin-tab-2"
+                        data-toggle="tab"
+                        href="#signin-2"
+                        role="tab"
+                        aria-controls="signin-2"
+                        aria-selected="false"
+                        >Sign In</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        id="register-tab-2"
+                        :href="route('register')"
+                        >Register</a
+                    >
+                </li>
+            </ul>
+            <div class="tab-content px-4 mx-4 mb-4">
+                <div
+                    class="tab-pane fade show active"
+                    id="signin-2"
+                    role="tabpanel"
+                    aria-labelledby="signin-tab-2"
+                >
+                    <login-form />
+                </div>
+                <div class="tab-pane fade" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-          <div class="custom-control custom-checkbox">
-            <jet-checkbox id="remember_me" name="remember" v-model:checked="form.remember" />
-
-            <label class="custom-control-label" for="remember_me">
-              Remember Me
-            </label>
-          </div>
-        </div>
-
-        <div class="mb-0">
-          <div class="d-flex justify-content-center align-items-baseline">
-            <inertia-link v-if="canResetPassword" :href="route('password.request')" class="flex-fill text-primary text-muted mr-3">
-              Forgot your password?
-            </inertia-link>
-
-            <jet-button class="ml-4" :class="{ 'text-white-50': form.processing }" :disabled="form.processing">
-              Log in
-            </jet-button>
-          </div>
-        </div>
-      </form>
-  </jet-authentication-card>
+    </jet-authentication-card>
 </template>
 
 <script>
-import JetAuthenticationCard from '@/Jetstream/AuthenticationCard'
-import JetButton from '@/Jetstream/Button'
-import JetInput from '@/Jetstream/Input'
-import JetCheckbox from '@/Jetstream/Checkbox'
-import JetLabel from '@/Jetstream/Label'
-import JetValidationErrors from '@/Jetstream/ValidationErrors'
+import JetAuthenticationCard from "@/Jetstream/AuthenticationCard";
+import JetValidationErrors from "@/Jetstream/ValidationErrors";
+import LoginForm from '@/Components/Forms/LoginForm.vue'
 
 export default {
-  components: {
-    JetAuthenticationCard,
-    JetButton,
-    JetInput,
-    JetCheckbox,
-    JetLabel,
-    JetValidationErrors,
-  },
-
-  props: {
-    canResetPassword: Boolean,
-    status: String
-  },
-
-  data() {
-    return {
-      form: this.$inertia.form({
-        email: '',
-        password: '',
-        remember: false
-      })
-    }
-  },
-
-  methods: {
-    submit() {
-      this.form
-          .transform(data => ({
-            ... data,
-            remember: this.form.remember ? 'on' : ''
-          }))
-          .post(this.route('login'), {
-            onFinish: () => this.form.reset('password'),
-          })
-    }
-  }
-}
+    components: {
+        JetAuthenticationCard,
+        JetValidationErrors,
+        LoginForm,
+    },
+};
 </script>

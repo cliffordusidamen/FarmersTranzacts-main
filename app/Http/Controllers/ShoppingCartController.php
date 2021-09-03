@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Product;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -141,5 +143,36 @@ class ShoppingCartController extends Controller
         $cart['grand_total'] = $grandTotal;
         
         return $cart;
+    }
+
+    /**
+     * Checkout page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function checkout(Request $request)
+    {
+        $cart = $request->session()->get('cart');
+
+        if (!isset($cart['items']) || count($cart['items']) == 0) {
+            return redirect()->route('shopping_cart.view');
+        }
+
+        $cart = $request->session()->get('cart', ['items' => []]);
+        $app_states = State::pluck('state_name', 'id');
+        return Inertia::render('Cart/Checkout.vue', compact(
+            'cart', 'app_states'
+        ));
+    }
+
+    /**
+     * Proceed to payment
+     * 
+     * @param  \App\Http\Requests\OrderRequest  $request
+     */
+    public function order(OrderRequest $request)
+    {
+        flashMessage('success', 'Valid order request data! Will implement payment soon!');
+        return back()->withInput();
     }
 }

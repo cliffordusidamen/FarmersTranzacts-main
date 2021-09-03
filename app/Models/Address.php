@@ -65,4 +65,23 @@ class Address extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    /**
+     * Default validation rules
+     * 
+     * @return array
+     */
+    public static function validationRules(): array
+    {
+        $rules = [
+            'line_1' => ['required', 'string', 'min:3', 'max:200'],
+            'line_2' => ['sometimes', 'string', 'nullable', 'min:3', 'max:200'],
+            'city' => ['required', 'string', 'nullable', 'min:3', 'max:25'],
+            'postal_code' => ['sometimes', 'string', 'nullable', 'min:3', 'max:10'],
+            'state_id' => ['required', 'exists:states,id'],
+            'country_id' => ['sometimes', 'nullable', 'exists:countries,id'],
+        ];
+
+        return $rules;
+    }
 }

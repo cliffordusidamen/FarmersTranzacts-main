@@ -37903,6 +37903,14 @@ var map = {
 		"./resources/js/Pages/API/Index.vue",
 		"resources_js_Pages_API_Index_vue"
 	],
+	"./AboutUs": [
+		"./resources/js/Pages/AboutUs.vue",
+		"resources_js_Pages_AboutUs_vue"
+	],
+	"./AboutUs.vue": [
+		"./resources/js/Pages/AboutUs.vue",
+		"resources_js_Pages_AboutUs_vue"
+	],
 	"./Admin/CategoriesList": [
 		"./resources/js/Pages/Admin/CategoriesList.vue",
 		"resources_js_Pages_Admin_CategoriesList_vue"
@@ -38006,6 +38014,14 @@ var map = {
 	"./Cart/View.vue": [
 		"./resources/js/Pages/Cart/View.vue",
 		"resources_js_Pages_Cart_View_vue"
+	],
+	"./ContactUs": [
+		"./resources/js/Pages/ContactUs.vue",
+		"resources_js_Pages_ContactUs_vue"
+	],
+	"./ContactUs.vue": [
+		"./resources/js/Pages/ContactUs.vue",
+		"resources_js_Pages_ContactUs_vue"
 	],
 	"./Dashboards/AdminDashboard": [
 		"./resources/js/Pages/Dashboards/AdminDashboard.vue",
@@ -38273,7 +38289,7 @@ module.exports = webpackAsyncContext;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"7494517f238318a54d3a","resources_js_Pages_API_Index_vue":"c50b5e5dedea713e5de1","resources_js_Pages_Admin_CategoriesList_vue":"d06336a589b6ba06d3b2","resources_js_Pages_Admin_CreateCategory_vue":"9cac8702eb9b2a35ae78","resources_js_Pages_Admin_CreateSubcategory_vue":"09893459ff329f23e5ca","resources_js_Pages_Admin_ShowCategory_vue":"20299cae75fb778d14dc","resources_js_Pages_Auth_ConfirmPassword_vue":"850b363223e335b61fbf","resources_js_Pages_Auth_ForgotPassword_vue":"493fdecb263ac654dd9a","resources_js_Pages_Auth_Login_vue":"74dbb1cd0568242e699a","resources_js_Pages_Auth_Register_vue":"db38c6286264e0f763e7","resources_js_Pages_Auth_ResetPassword_vue":"635ad7fe2edda11b4688","resources_js_Pages_Auth_TwoFactorChallenge_vue":"9a44dd8ef0a03c00ca7f","resources_js_Pages_Auth_VerifyEmail_vue":"8d4ae07a9801419e12d4","resources_js_Pages_Cart_Checkout_vue":"17d545f6eb9b47748ebf","resources_js_Pages_Cart_View_vue":"8f82c0e9a45ec8e3017a","resources_js_Pages_Dashboards_AdminDashboard_vue":"e6f0d9980aa36e9c174e","resources_js_Pages_Dashboards_VendorDashboard_vue":"485928c0f11ac258ba0b","resources_js_Pages_Home_vue":"75ae369c1412c763d160","resources_js_Pages_PrivacyPolicy_vue":"294551ec9e7ce0a8cede","resources_js_Pages_Profile_DeleteUserForm_vue":"d6f2544ceedd8bdf033e","resources_js_Pages_Profile_EditVendorForm_vue":"a5385947f43bb9873c99","resources_js_Pages_Profile_EditVendorRegistration_vue":"7b1e21c0b860201137aa","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"108074c4202a502ecc7b","resources_js_Pages_Profile_Show_vue":"058b444f278b9afaf164","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"793e7526758087579a27","resources_js_Pages_Profile_UpdatePasswordForm_vue":"17a33e0b4f9d8a821aab","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"1d33982cd8e6fb745279","resources_js_Pages_Registration_Shopper_vue":"204359d36fdb99706835","resources_js_Pages_Registration_Vendor_vue":"0695bc649fb8c7993293","resources_js_Pages_Shop_ProductsList_vue":"62ce226ec7c0f05bc4e6","resources_js_Pages_Shop_ShowProduct_vue":"89786a8159925be95839","resources_js_Pages_TermsOfService_vue":"1c24708e5227d7c18190","resources_js_Pages_Vendors_Index_vue":"a4f4739e138d0a5d4d1d","resources_js_Pages_Vendors_Show_vue":"b4168a588f889ab75a7d","resources_js_Pages_Welcome_vue":"2466c7d02fd86dc472a2"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"7494517f238318a54d3a","resources_js_Pages_API_Index_vue":"df7bd2c00ee0120bb37f","resources_js_Pages_AboutUs_vue":"a6198d7ba8d7f7c73e4b","resources_js_Pages_Admin_CategoriesList_vue":"4b724ac12a6354c7e889","resources_js_Pages_Admin_CreateCategory_vue":"a3b9be006591cd4d38f1","resources_js_Pages_Admin_CreateSubcategory_vue":"1ebadb7cea0b928f7c69","resources_js_Pages_Admin_ShowCategory_vue":"f57d6eab3a55ec832033","resources_js_Pages_Auth_ConfirmPassword_vue":"25e196256342a86253e4","resources_js_Pages_Auth_ForgotPassword_vue":"8136bcc6159b45da1cf4","resources_js_Pages_Auth_Login_vue":"355cf605b7de0914fc48","resources_js_Pages_Auth_Register_vue":"a364b596847bb8bfb7fa","resources_js_Pages_Auth_ResetPassword_vue":"ed66cfc35f1cf4e79adc","resources_js_Pages_Auth_TwoFactorChallenge_vue":"4aa1cbe100bfd60c0ab2","resources_js_Pages_Auth_VerifyEmail_vue":"402f187d06dc780ed2f6","resources_js_Pages_Cart_Checkout_vue":"57621395a054d05f20c7","resources_js_Pages_Cart_View_vue":"42a8c8df67e3e474bfd4","resources_js_Pages_ContactUs_vue":"ba2eb6d5987c281a6617","resources_js_Pages_Dashboards_AdminDashboard_vue":"d3a992817d731d42754f","resources_js_Pages_Dashboards_VendorDashboard_vue":"df33eb6ad5b299c00d8d","resources_js_Pages_Home_vue":"b7f83d1d96969df51b0f","resources_js_Pages_PrivacyPolicy_vue":"294551ec9e7ce0a8cede","resources_js_Pages_Profile_DeleteUserForm_vue":"d6f2544ceedd8bdf033e","resources_js_Pages_Profile_EditVendorForm_vue":"f1d8962d3cd99fa60fb0","resources_js_Pages_Profile_EditVendorRegistration_vue":"dbfc4ca400d6bfcc21b8","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"108074c4202a502ecc7b","resources_js_Pages_Profile_Show_vue":"7fac1195594da97458e4","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"793e7526758087579a27","resources_js_Pages_Profile_UpdatePasswordForm_vue":"17a33e0b4f9d8a821aab","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"1d33982cd8e6fb745279","resources_js_Pages_Registration_Shopper_vue":"f05b1643510c4d07104f","resources_js_Pages_Registration_Vendor_vue":"8bda3dbd7442f0ee2544","resources_js_Pages_Shop_ProductsList_vue":"c219011c6ae3bc9daf25","resources_js_Pages_Shop_ShowProduct_vue":"7f6039f282674b486348","resources_js_Pages_TermsOfService_vue":"1c24708e5227d7c18190","resources_js_Pages_Vendors_Index_vue":"3d0b7b54bfd16d77eb7a","resources_js_Pages_Vendors_Show_vue":"9ba6ebaa11b5187f3621","resources_js_Pages_Welcome_vue":"2466c7d02fd86dc472a2"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

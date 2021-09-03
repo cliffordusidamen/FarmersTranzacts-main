@@ -30,10 +30,21 @@
                     <nav class="main-nav">
                         <ul class="menu sf-arrows">
                             <li class="d-none d-xl-block"><inertia-link :href="route('home')">Home</inertia-link></li>
-                            <li><inertia-link :href="route('shop.index')">Shop</inertia-link></li>
-                            <li><a href="#">Distributors</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li :class="{
+                                'active': isCurrentRoute(route('shop.index'))
+                            }">
+                                <inertia-link :href="route('shop.index')">Shop</inertia-link>
+                            </li>
+                            <li :class="{
+                                'active': isCurrentRoute(route('about_us'))
+                            }">
+                                <inertia-link :href="route('about_us')">About Us</inertia-link>
+                            </li>
+                            <li :class="{
+                                'active': isCurrentRoute(route('contact_us'))
+                            }">
+                                <inertia-link :href="route('contact_us')">Contact Us</inertia-link>
+                            </li>
                             <li v-if="canManageProductCategories">
                                 <a href="#" class="sf-with-ul">Admin</a>
                                 <ul>
@@ -88,7 +99,11 @@ export default {
     methods: {
         hasSubcategory(category) {
             return category.subcategories.length > 0;
-        }
+        },
+
+        isCurrentRoute(route) {
+            return window.location.href.startsWith(route)
+        },
     },
 }
 </script>

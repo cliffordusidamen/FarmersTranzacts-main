@@ -49,11 +49,19 @@
 
                                 </div>
                                <div class="product-content">
-                                   <h5>Shipping &amp; Returns</h5>
+                                   <h6>Shipping &amp; Returns</h6>
                                    <p>
                                        Items will be shipped within xdays.
                                        Items can only be returned within 30 days of delivery.
                                    </p>
+                                   <div class="row mt-2">
+                                       <div class="col-sm-6 col-md-3">
+                                            <p>
+                                                <cart-update-button :product="product" />
+                                            </p>
+
+                                       </div>
+                                   </div>
                                 </div>
 
                                 <div class="product-details-footer">
@@ -72,12 +80,14 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
+import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
 
 export default {
     components: {
         AppLayout,
-        BreadcrumbDefault
+        BreadcrumbDefault,
+        CartUpdateButton,
     },
     setup() {
         const {product} = usePage().props.value

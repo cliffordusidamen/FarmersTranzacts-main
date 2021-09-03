@@ -111,3 +111,12 @@ Route::post('/logout', function(\Illuminate\Http\Request $request) {
     $request->session()->put('cart', $cart);
     return redirect('/');
 })->name('logout');
+
+
+/*
+ |-----------------------------------------------------------------------------
+ | Public pages routes
+ |-----------------------------------------------------------------------------
+ */
+Route::get('/about-us', fn () => Inertia::render('AboutUs.vue'))->name('about_us');
+Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue'))->name('contact_us');

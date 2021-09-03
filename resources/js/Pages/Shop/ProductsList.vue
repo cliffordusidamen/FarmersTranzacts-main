@@ -3,10 +3,10 @@
 
         <div class="page-content">
             <div class="container">
-                <div class="row mt-3 justify-content-center">
+                <div class="row d-flex mt-3 justify-content-center">
 
                     <!-- Side menu -->
-                    <div class="col-lg-3">
+                    <div class="d-none d-md-block col-md-3">
                         <h4>Categories</h4>
                         <div class="list-group list-group-flush">
                             <div
@@ -91,7 +91,7 @@
                     </div>
                     <!-- [END] side menu -->
 
-                    <div class="col-lg-9">
+                    <div class="col-md-9">
                         <products-list-breadcrumb :category="$page.props?.productCategory || {}" />
                         <div v-if="isCategorized()">
                             <h3>

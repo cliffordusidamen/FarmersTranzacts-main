@@ -22,7 +22,7 @@ class VendorPackagingFactory extends Factory
     public function definition()
     {
         return [
-            'name' => join(' ', $this->faker->words(2)),
+            'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
         ];
     }

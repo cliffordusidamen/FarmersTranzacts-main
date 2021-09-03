@@ -27,7 +27,7 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr v-for="{product, quantity, total} in cartItems" :key="product.id">
+                                        <tr v-for="{product, quantity } in cartItems" :key="product.id">
                                             <td class="product-col">
                                                 <div class="product">
                                                     <figure class="product-media">
@@ -47,7 +47,7 @@
                                                     <input type="number" class="form-control" @change="$event => updateProductQuantity(product, $event.target.value)" :value="quantity" min="1" max="10" step="1" data-decimals="0" required="" style="display: none;">
                                                 </div>
                                             </td>
-                                            <td class="total-col">&#8358;{{ Number(total).toLocaleString() }}</td>
+                                            <td class="total-col">&#8358;{{ Number(itemTotalPricesRx[product.id]).toLocaleString() }}</td>
                                             <td class="remove-col">
                                                 <button class="btn-remove" @click="removeItem(product)"><i class="icon-close"></i></button>
                                             </td>
@@ -74,7 +74,7 @@
                                     <tbody>
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
-                                            <td>&#8358;{{ Number(cart.grand_total).toLocaleString()}}</td>
+                                            <td>&#8358;{{ Number(grandTotal).toLocaleString()}}</td>
                                         </tr><!-- End .summary-subtotal -->
                                         <tr class="summary-shipping">
                                             <td>Shipping:</td>
@@ -83,7 +83,7 @@
 
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td>&#8358;{{ Number(cart.grand_total).toLocaleString()}}</td>
+                                            <td>&#8358;{{ Number(grandTotal).toLocaleString()}}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->
@@ -107,7 +107,7 @@
 import AppLayout from '@/Layouts/AppLayout'
 import BreadcrumbDefault from '@/Components/Utils/BreadcrumbDefault.vue'
 import useCartManager from '@/composables/useCartManager'
-import { onMounted, ref } from '@vue/runtime-core'
+import { onMounted, reactive, ref } from '@vue/runtime-core'
 import { Inertia } from '@inertiajs/inertia'
 
 export default {
@@ -122,7 +122,7 @@ export default {
                 'text': 'Shop',
                 'link': route('shop.index')
             },
-            'Cart'
+            {text: 'Cart'},
         ]
 
         const {
@@ -137,12 +137,6 @@ export default {
         const updatingCart = ref(false)
 
         const cartItemsRx = ref({...cart.items});
-        
-        const updateProductQuantity = (product, value) => {
-            cartItemsRx.value[product.id].quantity = value
-            console.log('New quantity for "' + product.name + '"', value)
-        }
-
 
         const updateCart = (event) => {
             event.preventDefault()
@@ -173,6 +167,33 @@ export default {
         onMounted(() => {
             window.$('input[type="number"]').inputSpinner()
         })
+
+        let itemTotalPrices = {}
+        for (const productId in cartItems) {
+            if (Object.hasOwnProperty.call(cartItems, productId)) {
+                itemTotalPrices[productId] = Number(cartItems[productId]['total']);
+            }
+        }
+
+        const itemTotalPricesRx = reactive({...itemTotalPrices})
+
+        const grandTotal = ref(cart.grand_total)
+        const updateGrandTotal = () => {
+            let newGrandTotal = 0;
+            for (const productId in itemTotalPricesRx) {
+                if (Object.hasOwnProperty.call(itemTotalPricesRx, productId)) {
+                    newGrandTotal += Number(itemTotalPricesRx[productId]);
+                }
+            }
+            grandTotal.value = newGrandTotal
+        }
+        
+        const updateProductQuantity = (product, quantity) => {
+            cartItemsRx.value[product.id].quantity = quantity
+            console.log('New quantity for "' + product.name + '"', quantity)
+            itemTotalPricesRx[product.id] = Number(quantity) * Number(product.price)
+            updateGrandTotal()
+        }
         return {
             breadcrumbLinks,
             cart,
@@ -184,6 +205,8 @@ export default {
             removeItem,
             updateProductQuantity,
             updateCart,
+            itemTotalPricesRx,
+            grandTotal,
         }
     }
 }

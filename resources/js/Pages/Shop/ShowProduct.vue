@@ -38,7 +38,7 @@
                             </div><!-- [END] product-gallery -->
                         </div><!-- [END] col-md-6 -->
                         <div class="col-md-6">
-                            <div class="product-details">
+                            <div class="product-details mx-3">
                                 <h1 class="product-title">{{ product.name }}</h1>
                                 <div class="product-price">
                                     &#8358;{{ Number(product.price).toLocaleString() }}

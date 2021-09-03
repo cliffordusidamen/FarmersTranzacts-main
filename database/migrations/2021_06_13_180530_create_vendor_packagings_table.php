@@ -16,7 +16,7 @@ class CreateVendorPackagingsTable extends Migration
         Schema::create('vendor_packagings', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedInteger('vendor_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
 

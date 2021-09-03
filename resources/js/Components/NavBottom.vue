@@ -16,7 +16,14 @@
 
                                         <ul v-if="hasSubcategory(category)">
                                             <li v-for="subcategory in category.subcategories" :key="subcategory.id">
-                                                <inertia-link href="#">{{ subcategory.name }}</inertia-link>
+                                                <inertia-link
+                                                    :href="route('shop.subcategorized', {
+                                                        categorySlug: category.slug,
+                                                        subcategorySlug: subcategory.slug,
+                                                    })"
+                                                >
+                                                    {{ subcategory.name }}
+                                                </inertia-link>
                                             </li>
                                         </ul>
                                     </li>
@@ -45,32 +52,6 @@
                             }">
                                 <inertia-link :href="route('contact_us')">Contact Us</inertia-link>
                             </li>
-                            <li v-if="canManageProductCategories">
-                                <a href="#" class="sf-with-ul">Admin</a>
-                                <ul>
-                                    <li>
-                                        <a href="#" class="sf-with-ul">Product Categories</a>
-
-                                        <ul>
-                                            <li><inertia-link :href="route('categories.create')">Add</inertia-link></li>
-                                            <li><inertia-link :href="route('categories.index')">List</inertia-link></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <inertia-link :href="route('vendors.index')">Vendors</inertia-link>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="sf-with-ul">Users</a>
-
-                                        <ul>
-                                            <li><a href="#">Add</a></li>
-                                            <li><a href="#">List</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Sample Link 1</a></li>
-                                    <li><a href="#">Sample Link 1</a></li>
-                                </ul>
-                            </li>
                         </ul>
                     </nav>
                 </div><!-- End. header-center -->
@@ -84,7 +65,6 @@
 </template>
 
 <script>
-import Permissions from '@/Mixins/permissions.js'
 
 export default {
     props: {
@@ -93,8 +73,6 @@ export default {
             default: true,
         },
     },
-
-    mixins: [Permissions],
 
     methods: {
         hasSubcategory(category) {

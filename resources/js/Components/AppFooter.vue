@@ -67,8 +67,8 @@
                             <div class="widget-about-info flex-fill">
                                 <div class="row">
                                     <div class="col-12 mt-0">
-                                        <span class="widget-about-title text-uppercase font-weight-bold">Payment Method</span>
-                                        <figure class="footer-payments">
+                                        <span class="widget-about-title text-uppercase font-weight-bold text-center text-md-left">Payment Method</span>
+                                        <figure class="footer-payments d-flex justify-content-center justify-content-md-start">
                                             <img src="/molla-template/images/payments.png" alt="Payment methods" width="272" height="20">
                                         </figure><!-- End .footer-payments -->
                                     </div><!-- End .col-sm-6 -->
@@ -76,8 +76,8 @@
                             </div><!-- End .widget-about-info -->
 
                             <div class="flex-fill">
-                                <span class="widget-about-title text-uppercase font-weight-bold mt-2">Connect with us:</span>
-                                <div class="d-flex">
+                                <span class="widget-about-title text-uppercase font-weight-bold mt-2 text-center text-md-left">Connect with us:</span>
+                                <div class="d-flex justify-content-center justify-content-md-start">
                                     <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
                                     <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
                                     <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
@@ -92,10 +92,10 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="widget">
-                                    <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+                                    <h4 class="widget-title text-center text-md-left">Information</h4><!-- End .widget-title -->
 
-                                    <ul class="widget-list">
-                                        <li><a href="#">About {{ this.$page.props.config_app.name }}</a></li>
+                                    <ul class="widget-list text-center text-md-left">
+                                        <li><inertia-link @click="toggleMobileMenu" :href="route('about_us')">About {{ this.$page.props.config_app.name }}</inertia-link></li>
                                         <li><a href="#">How to shop</a></li>
                                         <li><a href="#">FAQ</a></li>
                                     </ul><!-- End .widget-list -->
@@ -104,9 +104,9 @@
 
                             <div class="col-md-4">
                                 <div class="widget">
-                                    <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+                                    <h4 class="widget-title text-center text-md-left">Customer Service</h4><!-- End .widget-title -->
 
-                                    <ul class="widget-list">
+                                    <ul class="widget-list text-center text-md-left">
                                         <li><a href="#">Terms and conditions</a></li>
                                         <li><a href="#">Privacy Policy</a></li>
                                         <li><a href="#">Contact us</a></li>
@@ -116,9 +116,9 @@
 
                             <div class="col-md-4">
                                 <div class="widget">
-                                    <h4 class="widget-title">Make Money</h4><!-- End .widget-title -->
+                                    <h4 class="widget-title text-center text-md-left">Make Money</h4><!-- End .widget-title -->
 
-                                    <ul class="widget-list">
+                                    <ul class="widget-list text-center text-md-left">
                                         <li><a href="#">Sell on {{ this.$page.props.config_app.name }}</a></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->

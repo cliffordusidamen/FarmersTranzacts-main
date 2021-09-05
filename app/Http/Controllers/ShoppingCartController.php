@@ -30,7 +30,8 @@ class ShoppingCartController extends Controller
     public function view(Request $request)
     {
         $cart = $request->session()->get('cart', ['items' => []]);
-        return Inertia::render('Cart/View.vue', compact('cart'));
+        $showMenu = false;
+        return Inertia::render('Cart/View.vue', compact('cart', 'showMenu'));
     }
     /**
      * Add item to cart
@@ -160,8 +161,9 @@ class ShoppingCartController extends Controller
 
         $cart = $request->session()->get('cart', ['items' => []]);
         $app_states = State::pluck('state_name', 'id');
+        $showMenu = false;
         return Inertia::render('Cart/Checkout.vue', compact(
-            'cart', 'app_states'
+            'cart', 'app_states', 'showMenu'
         ));
     }
 

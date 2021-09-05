@@ -17,14 +17,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Home', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
+Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 
 /*
  |-----------------------------------------------------------------------------
@@ -118,5 +111,11 @@ Route::post('/logout', function(\Illuminate\Http\Request $request) {
  | Public pages routes
  |-----------------------------------------------------------------------------
  */
-Route::get('/about-us', fn () => Inertia::render('AboutUs.vue'))->name('about_us');
-Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue'))->name('contact_us');
+Route::get('/about-us', fn () => Inertia::render('AboutUs.vue', [
+        'showMenu' => false,
+    ]))
+    ->name('about_us');
+Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
+        'showMenu' => false,
+    ]))
+    ->name('contact_us');

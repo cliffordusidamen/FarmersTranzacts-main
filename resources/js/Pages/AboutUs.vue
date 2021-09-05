@@ -1,5 +1,5 @@
 <template>
-    <app-layout :show-categories="false">
+    <app-layout>
         <page-header title="About Us" />
         <breadcrumb-default :breadcrumbs="breadcrumbLinks" />
         <div class="page-content">

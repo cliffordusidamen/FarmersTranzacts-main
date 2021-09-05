@@ -1,5 +1,5 @@
 <template>
-  <app-layout :show-categories="false">
+  <app-layout :show-menu="false">
     <auth-form-box>
       <slot></slot>
     </auth-form-box>

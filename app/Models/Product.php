@@ -178,4 +178,27 @@ class Product extends Model
     {
         return $query->where('approval_status', self::STATUS_APPROVED);
     }
+
+    /**
+     * filter: in stock or not
+     *     approved
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int|null $inStock
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInStock(Builder $query, ?bool $inStock = null): Builder
+    {
+        $query = $query->where('approval_status', self::STATUS_APPROVED);
+
+        if (!is_null($inStock)) {
+            $query->where(
+                'in_stock',
+                !$inStock ? '==' : '!=',
+                0
+            );
+        }
+
+        return $query;
+    }
 }

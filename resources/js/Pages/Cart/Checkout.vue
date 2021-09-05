@@ -1,5 +1,5 @@
 <template>
-    <app-layout :show-categories="false">
+    <app-layout>
         <breadcrumb-default :breadcrumbs="breadcrumbLinks" />
         <div class="page-content">
             <div class="checkout">

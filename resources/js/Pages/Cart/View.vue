@@ -1,5 +1,5 @@
 <template>
-    <app-layout :show-categories="false">
+    <app-layout>
         <div class="page-content">
             <div class="cart">
                 <div class="container">
@@ -165,7 +165,13 @@ export default {
         }
 
         onMounted(() => {
-            window.$('input[type="number"]').inputSpinner()
+            window.$('input[type="number"]').inputSpinner({
+                decrementButton: '<i class="icon-minus"></i>',
+                incrementButton: '<i class="icon-plus"></i>',
+                groupClass: 'input-spinner',
+                buttonsClass: 'btn-spinner',
+                buttonsWidth: '26px'
+            })
         })
 
         let itemTotalPrices = {}

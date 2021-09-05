@@ -3,12 +3,15 @@
         <div class="header-bottom sticky-header">
             <div class="container">
                 <div v-show="showCategories && $page.props.product_categories.length > 0" class="header-left">
-                    <div class="dropdown category-dropdown show is-on" data-visible="true">
+                    <div class="dropdown category-dropdown show is-on" ::data-visible="$page.props.showMenu ? 'true' : 'false'">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-display="static" title="Browse Categories">
                             Browse Categories
                         </a>
 
-                        <div class="dropdown-menu show">
+                        <div :class="{
+                            'dropdown-menu': true,
+                            'show': $page.props.showMenu,
+                        }">
                             <nav class="side-nav">
                                 <ul class="menu-vertical sf-arrows">
                                     <li v-for="category in $page.props.product_categories" :key="category.id" :class="{'sf-with-ul': hasSubcategory(category) }">
@@ -36,7 +39,12 @@
                 <div class="header-center">
                     <nav class="main-nav">
                         <ul class="menu sf-arrows">
-                            <li class="d-none d-xl-block"><inertia-link :href="route('home')">Home</inertia-link></li>
+                            <li :class="{
+                                'd-none d-xl-block': true,
+                                'active': isCurrentRoute('home')
+                            }">
+                                <inertia-link :href="route('home')">Home</inertia-link>
+                            </li>
                             <li :class="{
                                 'active': isCurrentRoute(route('shop.index'))
                             }">
@@ -74,12 +82,45 @@ export default {
         },
     },
 
+    mounted() {
+        
+        // Sticky header 
+        var catDropdown = $('.category-dropdown'),
+            catInitVal = catDropdown.data('visible');
+            
+        if ( $('.sticky-header').length && $(window).width() >= 992 ) {
+            var sticky = new Waypoint.Sticky({
+                element: $('.sticky-header')[0],
+                stuckClass: 'fixed',
+                offset: -300,
+                handler: function ( direction ) {
+                    // Show category dropdown
+                    if ( catInitVal &&  direction == 'up') {
+                        catDropdown.addClass('show').find('.dropdown-menu').addClass('show');
+                        catDropdown.find('.dropdown-toggle').attr('aria-expanded', 'true');
+                        return false;
+                    }
+
+                    // Hide category dropdown on fixed header
+                    if ( catDropdown.hasClass('show') ) {
+                        catDropdown.removeClass('show').find('.dropdown-menu').removeClass('show');
+                        catDropdown.find('.dropdown-toggle').attr('aria-expanded', 'false');
+                    } 
+                }
+            });
+        }
+    },
+
     methods: {
         hasSubcategory(category) {
             return category.subcategories.length > 0;
         },
 
         isCurrentRoute(route) {
+            if (route == 'home') {
+                return window.location.href == `${window.location.origin}/`
+            }
+
             return window.location.href.startsWith(route)
         },
     },

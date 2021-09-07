@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\ProductApprovalStatusChangedEvent;
 use App\Http\Requests\SaveProductRequest;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\VendorPackaging;
 use App\Models\ProductSubcategory;
@@ -43,9 +45,7 @@ class ProductController extends Controller
                 ->submitted();
         }
 
-        $products = $query->orderByDesc('id')->paginate(10);
-
-        return response()->json(compact('products'));
+        return new ProductCollection($query->orderByDesc('id')->paginate(10));
     }
 
     /**
@@ -94,7 +94,9 @@ class ProductController extends Controller
             throw new \Exception('Product not saved! Please, try again.');
         }
 
-        return response()->json(compact('product'));
+        return response()->json([
+            'product' => new ProductResource($product),
+        ]);
     }
 
     /**
@@ -108,10 +110,12 @@ class ProductController extends Controller
     {
         $product->load([
             'packaging', 'category', 'subcategory',
-            'vendor', 'featurePicture',
+            'vendor', 'images',
         ]);
         $this->_abortIfNotVendorProduct($product);
-        return response()->json(compact('product'));
+        return response()->json([
+            'product' => new ProductResource($product),
+        ]);
     }
 
     /**

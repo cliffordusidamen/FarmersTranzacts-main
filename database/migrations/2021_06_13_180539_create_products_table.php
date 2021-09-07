@@ -23,6 +23,8 @@ class CreateProductsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->text('specifications')->nullable();
+            $table->text('key_features')->nullable();
             $table->unsignedDecimal('price');
             $table->unsignedDecimal('old_price')->nullable();
             $table->unsignedInteger('in_stock')->default(1);

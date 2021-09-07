@@ -27,13 +27,12 @@ class VendorFactory extends Factory
      */
     public function definition()
     {
-        $bizName =  $this->faker->company();
         return [
-            'shop_name' => $bizName,
-            'business_name' => $bizName,
+            'shop_name' => $this->faker->company(),
+            'business_name' => $this->faker->company(),
             'tin' => strtoupper(Str::random(8)),
             'is_vat_registered' => (bool) mt_rand(0, 1),
-            'slug' => Str::slug($bizName),
+            // 'slug' => Str::slug($this->faker->company()),
             'phone' => $this->faker->phoneNumber(),
             'logo_image_path' => null,
             'ownership_type' => mt_rand(0, 1)

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -32,6 +33,8 @@ class Product extends Model
         'name',
         'slug',
         'description',
+        'specifications',
+        'key_features',
         'price',
         'old_price',
         'in_stock',
@@ -40,6 +43,13 @@ class Product extends Model
         'submitted_at',
         'approved_at',
     ];
+
+    /**
+     * Auto appended attributes
+     * 
+     * @var array
+     */
+    protected $appends = ['feature_image'];
 
     /**
      * Relationship: Belongs to product category
@@ -92,6 +102,21 @@ class Product extends Model
     }
 
     /**
+     * Get feature image
+     * 
+     */
+    public function getFeatureImageAttribute()
+    {
+        $image = $this->images()->where('is_featured', true)->first();
+
+        if ($image) {
+            return Storage::disk()->url($image->path);
+        }
+
+        return '/img/default_product.png';
+    }
+
+    /**
      * Mutator: create unique slug, based on name
      * 
      * @param  string  $value
@@ -120,6 +145,8 @@ class Product extends Model
         return [
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|min:25|max:1000',
+            'specifications' => 'sometimes|nullable|min:25|max:1000',
+            'key_features' => 'sometimes|nullable|min:25|max:1000',
             'price' => 'required|numeric|max:99999999',
             'packaging_id' => 'required|exists:vendor_packagings,id',
             'category_id' => 'required|exists:product_categories,id',
@@ -224,17 +251,6 @@ class Product extends Model
                 ]);
             }
         }
-    }
-
-    /**
-     * Get feature image
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function featurePicture(): HasOne
-    {
-        return $this->hasOne(ProductImage::class, 'product_id')
-            ->where('is_featured', true);
     }
 
 }

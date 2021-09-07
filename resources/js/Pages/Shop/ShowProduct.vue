@@ -10,7 +10,7 @@
                             <div class="product-gallery product-gallery-vertical">
                                 <div class="row">
                                     <figure class="product-main-image">
-                                        <img id="product-zoom" src="/img/default_product.png" data-zoom-image="/img/default_product.png" alt="product image">
+                                        <img id="product-zoom" :src="product.feature_image" :data-zoom-image="product.feature_image" alt="product image">
 
                                         <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                             <i class="icon-arrows"></i>
@@ -18,20 +18,20 @@
                                     </figure><!-- End .product-main-image -->
 
                                     <div id="product-zoom-gallery" class="product-image-gallery">
-                                        <a class="product-gallery-item active" href="#" data-image="/img/default_product.png" data-zoom-image="/img/default_product.png">
-                                            <img src="/img/default_product.png" alt="product side">
+                                        <a class="product-gallery-item active" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
+                                            <img :src="product.feature_image" alt="product side">
                                         </a>
 
-                                        <a class="product-gallery-item" href="#" data-image="/img/default_product.png" data-zoom-image="/img/default_product.png">
-                                            <img src="/img/default_product.png" alt="product cross">
+                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
+                                            <img :src="product.feature_image" alt="product cross">
                                         </a>
 
-                                        <a class="product-gallery-item" href="#" data-image="/img/default_product.png" data-zoom-image="/img/default_product.png">
-                                            <img src="/img/default_product.png" alt="product with model">
+                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
+                                            <img :src="product.feature_image" alt="product with model">
                                         </a>
 
-                                        <a class="product-gallery-item" href="#" data-image="/img/default_product.png" data-zoom-image="/img/default_product.png">
-                                            <img src="/img/default_product.png" alt="product back">
+                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
+                                            <img :src="product.feature_image" alt="product back">
                                         </a>
                                     </div><!-- End .product-image-gallery -->
                                 </div><!-- End .row -->
@@ -41,7 +41,7 @@
                             <div class="product-details mx-3">
                                 <h1 class="product-title">{{ product.name }}</h1>
                                 <div class="product-price">
-                                    &#8358;{{ Number(product.price).toLocaleString() }}
+                                    &#8358;{{ Number(product.price).toLocaleString() }} per {{product.packaging.name}}
                                 </div><!-- End .product-price -->
 
                                 <div class="product-content">
@@ -55,7 +55,7 @@
                                        Items can only be returned within 30 days of delivery.
                                    </p>
                                    <div class="row mt-2">
-                                       <div class="col-sm-6 col-md-3">
+                                       <div class="col-sm-6 col-md-5">
                                             <p>
                                                 <cart-update-button :product="product" />
                                             </p>

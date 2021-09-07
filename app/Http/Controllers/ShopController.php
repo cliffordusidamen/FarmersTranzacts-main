@@ -94,7 +94,7 @@ class ShopController extends Controller
     public function showProduct($slug)
     {
         $product = Product::where('slug', $slug)
-            ->with(['category', 'subcategory', 'vendor', 'packaging'])
+            ->with(['category', 'subcategory', 'vendor', 'packaging', 'images'])
             ->firstOrFail();
 
         return Inertia::render('Shop/ShowProduct.vue', compact('product'));

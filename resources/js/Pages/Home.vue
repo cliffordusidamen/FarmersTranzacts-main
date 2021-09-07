@@ -21,27 +21,11 @@
                         >
                             <h2 class="title title-border my-4">Featured Items</h2><!-- End .title -->
 
-                            <div ref="productsContainerRef" class="owl-carousel owl-simple owl-nav-top carousel-equal-height carousel-with-shadow mt-4" data-toggle="owl" 
-                                data-owl-options='{
-                                    "nav": true, 
-                                    "dots": false,
-                                    "margin": 20,
-                                    "loop": false,
-                                    "responsive": {
-                                        "0": {
-                                            "items":2
-                                        },
-                                        "480": {
-                                            "items":2
-                                        },
-                                        "768": {
-                                            "items":3
-                                        },
-                                        "1200": {
-                                            "items":4
-                                        }
-                                    }
-                                }'>
+                            <div
+                                ref="productsContainerRef"
+                                class="owl-carousel owl-simple owl-nav-top carousel-equal-height carousel-with-shadow mt-4"
+                                data-toggle="owl"
+                            >
                                 <div
                                     class="product mx-4"
                                     v-for="product in pageProps.products"
@@ -105,6 +89,24 @@ export default {
         onMounted(() => {
             $(productsContainerRef.value).owlCarousel({
                 navText: ['<i class="icon-angle-left">', '<i class="icon-angle-right">'],
+                nav: true, 
+                dots: false,
+                margin: 20,
+                loop: false,
+                responsive: {
+                    "0": {
+                        "items":2
+                    },
+                    "360": {
+                        "items":2
+                    },
+                    "768": {
+                        "items":3
+                    },
+                    "1200": {
+                        "items":4
+                    }
+                }
             })
         })
 

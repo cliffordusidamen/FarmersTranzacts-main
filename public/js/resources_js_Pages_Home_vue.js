@@ -542,7 +542,25 @@ __webpack_require__.r(__webpack_exports__);
     var productsContainerRef = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_3__.ref)(null);
     (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_4__.onMounted)(function () {
       $(productsContainerRef.value).owlCarousel({
-        navText: ['<i class="icon-angle-left">', '<i class="icon-angle-right">']
+        navText: ['<i class="icon-angle-left">', '<i class="icon-angle-right">'],
+        nav: true,
+        dots: false,
+        margin: 20,
+        loop: false,
+        responsive: {
+          "0": {
+            "items": 2
+          },
+          "360": {
+            "items": 2
+          },
+          "768": {
+            "items": 3
+          },
+          "1200": {
+            "items": 4
+          }
+        }
       });
     });
     return {
@@ -2264,8 +2282,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 var _hoisted_8 = {
   ref: "productsContainerRef",
   "class": "owl-carousel owl-simple owl-nav-top carousel-equal-height carousel-with-shadow mt-4",
-  "data-toggle": "owl",
-  "data-owl-options": "{\r\n                                    \"nav\": true, \r\n                                    \"dots\": false,\r\n                                    \"margin\": 20,\r\n                                    \"loop\": false,\r\n                                    \"responsive\": {\r\n                                        \"0\": {\r\n                                            \"items\":2\r\n                                        },\r\n                                        \"480\": {\r\n                                            \"items\":2\r\n                                        },\r\n                                        \"768\": {\r\n                                            \"items\":3\r\n                                        },\r\n                                        \"1200\": {\r\n                                            \"items\":4\r\n                                        }\r\n                                    }\r\n                                }"
+  "data-toggle": "owl"
 };
 var _hoisted_9 = {
   "class": "product-media"

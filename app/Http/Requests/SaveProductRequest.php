@@ -30,4 +30,18 @@ class SaveProductRequest extends FormRequest
         $validationRules['picture'] = 'sometimes|nullable|mimes:png,jpg|max:1024';
         return $validationRules;
     }
+
+    /**
+     * Attribute names
+     * 
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'category_id' => 'category',
+            'subcategory_id' => 'subcategory',
+            'packaging_id' => 'packaging',
+        ];
+    }
 }

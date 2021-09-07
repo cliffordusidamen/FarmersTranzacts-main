@@ -119,7 +119,7 @@
                                             <figure class="product-media bg-light">
                                                 <span v-if="!Number(product.in_stock)" class="product-label label-out">Out of Stock</span>
                                                 <inertia-link :href="route('shop.show_product', {slug: product.slug})">
-                                                    <img src="/img/default_product.png" alt="Product image" class="product-image">
+                                                    <img :src="product.feature_image" alt="Product image" class="product-image">
                                                 </inertia-link>
 
                                                 <div class="product-action-vertical d-none">

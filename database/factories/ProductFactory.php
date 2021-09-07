@@ -26,6 +26,8 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'description' => $this->faker->sentences(5, true),
+            'specifications' => join("\n", $this->faker->sentences(3)),
+            'key_features' => join("\n", $this->faker->sentences(5)),
             'price' => $price,
             'old_price' => floor($price * 0.8),
             'submitted_at' => carbon()->format('Y-m-d H:i:s'),

@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\VendorPackaging;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -30,18 +32,18 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if (authUserIsVendor()) {
-            $products = $request->user()->vendorData
+            $query = $request->user()->vendorData
                 ->products()
-                ->with(['packaging', 'category', 'subcategory'])
-                ->paginate(10);
+                ->with(['packaging', 'category', 'subcategory']);
         } else {
-            $products = Product::with([
+            $query = Product::with([
                     'packaging', 'category', 'subcategory',
                     'vendor',
                 ])
-                ->submitted()
-                ->paginate(10);
+                ->submitted();
         }
+
+        $products = $query->orderByDesc('id')->paginate(10);
 
         return response()->json(compact('products'));
     }
@@ -67,6 +69,7 @@ class ProductController extends Controller
      */
     public function store(SaveProductRequest $request)
     {
+
         $data = $request->only([
             'name',
             'category_id',
@@ -77,8 +80,16 @@ class ProductController extends Controller
         ]);
 
         $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
+        $product = null;
 
-        $product = $request->user()->vendorData->products()->create($data);
+        DB::transaction(function() use (&$product, $request, $data) {
+
+            $product = $request->user()->vendorData->products()->create($data);
+            if ($request->picture) {
+                $product->addPicture($request->picture);
+            }
+        });
+
         if (!$product) {
             throw new \Exception('Product not saved! Please, try again.');
         }
@@ -97,7 +108,7 @@ class ProductController extends Controller
     {
         $product->load([
             'packaging', 'category', 'subcategory',
-            'vendor',
+            'vendor', 'featurePicture',
         ]);
         $this->_abortIfNotVendorProduct($product);
         return response()->json(compact('product'));

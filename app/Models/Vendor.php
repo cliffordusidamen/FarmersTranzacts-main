@@ -264,4 +264,19 @@ class Vendor extends Model
     {
         return defaultModelPermissions();
     }
+
+    /**
+     * Initialize storage directory for vendor
+     * 
+     * @return string
+     */
+    public static function initStoragePath($vendorId)
+    {
+        $vendorDirectory = "public/vendor-files/{$vendorId}";
+        if (!Storage::exists($vendorDirectory)) {
+            Storage::makeDirectory($vendorDirectory);
+        }
+
+        return $vendorDirectory;
+    }
 }

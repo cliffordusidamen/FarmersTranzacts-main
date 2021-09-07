@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -201,4 +203,38 @@ class Product extends Model
 
         return $query;
     }
+
+    /**
+     * Add product picture.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $picture
+     * @return void
+     */
+    public function addPicture(UploadedFile $picture)
+    {
+        if ($picture) {
+            $path = $picture->storePublicly(
+                Vendor::initStoragePath($this->vendor_id)
+            );
+
+            if ($path) {
+                $this->images()->create([
+                    'path' => $path,
+                    'is_featured' => $this->images()->count() == 0
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Get feature image
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function featurePicture(): HasOne
+    {
+        return $this->hasOne(ProductImage::class, 'product_id')
+            ->where('is_featured', true);
+    }
+
 }

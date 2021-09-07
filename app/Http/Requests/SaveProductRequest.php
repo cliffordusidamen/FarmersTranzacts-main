@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class SaveProductRequest extends FormRequest
 {
@@ -24,6 +25,9 @@ class SaveProductRequest extends FormRequest
      */
     public function rules()
     {
-        return Product::validationRules();
+        $validationRules = Product::validationRules();
+
+        $validationRules['picture'] = 'sometimes|nullable|mimes:png,jpg|max:1024';
+        return $validationRules;
     }
 }

@@ -16,6 +16,7 @@ class ProductImageResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'path' => Storage::disk()->url($this->path),
             'is_featured' => (bool) $this->is_featured,
             'size' => $this->size ?? 0,

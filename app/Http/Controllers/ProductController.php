@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProductApprovalStatusChangedEvent;
+use App\Http\Requests\AddProductPictureRequest;
 use App\Http\Requests\SaveProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
@@ -36,7 +37,8 @@ class ProductController extends Controller
         if (authUserIsVendor()) {
             $query = $request->user()->vendorData
                 ->products()
-                ->with(['packaging', 'category', 'subcategory']);
+                ->with(['packaging', 'category', 'subcategory'])
+                ->withCount(['images']);
         } else {
             $query = Product::with([
                     'packaging', 'category', 'subcategory',
@@ -224,6 +226,34 @@ class ProductController extends Controller
 
         return response()->json([
             'failed' => true,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\AddProductPictureRequest  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function addPicture(AddProductPictureRequest $request, Product $product)
+    {
+        $this->_abortIfNotVendorProduct($product);
+
+        $initialPictureCount = $product->images()->count();
+        if ($initialPictureCount >= 5) {
+            throw new \Exception('Maximum of 5 pictures allowed per product!');
+        }
+
+        $product->addPicture($request->picture);
+
+        if ($initialPictureCount >= $product->images()->count()) {
+            throw new \Exception('Product image not saved! Please, try again.');
+        }
+        $product->load(['images']);
+
+        return response()->json([
+            'product' => new ProductResource($product),
         ]);
     }
 

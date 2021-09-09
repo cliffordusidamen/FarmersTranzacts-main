@@ -45,7 +45,10 @@ class ProductResource extends JsonResource
         }
         
         if ($this->relationLoaded('images')) {
-            $data['images'] = $this->images->toArray();
+            $data['images'] = new ProductImageCollection($this->images);
+            $data['images_count'] = $this->images->count();
+        } else {
+            $data['images_count'] = $this->images_count ?? 0;
         }
         
         if ($this->relationLoaded('category')) {

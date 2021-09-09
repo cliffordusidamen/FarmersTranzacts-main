@@ -8,11 +8,13 @@ use App\Http\Requests\SaveProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\VendorPackaging;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -255,6 +257,55 @@ class ProductController extends Controller
         return response()->json([
             'product' => new ProductResource($product),
         ]);
+    }
+
+    /**
+     * Delete a product picture
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @param  \App\Models\ProductImage  $productImage
+     * @return \Illuminate\Http\Response
+     */
+    public function deletePicture(
+        Request $request,
+        Product $product,
+        ProductImage $productImage
+    ) {
+        abort_if(
+            $productImage->product_id != $product->id,
+            'Invalid product image selected for deletion!'
+        );
+
+        $deleted = false;
+
+        DB::transaction(function() use (&$deleted, $productImage, $product) {
+            if (
+                !$productImage->delete()
+                || !Storage::exists($productImage->path)
+            ) {
+                return;
+            }
+            if (
+                $productImage->is_featured
+                && $product->images()->count()
+            ) {
+                $product->images()->first()->forceFill([
+                    'is_featured' => true,
+                ])
+                ->save();
+            }
+            if (!Storage::delete($productImage->path)) {
+                return;
+            }
+            $deleted = true;
+        });
+
+        if (!$deleted) {
+            throw new \Exception('Image was not deleted! Please, try again.');
+        }
+
+        return response()->json();
     }
 
     /**

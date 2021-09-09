@@ -157,6 +157,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::prefix('products')->name('products.')->middleware(['auth:sanctum', 'frontend'])->group(function() {
     Route::post('changeStatus/{product}', [\App\Http\Controllers\ProductController::class, 'changeStatus']);
     Route::post('{product}/add-picture', [\App\Http\Controllers\ProductController::class, 'addPicture']);
+    Route::delete('{product}/delete-picture/{productImage}', [\App\Http\Controllers\ProductController::class, 'deletePicture']);
 });
 Route::resource('products', \App\Http\Controllers\ProductController::class);
 

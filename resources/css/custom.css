@@ -79,3 +79,15 @@ label.required::after {
     transition: all 0.3s;
 }
 
+.product-media .image-link {
+    display: block;
+    width: 100%;
+    height: 25rem;
+}
+
+.product-media .image-link img {
+    display: block;
+    max-height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}

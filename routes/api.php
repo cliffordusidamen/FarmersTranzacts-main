@@ -158,6 +158,7 @@ Route::prefix('products')->name('products.')->middleware(['auth:sanctum', 'front
     Route::post('changeStatus/{product}', [\App\Http\Controllers\ProductController::class, 'changeStatus']);
     Route::post('{product}/add-picture', [\App\Http\Controllers\ProductController::class, 'addPicture']);
     Route::delete('{product}/delete-picture/{productImage}', [\App\Http\Controllers\ProductController::class, 'deletePicture']);
+    Route::post('{product}/set-featured-picture/{productImage}', [\App\Http\Controllers\ProductController::class, 'setFeaturePicture']);
 });
 Route::resource('products', \App\Http\Controllers\ProductController::class);
 

@@ -93,6 +93,16 @@ class Vendor extends Model
     }
 
     /**
+     * Relationship: Has one wallet
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(VendorWallet::class, 'vendor_id');
+    }
+
+    /**
      * Set name attribute handler
      * 
      * @param  string  $value
@@ -270,6 +280,16 @@ class Vendor extends Model
      * 
      * @return string
      */
+    public function initStorage()
+    {
+        return self::initStoragePath($this->id);
+    }
+
+    /**
+     * Initialize storage directory for vendor
+     * 
+     * @return string
+     */
     public static function initStoragePath($vendorId)
     {
         $vendorDirectory = "public/vendor-files/{$vendorId}";
@@ -278,5 +298,21 @@ class Vendor extends Model
         }
 
         return $vendorDirectory;
+    }
+
+    /**
+     * Initialize wallet
+     * 
+     * @return \App\Models\VendorWallet
+     */
+    public function initWallet()
+    {
+        if ($this->wallet) {
+            return $this->wallet;
+        }
+
+        return VendorWallet::create([
+            'vendor_id' => $this->id,
+        ]);
     }
 }

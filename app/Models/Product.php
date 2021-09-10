@@ -102,6 +102,16 @@ class Product extends Model
     }
 
     /**
+     * Get the featured picture for this product
+     * 
+     * @return \App\Models\ProductImage|null
+     */
+    public function featureImage()
+    {
+        return $this->images()->where('is_featured', true)->first();
+    }
+
+    /**
      * Get feature image
      * 
      */
@@ -235,10 +245,11 @@ class Product extends Model
      * Add product picture.
      *
      * @param  \Illuminate\Http\UploadedFile  $picture
-     * @return void
+     * @return bool|string
      */
     public function addPicture(UploadedFile $picture)
     {
+        $path = false;
         if ($picture) {
             $path = $picture->storePublicly(
                 Vendor::initStoragePath($this->vendor_id)
@@ -247,10 +258,13 @@ class Product extends Model
             if ($path) {
                 $this->images()->create([
                     'path' => $path,
+                    'size' => Storage::size($path),
                     'is_featured' => $this->images()->count() == 0
                 ]);
             }
+
         }
+        return $path;
     }
 
 }

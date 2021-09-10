@@ -45,8 +45,7 @@ class ProductController extends Controller
             $query = Product::with([
                     'packaging', 'category', 'subcategory',
                     'vendor',
-                ])
-                ->submitted();
+                ]);
         }
 
         return new ProductCollection($query->orderByDesc('id')->paginate(10));
@@ -257,6 +256,44 @@ class ProductController extends Controller
         return response()->json([
             'product' => new ProductResource($product),
         ]);
+    }
+
+    /**
+     * Set product main/feature picture
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @param  \App\Models\ProductImage  $productImage
+     * @return \Illuminate\Http\Response
+     */
+    public function setFeaturePicture(
+        Request $request,
+        Product $product,
+        ProductImage $productImage
+    ) {
+        abort_if(
+            $productImage->product_id != $product->id,
+            'Invalid product image selected for setting as featured!'
+        );
+
+        $isFeatured = false;
+
+        DB::transaction(function() use (&$isFeatured, $productImage, $product) {
+            $featureImage = $product->featureImage();
+            if ($featureImage) {
+                $featureImage->is_featured = false;
+                $featureImage->save();
+            }
+            $productImage->is_featured = true;
+            $productImage->save();
+            $isFeatured = true;
+        });
+
+        if (!$isFeatured) {
+            throw new \Exception('Selected picture was not set as main picture! Please, try again.');
+        }
+
+        return response()->json();
     }
 
     /**

@@ -26,42 +26,12 @@
                                 class="owl-carousel owl-simple owl-nav-top carousel-equal-height carousel-with-shadow mt-4"
                                 data-toggle="owl"
                             >
-                                <div
-                                    class="product mx-4"
+                                <product-box
                                     v-for="product in pageProps.products"
                                     :key="product.id"
-                                >
-                                    <figure class="product-media">
-                                        <span class="product-label label-top">Top</span>
-                                        <inertia-link :href="route('shop.show_product', {slug: product.slug})">
-                                            <img src="/img/default_product.png" alt="Product image" class="product-image">
-                                        </inertia-link>
-
-                                        <div class="product-action">
-                                            <cart-update-button :product="product" />
-                                        </div><!-- End .product-action -->
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <inertia-link :href="route('shop.categorized', {slug: product.category.slug})">
-                                                {{ product.category.name }}
-                                            </inertia-link>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title">
-                                            <inertia-link :href="route('shop.show_product', {slug: product.slug})">
-                                                {{ product.name }}
-                                            </inertia-link>
-                                        </h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            &#8358;{{ Number(product.price).toLocaleString() }}
-                                        </div><!-- End .product-price -->
-
-                                        <div class="mt-n4 product-packaging">
-                                            per {{product.packaging.name}}
-                                        </div>
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
+                                    :product="product"
+                                    class="mx-4"
+                                />
                             </div>
                         </div>
                     </div>
@@ -74,6 +44,7 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import CartUpdateButton from '@/Components/Controls/CartUpdateButton.vue'
+import ProductBox from '@/Components/ProductBox.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { usePage } from '@inertiajs/inertia-vue3'
 
@@ -81,6 +52,7 @@ export default {
     components: {
         AppLayout,
         CartUpdateButton,
+        ProductBox,
     },
 
     setup() {

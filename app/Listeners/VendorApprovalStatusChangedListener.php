@@ -30,6 +30,8 @@ class VendorApprovalStatusChangedListener
     public function handle(VendorApprovalStatusChangedEvent $event)
     {
         if ($event->vendor->approval_status == Vendor::STATUS_APPROVED) {
+            $event->vendor->initWallet();
+            $event->vendor->initStorage();
             $event->user->notify(new VendorApprovedNotification($event->vendor));
             return;
         } else {

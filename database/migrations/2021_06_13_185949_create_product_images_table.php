@@ -17,6 +17,7 @@ class CreateProductImagesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->string('path', 2048);
+            $table->unsignedInteger('size');
             $table->boolean('is_featured')->default(false);
             $table->timestamps();
 

@@ -254,6 +254,7 @@ export default {
             city: "",
             state_id: "",
             postal_code: "",
+            order_notes: "",
         });
 
         const submit = () => {

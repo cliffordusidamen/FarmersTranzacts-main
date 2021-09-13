@@ -90,6 +90,7 @@ Route::prefix('shopping-cart')->name('shopping_cart.')->group(function() {
     Route::get('checkout', [\App\Http\Controllers\ShoppingCartController::class, 'checkout'])->name('checkout');
     Route::post('order', [\App\Http\Controllers\ShoppingCartController::class, 'order'])->name('order');
     Route::get('payment-verify', [\App\Http\Controllers\ShoppingCartController::class, 'paymentVerify'])->name('payment_callback');
+    Route::get('payment-cancel/{order}', [\App\Http\Controllers\ShoppingCartController::class, 'paymentCancel'])->name('cancel_payment');
 });
 
 Route::post('/logout', function(\Illuminate\Http\Request $request) {

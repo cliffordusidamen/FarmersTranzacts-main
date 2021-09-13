@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\State;
 use App\Services\PaymentService;
@@ -200,18 +201,21 @@ class ShoppingCartController extends Controller
                     'total_amount' => $item['quantity'] * $item['product']['price'],
                 ]));
             });
+
+            Log::info(['Order request', $request->all()]);
             
-            $order = Order::create([
+            $order->forceFill([
                 'user_id' => auth()->user()->id,
                 'amount' => $totalAmount,
-            ]);
+                'order_notes' => $request->input('order_notes', null),
+            ])->save();
 
             $order->items()->saveMany($items);
             $saved = true;
         });
 
         if (!$saved) {
-            flashMessage('error', 'Payment initialization failed! Please, try again.');
+            flashMessage('danger', 'Payment initialization failed! Please, try again.');
             return back()->withInput();
         }
 
@@ -219,11 +223,25 @@ class ShoppingCartController extends Controller
             $result = (new PaymentService)->intializeTransaction(auth()->user(), $order);
         } catch (Exception $e) {
             $order->delete();
-            flashMessage('error', 'Payment initialization failed! Please, try again.');
+            flashMessage('danger', 'Payment initialization failed! Please, try again.');
             return back()->withInput();
         }
 
         return Inertia::location($result['authorization_url']);
+    }
+
+    /**
+     * Cancel payment
+     * 
+     * @param  \App\Models\Order  $order 
+     */
+    public function paymentCancel(Order $order)
+    {
+        $cancel_response = request()->query();
+        $order->delete();
+
+        flashMessage('danger', 'Payment cancelled!');
+        return redirect()->route('shopping_cart.view');
     }
 
     /**
@@ -234,7 +252,9 @@ class ShoppingCartController extends Controller
     public function paymentVerify()
     {
         $reference = request()->query('trxref')
-            || request()->query('reference');
+            ?? request()->query('reference');
+
+        Log::info(compact('reference'));
 
         if (!$reference) {
             return redirect()->route('shopping_cart.view');
@@ -242,17 +262,31 @@ class ShoppingCartController extends Controller
 
         $transactionDetails = (new PaymentService)->verify($reference);
 
-        if (!empty($transactionDetails['status'])) {
+        if (isset($transactionDetails['status'])) {
+            $order = Order::findOrFail($transactionDetails['data']['metadata']['order_id']);
             // save payment information to database
-            // Associate the payment to the order
+            $payment = Payment::create([
+                'order_id' => $order->id,
+                'reference_number' => Order::generatePaymentReference($order),
+                'provider_reference' => $reference,
+                'status' => $transactionDetails['data']['status'],
+                'user_id' => request()->user()->id,
+                'amount' => $transactionDetails['data']['amount']/100,
+                'response_json' => json_encode($transactionDetails),
+            ]);
+
             if ($transactionDetails['data']['status'] == 'success') {
                 // Send email to the user
                 // send email to the admin
-                flashMessage('error', 'Payment successful! Order will be delivered in due time.');
+                // event(new OrderCompletedEvent($order));
+                flashMessage('success', 'Payment successful! Order will be delivered in due time.');
+                request()->session()->put('cart', []);
+                // Redirect to orders page
+                return redirect()->route('shopping_cart.view');
             }
         }
         
-        flashMessage('error', 'Payment was not successful!');
+        flashMessage('danger', 'Payment was not successful!');
         // Clear the cart
         request()->session()->put('cart', []);
         // Redirect to orders page

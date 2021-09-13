@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('amount', 15);
+            $table->string('order_notes', 1000)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

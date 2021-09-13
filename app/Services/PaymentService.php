@@ -18,10 +18,16 @@ class PaymentService
     {
         $url = "https://api.paystack.co/transaction/initialize";
         $data = [
-            'order_id' => $order->id,
             'email' => $user->email,
-            'callback_url' => route('shopping_cart.payment_callback'),
             'amount' => $order->amount * 100,
+            'callback_url' => route('shopping_cart.payment_callback'),
+            'metadata' => [
+                'cancel_action' => route('shopping_cart.cancel_payment', compact('order')),
+                'order_id' => $order->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'phone' => $user->phone ?? null,
+            ],
         ];
         $data_string = http_build_query($data);
 
@@ -84,6 +90,7 @@ class PaymentService
         }
 
         $resultArray = json_decode($response, true);
+        Log::info(compact('response', 'resultArray', 'transactionRef', 'err'));
         return !empty($resultArray['status']) ? $resultArray : [];
     }
 }

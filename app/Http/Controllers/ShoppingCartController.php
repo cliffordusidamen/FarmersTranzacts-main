@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\State;
+use App\Services\PaymentService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -174,7 +179,83 @@ class ShoppingCartController extends Controller
      */
     public function order(OrderRequest $request)
     {
-        flashMessage('success', 'Valid order request data! Will implement payment soon!');
-        return back()->withInput();
+        $cart = $request->session()->get('cart');
+
+        if (!isset($cart['items']) || count($cart['items']) == 0) {
+            return redirect()->route('shopping_cart.view');
+        }
+
+        $saved = false;
+        $order = new Order();
+        DB::transaction(function() use ($request, $cart, &$saved, &$order) {
+            $totalAmount = 0;
+            $items = [];
+            
+            collect($cart['items'])->map(function ($item, $key) use (&$items, &$totalAmount) {
+                $totalAmount += $item['total'];
+                $items[] = (new OrderItem([
+                    'product_id' => $item['product']['id'],
+                    'quantity' => $item['quantity'],
+                    'unit_amount' => $item['product']['price'],
+                    'total_amount' => $item['quantity'] * $item['product']['price'],
+                ]));
+            });
+            
+            $order = Order::create([
+                'user_id' => auth()->user()->id,
+                'amount' => $totalAmount,
+            ]);
+
+            $order->items()->saveMany($items);
+            $saved = true;
+        });
+
+        if (!$saved) {
+            flashMessage('error', 'Payment initialization failed! Please, try again.');
+            return back()->withInput();
+        }
+
+        try {
+            $result = (new PaymentService)->intializeTransaction(auth()->user(), $order);
+        } catch (Exception $e) {
+            $order->delete();
+            flashMessage('error', 'Payment initialization failed! Please, try again.');
+            return back()->withInput();
+        }
+
+        return Inertia::location($result['authorization_url']);
+    }
+
+    /**
+     * Verify payment
+     * 
+     * 
+     */
+    public function paymentVerify()
+    {
+        $reference = request()->query('trxref')
+            || request()->query('reference');
+
+        if (!$reference) {
+            return redirect()->route('shopping_cart.view');
+        }
+
+        $transactionDetails = (new PaymentService)->verify($reference);
+
+        if (!empty($transactionDetails['status'])) {
+            // save payment information to database
+            // Associate the payment to the order
+            if ($transactionDetails['data']['status'] == 'success') {
+                // Send email to the user
+                // send email to the admin
+                flashMessage('error', 'Payment successful! Order will be delivered in due time.');
+            }
+        }
+        
+        flashMessage('error', 'Payment was not successful!');
+        // Clear the cart
+        request()->session()->put('cart', []);
+        // Redirect to orders page
+        return redirect()->route('shopping_cart.view');
     }
 }

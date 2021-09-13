@@ -89,6 +89,7 @@ Route::prefix('shopping-cart')->name('shopping_cart.')->group(function() {
     Route::post('update-items', [\App\Http\Controllers\ShoppingCartController::class, 'updateCartItems'])->name('update_all');
     Route::get('checkout', [\App\Http\Controllers\ShoppingCartController::class, 'checkout'])->name('checkout');
     Route::post('order', [\App\Http\Controllers\ShoppingCartController::class, 'order'])->name('order');
+    Route::get('payment-verify', [\App\Http\Controllers\ShoppingCartController::class, 'paymentVerify'])->name('payment_callback');
 });
 
 Route::post('/logout', function(\Illuminate\Http\Request $request) {

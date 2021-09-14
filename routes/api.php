@@ -120,11 +120,11 @@ Route::apiResource('vendors', \App\Http\Controllers\VendorController::class)->mi
  */
 Route::middleware(['guest'])->prefix('registration')->name('registration.')->group(function() {
 
-    Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm'])->name('shopper');
-    Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper'])->name('save_shopper');
+    Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm']);
+    Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper']);
 
-    Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm'])->name('vendor');
-    Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor'])->name('save_vendor');
+    Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm']);
+    Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor']);
 });
 
 

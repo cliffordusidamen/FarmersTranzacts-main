@@ -161,10 +161,12 @@ class ShoppingCartController extends Controller
             return back()->withInput();
         }
 
-        Log::info('Here');
+        Log::info($order);
         try {
             $result = (new PaymentService)->intializeTransaction(auth()->user(), $order);
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+            return $e;
+        }
 
         if (!isset($result['authorization_url'])) {
             $order->delete();

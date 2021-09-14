@@ -155,13 +155,13 @@ class ShoppingCartController extends Controller
 
         $order = Order::initCartOrder($this->cart, $request->all());
 
-        Log::info('Here');
 
         if (!$order) {
             flashMessage('danger', 'Payment initialization failed! Please, try again.');
             return back()->withInput();
         }
 
+        Log::info('Here');
         try {
             $result = (new PaymentService)->intializeTransaction(auth()->user(), $order);
         } catch (Exception $e) {}

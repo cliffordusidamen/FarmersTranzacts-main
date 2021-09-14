@@ -15,6 +15,7 @@ use App\Services\ShoppingCartService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -153,6 +154,8 @@ class ShoppingCartController extends Controller
         }
 
         $order = Order::initCartOrder($this->cart, $request->all());
+
+        Log::info('Here');
 
         if (!$order) {
             flashMessage('danger', 'Payment initialization failed! Please, try again.');

@@ -35,14 +35,14 @@ Route::get('dashboard', \App\Http\Controllers\DashboardController::class);
 | Departments routes
 |-------------------------------------------------------------------------
 */
-Route::prefix('departments')->name('departments.')->group(function() {
-    Route::get('/', [\App\Http\Controllers\DepartmentController::class, 'index'])->name('index');
-    Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store'])->name('store');
-    Route::delete('{id}', [\App\Http\Controllers\DepartmentController::class, 'destroy'])->name('destroy');
-    Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show'])->name('show');
-    Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update'])->name('update');
-    Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection'])->name('store_section');
-    Route::post('{department_id}/update-section/{section_id}', [\App\Http\Controllers\DepartmentController::class, 'updateSection'])->name('update_section');
+Route::prefix('departments')->group(function() {
+    Route::get('/', [\App\Http\Controllers\DepartmentController::class, 'index']);
+    Route::post('store', [\App\Http\Controllers\DepartmentController::class, 'store']);
+    Route::delete('{id}', [\App\Http\Controllers\DepartmentController::class, 'destroy']);
+    Route::get('show/{id}', [\App\Http\Controllers\DepartmentController::class, 'show']);
+    Route::put('update/{id}', [\App\Http\Controllers\DepartmentController::class, 'update']);
+    Route::post('{id}/store-section', [\App\Http\Controllers\DepartmentController::class, 'storeSection']);
+    Route::post('{department_id}/update-section/{section_id}', [\App\Http\Controllers\DepartmentController::class, 'updateSection']);
 });
 
 /*
@@ -50,9 +50,9 @@ Route::prefix('departments')->name('departments.')->group(function() {
 | Product categories routes
 |-------------------------------------------------------------------------
 */
-Route::prefix('product_categories')->name('product_categories.')->group(function() {
-    Route::post('{id}/store-subcategory', [\App\Http\Controllers\ProductCategoryController::class, 'storeSubcategory'])->name('store_subcategory');
-    Route::put('{category_id}/update-subcategory/{id}', [\App\Http\Controllers\ProductCategoryController::class, 'updateSubcategory'])->name('update_subcategory');
+Route::prefix('product_categories')->group(function() {
+    Route::post('{id}/store-subcategory', [\App\Http\Controllers\ProductCategoryController::class, 'storeSubcategory']);
+    Route::put('{category_id}/update-subcategory/{id}', [\App\Http\Controllers\ProductCategoryController::class, 'updateSubcategory']);
 });
 Route::apiResource('product_categories', \App\Http\Controllers\ProductCategoryController::class);
 
@@ -62,7 +62,7 @@ Route::apiResource('product_categories', \App\Http\Controllers\ProductCategoryCo
 | Product categories routes
 |-------------------------------------------------------------------------
 */
-Route::prefix('roles')->name('roles.')->group(function() {
+Route::prefix('roles')->group(function() {
     Route::get('permissions', [\App\Http\Controllers\RoleController::class, 'permissions']);
 });
 Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
@@ -73,7 +73,7 @@ Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 | Users routes
 |-------------------------------------------------------------------------
 */
-Route::prefix('users')->name('users.')->group(function() {
+Route::prefix('users')->group(function() {
     Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
     Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
     Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);
@@ -106,10 +106,10 @@ Route::get('/test-model-list', function () {
 | Vendors routes
 |-------------------------------------------------------------------------
 */
-Route::prefix('vendors')->name('vendors.')->middleware(['auth:sanctum', 'frontend'])->group(function() {
+Route::prefix('vendors')->middleware(['auth:sanctum', 'frontend'])->group(function() {
     Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus']);
     Route::get('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedVendorForm']);
-    Route::post('save-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('update_vendor_profile');
+    Route::post('save-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor']);
 });
 Route::apiResource('vendors', \App\Http\Controllers\VendorController::class)->middleware(['auth:sanctum', 'frontend']);
 
@@ -118,7 +118,7 @@ Route::apiResource('vendors', \App\Http\Controllers\VendorController::class)->mi
  | Registration routes
  |-----------------------------------------------------------------------------
  */
-Route::middleware(['guest'])->prefix('registration')->name('registration.')->group(function() {
+Route::middleware(['guest'])->prefix('registration')->group(function() {
 
     Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm']);
     Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper']);
@@ -154,7 +154,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 | Product routes
 |-------------------------------------------------------------------------
 */
-Route::prefix('products')->name('products.')->middleware(['auth:sanctum', 'frontend'])->group(function() {
+Route::prefix('products')->middleware(['auth:sanctum', 'frontend'])->group(function() {
     Route::post('changeStatus/{product}', [\App\Http\Controllers\ProductController::class, 'changeStatus']);
     Route::post('{product}/add-picture', [\App\Http\Controllers\ProductController::class, 'addPicture']);
     Route::delete('{product}/delete-picture/{productImage}', [\App\Http\Controllers\ProductController::class, 'deletePicture']);

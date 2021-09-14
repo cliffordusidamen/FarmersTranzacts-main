@@ -23,6 +23,27 @@
     table, td, div, h1, p {
       font-family: Arial, sans-serif;
     }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table td, table th {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      padding: .5em;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+    .text-sm, small {
+      font-size: 0.85em;
+    }
+    .uppercase {
+      text-transform: uppercase;
+    }
+
     @media screen and (max-width: 530px) {
       .unsub {
         display: block;

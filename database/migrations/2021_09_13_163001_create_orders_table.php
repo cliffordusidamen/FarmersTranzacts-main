@@ -15,14 +15,22 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('reference_number', 50)->unique();
             $table->unsignedBigInteger('user_id');
             $table->decimal('amount', 15);
             $table->string('order_notes', 1000)->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('addresses')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

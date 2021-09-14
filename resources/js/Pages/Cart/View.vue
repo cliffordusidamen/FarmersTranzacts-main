@@ -12,7 +12,7 @@
                             <i class="icon-long-arrow-right"></i>
                         </inertia-link>
                     </div>
-                    <div class="row">
+                    <div v-else class="row">
                         <div class="col-md-9">
                             <form @submit="updateCart">
                                 <table class="table table-cart table-mobile">

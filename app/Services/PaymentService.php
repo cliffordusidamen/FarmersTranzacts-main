@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
 class PaymentService
 {
@@ -82,15 +81,10 @@ class PaymentService
         curl_close($curl);
 
         if ($err) {
-            Log::info([
-                'Curl error when verifying transaction',
-                "cURL Error #:" . $err
-            ]);
             return [];
         }
 
         $resultArray = json_decode($response, true);
-        Log::info(compact('response', 'resultArray', 'transactionRef', 'err'));
         return !empty($resultArray['status']) ? $resultArray : [];
     }
 }

@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -17,10 +19,21 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
+        'reference_number',
         'user_id',
         'amount',
         'order_notes',
     ];
+
+    /**
+     * Relationship: Belongs to a user
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     /**
      * Relatioship: Has many order items
@@ -43,6 +56,33 @@ class Order extends Model
     }
 
     /**
+     * Relationship: Belongs to address
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'address_id');
+    }
+
+    /**
+     * Generate reference number for the order
+     * 
+     * @return string
+     */
+    public static function generateReferenceNumber() {
+        $referenceNumber = '';
+        $referenceNumberExists = true;
+
+        do {
+            $referenceNumber = \Illuminate\Support\Str::random(3) . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $referenceNumberExists = (bool) Order::where('reference_number', $referenceNumber)->count();
+        } while ($referenceNumberExists);
+
+        return strtoupper($referenceNumber);
+    }
+
+    /**
      * Generate payment reference number
      * 
      * @param  \App\Models\Order  $order
@@ -58,5 +98,53 @@ class Order extends Model
         } while ($referenceNumberExists);
 
         return $referenceNumber;
+    }
+
+    /**
+     * Save data from cart
+     * 
+     * @param  \App\Services\ShoppingCartService  $cart
+     * @param  array  $data
+     * @return bool|self
+     */
+    public static function initCartOrder(
+        \App\Services\ShoppingCartService $cart,
+        array $data
+    ) {
+
+        $saved = false;
+        $order = new Order();
+        DB::transaction(function() use ($data, $cart, &$saved, &$order) {
+            $orderItems = [];
+
+            $addressData = collect($data)->only([
+                'line_1', 'line_2', 'city', 'state_id',
+                'country_id',
+            ])->toArray();
+
+            $address = Address::create($addressData);
+            
+            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems) {
+                $orderItems[] = (new OrderItem([
+                    'product_id'    => $item['product']['id'],
+                    'quantity'      => $item['quantity'],
+                    'unit_amount'   => $item['product']['price'],
+                    'total_amount'  => $item['quantity'] * $item['product']['price'],
+                ]));
+            });
+            
+            $order->forceFill([
+                'reference_number' => self::generateReferenceNumber(),
+                'user_id'     => auth()->user()->id,
+                'address_id'  => $address->id,
+                'amount'      => $cart->getGrandTotal(),
+                'order_notes' => $data['order_notes'] ?? null,
+            ])->save();
+
+            $order->items()->saveMany($orderItems);
+            $saved = true;
+        });
+
+        return $saved ? $order : false;
     }
 }

@@ -1,0 +1,71 @@
+@extends('layouts.emails.default')
+
+@section('content')
+<x-email.text-section>
+    <x-email.h1>
+        New order received!
+    </x-email.h1>
+
+    <x-email.p>
+        <strong>Reference:</strong> {{ $order->reference_number }}<br />
+        <strong>Shopper name:</strong> {{ $order->user->full_name }}<br />
+        <strong>Email:</strong> {{ $order->user->email }}<br />
+        <strong>Phone:</strong> {{ $order->user->phone ?? 'N/A' }}<br />
+        <strong>Address:</strong><br />
+        {{ $order->address->line_1 }}
+        {!! $order->address->line_2 ? "<br />{$order->address->line_2},<br />" : '<br />' !!}
+        {{ $order->address->city ? "{$order->address->city}, " : '' }}
+        {{ $order->address->state ? $order->address->state->state_name : '' }}
+        <br />
+
+        @if (!empty($order->order_notes))
+            <strong>Order notes:</strong><br />
+            {{ $order->order_notes }}
+        @endif
+    </x-email.p>
+
+    <x-email.p>
+        <h4>Order details:</h4><br />
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-sm uppercase">S/N</th>
+                    <th class="text-sm uppercase" width="30%">Product</th>
+                    <th class="text-sm uppercase" style="text-align: right;">Quantity</th>
+                    <th class="text-sm uppercase" style="text-align: right;">Unit Price</th>
+                    <th class="text-sm uppercase" style="text-align: right;">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($order->items as $key => $orderItem)
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>
+                            <strong>{{ $orderItem->product->name }}</strong><br />
+                            <small>Vendor: {{ $orderItem->product->vendor->shop_name }}</small>
+                        </td>
+                        <td style="text-align: right;">{{ number_format($orderItem->quantity) }}</td>
+                        <td style="text-align: right;">&#8358;{{ number_format($orderItem->unit_amount) }}</td>
+                        <td style="text-align: right;">&#8358;{{ number_format($orderItem->total_amount) }}</td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <th colspan="4" class="text-right">GRAND TOTAL</th>
+                    <th style="text-align: right;">
+                        &#8358;{{ number_format($order->amount) }}
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </x-email.p>
+
+    <br />
+
+    <x-email.p>
+        Regards,<br />
+        {{ config('app.name') }} Team.
+    </x-email.p>
+
+
+</x-email.text-section>
+@endsection

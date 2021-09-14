@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
 class PaymentService
 {
@@ -49,9 +48,6 @@ class PaymentService
         //execute post
         $result = curl_exec($ch);
         $resultArray = json_decode($result, true);
-
-        Log::info($resultArray);
-        Log::info('004');
 
         return !empty($resultArray['status']) ? $resultArray['data'] : [];
     }

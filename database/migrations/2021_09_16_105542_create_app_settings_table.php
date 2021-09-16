@@ -17,6 +17,7 @@ class CreateAppSettingsTable extends Migration
             $table->id();
             $table->string('hotline', 20)->nullable();
             $table->string('email', 200)->nullable();
+            $table->string('address', 200)->nullable();
             $table->integer('vendor_storage_limit')->nullable();
             $table->string('social_facebook', 500)->nullable();
             $table->string('social_twitter', 500)->nullable();

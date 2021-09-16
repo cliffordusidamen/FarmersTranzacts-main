@@ -18,6 +18,7 @@ class AppSettingSeeder extends Seeder
             'id' => 1,
             'hotline' => '(234) 0801 234 5678',
             'email' => 'info@fructuo.com',
+            'address' => '1, FarmerXpress Close',
             'vendor_storage_limit' => '25',
             'social_facebook' => 'farmerxpress',
             'social_twitter' => '@farmerxpress',

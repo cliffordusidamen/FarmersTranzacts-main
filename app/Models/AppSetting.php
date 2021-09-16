@@ -17,6 +17,7 @@ class AppSetting extends Model
     protected $fillable = [
         'hotline',
         'email',
+        'address',
         'vendor_storage_limit',
         'social_facebook',
         'social_twitter',

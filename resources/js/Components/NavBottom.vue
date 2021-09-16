@@ -65,7 +65,7 @@
                 </div><!-- End. header-center -->
                 
                 <div class="header-right">
-                    <i class="la la-lightbulb-o"></i><p><span>HOTLINE: +0123 456 789</span></p>
+                    <i class="la la-lightbulb-o"></i><p><span>HOTLINE: {{ hotline }}</span></p>
                 </div><!-- End. header-right -->
             </div>
         </div>
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import useAppSettings from '@/composables/useAppSettings'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
     props: {
@@ -82,47 +84,55 @@ export default {
         },
     },
 
-    mounted() {
-        
-        // Sticky header 
-        var catDropdown = $('.category-dropdown'),
-            catInitVal = catDropdown.data('visible');
-            
-        if ( $('.sticky-header').length && $(window).width() >= 992 ) {
-            var sticky = new Waypoint.Sticky({
-                element: $('.sticky-header')[0],
-                stuckClass: 'fixed',
-                offset: -300,
-                handler: function ( direction ) {
-                    // Show category dropdown
-                    if ( catInitVal &&  direction == 'up') {
-                        catDropdown.addClass('show').find('.dropdown-menu').addClass('show');
-                        catDropdown.find('.dropdown-toggle').attr('aria-expanded', 'true');
-                        return false;
+    setup() {
+        const { hotline } = useAppSettings()
+
+        onMounted(() => {
+            // Sticky header 
+
+            var catDropdown = $('.category-dropdown'),
+                catInitVal = catDropdown.data('visible');
+                
+            if ( $('.sticky-header').length && $(window).width() >= 992 ) {
+                var sticky = new Waypoint.Sticky({
+                    element: $('.sticky-header')[0],
+                    stuckClass: 'fixed',
+                    offset: -300,
+                    handler: function ( direction ) {
+                        // Show category dropdown
+                        if ( catInitVal &&  direction == 'up') {
+                            catDropdown.addClass('show').find('.dropdown-menu').addClass('show');
+                            catDropdown.find('.dropdown-toggle').attr('aria-expanded', 'true');
+                            return false;
+                        }
+
+                        // Hide category dropdown on fixed header
+                        if ( catDropdown.hasClass('show') ) {
+                            catDropdown.removeClass('show').find('.dropdown-menu').removeClass('show');
+                            catDropdown.find('.dropdown-toggle').attr('aria-expanded', 'false');
+                        } 
                     }
+                });
+            }
+        })
 
-                    // Hide category dropdown on fixed header
-                    if ( catDropdown.hasClass('show') ) {
-                        catDropdown.removeClass('show').find('.dropdown-menu').removeClass('show');
-                        catDropdown.find('.dropdown-toggle').attr('aria-expanded', 'false');
-                    } 
-                }
-            });
-        }
-    },
-
-    methods: {
-        hasSubcategory(category) {
+        const hasSubcategory = (category) => {
             return category.subcategories.length > 0;
-        },
+        }
 
-        isCurrentRoute(route) {
+        const isCurrentRoute = (route) => {
             if (route == 'home') {
                 return window.location.href == `${window.location.origin}/`
             }
 
             return window.location.href.startsWith(route)
-        },
+        }
+
+        return {
+            hotline,
+            hasSubcategory,
+            isCurrentRoute,
+        }
     },
 }
 </script>

@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
             'userIsVendor' => authUserIsVendor(),
             'config_app' => config('app'),
             'cart' => $request->session()->get('cart'),
+            'app_settings' => \App\Models\AppSetting::first(),
         ]);
     }
 }

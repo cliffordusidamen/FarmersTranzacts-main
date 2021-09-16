@@ -11,7 +11,7 @@
 
                             <div class="icon-box-content">
                                 <h3 class="icon-box-title">Free Shipping</h3><!-- End .icon-box-title -->
-                                <p>Orders $50 or more</p>
+                                <p>Within Lagos State</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
                     </div><!-- End .col-sm-6 col-lg-3 -->
@@ -24,7 +24,7 @@
 
                             <div class="icon-box-content">
                                 <h3 class="icon-box-title">Free Returns</h3><!-- End .icon-box-title -->
-                                <p>Within 30 days</p>
+                                <p>Within 7 days</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
                     </div><!-- End .col-sm-6 col-lg-3 -->
@@ -36,8 +36,8 @@
                             </span>
 
                             <div class="icon-box-content">
-                                <h3 class="icon-box-title">Get 20% Off 1 Item</h3><!-- End .icon-box-title -->
-                                <p>When you sign up</p>
+                                <h3 class="icon-box-title">First Order Discount</h3><!-- End .icon-box-title -->
+                                <p>Upto 10% discount on your first order</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
                     </div><!-- End .col-sm-6 col-lg-3 -->
@@ -78,11 +78,42 @@
                             <div class="flex-fill">
                                 <span class="widget-about-title text-uppercase font-weight-bold mt-2 text-center text-md-left">Connect with us:</span>
                                 <div class="d-flex justify-content-center justify-content-md-start">
-                                    <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
-                                    <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
-                                    <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
-                                    <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
-                                    <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                    <a
+                                        v-if="social_facebook"
+                                        :href="`https://facebook.com/${social_facebook}`"
+                                        class="social-icon social-facebook"
+                                        title="Connect with us on Facebook"
+                                        target="_blank"
+                                    >
+                                        <i class="icon-facebook-f"></i>
+                                    </a>
+                                    <a
+                                        v-if="social_twitter"
+                                        :href="`https://twitter.com/@${social_twitter}`"
+                                        class="social-icon social-twitter"
+                                        title="Follow us on Twitter"
+                                        target="_blank"
+                                    >
+                                        <i class="icon-twitter"></i>
+                                    </a>
+                                    <a
+                                        v-if="social_instagram"
+                                        :href="`https://instagram.com/@${social_instagram}`"
+                                        class="social-icon social-instagram"
+                                        title="Follow us on Instagram"
+                                        target="_blank"
+                                    >
+                                        <i class="icon-instagram"></i>
+                                    </a>
+                                    <a
+                                        v-if="social_youtube"
+                                        :href="`https://youtube.com/@${social_youtube}`"
+                                        class="social-icon social-youtube"
+                                        title="Subscribe to our Youtube channel"
+                                        target="_blank"
+                                    >
+                                        <i class="icon-youtube"></i>
+                                    </a>
                                 </div><!-- End .soial-icons -->
                             </div>
                         </div><!-- End .widget about-widget -->
@@ -131,3 +162,25 @@
         </div><!-- End .footer-middle -->
     </footer><!-- End .footer -->
 </template>
+
+<script>
+import useAppSettings from '@/composables/useAppSettings'
+
+export default {
+    setup() {
+        const {
+            social_facebook,
+            social_youtube,
+            social_instagram,
+            social_twitter,
+        } = useAppSettings()
+
+        return {
+            social_facebook,
+            social_youtube,
+            social_instagram,
+            social_twitter,
+        }
+    },
+}
+</script>

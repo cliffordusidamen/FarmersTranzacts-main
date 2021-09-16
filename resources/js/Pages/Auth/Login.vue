@@ -2,14 +2,6 @@
     <jet-authentication-card>
         <jet-validation-errors class="mb-3" />
 
-        <div
-            v-if="status"
-            class="alert alert-success mb-3 rounded-0"
-            role="alert"
-        >
-            {{ status }}
-        </div>
-
         <div class="form-tab">
             <ul class="nav nav-pills nav-fill" role="tablist">
                 <li class="nav-item">

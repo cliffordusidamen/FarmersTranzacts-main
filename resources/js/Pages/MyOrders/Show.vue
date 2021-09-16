@@ -26,7 +26,7 @@
                                         <tr v-for="item in order.items" :key="item.id">
                                             <td class="product-col">
                                                 <div class="product">
-                                                    <figure class="product-media">
+                                                    <figure class="product-media my-2">
                                                         <inertia-link
                                                             :href="route('shop.show_product', { slug: item.product.slug })"
                                                         >
@@ -39,7 +39,14 @@
                                                     </figure>
 
                                                     <h3 class="product-title">
-                                                        <a href="#">{{ item.product.name }}</a>
+                                                        <inertia-link
+                                                            :href="route('shop.show_product', { slug: item.product.slug })"
+                                                        >
+                                                            {{ item.product.name }}
+                                                            <small class="d-block text-muted">
+                                                                {{ item.product.vendor.shop_name }}
+                                                            </small>
+                                                        </inertia-link>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>

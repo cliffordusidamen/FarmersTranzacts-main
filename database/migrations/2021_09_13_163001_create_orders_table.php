@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ShippingStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('amount', 15);
             $table->string('order_notes', 1000)->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
+            $table->unsignedSmallInteger('shipping_status_id')->default(ShippingStatus::PENDING_ID);
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -31,6 +33,12 @@ class CreateOrdersTable extends Migration
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('shipping_status_id')
+                ->references('id')
+                ->on('shipping_statuses')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

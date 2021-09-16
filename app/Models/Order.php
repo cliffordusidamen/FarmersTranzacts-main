@@ -22,6 +22,7 @@ class Order extends Model
         'reference_number',
         'user_id',
         'amount',
+        'shipping_status_id',
         'order_notes',
     ];
 
@@ -33,6 +34,16 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relationship: Belongs to shipping status
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function shippingStatus(): BelongsTo
+    {
+        return $this->belongsTo(ShippingStatus::class, 'shipping_status_id');
     }
 
     /**

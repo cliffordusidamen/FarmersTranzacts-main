@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             DesignationSeeder::class,
             StateSeeder::class,
             ModelPermissionsSeeder::class,
+            ShippingStatusSeeder::class,
         ]);
 
         \App\Models\User::factory([

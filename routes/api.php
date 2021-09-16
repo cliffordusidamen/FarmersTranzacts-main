@@ -169,3 +169,14 @@ Route::resource('products', \App\Http\Controllers\ProductController::class);
 |-------------------------------------------------------------------------
 */
 Route::resource('packagings', \App\Http\Controllers\VendorPackagingController::class);
+
+
+/*
+|-------------------------------------------------------------------------
+| Setup routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function() {
+    Route::get('settings', [\App\Http\Controllers\SetupController::class, 'settings']);
+    Route::post('store-settings', [\App\Http\Controllers\SetupController::class, 'storeSettings']);
+});

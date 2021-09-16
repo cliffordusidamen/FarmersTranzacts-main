@@ -121,3 +121,13 @@ Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
         'showMenu' => false,
     ]))
     ->name('contact_us');
+
+/*
+|-----------------------------------------------------------------------------
+| Shoppers personal orders routes
+|-----------------------------------------------------------------------------
+*/
+Route::prefix('my-orders')->name('my_orders.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\MyOrderController::class, 'index'])->name('index');
+    Route::get('/{order}', [\App\Http\Controllers\MyOrderController::class, 'show'])->name('show');
+});

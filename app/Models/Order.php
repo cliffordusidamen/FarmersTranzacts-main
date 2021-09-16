@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -157,5 +158,17 @@ class Order extends Model
         });
 
         return $saved ? $order : false;
+    }
+
+    /**
+     * Filter orders by user_id
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $user_id
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByUser(Builder $query, int $user_id): Builder
+    {
+        return $query->where('user_id', $user_id);
     }
 }

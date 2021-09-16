@@ -13,7 +13,7 @@
                         </inertia-link>
                     </div>
                     <div v-else class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <form @submit="updateCart">
                                 <table class="table table-cart table-mobile">
                                     <thead>
@@ -31,9 +31,15 @@
                                             <td class="product-col">
                                                 <div class="product">
                                                     <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-1.jpg" alt="Product image">
-                                                        </a>
+                                                        <inertia-link
+                                                            :href="route('shop.show_product', { slug: product.slug })"
+                                                        >
+                                                            <img
+                                                                :src="product.feature_image"
+                                                                alt="Product image"
+                                                                class="product-image"
+                                                            />
+                                                        </inertia-link>
                                                     </figure>
 
                                                     <h3 class="product-title">
@@ -66,7 +72,7 @@
                             </form>
                         </div>
 
-                        <aside class="col-md-3">
+                        <aside class="col-md-4">
                             <div class="summary summary-cart">
                                 <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
 

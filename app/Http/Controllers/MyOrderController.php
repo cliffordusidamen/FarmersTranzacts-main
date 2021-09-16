@@ -31,6 +31,28 @@ class MyOrderController extends Controller
             ->orderByDesc('id')
             ->paginate(10);
 
-        return Inertia::render('MyOrder/Index', compact('orders'));
+        return Inertia::render('MyOrders/Index', compact('orders'));
+    }
+
+    /**
+     * View details of an order
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Order  $order
+     * @return \Inertia\Response
+     */
+    public function show(Request $request, Order $order)
+    {
+        abort_if($order->user_id != $request->user()->id, 404, 'Page not found!');
+
+        $order->load([
+            'payments',
+            'shippingStatus',
+            'items',
+            'items.product',
+            'items.product.vendor',
+        ]);
+
+        return Inertia::render('MyOrders/Show', compact('order'));
     }
 }

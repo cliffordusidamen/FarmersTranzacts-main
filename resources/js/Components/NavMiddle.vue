@@ -99,9 +99,16 @@
                                     </div><!-- End .product-cart-details -->
 
                                     <figure class="product-image-container">
-                                        <a href="#" class="product-image">
-                                            <img src="assets/images/products/cart/product-1.jpg" alt="product">
-                                        </a>
+                                        <inertia-link
+                                            :href="route('shop.show_product', { slug: product.slug })"
+                                            class="product-image"
+                                        >
+                                            <img
+                                                :src="product.feature_image"
+                                                alt="Product image"
+                                                class="product-image"
+                                            />
+                                        </inertia-link>
                                     </figure>
                                     <a href="#" class="btn-remove" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
                                 </div><!-- End .product -->

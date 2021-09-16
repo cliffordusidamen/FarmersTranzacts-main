@@ -35415,13 +35415,21 @@ var map = {
 		"./resources/js/Pages/Home.vue",
 		"resources_js_Pages_Home_vue"
 	],
-	"./MyOrder/Index": [
-		"./resources/js/Pages/MyOrder/Index.vue",
-		"resources_js_Pages_MyOrder_Index_vue"
+	"./MyOrders/Index": [
+		"./resources/js/Pages/MyOrders/Index.vue",
+		"resources_js_Pages_MyOrders_Index_vue"
 	],
-	"./MyOrder/Index.vue": [
-		"./resources/js/Pages/MyOrder/Index.vue",
-		"resources_js_Pages_MyOrder_Index_vue"
+	"./MyOrders/Index.vue": [
+		"./resources/js/Pages/MyOrders/Index.vue",
+		"resources_js_Pages_MyOrders_Index_vue"
+	],
+	"./MyOrders/Show": [
+		"./resources/js/Pages/MyOrders/Show.vue",
+		"resources_js_Pages_MyOrders_Show_vue"
+	],
+	"./MyOrders/Show.vue": [
+		"./resources/js/Pages/MyOrders/Show.vue",
+		"resources_js_Pages_MyOrders_Show_vue"
 	],
 	"./PrivacyPolicy": [
 		"./resources/js/Pages/PrivacyPolicy.vue",
@@ -35665,7 +35673,7 @@ module.exports = webpackAsyncContext;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"7494517f238318a54d3a","resources_js_Pages_API_Index_vue":"98af52dd2197b25cc907","resources_js_Pages_AboutUs_vue":"7b44d81ba71ab9aa8ea1","resources_js_Pages_Admin_CategoriesList_vue":"7726210b95b47d02eed9","resources_js_Pages_Admin_CreateCategory_vue":"4fd65e48932f11bd8bd9","resources_js_Pages_Admin_CreateSubcategory_vue":"fd79bd7b168c2f6c27f8","resources_js_Pages_Admin_ShowCategory_vue":"cf57846b5344a8ed1ac4","resources_js_Pages_Auth_ConfirmPassword_vue":"2fa494fbac8ef99b94eb","resources_js_Pages_Auth_ForgotPassword_vue":"f1ed062655d79606d925","resources_js_Pages_Auth_Login_vue":"8b18abe9659eb35273fc","resources_js_Pages_Auth_Register_vue":"c446c193e7e310a5b626","resources_js_Pages_Auth_ResetPassword_vue":"7d89f91239b1327bfa40","resources_js_Pages_Auth_TwoFactorChallenge_vue":"3afcfcd3b9ebe3c00d53","resources_js_Pages_Auth_VerifyEmail_vue":"c7f94395b9d225bb0ded","resources_js_Pages_Cart_Checkout_vue":"c9b133c581306e5fa776","resources_js_Pages_Cart_View_vue":"3f1aca072f404e435086","resources_js_Pages_ContactUs_vue":"2dc87b6330d0e685f6cf","resources_js_Pages_Dashboards_AdminDashboard_vue":"1100c22d7adb791b6c94","resources_js_Pages_Dashboards_VendorDashboard_vue":"4b49c1cce03bfa6b3190","resources_js_Pages_Home_vue":"2c7697839b88b6f62059","resources_js_Pages_MyOrder_Index_vue":"617ca26cf45d9ce38333","resources_js_Pages_PrivacyPolicy_vue":"294551ec9e7ce0a8cede","resources_js_Pages_Profile_DeleteUserForm_vue":"d6f2544ceedd8bdf033e","resources_js_Pages_Profile_EditVendorForm_vue":"cc1e4bf6365f35c4e06f","resources_js_Pages_Profile_EditVendorRegistration_vue":"dcc380232a41c4e93cf1","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"108074c4202a502ecc7b","resources_js_Pages_Profile_Show_vue":"7b43db289db2173ffe23","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"793e7526758087579a27","resources_js_Pages_Profile_UpdatePasswordForm_vue":"17a33e0b4f9d8a821aab","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"1d33982cd8e6fb745279","resources_js_Pages_Registration_Shopper_vue":"69144fdc73dc49786c44","resources_js_Pages_Registration_Vendor_vue":"aadc5b9ab25312373d59","resources_js_Pages_Shop_ProductsList_vue":"9a64ab289bea7f7b1deb","resources_js_Pages_Shop_ShowProduct_vue":"656a2759db45f0855142","resources_js_Pages_TermsOfService_vue":"1c24708e5227d7c18190","resources_js_Pages_Vendors_Index_vue":"51f8ef4e658087b0b618","resources_js_Pages_Vendors_Show_vue":"3419c8f99eb5d4b22e89","resources_js_Pages_Welcome_vue":"2466c7d02fd86dc472a2"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"7494517f238318a54d3a","resources_js_Pages_API_Index_vue":"84fc95ffb85851687412","resources_js_Pages_AboutUs_vue":"d9e3cf917729ecaf26ce","resources_js_Pages_Admin_CategoriesList_vue":"ac715e5045d277ed61a3","resources_js_Pages_Admin_CreateCategory_vue":"42ee064c18cf0f01e9f3","resources_js_Pages_Admin_CreateSubcategory_vue":"23e831b046f03bae30f5","resources_js_Pages_Admin_ShowCategory_vue":"6feb5709c264eccc0206","resources_js_Pages_Auth_ConfirmPassword_vue":"1ee7adca1b487b605aad","resources_js_Pages_Auth_ForgotPassword_vue":"b56c347e2c2f592b25c7","resources_js_Pages_Auth_Login_vue":"e4d89be4edb5ade736a5","resources_js_Pages_Auth_Register_vue":"544dc7abcd76c0287447","resources_js_Pages_Auth_ResetPassword_vue":"65eff80138a53977e18d","resources_js_Pages_Auth_TwoFactorChallenge_vue":"cdc3239bd0710ccf1145","resources_js_Pages_Auth_VerifyEmail_vue":"9bee7ac77bc85e2cdba3","resources_js_Pages_Cart_Checkout_vue":"aecd91095644f620ee2d","resources_js_Pages_Cart_View_vue":"2e728e1ab5cb48e7121e","resources_js_Pages_ContactUs_vue":"5c9577030ee9bd7ed0bb","resources_js_Pages_Dashboards_AdminDashboard_vue":"8b4c209139b3c7c7f00e","resources_js_Pages_Dashboards_VendorDashboard_vue":"cf5fc6f5d06e81b67f6d","resources_js_Pages_Home_vue":"5eef624df3a4c7b418dc","resources_js_Pages_MyOrders_Index_vue":"6f62711844df436eb10d","resources_js_Pages_MyOrders_Show_vue":"67b3cf8d37f719440a51","resources_js_Pages_PrivacyPolicy_vue":"294551ec9e7ce0a8cede","resources_js_Pages_Profile_DeleteUserForm_vue":"d6f2544ceedd8bdf033e","resources_js_Pages_Profile_EditVendorForm_vue":"1ece9b5d773bed311375","resources_js_Pages_Profile_EditVendorRegistration_vue":"2621988e8089d4107e14","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"108074c4202a502ecc7b","resources_js_Pages_Profile_Show_vue":"b2aab368b736d695793f","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"793e7526758087579a27","resources_js_Pages_Profile_UpdatePasswordForm_vue":"17a33e0b4f9d8a821aab","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"1d33982cd8e6fb745279","resources_js_Pages_Registration_Shopper_vue":"8c7e492ef9ff1a1b1cbf","resources_js_Pages_Registration_Vendor_vue":"ef14465833dfb7a06dfc","resources_js_Pages_Shop_ProductsList_vue":"a282c15300b9ed8babf1","resources_js_Pages_Shop_ShowProduct_vue":"c1a62f34e711db71ed64","resources_js_Pages_TermsOfService_vue":"1c24708e5227d7c18190","resources_js_Pages_Vendors_Index_vue":"a94a8be85f2d71c7237b","resources_js_Pages_Vendors_Show_vue":"19f33e41236c6fb4abdc","resources_js_Pages_Welcome_vue":"2466c7d02fd86dc472a2"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

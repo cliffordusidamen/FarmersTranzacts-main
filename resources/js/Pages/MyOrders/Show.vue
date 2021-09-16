@@ -9,7 +9,7 @@
                         <div class="col-md-9">
                             <p class="text-right text-uppercase">
                                 <strong class="text-dark">Status: </strong>
-                                {{ order.shipping_status.name }}
+                                {{ order.delivery_status.name }}
                             </p>
                             <div class="card border p-3 rounded-sm shadow">
                                 <table class="table table-sm mb-0 table-mobile">

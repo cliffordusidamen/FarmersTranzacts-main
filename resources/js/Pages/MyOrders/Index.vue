@@ -55,7 +55,7 @@
 
                                                 <p>
                                                     <strong class="text-uppercase">Status: </strong>
-                                                    {{ order.shipping_status.name }}
+                                                    {{ order.delivery_status.name }}
                                                 </p>
 
                                                 <inertia-link
@@ -76,7 +76,7 @@
                                         </td>
 
                                         <td class="d-none text-capitalize d-sm-table-cell">
-                                            {{ order.shipping_status.name }}
+                                            {{ order.delivery_status.name }}
                                         </td>
 
                                         <td class="d-none d-sm-table-cell text-right">

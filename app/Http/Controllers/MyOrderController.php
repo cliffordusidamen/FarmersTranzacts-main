@@ -27,7 +27,7 @@ class MyOrderController extends Controller
     {
         $orders = Order::byUser(auth()->user()->id)
             ->withCount(['items'])
-            ->with(['shippingStatus'])
+            ->with(['deliveryStatus'])
             ->orderByDesc('id')
             ->paginate(10);
 
@@ -47,7 +47,7 @@ class MyOrderController extends Controller
 
         $order->load([
             'payments',
-            'shippingStatus',
+            'deliveryStatus',
             'items',
             'items.product',
             'items.product.vendor',

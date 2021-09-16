@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             StateSeeder::class,
             ModelPermissionsSeeder::class,
             DeliveryStatusSeeder::class,
+            AppSettingSeeder::class,
+            PageSeeder::class,
         ]);
 
         \App\Models\User::factory([

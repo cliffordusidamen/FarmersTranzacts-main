@@ -138,8 +138,8 @@
                                     <h4 class="widget-title text-center text-md-left">Customer Service</h4><!-- End .widget-title -->
 
                                     <ul class="widget-list text-center text-md-left">
-                                        <li><a href="#">Terms and conditions</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><inertia-link :href="route('terms')">Terms and conditions</inertia-link></li>
+                                        <li><inertia-link :href="route('privacy_policy')">Privacy Policy</inertia-link></li>
                                         <li><a href="#">Contact us</a></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->

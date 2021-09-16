@@ -113,10 +113,18 @@ Route::post('/logout', function(\Illuminate\Http\Request $request) {
  | Public pages routes
  |-----------------------------------------------------------------------------
  */
-Route::get('/about-us', fn () => Inertia::render('AboutUs.vue', [
-        'showMenu' => false,
-    ]))
+Route::get('about-us', [\App\Http\Controllers\PageController::class, 'about'])
     ->name('about_us');
+
+Route::get('terms-of-use', [\App\Http\Controllers\PageController::class, 'terms'])
+    ->name('terms');
+
+Route::get('privacy-policy', [\App\Http\Controllers\PageController::class, 'privacyPolicy'])
+    ->name('privacy_policy');
+
+Route::get('terms-of-use', [\App\Http\Controllers\PageController::class, 'terms'])
+    ->name('terms');
+
 Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
         'showMenu' => false,
     ]))

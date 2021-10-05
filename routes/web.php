@@ -139,3 +139,10 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/', [\App\Http\Controllers\MyOrderController::class, 'index'])->name('index');
     Route::get('/{order}', [\App\Http\Controllers\MyOrderController::class, 'show'])->name('show');
 });
+
+// Testing
+Route::get('test-1', function() {
+    $vendor = \App\Models\Vendor::find(1);
+    return $vendor->current_month_orders;
+    return 'Done!';
+});

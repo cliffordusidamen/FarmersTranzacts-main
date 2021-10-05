@@ -14,11 +14,13 @@ class DeliveryStatus extends Model
     const  IN_TRANSIT_ID = 2;
     const  DELIVERED_ID = 3;
     const  RETURNED_ID = 4;
+    const  CANCELED_ID = 5;
 
     const  PENDING = 'pending';
     const  IN_TRANSIT = 'in transit';
     const  DELIVERED = 'delivered';
     const  RETURNED = 'returned';
+    const  CANCELLED = 'cancelled';
 
     /**
      * Mass assignable fields

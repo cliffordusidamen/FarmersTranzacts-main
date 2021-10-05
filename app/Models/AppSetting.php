@@ -9,6 +9,8 @@ class AppSetting extends Model
 {
     use HasFactory;
 
+    const VENDOR_STORAGE_LIMIT = 'vendor_storage_limit';
+
     /**
      * Mass assignable fields
      * 
@@ -18,7 +20,7 @@ class AppSetting extends Model
         'hotline',
         'email',
         'address',
-        'vendor_storage_limit',
+        self::VENDOR_STORAGE_LIMIT,
         'social_facebook',
         'social_twitter',
         'social_youtube',
@@ -26,4 +28,26 @@ class AppSetting extends Model
         'social_instagram',
         'social_whatsapp',
     ];
+
+    /**
+     * Get specific setting
+     * 
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public static function getSetting(string  $key, $default = null)
+    {
+        $appSettings = AppSetting::first();
+
+        if (!$appSettings) {
+            return $default;
+        }
+
+        $appSettingsArray = $appSettings->toArray();
+
+        return isset($appSettingsArray[$key])
+            ? $appSettingsArray[$key]
+            : $default;
+    }
 }

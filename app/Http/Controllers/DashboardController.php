@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSetting;
 use App\Models\Designation;
 use App\Models\User;
 use App\Models\Vendor;
@@ -50,9 +51,13 @@ class DashboardController extends Controller
         $user_vendor = auth()->user()->vendors()->first();
         $approvalPending = $user_vendor->approval_status == Vendor::STATUS_PENDING;
         $approvalDisapproved = $user_vendor->approval_status == Vendor::STATUS_DISAPPROVED;
+        $user_vendor->append('storage_used');
+        $user_vendor->append('current_month_orders');
+        $storageAllowed = AppSetting::getSetting(AppSetting::VENDOR_STORAGE_LIMIT);
 
         $responseData = compact(
-            'showCategories', 'user_vendor', 'approvalPending', 'approvalDisapproved'
+            'showCategories', 'user_vendor', 'approvalPending', 'approvalDisapproved',
+            'storageAllowed',
         );
 
         if (request()->wantsJson()) {

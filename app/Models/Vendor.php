@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -314,5 +315,76 @@ class Vendor extends Model
         return VendorWallet::create([
             'vendor_id' => $this->id,
         ]);
+    }
+
+    /**
+     * Get the list of product ids
+     * 
+     * @return array
+     */
+    public function getProductsIdsAttribute():array
+    {
+        return $this->products()->pluck('id', 'id');
+    }
+
+    /**
+     * Get the total storage used by the vendor
+     * 
+     * @return int
+     */
+    public function getStorageUsedAttribute(): int
+    {
+        $storageUsed = ProductImage::whereIn('product_id', function(QueryBuilder $query) {
+            return $query->from('products')
+                ->where('vendor_id', $this->id)
+                ->select('id');
+        })
+        ->sum('size');
+
+        return $storageUsed;
+    }
+
+    /**
+     * Get the orders stats for the current month
+     * 
+     * @return array
+     */
+    public function getCurrentMonthOrdersAttribute(): array
+    {
+        // determine total number of orders for the current month
+        // $totalOrders = $this->
+        //  determine the total amount for the orders for the current month, where not cancelled/returned
+        $orders = Order::whereHas('items', function(Builder $query) {
+            return $query->whereIn('product_id', function(QueryBuilder $query) {
+                return $query->from('products')
+                    ->where('vendor_id', $this->id)
+                    ->select('id');
+            });
+        })
+        ->orderByDesc('created_at')
+        ->notCancelledOrReturned()
+        ->selectRaw('*')
+        ->selectRaw('EXTRACT(YEAR_MONTH FROM created_at) as the_year_month')
+        ->selectRaw('count(id) as num_orders')
+        ->selectRaw('sum(amount) as total_amount')
+        ->groupByRaw('the_year_month')
+        ->take(1)
+        ->get();
+
+        dd($orders);
+
+
+        // get total price of items where product belongs to vendor and the order of the items is not cancelled/returned
+        // $totalOrders = OrderItem::whereIn('product_id', function(QueryBuilder $query) {
+        //     return $query->from('products')
+        //         ->where('vendor_id', $this->id)
+        //         ->select('id');
+        // })
+        // ->whereIn('order_id', function(QueryBuilder $query) {
+        //     return $query->from('products')
+        //         ->where('vendor_id', $this->id)
+        //         ->select('id');
+        // })
+        return [];
     }
 }

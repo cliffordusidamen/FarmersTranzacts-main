@@ -171,4 +171,16 @@ class Order extends Model
     {
         return $query->where('user_id', $user_id);
     }
+
+    /**
+     * Not cancelled, nor returned
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotCancelledOrReturned(Builder $query): Builder
+    {
+        return $query->where('delivery_status_id', '!=', DeliveryStatus::CANCELED_ID)
+            ->where('delivery_status_id', '!=', DeliveryStatus::RETURNED_ID);
+    }
 }

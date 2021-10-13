@@ -18,7 +18,9 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('reference_number', 50)->unique();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('amount', 15);
+            $table->unsignedDecimal('items_amount', 15)->nullable();
+            $table->unsignedDecimal('delivery_amount', 15)->default(0);
+            $table->unsignedDecimal('total_amount', 15);
             $table->string('order_notes', 1000)->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
             $table->unsignedSmallInteger('delivery_status_id')->default(DeliveryStatus::PENDING_ID);

@@ -32,6 +32,7 @@ class ProductFactory extends Factory
             'old_price' => floor($price * 0.8),
             'submitted_at' => carbon()->format('Y-m-d H:i:s'),
             'approval_status' => Product::STATUS_APPROVED,
+            'maximum_order_quantity' => mt_rand(5, 20),
         ];
     }
 }

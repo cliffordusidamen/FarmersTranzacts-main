@@ -17,10 +17,12 @@ class OrderItem extends Model
      */
     protected $fillable = [
         'order_id',
+        'vendor_order_id',
         'product_id',
         'quantity',
         'unit_amount',
-        'total_amount',
+        'items_amount',
+        'delivery_amount',
     ];
 
     /**
@@ -31,6 +33,16 @@ class OrderItem extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'order_id');
+    }
+
+    /**
+     * Relationship: belongs to vendor order
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function vendorOrder(): BelongsTo
+    {
+        return $this->belongsTo(VendorOrder::class, 'vendor_order_id');
     }
 
     /**

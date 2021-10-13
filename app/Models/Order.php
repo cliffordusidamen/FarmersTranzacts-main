@@ -22,7 +22,9 @@ class Order extends Model
     protected $fillable = [
         'reference_number',
         'user_id',
-        'amount',
+        'items_amount',
+        'delivery_amount',
+        'total_amount',
         'delivery_status_id',
         'order_notes',
     ];
@@ -55,6 +57,16 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
+    /**
+     * Relatioship: Has many vendor orders
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function vendorOrders(): HasMany
+    {
+        return $this->hasMany(VendorOrder::class, 'order_id');
     }
 
     /**

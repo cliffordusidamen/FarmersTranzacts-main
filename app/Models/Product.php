@@ -35,6 +35,7 @@ class Product extends Model
         'description',
         'specifications',
         'key_features',
+        'maximum_order_quantity',
         'price',
         'old_price',
         'in_stock',

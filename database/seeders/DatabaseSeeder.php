@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             ProductCategorySeeder::class,
             DesignationSeeder::class,
+            GeopoliticalZoneSeeder::class,
             StateSeeder::class,
             ModelPermissionsSeeder::class,
             DeliveryStatusSeeder::class,

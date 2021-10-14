@@ -80,6 +80,7 @@ class ProductController extends Controller
             'description',
             'price',
             'packaging_id',
+            'maximum_order_quantity',
         ]);
 
         $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
@@ -154,6 +155,7 @@ class ProductController extends Controller
             'description',
             'price',
             'packaging_id',
+            'maximum_order_quantity',
         ]);
 
         $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');

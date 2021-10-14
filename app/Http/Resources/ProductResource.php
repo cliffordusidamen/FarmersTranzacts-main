@@ -34,6 +34,7 @@ class ProductResource extends JsonResource
             'submitted_at' => $this->submitted_at,
             'approved_at' => $this->approved_at,
             'feature_image' => $this->feature_image,
+            'maximum_order_quantity' => $this->maximum_order_quantity,
         ];
 
         if ($this->relationLoaded('packaging')) {

@@ -162,6 +162,7 @@ class Product extends Model
             'packaging_id' => 'required|exists:vendor_packagings,id',
             'category_id' => 'required|exists:product_categories,id',
             'subcategory_id' => 'sometimes|nullable|exists:product_subcategories,id',
+            'maximum_order_quantity' => 'required|numeric|min:1|max:20',
         ];
     }
 

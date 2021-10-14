@@ -7,6 +7,7 @@ use App\Http\Requests\AddProductPictureRequest;
 use App\Http\Requests\SaveProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
+use App\Models\GeopoliticalZone;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\VendorPackaging;
@@ -361,9 +362,11 @@ class ProductController extends Controller
         $productSubcategories = ProductSubcategory::whereIn('category_id', $productCategoryIds)
             ->get();
         $packagingList = VendorPackaging::pluck('name', 'id');
+        $zones = GeopoliticalZone::with('states')->get();
 
         return compact(
-            'productCategoryList', 'productSubcategories', 'packagingList'
+            'productCategoryList', 'productSubcategories', 'packagingList',
+            'zones',
         );
     }
 

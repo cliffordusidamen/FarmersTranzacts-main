@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->text('specifications')->nullable();
             $table->text('key_features')->nullable();
-            $table->integer('maximum_order_quantity')->default(1);
+            $table->unsignedSmallInteger('maximum_order_quantity')->default(1);
             $table->unsignedDecimal('price');
             $table->unsignedDecimal('old_price')->nullable();
             $table->unsignedInteger('in_stock')->default(1);

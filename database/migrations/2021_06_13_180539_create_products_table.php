@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('subcategory_id')->nullable();
             $table->unsignedInteger('vendor_id');
             $table->unsignedMediumInteger('packaging_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->text('specifications')->nullable();

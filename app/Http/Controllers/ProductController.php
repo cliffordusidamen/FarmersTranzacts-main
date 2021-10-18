@@ -73,6 +73,9 @@ class ProductController extends Controller
      */
     public function store(SaveProductRequest $request)
     {
+        Log::info('=======================================================');
+        Log::info($request->product_delivery_costs);
+        Log::info('=======================================================');
 
         $data = $request->only([
             'name',
@@ -93,6 +96,9 @@ class ProductController extends Controller
             if ($request->picture) {
                 $product->addPicture($request->picture);
             }
+            collect($request->product_delivery_costs)->each(
+                fn($deliveryCost) => $product->deliveryCosts()->create($deliveryCost)
+            );
         });
 
         if (!$product) {

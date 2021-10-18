@@ -19,7 +19,8 @@ class ProductDeliveryCost extends Model
         'product_id',
         'minimum_quantity',
         'maximum_quantity',
-        'north_central',
+        'north_central_cost',
+        'north_central_delivery_days',
         'north_east_cost',
         'north_east_delivery_days',
         'north_west_cost',
@@ -40,5 +41,62 @@ class ProductDeliveryCost extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    /**
+     * Default validation rules
+     * 
+     * @return array
+     */
+    public static function getValidationRules(string $prefix = ''): array
+    {
+        $rules = [
+            "{$prefix}minimum_quantity" => 'required|numeric|min:1|max:20',
+            "{$prefix}maximum_quantity" => "required|numeric|min:1|max:20|gt:{$prefix}minimum_quantity",
+
+            "{$prefix}north_central_cost" => [
+                'sometimes',
+                'nullable',
+                // "required_without:{$prefix}north_east_cost,{$prefix}north_west_cost,{$prefix}south_east_cost,{$prefix}south_west_cost,{$prefix}south_south_cost",
+            ],
+            "{$prefix}north_central_delivery_days" => 'required_with:north_central_cost',
+
+            "{$prefix}north_east_cost" => [
+                'sometimes',
+                'nullable',
+                // "required_without:{$prefix}north_central_cost,{$prefix}north_west_cost,{$prefix}south_east_cost,{$prefix}south_west_cost,{$prefix}south_south_cost",
+            ],
+            "{$prefix}north_east_delivery_days" => 'required_with:north_east_cost',
+
+            "{$prefix}north_west_cost" => [
+                'sometimes',
+                'nullable',
+                // "required_without:{$prefix}north_central_cost,{$prefix}north_east_cost,{$prefix}south_east_cost,{$prefix}south_west_cost,{$prefix}south_south_cost",
+            ],
+            "{$prefix}north_west_delivery_days" => 'required_with:north_west_cost',
+
+            "{$prefix}south_east_cost" => [
+                'sometimes',
+                'nullable',
+                // "required_without:{$prefix}north_central_cost,{$prefix}north_east_cost,{$prefix}north_west_cost,{$prefix}south_west_cost,{$prefix}south_south_cost",
+            ],
+            "{$prefix}south_east_delivery_days" => 'required_with:south_east_cost',
+
+            "{$prefix}south_west_cost" => [
+                'sometimes',
+                'nullable',
+                // "required_without:{$prefix}north_central_cost,{$prefix}north_east_cost,{$prefix}north_west_cost,{$prefix}south_east_cost,{$prefix}south_south_cost",
+            ],
+            "{$prefix}south_west_delivery_days" => 'required_with:south_west_cost',
+
+            "{$prefix}south_south_cost" => [
+                'sometimes',
+                'nullable',
+                // "required_without:{$prefix}north_central_cost,{$prefix}north_east_cost,{$prefix}north_west_cost,{$prefix}south_east_cost,{$prefix}south_west_cost",
+            ],
+            "{$prefix}south_south_delivery_days" => 'required_with:south_south_cost',
+        ];
+
+        return $rules;
     }
 }

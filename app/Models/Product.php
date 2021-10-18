@@ -103,6 +103,16 @@ class Product extends Model
     }
 
     /**
+     * Relationship: Has many delivery costs
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deliveryCosts(): HasMany
+    {
+        return $this->hasMany(ProductDeliveryCost::class, 'product_id');
+    }
+
+    /**
      * Get the featured picture for this product
      * 
      * @return \App\Models\ProductImage|null
@@ -153,7 +163,7 @@ class Product extends Model
      */
     public static function validationRules(?int $id = null): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|min:25|max:1000',
             'specifications' => 'sometimes|nullable|min:25|max:1000',
@@ -164,6 +174,13 @@ class Product extends Model
             'subcategory_id' => 'sometimes|nullable|exists:product_subcategories,id',
             'maximum_order_quantity' => 'required|numeric|min:1|max:20',
         ];
+
+        
+        collect(ProductDeliveryCost::getValidationRules("product_delivery_costs.*."))->map(function ($fieldRules, $fieldName) use (&$rules) {
+            $rules["{$fieldName}"] = $fieldRules;
+        });
+
+        return $rules;
     }
 
     /**

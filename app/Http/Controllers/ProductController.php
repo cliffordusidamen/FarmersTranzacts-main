@@ -9,12 +9,12 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\GeopoliticalZone;
 use App\Models\Product;
+use App\Models\ProductDeliveryCost;
 use App\Models\ProductImage;
 use App\Models\VendorPackaging;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -73,9 +73,6 @@ class ProductController extends Controller
      */
     public function store(SaveProductRequest $request)
     {
-        Log::info('=======================================================');
-        Log::info($request->product_delivery_costs);
-        Log::info('=======================================================');
 
         $data = $request->only([
             'name',
@@ -139,8 +136,9 @@ class ProductController extends Controller
     public function edit(Request $request, Product $product)
     {
         $this->_abortIfNotVendorProduct($product);
+        $product->load(['deliveryCosts']);
         $viewVariables = $this->_getProductFormVariables($request);
-        $viewVariables['product'] = $product;
+        $viewVariables['product'] = new ProductResource($product);
 
         return response()->json($viewVariables);
     }
@@ -155,20 +153,39 @@ class ProductController extends Controller
     public function update(SaveProductRequest $request, Product $product)
     {
         $this->_abortIfNotVendorProduct($product);
-        $data = $request->only([
-            'name',
-            'category_id',
-            'subcategory_id',
-            'description',
-            'price',
-            'packaging_id',
-            'maximum_order_quantity',
-        ]);
+        
+        $saved = false;
+        
+        DB::transaction(function() use ($product, $request, &$saved) {
+            $data = $request->only([
+                'name',
+                'category_id',
+                'subcategory_id',
+                'description',
+                'price',
+                'packaging_id',
+                'maximum_order_quantity',
+            ]);
+    
+            $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
+            $data['approval_status'] = $request->is_draft ? $product->approval_status : Product::STATUS_PENDING;
+            if ($product->forceFill($data)->save()) {
+                collect($request->input('product_delivery_costs'))
+                    ->each(function($deliveryCost, $i) use ($product) {
+                        if (!empty($deliveryCost['id'])) {
+                            ProductDeliveryCost::where('id', $deliveryCost['id'])
+                                ->update($deliveryCost);
+                            return;
+                        }
+                        $product->deliveryCosts()->create($deliveryCost);
+                    });
+            }
 
-        $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
-        $data['approval_status'] = $request->is_draft ? $product->approval_status : Product::STATUS_PENDING;
+            $saved = true;
 
-        $saved = $product->forceFill($data)->save();
+
+        });
+
         if (!$saved) {
             throw new \Exception('Product not saved! Please, try again.');
         }

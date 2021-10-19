@@ -56,6 +56,32 @@ class ProductResource extends JsonResource
             $data['category'] = $this->category->toArray();
         }
 
+        if ($this->relationLoaded('deliveryCosts')) {
+            $deliveryCosts = [];
+            $this->deliveryCosts->each(function ($deliveryCost, $i) use (&$deliveryCosts) {
+                $deliveryCosts[] = [
+                    'id' =>$deliveryCost->id,
+                    'product_id' =>$deliveryCost->product_id,
+                    'minimum_quantity' =>$deliveryCost->minimum_quantity,
+                    'maximum_quantity' =>$deliveryCost->maximum_quantity,
+                    'north_central_cost' =>$deliveryCost->north_central_cost,
+                    'north_central_delivery_days' =>$deliveryCost->north_central_delivery_days,
+                    'north_east_cost' =>$deliveryCost->north_east_cost,
+                    'north_east_delivery_days' =>$deliveryCost->north_east_delivery_days,
+                    'north_west_cost' =>$deliveryCost->north_west_cost,
+                    'north_west_delivery_days' =>$deliveryCost->north_west_delivery_days,
+                    'south_east_cost' =>$deliveryCost->south_east_cost,
+                    'south_east_delivery_days' =>$deliveryCost->south_east_delivery_days,
+                    'south_west_cost' =>$deliveryCost->south_west_cost,
+                    'south_west_delivery_days' =>$deliveryCost->south_west_delivery_days,
+                    'south_south_cost' =>$deliveryCost->south_south_cost,
+                    'south_south_delivery_days' =>$deliveryCost->south_south_delivery_days,
+                ];
+            });
+
+            $data['deliveryCosts'] = $deliveryCosts;
+        }
+
         if ($this->relationLoaded('subcategory')) {
             $data['subcategory'] = $this->subcategory
                 ? $this->subcategory->toArray()

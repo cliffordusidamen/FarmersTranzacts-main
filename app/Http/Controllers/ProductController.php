@@ -118,7 +118,7 @@ class ProductController extends Controller
     {
         $product->load([
             'packaging', 'category', 'subcategory',
-            'vendor', 'images',
+            'vendor', 'images', 'deliveryCosts',
         ]);
         $this->_abortIfNotVendorProduct($product);
         return response()->json([

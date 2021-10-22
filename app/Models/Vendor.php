@@ -366,7 +366,7 @@ class Vendor extends Model
         ->selectRaw('*')
         ->selectRaw('EXTRACT(YEAR_MONTH FROM created_at) as the_year_month')
         ->selectRaw('count(id) as num_orders')
-        ->selectRaw('sum(amount) as total_amount')
+        ->selectRaw('sum(total_amount) as total_amount')
         ->groupByRaw('the_year_month')
         ->take(1)
         ->get();

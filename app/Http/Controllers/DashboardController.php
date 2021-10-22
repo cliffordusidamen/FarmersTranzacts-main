@@ -17,7 +17,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:sanctum', 'frontend']);
+        $this->middleware(['auth:sanctum']);
     }
 
     /**
@@ -52,12 +52,13 @@ class DashboardController extends Controller
         $approvalPending = $user_vendor->approval_status == Vendor::STATUS_PENDING;
         $approvalDisapproved = $user_vendor->approval_status == Vendor::STATUS_DISAPPROVED;
         $user_vendor->append('storage_used');
-        $user_vendor->append('current_month_orders');
-        $storageAllowed = AppSetting::getSetting(AppSetting::VENDOR_STORAGE_LIMIT);
+        // $user_vendor->append('current_month_orders');
+        $storageAllowed = AppSetting::getSetting(AppSetting::VENDOR_STORAGE_LIMIT) * 1_000_000;
+        $numberOfProducts = $user_vendor->products()->count();
 
         $responseData = compact(
             'showCategories', 'user_vendor', 'approvalPending', 'approvalDisapproved',
-            'storageAllowed',
+            'storageAllowed', 'numberOfProducts'
         );
 
         if (request()->wantsJson()) {

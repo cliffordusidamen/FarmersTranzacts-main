@@ -129,11 +129,11 @@
 
                 <label class="custom-control-label" for="terms">
                     I agree to the
-                    <a target="_blank" :href="route('terms.show')"
+                    <a target="_blank" :href="route('terms')"
                         >Terms of Service</a
                     >
                     and
-                    <a target="_blank" :href="route('policy.show')"
+                    <a target="_blank" :href="route('privacy_policy')"
                         >Privacy Policy</a
                     >
                 </label>

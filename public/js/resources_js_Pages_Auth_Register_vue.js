@@ -1343,12 +1343,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["checked"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     target: "_blank",
-    href: _ctx.route('terms.show')
+    href: _ctx.route('terms')
   }, "Terms of Service", 8
   /* PROPS */
   , ["href"]), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     target: "_blank",
-    href: _ctx.route('policy.show')
+    href: _ctx.route('privacy_policy')
   }, "Privacy Policy", 8
   /* PROPS */
   , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {

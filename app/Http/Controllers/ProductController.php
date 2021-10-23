@@ -384,7 +384,7 @@ class ProductController extends Controller
         $productCategoryIds = $vendorData->productCategories->pluck('id', 'id');
         $productSubcategories = ProductSubcategory::whereIn('category_id', $productCategoryIds)
             ->get();
-        $packagingList = VendorPackaging::pluck('name', 'id');
+        $packagingList = $vendorData->packagings()->pluck('name', 'id');
         $zones = GeopoliticalZone::with('states')->get();
 
         return compact(

@@ -46,36 +46,6 @@
 
             <div class="header-right">
                 <div class="header-dropdown-link">
-                    <div class="dropdown compare-dropdown d-none">
-                        <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                            <i class="icon-random"></i>
-                            <span class="compare-txt">Compare</span>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="compare-products">
-                                <li class="compare-product">
-                                    <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    <h4 class="compare-product-title"><a href="#">Blue Night Dress</a></h4>
-                                </li>
-                                <li class="compare-product">
-                                    <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    <h4 class="compare-product-title"><a href="#">White Long Skirt</a></h4>
-                                </li>
-                            </ul>
-
-                            <div class="compare-actions">
-                                <a href="#" class="action-link">Clear All</a>
-                                <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                            </div>
-                        </div><!-- End .dropdown-menu -->
-                    </div><!-- End .compare-dropdown -->
-
-                    <a href="#" class="wishlist-link d-none">
-                        <i class="icon-heart-o"></i>
-                        <span class="wishlist-count">0</span>
-                        <span class="wishlist-txt">Wishlist</span>
-                    </a>
 
                     <div class="dropdown cart-dropdown">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -84,46 +54,51 @@
                             <span class="cart-txt">Cart</span>
                         </a>
 
-                        <div v-if="cartHasItems" class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-cart-products">
-                                <div class="product" v-for="{product, quantity} in cartItems" :key="product.id">
-                                    <div class="product-cart-details">
-                                        <h4 class="product-title">
-                                            <inertia-link href="#">{{product.name}}</inertia-link>
-                                        </h4>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div v-if="cartHasItems">
+                                <div class="dropdown-cart-products">
+                                    <div class="product" v-for="{product, quantity} in cartItems" :key="product.id">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <inertia-link href="#">{{product.name}}</inertia-link>
+                                            </h4>
 
-                                        <span class="cart-product-info">
-                                            <span class="cart-product-qty">{{Number(quantity).toLocaleString()}}</span>
-                                            x &#8358;{{Number(product.price).toLocaleString()}}
-                                        </span>
-                                    </div><!-- End .product-cart-details -->
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">{{Number(quantity).toLocaleString()}}</span>
+                                                x &#8358;{{Number(product.price).toLocaleString()}}
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
 
-                                    <figure class="product-image-container">
-                                        <inertia-link
-                                            :href="route('shop.show_product', { slug: product.slug })"
-                                            class="product-image"
-                                        >
-                                            <img
-                                                :src="product.feature_image"
-                                                alt="Product image"
+                                        <figure class="product-image-container">
+                                            <inertia-link
+                                                :href="route('shop.show_product', { slug: product.slug })"
                                                 class="product-image"
-                                            />
-                                        </inertia-link>
-                                    </figure>
-                                    <a href="#" class="btn-remove" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
-                                </div><!-- End .product -->
-                            </div><!-- End .cart-product -->
+                                            >
+                                                <img
+                                                    :src="product.feature_image"
+                                                    alt="Product image"
+                                                    class="product-image"
+                                                />
+                                            </inertia-link>
+                                        </figure>
+                                        <a href="#" class="btn-remove" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+                                </div><!-- End .cart-product -->
 
-                            <div class="dropdown-cart-total">
-                                <span>Total</span>
+                                <div class="dropdown-cart-total">
+                                    <span>Total</span>
 
-                                <span class="cart-total-price">&#8358;{{cart?.grand_total.toLocaleString()}}</span>
-                            </div><!-- End .dropdown-cart-total -->
+                                    <span class="cart-total-price">&#8358;{{cart?.grand_total.toLocaleString()}}</span>
+                                </div><!-- End .dropdown-cart-total -->
 
-                            <div v-show="!processing" class="dropdown-cart-action">
-                                <inertia-link :href="route('shopping_cart.view')" class="btn btn-primary">View Cart</inertia-link>
-                                <inertia-link :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
-                            </div><!-- End .dropdown-cart-total -->
+                                <div v-show="!processing" class="dropdown-cart-action">
+                                    <inertia-link :href="route('shopping_cart.view')" class="btn btn-primary">View Cart</inertia-link>
+                                    <inertia-link :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                            <div v-else class="text-muted m-1 p-1 rounded-sm">
+                                No items in your cart!
+                            </div>
                         </div><!-- End .dropdown-menu -->
                     </div><!-- End .cart-dropdown -->
 

@@ -1,10 +1,10 @@
 <template>
   <div class="page-wrapper">
-    <navigation-top :show-categories="showCategories" />
+    <navigation-top @test-modal="testModal" :show-categories="showCategories" />
 
     <main class="main">
       <jet-banner />
-      <slot></slot>
+      <slot :testModal="testModal"></slot>
     </main>
 
     <app-footer />
@@ -67,6 +67,11 @@ export default {
     logout() {
       this.$inertia.post(route("logout"));
     },
+
+    testModal() {
+      alert('Hello there!')
+      console.log('Called')
+    }
   },
 
   computed: {

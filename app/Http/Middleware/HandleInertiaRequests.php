@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             'config_app' => config('app'),
             'cart' => $request->session()->get('cart'),
             'app_settings' => \App\Models\AppSetting::first(),
+            'states' => \App\Models\State::pluck('state_name', 'id'),
         ]);
     }
 }

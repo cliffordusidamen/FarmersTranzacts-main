@@ -121,6 +121,29 @@ class ShoppingCartController extends Controller
     }
 
     /**
+     * Set the state where the shopper wants the items delivered
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function setDeliveryState(Request $request)
+    {
+        $this->validate($request, [
+            'state_id' => 'required|exists:states,id',
+            'product_id' => 'sometimes|nullable|exists:products,id'
+        ]);
+        $this->initCart();
+
+        if ($request->input('product_id')) {
+            $product = Product::availableForSale()->findOrFail($request->input('product_id'));
+            $this->cart->addProduct($product);
+        }
+        $this->cart->setDeliveryState($request->input('state_id'));
+
+        flashMessage('success', 'Delivery state updated!');
+        return back();
+    }
+
+    /**
      * Checkout page
      * 
      * @param  \Illuminate\Http\Request  $request

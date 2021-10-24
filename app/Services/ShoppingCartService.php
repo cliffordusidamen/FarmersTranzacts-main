@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\State;
 
 class ShoppingCartService
 {
@@ -12,6 +13,13 @@ class ShoppingCartService
      * @var array
      */
     private array $items = [];
+
+    /**
+     * Delivery state
+     * 
+     * @var  \App\Models\State
+     */
+    private ?State $state;
 
     /**
      * Grand total
@@ -52,6 +60,7 @@ class ShoppingCartService
     public function getData(): array
     {
         $cart = [
+            'state' => $this->state,
             'items' => $this->items,
             'grand_total' => $this->getGrandTotal()
         ];
@@ -168,5 +177,26 @@ class ShoppingCartService
     public function clear()
     {
         return $this->setItems([]);
+    }
+
+    /**
+     * Get the currently set delivery state
+     * 
+     * @return \App\Models\State
+     */
+    public function getDeliveryState(): ?State
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set the delivery state
+     * 
+     * @param  int  $id
+     * @return void
+     */
+    public function setDeliveryState(int $id)
+    {
+        $this->state = State::find($id);
     }
 }

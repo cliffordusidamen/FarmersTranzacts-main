@@ -87,6 +87,7 @@ Route::prefix('shopping-cart')->name('shopping_cart.')->group(function() {
     Route::post('/', [\App\Http\Controllers\ShoppingCartController::class, 'addItem'])->name('add_item');
     Route::post('remove-item', [\App\Http\Controllers\ShoppingCartController::class, 'removeItem'])->name('remove_item');
     Route::post('update-items', [\App\Http\Controllers\ShoppingCartController::class, 'updateCartItems'])->name('update_all');
+    Route::post('set-delivery-state', [\App\Http\Controllers\ShoppingCartController::class, 'setDeliveryState'])->name('set_delivery_state');
     Route::get('checkout', [\App\Http\Controllers\ShoppingCartController::class, 'checkout'])->name('checkout');
     Route::post('order', [\App\Http\Controllers\ShoppingCartController::class, 'order'])->name('order');
     Route::get('payment-verify', [\App\Http\Controllers\ShoppingCartController::class, 'paymentVerify'])->name('payment_callback');

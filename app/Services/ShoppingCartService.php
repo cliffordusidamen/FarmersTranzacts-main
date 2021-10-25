@@ -47,7 +47,8 @@ class ShoppingCartService
         if (!request()->session()->has('cart')) {
             request()->session()->put('cart', ['items' => []]);
         }
-        $this->items = request()->session()->get('cart.items') ?? [];
+        $this->items = request()->session()->get('cart.items', []);
+        $this->state = request()->session()->get('cart.state', new State());
 
         return $this->getData();
     }
@@ -193,10 +194,11 @@ class ShoppingCartService
      * Set the delivery state
      * 
      * @param  int  $id
-     * @return void
+     * @return array
      */
-    public function setDeliveryState(int $id)
+    public function setDeliveryState(int $id): array
     {
         $this->state = State::find($id);
+        return $this->getData();
     }
 }

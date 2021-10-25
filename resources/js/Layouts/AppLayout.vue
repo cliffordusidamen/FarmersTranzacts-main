@@ -1,10 +1,10 @@
 <template>
   <div class="page-wrapper">
-    <navigation-top @test-modal="testModal" :show-categories="showCategories" />
+    <navigation-top :show-categories="showCategories" />
 
     <main class="main">
       <jet-banner />
-      <slot :testModal="testModal"></slot>
+      <slot></slot>
     </main>
 
     <app-footer />
@@ -52,26 +52,11 @@ export default {
   },
 
   methods: {
-    switchToTeam(team) {
-      this.$inertia.put(
-        route("current-team.update"),
-        {
-          team_id: team.id,
-        },
-        {
-          preserveState: false,
-        }
-      );
-    },
 
     logout() {
       this.$inertia.post(route("logout"));
     },
 
-    testModal() {
-      alert('Hello there!')
-      console.log('Called')
-    }
   },
 
   computed: {

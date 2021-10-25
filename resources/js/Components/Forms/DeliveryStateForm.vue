@@ -46,7 +46,6 @@ export default {
             product_id: props?.productId || "",
             state_id: cart?.state?.id || '',
         });
-        console.log('Submiting', cart)
 
         const submit = () => {
             processing.value = true;
@@ -60,6 +59,9 @@ export default {
                     processing.value = false;
                     context.emit("submittingFinished");
                 },
+                onSuccess: () => {
+                    window.location.reload()
+                },
                 onError: (errors) => {
                     processing.value = false;
                     console.log('Failed', {...errors})
@@ -71,6 +73,7 @@ export default {
             options,
             processing,
             form,
+            cart,
             submit,
         };
     },

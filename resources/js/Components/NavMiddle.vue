@@ -54,9 +54,25 @@
                             <span class="cart-txt">Cart</span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-right border">
                             <div v-if="cartHasItems">
                                 <div class="dropdown-cart-products">
+                                    <div class=" border rounded-sm px-2 mx-n4 py-1 mb-2 text-xs d-flex justify-content-between align-items-center">
+                                        <span class="text-muted">
+                                            Delivery to:
+                                        </span>
+                                        <span class="text-uppercase text-right">
+                                            {{ cart.state.state_name }}
+                                            <toggles-delivery-state-modal
+                                                :id="`addToCart_general`"
+                                                v-slot="slotProps"
+                                            >
+                                                <a href="#" @click.prevent="slotProps.showModal()" class="btn btn-link">
+                                                    CHANGE
+                                                </a>
+                                            </toggles-delivery-state-modal>
+                                        </span>
+                                    </div>
                                     <div class="product" v-for="{product, quantity} in cartItems" :key="product.id">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
@@ -81,7 +97,7 @@
                                                 />
                                             </inertia-link>
                                         </figure>
-                                        <a href="#" class="btn-remove" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="#" class="btn-remove text-dark" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 </div><!-- End .cart-product -->
 
@@ -144,10 +160,15 @@ import { Inertia } from '@inertiajs/inertia'
 import utility from "@/Mixins/utility.js"
 import { usePage } from '@inertiajs/inertia-vue3';
 import useCartManager from '@/composables/useCartManager'
+import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
 
 export default {
 
     mixins: [utility],
+
+    components: {
+        TogglesDeliveryStateModal,
+    },
 
     setup() {
         const {

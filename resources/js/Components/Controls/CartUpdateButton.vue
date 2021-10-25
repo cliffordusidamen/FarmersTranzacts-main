@@ -14,7 +14,7 @@
                     'bg-secondary border-secondary': processing,
                 }"
                 @click="
-                    !cart?.deliveryState?.id
+                    !cart?.state?.id
                         ? slotProps.showModal()
                         : updateCart()
                 "
@@ -56,6 +56,8 @@ export default {
 
         const processing = ref(false)
         const { cart } = usePage().props.value
+
+        console.log('cart', cart)
 
         const isInCart = cart?.items && undefined != cart?.items[product.id]
 

@@ -38,6 +38,7 @@ import { usePage } from '@inertiajs/inertia-vue3'
 import axios from 'axios'
 import Button from '../../Jetstream/Button.vue'
 import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
+import { Inertia } from '@inertiajs/inertia'
 
 
 export default {
@@ -68,16 +69,15 @@ export default {
         const updateCart = () => {
             processing.value = true
 
-            axios.post(targetRoute, { 'product_id': product.id })
-            .then(() => {
-                window.location.reload()
-            })
-            .catch(errors => {
-                console.log(`Error while ${isInCart ? 'removing' : 'adding'} item`, {
-                    product,
-                    error: errors,
-                })
-                processing.value = false
+            Inertia.post(targetRoute, { 'product_id': product.id }, {
+                onFinish: () => window.location.reload(),
+                onError: errors => {
+                    console.log(`Error while ${isInCart ? 'removing' : 'adding'} item`, {
+                        product,
+                        error: errors,
+                    })
+                    processing.value = false
+                },
             })
 
         }

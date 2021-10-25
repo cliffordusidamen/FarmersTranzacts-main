@@ -30,12 +30,7 @@ export default {
         CustomSelect,
     },
 
-    props: {
-        productId: {
-            type: String,
-            default: "",
-        },
-    },
+    props: ['productId'],
 
     setup(props, context) {
         const pageProps = usePage().props.value;

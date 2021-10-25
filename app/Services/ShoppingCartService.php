@@ -51,6 +51,13 @@ class ShoppingCartService
     private float $grandTotal = 0;
 
     /**
+     * Grand total with delivery added
+     * 
+     * @var float
+     */
+    private float $grandTotalWithDelivery = 0;
+
+    /**
      * Create instance of the shopping cart
      * 
      */
@@ -72,6 +79,10 @@ class ShoppingCartService
         $this->items = request()->session()->get('cart.items', []);
         $this->state = request()->session()->get('cart.state', []);
         $this->canBeDelivered = request()->session()->get('cart.can_be_delivered', false);
+        $this->totalDeliveryDays = request()->session()->get('cart.total_delivery_days', 0);
+        $this->totalDeliveryAmount = request()->session()->get('cart.total_delivery_amount', 0);
+        $this->grandTotal = request()->session()->get('cart.grand_total', 0);
+        $this->grandTotalWithDelivery = request()->session()->get('cart.grand_total_with_delivery', 0);
 
         return $this->getData();
     }
@@ -83,13 +94,16 @@ class ShoppingCartService
      */
     public function getData(): array
     {
+        $this->calculateGrandTotal();
+        $this->calculateDeliveryCost();
         $cart = [
             'state' => $this->state,
             'items' => $this->items,
             'can_be_delivered' => $this->canBeDelivered,
             'total_delivery_days' => $this->totalDeliveryDays,
             'total_delivery_amount' => $this->totalDeliveryAmount,
-            'grand_total' => $this->getGrandTotal()
+            'grand_total' => $this->grandTotal,
+            'grand_total_with_delivery' => $this->grandTotalWithDelivery,
         ];
         request()->session()->put('cart', $cart);
         return request()->session()->get('cart');
@@ -107,15 +121,15 @@ class ShoppingCartService
             $this->items[$product->id] = [
                 'product' => $product->toArray(),
                 'quantity' => 1,
-                'total' => $product->price,
+                'total' => (double) $product->price,
+                'unit_amount' => (double) $product->price,
             ];
+
         } else {
             $this->items[$product->id]['total'] = $this->items[$product->id]['quantity']
                 * $product->price;
         }
-        $this->updateDeliveryCost();
-        request()->session()->put('cart.items', $this->items);
-        $this->getGrandTotal();
+        $this->getData();
     }
 
     /**
@@ -132,13 +146,12 @@ class ShoppingCartService
             $items[$product->id] = [
                 'product' => $product->toArray(),
                 'quantity' => $itemData['quantity'],
-                'unit_amount' => $product->price,
+                'unit_amount' => (double) $product->price,
                 'total' => $itemData['quantity'] * $product->price,
             ];
         }
         $this->items = $items;
         request()->session()->forget('cart');
-        $this->updateDeliveryCost();
         return $this->getData();
     }
 
@@ -167,7 +180,7 @@ class ShoppingCartService
      * 
      * @return double
      */
-    public function getGrandTotal()
+    public function calculateGrandTotal()
     {
         $grandTotal = 0;
         if (isset($this->items)) {
@@ -177,7 +190,6 @@ class ShoppingCartService
         }
         $this->grandTotal = $grandTotal;
         request()->session()->put('cart.grand_total', $grandTotal);
-
         return $this->grandTotal;
     }
 
@@ -191,7 +203,6 @@ class ShoppingCartService
     {
         if (isset($this->items[$productId])) {
             unset($this->items[$productId]);
-            $this->updateDeliveryCost();
             return $this->getData();
         }
 
@@ -205,7 +216,8 @@ class ShoppingCartService
      */
     public function clear()
     {
-        return $this->setItems([]);
+        $this->setItems([]);
+        return $this->getData();
     }
 
     /**
@@ -227,7 +239,6 @@ class ShoppingCartService
     public function setDeliveryState(int $id): array
     {
         $this->state = State::with('zone')->find($id)->toArray();
-        $this->updateDeliveryCost();
         return $this->getData();
     }
 
@@ -236,14 +247,17 @@ class ShoppingCartService
      * 
      * @return void
      */
-    public function updateDeliveryCost()
+    public function calculateDeliveryCost()
     {
         if (empty($this->state['zone']['name'])) {
             return;
         }
+        $this->grandTotalWithDelivery = $this->grandTotal;
+        $this->totalDeliveryAmount = 0;
+        $this->totalDeliveryDays = 0;
         $deliveryZoneKey = str_replace('-', '_', $this->state['zone']['name']);
-        $deliveryCostKey = "{$deliveryZoneKey}_cost";
-        $deliveryDaysKey = "{$deliveryZoneKey}_delivery_days";
+        $deliveryCostKey = strtolower("{$deliveryZoneKey}_cost");
+        $deliveryDaysKey = strtolower("{$deliveryZoneKey}_delivery_days");
         foreach ($this->items as $key => $item) {
             $productDeliveryCost = ProductDeliveryCost::where('product_id', $item['product']['id'])
                 ->where('minimum_quantity', '<=', $item['quantity'])
@@ -255,15 +269,19 @@ class ShoppingCartService
             $this->items[$key]['can_be_delivered'] = $canBeDelivered;
 
             $this->items[$key]['delivery_amount'] = $canBeDelivered
-                ? $productDeliveryCost->$deliveryDaysKey
+                ? (float) $productDeliveryCost->$deliveryCostKey
                 : 0;
 
             $this->items[$key]['delivery_days'] = $canBeDelivered
-                ? $productDeliveryCost->$deliveryDaysKey
+                ? (int) $productDeliveryCost->$deliveryDaysKey
                 : 0;
 
-            $this->canBeDelivered = $canBeDelivered ? true : $this->canBeDelivered;
+            $this->items[$key]['total_with_delivery_amount'] = 
+                $this->items[$key]['delivery_amount'] + $this->items[$key]['total'];
+
+            $this->canBeDelivered = !$canBeDelivered ? false : $this->canBeDelivered;
             $this->totalDeliveryAmount += $this->items[$key]['delivery_amount'];
+            $this->grandTotalWithDelivery += $this->items[$key]['delivery_amount'];
             $this->totalDeliveryDays = max(
                 $this->totalDeliveryDays,
                 $this->items[$key]['delivery_days']

@@ -73,15 +73,17 @@
                                             </toggles-delivery-state-modal>
                                         </span>
                                     </div>
-                                    <div class="product" v-for="{product, quantity} in cartItems" :key="product.id">
+                                    <div class="product" v-for="{product, quantity, can_be_delivered} in cartItems" :key="product.id">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
                                                 <inertia-link href="#">{{product.name}}</inertia-link>
                                             </h4>
-
                                             <span class="cart-product-info">
                                                 <span class="cart-product-qty">{{Number(quantity).toLocaleString()}}</span>
                                                 x &#8358;{{Number(product.price).toLocaleString()}}
+                                            </span>
+                                            <span v-if="!can_be_delivered" class="d-block text-danger text-sm">
+                                                Not deliverable to {{ cart.state.state_name }}
                                             </span>
                                         </div><!-- End .product-cart-details -->
 
@@ -109,7 +111,7 @@
 
                                 <div v-show="!processing" class="dropdown-cart-action">
                                     <inertia-link :href="route('shopping_cart.view')" class="btn btn-primary">View Cart</inertia-link>
-                                    <inertia-link :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
+                                    <inertia-link v-show="cart?.can_be_delivered" :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
                             <div v-else class="text-muted m-1 p-1 rounded-sm">

@@ -37,6 +37,13 @@ class ShoppingCartService
     private array $items = [];
 
     /**
+     * Items grouped by vendor
+     * 
+     * @var array
+     */
+    private array $vendorOrders  = [];
+
+    /**
      * Delivery state
      * 
      * @var array
@@ -82,6 +89,7 @@ class ShoppingCartService
         $this->totalDeliveryDays = request()->session()->get('cart.total_delivery_days', 0);
         $this->totalDeliveryAmount = request()->session()->get('cart.total_delivery_amount', 0);
         $this->grandTotal = request()->session()->get('cart.grand_total', 0);
+        $this->vendorOrders  = request()->session()->get('cart.vendor_orders', []);
         $this->grandTotalWithDelivery = request()->session()->get('cart.grand_total_with_delivery', 0);
 
         return $this->getData();
@@ -104,6 +112,7 @@ class ShoppingCartService
             'total_delivery_amount' => $this->totalDeliveryAmount,
             'grand_total' => $this->grandTotal,
             'grand_total_with_delivery' => $this->grandTotalWithDelivery,
+            'vendor_orders' => $this->vendorOrders,
         ];
         request()->session()->put('cart', $cart);
         return request()->session()->get('cart');
@@ -118,6 +127,7 @@ class ShoppingCartService
     public function addProduct(Product $product)
     {
         if (!isset($this->items[$product->id])) {
+            $product->load('vendor');
             $this->items[$product->id] = [
                 'product' => $product->toArray(),
                 'quantity' => 1,
@@ -142,7 +152,7 @@ class ShoppingCartService
     {
         $items = [];
         foreach ($newItems as $id => $itemData) {
-            $product = Product::findOrFail($id);
+            $product = Product::with('vendor')->findOrFail($id);
             $items[$product->id] = [
                 'product' => $product->toArray(),
                 'quantity' => $itemData['quantity'],
@@ -258,6 +268,7 @@ class ShoppingCartService
         $deliveryZoneKey = str_replace('-', '_', $this->state['zone']['name']);
         $deliveryCostKey = strtolower("{$deliveryZoneKey}_cost");
         $deliveryDaysKey = strtolower("{$deliveryZoneKey}_delivery_days");
+        $this->vendorOrders = [];
         foreach ($this->items as $key => $item) {
             $productDeliveryCost = ProductDeliveryCost::where('product_id', $item['product']['id'])
                 ->where('minimum_quantity', '<=', $item['quantity'])
@@ -286,6 +297,32 @@ class ShoppingCartService
                 $this->totalDeliveryDays,
                 $this->items[$key]['delivery_days']
             );
+
+            // dd($item);
+
+            $vendorId = $item['product']['vendor_id'];
+            if (!isset($this->vendorOrders[$vendorId])) {
+                $this->vendorOrders[$vendorId] = [
+                    'vendor' => $item['product']['vendor'],
+                    'items' => [],
+                    'amount' => 0,
+                    'delivery_amount' => 0,
+                    'delivery_days' => 0,
+                    'grand_total_amount' => 0,
+                ];
+            }
+
+            $this->vendorOrders[$vendorId]['items'][] = $item;
+            $this->vendorOrders[$vendorId]['amount'] += $item['total'] ?? 0;
+            $this->vendorOrders[$vendorId]['delivery_amount'] += $item['delivery_amount'] ?? 0;
+
+            $this->vendorOrders[$vendorId]['delivery_days'] = max(
+                $item['delivery_days'] ?? 0,
+                $this->vendorOrders[$vendorId]['delivery_days']
+            );
+
+            $this->vendorOrders[$vendorId]['grand_total_amount']
+                += (($item['delivery_amount'] ?? 0) + ($item['total'] ?? 0));
         }
     }
 }

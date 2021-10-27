@@ -50,7 +50,7 @@
                                                         </inertia-link>
                                                         <small v-if="!can_be_delivered" class="d-block text-danger text-sm">
                                                             <span class="fa fa-warning mr-2"></span>
-                                                            Can not be delivered to {{ cart.state.state_name }}
+                                                            Not deliverable to {{ cart.state.state_name }}
                                                         </small>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
@@ -104,12 +104,12 @@
                                                     {{ Number(cart.total_delivery_days) }} Days
                                                 ):
                                             </td>
-                                            <td>&#8358;{{ Number(total_delivery_amount).toLocaleString() }}</td>
+                                            <td>&#8358;{{ Number(total_delivery_amount || 0).toLocaleString() }}</td>
                                         </tr>
 
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td>&#8358;{{ Number(cart.grand_total_with_delivery).toLocaleString() }}</td>
+                                            <td>&#8358;{{ Number(cart?.grand_total_with_delivery || 0).toLocaleString() }}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->

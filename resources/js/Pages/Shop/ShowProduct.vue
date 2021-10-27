@@ -44,24 +44,20 @@
                                     &#8358;{{ Number(product.price).toLocaleString() }} per {{product.packaging.name}}
                                 </div><!-- End .product-price -->
 
+                                <div class="product-content" v-html="product.description"></div>
                                 <div class="product-content">
-                                    <p>{{ product.description }}</p>
-
-                                </div>
-                               <div class="product-content">
-                                   <h6>Shipping &amp; Returns</h6>
-                                   <p>
-                                       Items will be shipped within xdays.
-                                       Items can only be returned within 30 days of delivery.
-                                   </p>
-                                   <div class="row mt-2">
-                                       <div class="col-sm-6 col-md-5">
+                                    <h6>Delivery</h6>
+                                    <div class="border-top">
+                                        <product-delivery-cost-item :item="item" v-for="item in product.delivery_costs" :key="item.id" />
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6 col-md-5">
                                             <p>
                                                 <cart-update-button :product="product" />
                                             </p>
 
                                        </div>
-                                   </div>
+                                    </div>
                                 </div>
 
                                 <div class="product-details-footer">
@@ -81,6 +77,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
+import ProductDeliveryCostItem from "@/Components/ProductDeliveryCostItem.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
 
 export default {
@@ -88,6 +85,7 @@ export default {
         AppLayout,
         BreadcrumbDefault,
         CartUpdateButton,
+        ProductDeliveryCostItem,
     },
     setup() {
         const {product} = usePage().props.value

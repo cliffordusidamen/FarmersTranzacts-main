@@ -73,7 +73,12 @@ class ShoppingCartController extends Controller
             'quantity' => 'sometimes|numeric|min:1|max:999999'
         ])->validate();
 
-        $product = Product::availableForSale()->findOrFail($data['product_id']);
+        $product = Product::availableForSale()
+            ->with('vendor')
+            ->findOrFail($data['product_id']);
+
+        dd($product->toArray());
+
         if (!$product) {
             flashMessage('danger', "'{$product->name}' is not available at the moment!");
             return back();

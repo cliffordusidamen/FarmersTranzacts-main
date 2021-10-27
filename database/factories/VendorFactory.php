@@ -42,6 +42,20 @@ class VendorFactory extends Factory
             'entity_country_id' => Country::NIGERIA,
         ];
     }
+    
+    /**
+     * Setup related data
+     * 
+     * @param  int  $productCount
+     * @return static
+     */
+    public function withFullSetup(int $productCount = 1)
+    {
+        return $this->withAddress()
+            ->withPackagings()
+            ->withProductCategories()
+            ->withProducts($productCount);
+    }
 
     /**
      * Create an address for the vendor
@@ -96,7 +110,9 @@ class VendorFactory extends Factory
     public function withProducts(int $count = 1)
     {
         return $this->has(
-            Product::factory()->count($count)->state(function(array $attributes, Vendor $vendor) {
+            Product::factory()
+            ->withDeliveryCosts()
+            ->state(function(array $attributes, Vendor $vendor) {
                 $category = $vendor->productCategories()->inRandomOrder()->first();
                 $hasSubcategories = $category->subcategories()->count();
                 return [
@@ -106,7 +122,8 @@ class VendorFactory extends Factory
                         ?  null
                         : $category->subcategories()->inRandomOrder()->first()->id,
                 ];
-            }),
+            })
+            ->count($count),
             'products'
         );
     }

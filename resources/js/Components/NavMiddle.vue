@@ -76,7 +76,7 @@
                                     <div class="product" v-for="{product, quantity, can_be_delivered} in cartItems" :key="product.id">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <inertia-link href="#">{{product.name}}</inertia-link>
+                                                <inertia-link :href="route('shop.show_product', {slug: product.slug})">{{product.name}}</inertia-link>
                                             </h4>
                                             <span class="cart-product-info">
                                                 <span class="cart-product-qty">{{Number(quantity).toLocaleString()}}</span>

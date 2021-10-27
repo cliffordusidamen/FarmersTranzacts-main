@@ -31,20 +31,20 @@ class ProductDeliveryCostFactory extends Factory
             'minimum_quantity' => 1,
             'maximum_quantity' => 10,
 
-            'north_central_cost' => $central ? mt_rand(500, 10000) : null,
-            'north_central_delivery_days' => $central ? mt_rand(1, 14) : null,
+            'north_central_cost' => mt_rand(500, 10000),
+            'north_central_delivery_days' => mt_rand(1, 14),
 
             'north_east_cost' => ($east || $even) ? mt_rand(500, 10000) : null,
-            'north_east_delivery_days' => $east ? mt_rand(1, 14) : null,
+            'north_east_delivery_days' => ($east || $even)  ? mt_rand(1, 14) : null,
 
             'north_west_cost' => ($west || $even) ? mt_rand(500, 10000) : null,
-            'north_west_delivery_days' => $west ? mt_rand(1, 14) : null,
+            'north_west_delivery_days' => ($west || $even) ? mt_rand(1, 14) : null,
 
             'south_east_cost' => ($east || $even) ? mt_rand(500, 10000) : null,
-            'south_east_delivery_days' => $east ? mt_rand(1, 14) : null,
+            'south_east_delivery_days' => ($east || $even) ? mt_rand(1, 14) : null,
 
             'south_west_cost' => ($west || $even) ? mt_rand(500, 10000) : null,
-            'south_west_delivery_days' => $west ? mt_rand(1, 14) : null,
+            'south_west_delivery_days' => ($west || $even) ? mt_rand(1, 14) : null,
 
             'south_south_cost' => $central ? mt_rand(500, 10000) : null,
             'south_south_delivery_days' => $central ? mt_rand(1, 14) : null,

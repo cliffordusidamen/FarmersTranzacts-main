@@ -269,6 +269,7 @@ class ShoppingCartService
         $deliveryCostKey = strtolower("{$deliveryZoneKey}_cost");
         $deliveryDaysKey = strtolower("{$deliveryZoneKey}_delivery_days");
         $this->vendorOrders = [];
+        $this->canBeDelivered = true;
         foreach ($this->items as $key => $item) {
             $productDeliveryCost = ProductDeliveryCost::where('product_id', $item['product']['id'])
                 ->where('minimum_quantity', '<=', $item['quantity'])
@@ -298,8 +299,6 @@ class ShoppingCartService
                 $this->items[$key]['delivery_days']
             );
 
-            // dd($item);
-
             $vendorId = $item['product']['vendor_id'];
             if (!isset($this->vendorOrders[$vendorId])) {
                 $this->vendorOrders[$vendorId] = [
@@ -324,5 +323,55 @@ class ShoppingCartService
             $this->vendorOrders[$vendorId]['grand_total_amount']
                 += (($item['delivery_amount'] ?? 0) + ($item['total'] ?? 0));
         }
+    }
+
+    /**
+     * Get the grand total
+     * 
+     * @return  float
+     */
+    public function getGrandTotal()
+    {
+        return $this->grandTotal;
+    }
+
+    /**
+     * Get the total delivery amount
+     * 
+     * @return  float
+     */
+    public function getTotalDeliveryAmount()
+    {
+        return $this->totalDeliveryAmount;
+    }
+
+    /**
+     * Get the total delivery days
+     * 
+     * @return  float
+     */
+    public function getTotalDeliveryDays()
+    {
+        return $this->totalDeliveryDays;
+    }
+
+    /**
+     * Get the grand total with delivery
+     * 
+     * @return  float
+     */
+    public function getGrandTotalWithDelivery()
+    {
+        return $this->grandTotalWithDelivery;
+    }
+
+    /**
+     * Determine if the items in the cart are deliverable to the set state
+     * 
+     * @return  bool
+     */
+    public function canBeDelivered()
+    {
+        return $this->canBeDelivered;
     }
 }

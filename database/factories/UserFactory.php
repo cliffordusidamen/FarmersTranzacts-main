@@ -57,12 +57,8 @@ class UserFactory extends Factory
      */
     public function withVendor()
     {
-        $productCategories = ProductCategory::inRandomOrder()->take(mt_rand(1, 3))->get();
         $vendor = Vendor::factory()
-            ->hasAttached($productCategories, [], 'productCategories')
-            ->withAddress()
-            ->withPackagings(3)
-            ->withProducts(mt_rand(5, 15), $productCategories->pluck('id', 'id'));
+            ->withFullSetup(mt_rand(2, 7));
 
         return $this->has($vendor);
     }

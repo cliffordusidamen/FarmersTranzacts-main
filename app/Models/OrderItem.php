@@ -21,8 +21,10 @@ class OrderItem extends Model
         'product_id',
         'quantity',
         'unit_amount',
-        'items_amount',
+        'total_amount',
         'delivery_amount',
+        'delivery_days',
+        'grand_total_amount',
     ];
 
     /**

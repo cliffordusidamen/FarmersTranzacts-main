@@ -77,8 +77,6 @@ class ShoppingCartController extends Controller
             ->with('vendor')
             ->findOrFail($data['product_id']);
 
-        dd($product->toArray());
-
         if (!$product) {
             flashMessage('danger', "'{$product->name}' is not available at the moment!");
             return back();
@@ -156,7 +154,10 @@ class ShoppingCartController extends Controller
     public function checkout(Request $request)
     {
         $this->initCart();
-        if (!$this->cart->hasItems()) {
+        if (
+            !$this->cart->hasItems()
+            || !$this->cart->canBeDelivered()
+        ) {
             return redirect()->route('shopping_cart.view');
         }
 
@@ -182,7 +183,6 @@ class ShoppingCartController extends Controller
         }
 
         $order = Order::initCartOrder($this->cart, $request->all());
-
 
         if (!$order) {
             flashMessage('danger', 'Payment initialization failed! Please, try again.');

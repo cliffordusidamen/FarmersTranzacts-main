@@ -24,6 +24,7 @@ class Order extends Model
         'user_id',
         'items_amount',
         'delivery_amount',
+        'delivery_days',
         'total_amount',
         'delivery_status_id',
         'order_notes',
@@ -148,12 +149,15 @@ class Order extends Model
 
             $address = Address::create($addressData);
             
-            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems) {
+            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems, $cart) {
                 $orderItems[] = (new OrderItem([
                     'product_id'    => $item['product']['id'],
                     'quantity'      => $item['quantity'],
                     'unit_amount'   => $item['product']['price'],
-                    'total_amount'  => $item['quantity'] * $item['product']['price'],
+                    'total_amount'  => $item['total'],
+                    'delivery_amount'   => $item['delivery_amount'],
+                    'delivery_days'   => $item['delivery_days'],
+                    'grand_total_amount'  => $item['total_with_delivery_amount'],
                 ]));
             });
             
@@ -161,9 +165,13 @@ class Order extends Model
                 'reference_number' => self::generateReferenceNumber(),
                 'user_id'     => auth()->user()->id,
                 'address_id'  => $address->id,
-                'amount'      => $cart->getGrandTotal(),
+                'items_amount'      => $cart->getGrandTotal(),
+                'delivery_amount'      => $cart->getTotalDeliveryAmount(),
+                'delivery_days'      => $cart->getTotalDeliveryDays(),
+                'total_amount'      => $cart->getGrandTotalWithDelivery(),
                 'order_notes' => $data['order_notes'] ?? null,
             ])->save();
+
 
             $order->items()->saveMany($orderItems);
             $saved = true;

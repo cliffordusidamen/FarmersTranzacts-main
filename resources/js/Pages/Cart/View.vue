@@ -55,7 +55,11 @@
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>
-                                            <td class="price-col text-right pr-4">{{ Number(product.price).toLocaleString() }}</td>
+                                            <td class="price-col text-center text-md-right pr-4">
+                                                <span class="d-none d-md-inline">
+                                                    {{ Number(product.price).toLocaleString() }}
+                                                </span> 
+                                            </td>
                                             <td class="quantity-col">
                                                 <div class="cart-product-quantity">
                                                     <input type="number" class="form-control" @change="$event => updateProductQuantity(product, $event.target.value)" :value="quantity" min="1" max="10" step="1" data-decimals="0" required="" style="display: none;">
@@ -64,9 +68,13 @@
                                                     Delivery in {{ Number(delivery_days).toLocaleString() }} days
                                                 </span>
                                             </td>
-                                            <td class="total-col text-right">
+                                            <td class="total-col text-center text-md-right">
+                                                <span class="d-md-none mr-2">Price:</span>
+                                                <span class="d-md-none">&#8358;</span>
                                                 {{ Number(itemTotalPricesRx[product.id]).toLocaleString() }}
                                                 <span v-if="delivery_days" class="d-block text-sm mt-1">
+                                                    <span class="d-md-none mr-2">Delivery cost:</span>
+                                                    <span class="d-md-none">&#8358;</span>
                                                     {{ Number(delivery_amount).toLocaleString() }}
                                                 </span>
                                             </td>
@@ -104,7 +112,7 @@
                                                     {{ Number(cart.total_delivery_days) }} Days
                                                 ):
                                             </td>
-                                            <td>&#8358;{{ Number(total_delivery_amount || 0).toLocaleString() }}</td>
+                                            <td>&#8358;{{ Number(cart?.total_delivery_amount || 0).toLocaleString() }}</td>
                                         </tr>
 
                                         <tr class="summary-total">

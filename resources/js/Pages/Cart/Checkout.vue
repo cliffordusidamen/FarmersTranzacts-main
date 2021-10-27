@@ -25,7 +25,7 @@
                                 <!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6 mb-2">
-                                    <label class="required font-weight-bold"
+                                    <label class="font-weight-bold"
                                         >Address Line 2</label
                                     >
                                     <input
@@ -62,14 +62,22 @@
                                     <label class="required font-weight-bold"
                                         >State</label
                                     >
-                                    <custom-select
-                                        id="type"
-                                        name="state"
-                                        v-model="form.state_id"
-                                        :options="app_states"
-                                        required
+                                    <input
+                                        type="text"
+                                        class="form-control mb-n1"
+                                        :value="cart.state.state_name"
+                                        disabled
                                     />
-                                    <jet-input-error :message="form.errors.state_id" />
+                                    <toggles-delivery-state-modal
+                                        :id="`changeState_checkout`"
+                                        v-slot="slotProps"
+                                    >
+                                        <div class="text-">
+                                            <a href="#" @click.prevent="slotProps.showModal()" class="btn btn-link">
+                                                CHANGE STATE
+                                            </a>
+                                        </div>
+                                    </toggles-delivery-state-modal>
                                 </div>
                                 <!-- End .col-sm-6 -->
                             </div>
@@ -167,21 +175,19 @@
                                         </tr>
                                         <!-- End .summary-subtotal -->
                                         <tr>
-                                            <td>Shipping:</td>
                                             <td>
-                                                &#8358;{{
-                                                    (0.0).toLocaleString()
-                                                }}
+                                                Delivery (
+                                                    {{ Number(cart.total_delivery_days) }} Days
+                                                ):
+                                            </td>
+                                            <td>
+                                                &#8358;{{ Number(cart?.total_delivery_amount || 0).toLocaleString() }}
                                             </td>
                                         </tr>
                                         <tr class="summary-total">
                                             <td>Total:</td>
                                             <td>
-                                                &#8358;{{
-                                                    Number(
-                                                        cart.grand_total
-                                                    ).toLocaleString()
-                                                }}
+                                                &#8358;{{ Number(cart?.grand_total_with_delivery || 0).toLocaleString() }}
                                             </td>
                                         </tr>
                                         <!-- End .summary-total -->
@@ -219,6 +225,7 @@ import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import CustomSelect from "@/Components/CustomSelect";
 import JetInputError from "@/Jetstream/InputError";
+import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
 
 export default {
     components: {
@@ -226,6 +233,7 @@ export default {
         BreadcrumbDefault,
         CustomSelect,
         JetInputError,
+        TogglesDeliveryStateModal,
     },
     setup() {
         const breadcrumbLinks = [
@@ -252,7 +260,6 @@ export default {
             line_1: "",
             line_2: "",
             city: "",
-            state_id: "",
             postal_code: "",
             order_notes: "",
         });
@@ -295,7 +302,6 @@ export default {
                         minlength: 2,
                         maxlength: 25,
                     },
-                    state_id: "required",
                     order_notes: {
                         require: false,
                         maxlength: 200,

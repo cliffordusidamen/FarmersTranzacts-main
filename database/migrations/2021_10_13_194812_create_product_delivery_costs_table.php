@@ -19,17 +19,17 @@ class CreateProductDeliveryCostsTable extends Migration
             $table->smallInteger('minimum_quantity')->default(1);
             $table->smallInteger('maximum_quantity')->nullable();
             $table->unsignedDecimal('north_central_cost')->nullable();
-            $table->unsignedDecimal('north_central_delivery_days')->nullable();
+            $table->unsignedTinyInteger('north_central_delivery_days')->nullable();
             $table->unsignedDecimal('north_east_cost')->nullable();
-            $table->unsignedDecimal('north_east_delivery_days')->nullable();
+            $table->unsignedTinyInteger('north_east_delivery_days')->nullable();
             $table->unsignedDecimal('north_west_cost')->nullable();
-            $table->unsignedDecimal('north_west_delivery_days')->nullable();
+            $table->unsignedTinyInteger('north_west_delivery_days')->nullable();
             $table->unsignedDecimal('south_east_cost')->nullable();
-            $table->unsignedDecimal('south_east_delivery_days')->nullable();
+            $table->unsignedTinyInteger('south_east_delivery_days')->nullable();
             $table->unsignedDecimal('south_west_cost')->nullable();
-            $table->unsignedDecimal('south_west_delivery_days')->nullable();
+            $table->unsignedTinyInteger('south_west_delivery_days')->nullable();
             $table->unsignedDecimal('south_south_cost')->nullable();
-            $table->unsignedDecimal('south_south_delivery_days')->nullable();
+            $table->unsignedTinyInteger('south_south_delivery_days')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')

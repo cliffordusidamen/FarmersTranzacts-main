@@ -53,6 +53,16 @@
                 >
                     Log in
                 </jet-button>
+
+            </div>
+            <div class="d-block mt-2 text-center">
+                Don't have an account?
+                <a
+                    class="ml-3"
+                    id="register-tab-2"
+                    :href="route('register')"
+                    >Register Now</a
+                >
             </div>
         </div>
     </form>

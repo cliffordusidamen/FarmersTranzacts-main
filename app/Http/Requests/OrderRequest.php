@@ -25,6 +25,7 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         $addressRules = Address::validationRules();
+        unset($addressRules['state_id']);
 
         return array_merge($addressRules, [
             'order_notes' => ['sometimes', 'nullable', 'string', 'max:200']

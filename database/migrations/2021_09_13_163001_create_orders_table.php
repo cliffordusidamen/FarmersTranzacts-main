@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedDecimal('items_amount', 15)->nullable();
             $table->unsignedDecimal('delivery_amount', 15)->default(0);
+            $table->unsignedTinyInteger('delivery_days')->default(0);
             $table->unsignedDecimal('total_amount', 15);
             $table->string('order_notes', 1000)->nullable();
             $table->unsignedBigInteger('address_id')->nullable();

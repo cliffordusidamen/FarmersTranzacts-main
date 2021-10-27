@@ -48,7 +48,7 @@
                                 <div class="product-content">
                                     <h6>Delivery</h6>
                                     <div class="border-top">
-                                        <product-delivery-cost-item :item="item" v-for="item in product.delivery_costs" :key="item.id" />
+                                        <product-delivery-cost-item :item="item" :product-package="product.packaging.name" v-for="item in product.delivery_costs" :key="item.id" />
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-sm-6 col-md-5">

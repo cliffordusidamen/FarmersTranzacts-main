@@ -18,7 +18,7 @@ class PaymentService
         $url = "https://api.paystack.co/transaction/initialize";
         $data = [
             'email' => $user->email,
-            'amount' => $order->amount * 100,
+            'amount' => $order->total_amount * 100,
             'callback_url' => route('shopping_cart.payment_callback'),
             'metadata' => [
                 'cancel_action' => route('shopping_cart.cancel_payment', compact('order')),

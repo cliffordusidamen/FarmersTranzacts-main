@@ -104,9 +104,17 @@
                                 </div><!-- End .cart-product -->
 
                                 <div class="dropdown-cart-total">
+                                    <span>
+                                        Delivery ({{ Number(cart.total_delivery_days) }} Days)
+                                    </span>
+
+                                    <span class="cart-total-price">&#8358;{{cart?.total_delivery_amount.toLocaleString()}}</span>
+                                </div><!-- End .dropdown-cart-total -->
+
+                                <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">&#8358;{{cart?.grand_total.toLocaleString()}}</span>
+                                    <span class="cart-total-price">&#8358;{{cart?.grand_total_with_delivery.toLocaleString()}}</span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div v-show="!processing" class="dropdown-cart-action">

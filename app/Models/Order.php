@@ -143,12 +143,14 @@ class Order extends Model
             $orderItems = [];
 
             $addressData = collect($data)->only([
-                'line_1', 'line_2', 'city', 'state_id',
+                'line_1', 'line_2', 'city',
                 'country_id',
             ])->toArray();
+            $state = $cart->getDeliveryState();
+            $addressData['state_id'] = $state['id'];
 
             $address = Address::create($addressData);
-            
+
             collect($cart->getItems())->map(function ($item, $key) use (&$orderItems, $cart) {
                 $orderItems[] = (new OrderItem([
                     'product_id'    => $item['product']['id'],

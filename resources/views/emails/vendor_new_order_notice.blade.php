@@ -27,8 +27,8 @@
                     <th class="text-sm uppercase">S/N</th>
                     <th class="text-sm uppercase" width="30%">Product</th>
                     <th class="text-sm text-right uppercase">Quantity</th>
-                    <th class="text-sm text-right uppercase">Unit Price</th>
-                    <th class="text-sm text-right uppercase">Total Price</th>
+                    <th class="text-sm text-right uppercase">Unit Price(&#8358;)</th>
+                    <th class="text-sm text-right uppercase">Total Price(&#8358;)</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,14 +42,21 @@
                             <strong>{{ $orderItem->product->name }}</strong><br />
                         </td>
                         <td class="text-right">{{ number_format($orderItem->quantity) }}</td>
-                        <td class="text-right">&#8358;{{ number_format($orderItem->unit_amount) }}</td>
-                        <td class="text-right">&#8358;{{ number_format($orderItem->total_amount) }}</td>
+                        <td class="text-right">{{ number_format($orderItem->unit_amount) }}</td>
+                        <td class="text-right">{{ number_format($orderItem->total_amount) }}</td>
                     </tr>
                 @endforeach
+                
+                <tr>
+                    <th colspan="4" class="text-right">Delivery ({{ $order->delivery_days }} days)</th>
+                    <th style="text-align: right;">
+                        {{ number_format($order->delivery_amount) }}
+                    </th>
+                </tr>
                 <tr>
                     <th colspan="4" class="text-right">GRAND TOTAL</th>
                     <th style="text-align: right;">
-                        &#8358;{{ number_format($grandTotal) }}
+                        {{ number_format($order->total_amount) }}
                     </th>
                 </tr>
             </tbody>

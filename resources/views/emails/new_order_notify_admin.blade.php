@@ -32,8 +32,8 @@
                     <th class="text-sm uppercase">S/N</th>
                     <th class="text-sm uppercase" width="30%">Product</th>
                     <th class="text-sm uppercase" style="text-align: right;">Quantity</th>
-                    <th class="text-sm uppercase" style="text-align: right;">Unit Price</th>
-                    <th class="text-sm uppercase" style="text-align: right;">Total Price</th>
+                    <th class="text-sm uppercase" style="text-align: right;">Unit Price(&#8358;)</th>
+                    <th class="text-sm uppercase" style="text-align: right;">Total Price(&#8358;)</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,14 +45,22 @@
                             <small>Vendor: {{ $orderItem->product->vendor->shop_name }}</small>
                         </td>
                         <td style="text-align: right;">{{ number_format($orderItem->quantity) }}</td>
-                        <td style="text-align: right;">&#8358;{{ number_format($orderItem->unit_amount) }}</td>
-                        <td style="text-align: right;">&#8358;{{ number_format($orderItem->total_amount) }}</td>
+                        <td style="text-align: right;">{{ number_format($orderItem->unit_amount) }}</td>
+                        <td style="text-align: right;">{{ number_format($orderItem->total_amount) }}</td>
                     </tr>
                 @endforeach
+                
+                <tr>
+                    <th colspan="4" class="text-right">Delivery ({{ $order->delivery_days }} days)</th>
+                    <th style="text-align: right;">
+                        {{ number_format($order->delivery_amount) }}
+                    </th>
+                </tr>
+
                 <tr>
                     <th colspan="4" class="text-right">GRAND TOTAL</th>
                     <th style="text-align: right;">
-                        &#8358;{{ number_format($order->amount) }}
+                        {{ number_format($order->total_amount) }}
                     </th>
                 </tr>
             </tbody>

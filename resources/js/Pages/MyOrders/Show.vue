@@ -61,17 +61,21 @@
 
                                         <tr>
                                             <td colspan="3" class="text-right text-uppercase text-bold">Subtotal</td>
-                                            <td class="text-right total-col">{{ Number(order.amount).toLocaleString()}}</td>
+                                            <td class="text-right total-col">{{ Number(order.items_amount).toLocaleString()}}</td>
                                         </tr><!-- End .summary-subtotal -->
 
                                         <tr>
-                                            <td colspan="3" class="text-right text-uppercase text-bold">Shipping</td>
-                                            <td class="text-right total-col">0.00</td>
+                                            <td colspan="3" class="text-right text-uppercase text-bold">
+                                                Delivery ({{ Number(order.delivery_days) }} Days)
+                                            </td>
+                                            <td class="text-right total-col">
+                                                {{ Number(order.delivery_amount).toLocaleString()}}
+                                            </td>
                                         </tr>
 
                                         <tr>
                                             <td colspan="3" class="text-right text-uppercase text-bold">Total</td>
-                                            <td class="text-right total-col">{{ Number(order.amount).toLocaleString()}}</td>
+                                            <td class="text-right total-col">{{ Number(order.total_amount).toLocaleString()}}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table>

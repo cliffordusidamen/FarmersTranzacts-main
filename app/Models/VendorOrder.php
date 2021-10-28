@@ -17,13 +17,26 @@ class VendorOrder extends Model
      * @var array
      */
     protected $fillable = [
+        'reference_number',
         'user_id',
         'order_id',
+        'vendor_id',
         'items_amount',
         'delivery_amount',
+        'delivery_days',
         'total_amount',
         'delivery_status_id',
     ];
+    
+    /**
+     * Relationship: Belongs to a vendor
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
     
     /**
      * Relationship: Belongs to a user

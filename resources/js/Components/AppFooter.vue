@@ -3,46 +3,33 @@
         <div class="icon-boxes-container">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-4">
                         <div class="icon-box icon-box-side">
                             <span class="icon-box-icon">
                                 <i class="icon-rocket"></i>
                             </span>
 
                             <div class="icon-box-content">
-                                <h3 class="icon-box-title">Free Shipping</h3><!-- End .icon-box-title -->
-                                <p>Within Lagos State</p>
+                                <h3 class="icon-box-title">Prompt Delivery</h3><!-- End .icon-box-title -->
+                                <p>Direct to your address</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .col-sm-6 col-lg-4 -->
                     
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-4">
                         <div class="icon-box icon-box-side">
                             <span class="icon-box-icon">
-                                <i class="icon-rotate-left"></i>
+                                <i class="icon-star-o"></i>
                             </span>
 
                             <div class="icon-box-content">
-                                <h3 class="icon-box-title">Free Returns</h3><!-- End .icon-box-title -->
-                                <p>Within 7 days</p>
+                                <h3 class="icon-box-title">Secure Payments</h3><!-- End .icon-box-title -->
+                                <p>Make payments without worry</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .col-sm-6 col-lg-4 -->
 
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="icon-box icon-box-side">
-                            <span class="icon-box-icon">
-                                <i class="icon-info-circle"></i>
-                            </span>
-
-                            <div class="icon-box-content">
-                                <h3 class="icon-box-title">First Order Discount</h3><!-- End .icon-box-title -->
-                                <p>Upto 10% discount on your first order</p>
-                            </div><!-- End .icon-box-content -->
-                        </div><!-- End .icon-box -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
-
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-4">
                         <div class="icon-box icon-box-side">
                             <span class="icon-box-icon">
                                 <i class="icon-life-ring"></i>
@@ -53,7 +40,7 @@
                                 <p>24/7 amazing services</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .col-sm-6 col-lg-4 -->
                 </div><!-- End .row -->
             </div><!-- End .container -->
         </div><!-- End .icon-boxes-container -->

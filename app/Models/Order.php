@@ -141,6 +141,8 @@ class Order extends Model
         $order = new Order();
         DB::transaction(function() use ($data, $cart, &$saved, &$order) {
             $orderItems = [];
+            $vendorOrders = [];
+            $vendorProducts = [];
 
             $addressData = collect($data)->only([
                 'line_1', 'line_2', 'city',
@@ -151,7 +153,7 @@ class Order extends Model
 
             $address = Address::create($addressData);
 
-            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems, $cart) {
+            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems, &$vendorProducts, $cart) {
                 $orderItems[] = (new OrderItem([
                     'product_id'    => $item['product']['id'],
                     'quantity'      => $item['quantity'],
@@ -161,6 +163,11 @@ class Order extends Model
                     'delivery_days'   => $item['delivery_days'],
                     'grand_total_amount'  => $item['total_with_delivery_amount'],
                 ]));
+
+                if (!isset($vendorProducts[$item['product']['vendor_id']])) {
+                    $vendorProducts[$item['product']['vendor_id']] = [];
+                }
+                $vendorProducts[$item['product']['vendor_id']][] = $item['product']['id'];
             });
             
             $order->forceFill([
@@ -174,8 +181,29 @@ class Order extends Model
                 'order_notes' => $data['order_notes'] ?? null,
             ])->save();
 
+            collect($cart->getVendorOrders())->map(function($vendorOrder, $i) use (&$vendorOrders, $address, $order) {
+                $vendorOrders[] = new VendorOrder([
+                    'reference_number' => "{$order->reference_number}-{$vendorOrder['vendor']['id']}",
+                    'user_id'     => auth()->user()->id,
+                    'address_id'  => $address->id,
+                    'vendor_id'      => $vendorOrder['vendor']['id'],
+                    'items_amount'      => $vendorOrder['amount'],
+                    'delivery_amount'      => $vendorOrder['delivery_amount'],
+                    'delivery_days'      => $vendorOrder['delivery_days'],
+                    'total_amount'      => $vendorOrder['grand_total_amount'],
+                ]);
+            });
+
 
             $order->items()->saveMany($orderItems);
+            $order->vendorOrders()->saveMany($vendorOrders);
+            $order->vendorOrders()->get()->map(fn ($vOrder, $i) => (
+                OrderItem::where('order_id', $order->id)
+                    ->whereIn('product_id', $vendorProducts[$vOrder->vendor_id])
+                    ->update([
+                        'vendor_order_id' => $vOrder->id,
+                    ])
+            ));
             $saved = true;
         });
 

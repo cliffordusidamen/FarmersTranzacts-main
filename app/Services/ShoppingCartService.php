@@ -374,4 +374,14 @@ class ShoppingCartService
     {
         return $this->canBeDelivered;
     }
+
+    /**
+     * Get the vendor orders
+     * 
+     * @return array
+     */
+    public function getVendorOrders(): array
+    {
+        return $this->vendorOrders;
+    }
 }

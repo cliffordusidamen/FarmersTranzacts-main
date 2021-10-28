@@ -20,6 +20,14 @@
     </x-email.p>
 
     <x-email.p>
+        <strong>Address:</strong><br />
+        {{ $order->address->line_1 }}
+        {!! $order->address->line_2 ? "<br />{$order->address->line_2},<br />" : '<br />' !!}
+        {{ $order->address->city ? "{$order->address->city}, " : '' }}
+        {{ $order->address->state ? $order->address->state->state_name : '' }}
+    </x-email.p>
+
+    <x-email.p>
         <h4>Order details:</h4><br />
         <table>
             <thead>
@@ -32,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($order->items as $key => $orderItem)
+                @foreach ($vendorOrder->items as $key => $orderItem)
                     @php
                         $grandTotal += $orderItem->total_amount;
                     @endphp
@@ -48,20 +56,26 @@
                 @endforeach
                 
                 <tr>
-                    <th colspan="4" class="text-right">Delivery ({{ $order->delivery_days }} days)</th>
+                    <th colspan="4" class="text-right">Delivery ({{ $vendorOrder->delivery_days }} days)</th>
                     <th style="text-align: right;">
-                        {{ number_format($order->delivery_amount) }}
+                        {{ number_format($vendorOrder->delivery_amount) }}
                     </th>
                 </tr>
                 <tr>
                     <th colspan="4" class="text-right">GRAND TOTAL</th>
                     <th style="text-align: right;">
-                        {{ number_format($order->total_amount) }}
+                        {{ number_format($vendorOrder->total_amount) }}
                     </th>
                 </tr>
             </tbody>
         </table>
     </x-email.p>
+
+    <br />
+    @if (!empty($order->order_notes))
+        <strong>Order notes:</strong><br />
+        {{ $order->order_notes }}
+    @endif
 
     <br />
 

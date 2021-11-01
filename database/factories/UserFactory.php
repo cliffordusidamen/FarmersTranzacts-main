@@ -57,6 +57,7 @@ class UserFactory extends Factory
      */
     public function withVendor()
     {
+        $this->seller();
         $vendor = Vendor::factory()
             ->withFullSetup(mt_rand(2, 7));
 

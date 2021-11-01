@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory([
-            'email' => 'admin@website.com',
+            'email' => 'admin@farmerxpress.com',
+            'password' => 'admin111',
         ])->isSuperAdmin()->create();
     }
 }

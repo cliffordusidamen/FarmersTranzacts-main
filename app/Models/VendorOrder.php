@@ -67,4 +67,5 @@ class VendorOrder extends Model
     {
         return $this->hasMany(OrderItem::class, 'vendor_order_id');
     }
+
 }

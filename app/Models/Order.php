@@ -95,7 +95,8 @@ class Order extends Model
      * 
      * @return string
      */
-    public static function generateReferenceNumber() {
+    public static function generateReferenceNumber()
+    {
         $referenceNumber = '';
         $referenceNumberExists = true;
 
@@ -113,7 +114,8 @@ class Order extends Model
      * @param  \App\Models\Order  $order
      * @return string
      */
-    public static function generatePaymentReference(Order $order) {
+    public static function generatePaymentReference(Order $order)
+    {
         $referenceNumber = '';
         $referenceNumberExists = true;
 
@@ -139,7 +141,7 @@ class Order extends Model
 
         $saved = false;
         $order = new Order();
-        DB::transaction(function() use ($data, $cart, &$saved, &$order) {
+        DB::transaction(function () use ($data, $cart, &$saved, &$order) {
             $orderItems = [];
             $vendorOrders = [];
             $vendorProducts = [];
@@ -169,7 +171,7 @@ class Order extends Model
                 }
                 $vendorProducts[$item['product']['vendor_id']][] = $item['product']['id'];
             });
-            
+
             $order->forceFill([
                 'reference_number' => self::generateReferenceNumber(),
                 'user_id'     => auth()->user()->id,
@@ -181,7 +183,7 @@ class Order extends Model
                 'order_notes' => $data['order_notes'] ?? null,
             ])->save();
 
-            collect($cart->getVendorOrders())->map(function($vendorOrder, $i) use (&$vendorOrders, $address, $order) {
+            collect($cart->getVendorOrders())->map(function ($vendorOrder, $i) use (&$vendorOrders, $address, $order) {
                 $vendorOrders[] = new VendorOrder([
                     'reference_number' => "{$order->reference_number}-{$vendorOrder['vendor']['id']}",
                     'user_id'     => auth()->user()->id,
@@ -197,13 +199,11 @@ class Order extends Model
 
             $order->items()->saveMany($orderItems);
             $order->vendorOrders()->saveMany($vendorOrders);
-            $order->vendorOrders()->get()->map(fn ($vOrder, $i) => (
-                OrderItem::where('order_id', $order->id)
-                    ->whereIn('product_id', $vendorProducts[$vOrder->vendor_id])
-                    ->update([
-                        'vendor_order_id' => $vOrder->id,
-                    ])
-            ));
+            $order->vendorOrders()->get()->map(fn ($vOrder, $i) => (OrderItem::where('order_id', $order->id)
+                ->whereIn('product_id', $vendorProducts[$vOrder->vendor_id])
+                ->update([
+                    'vendor_order_id' => $vOrder->id,
+                ])));
             $saved = true;
         });
 
@@ -232,5 +232,32 @@ class Order extends Model
     {
         return $query->where('delivery_status_id', '!=', DeliveryStatus::CANCELED_ID)
             ->where('delivery_status_id', '!=', DeliveryStatus::RETURNED_ID);
+    }
+
+    /**
+     * Filter by wheather delivered or not
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  bool $delivered
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDelivered(Builder $query, bool $delivered = true): Builder
+    {
+        $comparisonOperator = $delivered ? '=' : '!=';
+        return $query->where(
+            'delivery_status_id',
+            $comparisonOperator,
+            DeliveryStatus::DELIVERED_ID
+        );
+    }
+
+    /**
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return defaultModelPermissions();
     }
 }

@@ -59,4 +59,21 @@ class DeliveryStatus extends Model
 
         return $asKeys ? $statuses : array_keys($statuses);
     }
+
+    /**
+     * Get the name associated with a status id
+     * 
+     * @param  int  $deliveryStatusId
+     * @throws \Exception
+     * @return string
+     */
+    public static function getStatusName(int $deliveryStatusId): string
+    {
+        $statuses = self::getList(true);
+        if (!isset($statuses[$deliveryStatusId])) {
+            throw new \Exception("Invalid delivery status id: '{$deliveryStatusId}'!");
+        }
+
+        return $statuses[$deliveryStatusId];
+    }
 }

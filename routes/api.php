@@ -180,3 +180,20 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('settings', [\App\Http\Controllers\SetupController::class, 'settings']);
     Route::post('store-settings', [\App\Http\Controllers\SetupController::class, 'storeSettings']);
 });
+
+
+
+/*
+|-------------------------------------------------------------------------
+| Vendor orders routes (for seller app)
+|-------------------------------------------------------------------------
+*/
+Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);
+
+
+/*
+|-------------------------------------------------------------------------
+| Orders routes (for admin app)
+|-------------------------------------------------------------------------
+*/
+Route::resource('orders', \App\Http\Controllers\OrderController::class);

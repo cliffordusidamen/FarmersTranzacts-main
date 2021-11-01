@@ -93,8 +93,23 @@ class HandleFrontendAppRequests
             ->paginate(5)
             ->toArray();
 
+        $pendingOrders = \App\Models\Order::notCancelledOrReturned()
+            ->delivered(false)
+            ->with([
+                'user',
+                'vendorOrders',
+                'vendorOrders.items',
+                'vendorOrders.items.product',
+                'vendorOrders.items.product.packaging',
+            ])
+            ->paginate(5)
+            ->toArray();
+
         $responseData = array_merge($user->toArray(), $response->getData(true), compact(
-            'unapproved_vendors', 'unapproved_products', 'permissions'
+            'unapproved_vendors',
+            'unapproved_products',
+            'permissions',
+            'pendingOrders'
         ));
         $response->setData($responseData);
     }

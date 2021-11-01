@@ -309,10 +309,6 @@ if (!function_exists('defaultModelPermissions')) {
     {
         return [
             MODEL_PERMISSION_VIEW_ANY,
-            MODEL_PERMISSION_VIEW,
-            MODEL_PERMISSION_CREATE,
-            MODEL_PERMISSION_UPDATE,
-            MODEL_PERMISSION_DELETE,
         ];
     }
 }

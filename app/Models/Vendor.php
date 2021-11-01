@@ -104,6 +104,16 @@ class Vendor extends Model
     }
 
     /**
+     * Has many orders
+     * 
+     * @return  \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(VendorOrder::class, 'vendor_id');
+    }
+
+    /**
      * Set name attribute handler
      * 
      * @param  string  $value

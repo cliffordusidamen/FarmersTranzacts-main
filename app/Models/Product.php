@@ -286,4 +286,29 @@ class Product extends Model
         return $path;
     }
 
+    /**
+     * 
+     * Search by product category id and/or name
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $productCategoryId
+     * @param  string|null  $searchText
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch(
+        Builder $query,
+        ?string  $productCategoryId,
+        ?string  $searchText
+    ): Builder {
+        if (is_numeric($productCategoryId)) {
+            $query->where('category_id', '=', (int) $productCategoryId);
+        }
+
+        if (strlen(trim($searchText)) > 1 ) {
+            $query->where('name', 'LIKE', "%{$searchText}%");
+        }
+
+        return $query;
+    }
+
 }

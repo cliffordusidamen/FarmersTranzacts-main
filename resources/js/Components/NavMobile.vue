@@ -6,9 +6,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close" @click="toggleMobileMenu"><i class="icon-close"></i></span>
             
-            <form action="#" method="get" class="mobile-search">
+            <form @submit.prevent="submitMobileSearch" class="mobile-search">
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" v-model="form.q" placeholder="Search in..." />
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
 
@@ -114,20 +114,41 @@
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
+
 export default {
-    mounted() {
-        $('ul.mobile-menu li a').on('click', function(event) {
-            if ($(this).parent('li').find('ul').length > 0) {
-                event.preventDefault()
-                $(this).parent('li').toggleClass('open');
-                $(this).parent('li').find('ul').eq(0).toggleClass('d-block');
-            }
-        });
-    },
-    methods: {
-        toggleMobileMenu() {
+    setup() {
+
+        onMounted(() => {
+            $('ul.mobile-menu li a').on('click', function(event) {
+                if ($(this).parent('li').find('ul').length > 0) {
+                    event.preventDefault()
+                    $(this).parent('li').toggleClass('open');
+                    $(this).parent('li').find('ul').eq(0).toggleClass('d-block');
+                }
+            });
+        })
+        const toggleMobileMenu = () => {
             $('body').eq(0).toggleClass('mmenu-active');
         }
-    }
+
+        const pageProps = usePage().props.value
+
+        const form = useForm({
+            q: pageProps?.rqProductText || '',
+        })
+    
+        const submitMobileSearch = () => {
+            toggleMobileMenu()
+            form.get(route('shop.index'))
+        }
+
+        return {
+            form,
+            submitMobileSearch,
+            toggleMobileMenu,
+        }
+    },
 }
 </script>

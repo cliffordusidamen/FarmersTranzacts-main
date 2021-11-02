@@ -14,7 +14,7 @@
                                     'list-group-item': true,
                                     'active': isCurrentCategory(category.slug) && !category?.subcategories?.length
                                 }"
-                                v-for="category in $page.props.product_categories"
+                                v-for="category in pageProps.product_categories"
                                 :key="category.id"
                             >
                                 <inertia-link
@@ -92,36 +92,39 @@
                     <!-- [END] side menu -->
 
                     <div class="col-md-9">
-                        <products-list-breadcrumb :category="$page.props?.productCategory || {}" />
+                        <products-list-breadcrumb :category="pageProps?.productCategory || {}" />
                         <div v-if="isCategorized()">
                             <h3>
                                 {{
                                     !isSubcategorized()
-                                    ? $page.props.productCategory.name
-                                    : $page.props.subcategory.name
+                                    ? pageProps.productCategory.name
+                                    : pageProps.subcategory.name
                                 }}
                             </h3>
                         </div>
 
                         <div v-if="!productsAvailable()" class="border p-3 rounded-md lead">
-                            No product available at the moment!
+                            {{
+                                isSearch
+                                    ? `No product found for your search "${rqProductText}"`
+                                    : 'No product available at the moment!'
+                            }}
+                            
                         </div>
 
                         <div v-else>
-                            <p class="text-muted my-2 lead">
-                                {{ getShownPortion() }}
-                            </p>
+                            <p class="text-muted my-2 lead" v-html="getShownPortion()"></p>
 
                             <div class="products mb-3">
                                 <div class="row justify-content-start">
-                                    <div v-for="product in $page.props.products.data" :key="product.id" class="col-11 col-sm-6 col-md-4 col-lg-4">
+                                    <div v-for="product in pageProps.products.data" :key="product.id" class="col-11 col-sm-6 col-md-4 col-lg-4">
                                         <product-box :product="product" />
 
                                     </div>
                                 </div>
                             </div><!-- End .products(all) -->
 
-                            <pagination :paginator="$page.props.products" />
+                            <pagination :paginator="pageProps.products" />
                         </div>
 
                     </div><!-- End .col-lg-9 -->
@@ -136,6 +139,7 @@ import AppLayout from '@/Layouts/AppLayout'
 import ProductsListBreadcrumb from '@/Components/Utils/ProductsListBreadcrumb.vue'
 import Pagination from '@/Components/Pagination.vue'
 import ProductBox from '@/Components/ProductBox.vue'
+import { usePage } from '@inertiajs/inertia-vue3'
 
 export default {
     components: {
@@ -145,35 +149,56 @@ export default {
         ProductBox,
     },
 
-    methods: {
-        productsAvailable() {
-            return this.$page.props.products.data.length > 0;
-        },
+    setup() {
+        const pageProps = usePage().props.value
+        const rqProductCat = pageProps?.rqProductCat || ''
+        const rqProductText = pageProps?.rqProductText || ''
+        const isSearch = pageProps?.isSearch || false
+        const productsAvailable = () => {
+            return pageProps.products.data.length > 0;
+        }
 
-        isCategorized() {
-            return this.$page.props?.productCategory?.id
-        },
+        const isCategorized = () => {
+            return pageProps?.productCategory?.id
+        }
 
-        isSubcategorized() {
-            return this.$page.props?.subcategory?.id
-        },
+        const isSubcategorized = () => {
+            return pageProps?.subcategory?.id
+        }
 
-        isCurrentCategory(slug) {
-            return this.isCategorized() && this.$page.props.productCategory.slug == slug
-        },
+        const isCurrentCategory = (slug) => {
+            return isCategorized() && pageProps.productCategory.slug == slug
+        }
 
-        isCurrentSubcategory(slug) {
-            return this.isSubcategorized() && this.$page.props.subcategory.slug == slug
-        },
+        const isCurrentSubcategory = (slug) => {
+            return isSubcategorized() && pageProps.subcategory.slug == slug
+        }
 
-        getShownPortion() {
-            const prevPage = this.$page.props.products.current_page - 1;
-            const prevPageLastSerialNumber = (prevPage *  this.$page.props.products.per_page)
+        const getShownPortion = () => {
+            const prevPage = pageProps.products.current_page - 1;
+            const prevPageLastSerialNumber = (prevPage *  pageProps.products.per_page)
             const firstItemSerialNumber = prevPageLastSerialNumber + 1;
-            const lastItemSerialNumber = prevPageLastSerialNumber + this.$page.props.products.data.length;
+            const lastItemSerialNumber = prevPageLastSerialNumber + pageProps.products.data.length;
 
-            return `Showing ${firstItemSerialNumber} - ${lastItemSerialNumber} of ${this.$page.props.products.total} `;
-        },
+            return `
+                Showing ${firstItemSerialNumber} - ${lastItemSerialNumber}
+                of ${pageProps.products.total}
+                ${!isSearch ? '' : `for <em class="font-weight-bold">"${rqProductText}"</em>`}
+            `;
+        }
+
+        return {
+            productsAvailable,
+            isCategorized,
+            isSubcategorized,
+            isCurrentCategory,
+            isCurrentSubcategory,
+            getShownPortion,
+            rqProductCat,
+            rqProductText,
+            isSearch,
+            pageProps,
+        }
     }
 }
 </script>

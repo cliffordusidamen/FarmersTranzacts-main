@@ -15,6 +15,9 @@
                 <li v-if="category?.id" class="breadcrumb-item active" aria-current="page">
                     {{category.name}}
                 </li>
+                <li v-if="isSearch" class="breadcrumb-item active" aria-current="page">
+                    Search results
+                </li>
             </ol>
         </div>
         <!-- End .container -->
@@ -23,6 +26,7 @@
 
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3'
 export default {
     props: {
         category: {
@@ -30,5 +34,13 @@ export default {
             default: () =>({}),
         },
     },
+
+    setup() {
+        const isSearch = usePage().props.value
+
+        return {
+            isSearch,
+        }
+    }
 }
 </script>

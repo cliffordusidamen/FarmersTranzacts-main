@@ -24,13 +24,20 @@ class ShopController extends Controller
     public function index()
     {
         // Get products that have been approved and are makrd as available by the vendors
+        $rqProductText = request()->query('q', '');
+        $rqProductCat = request()->query('cat', '');
+        $isSearch = is_numeric($rqProductCat) || isset(trim($rqProductText)[1]);
+
         $products = \App\Models\Product::with([
                 'category', 'images', 'vendor', 'packaging',
             ])
             ->availableForSale()
+            ->search($rqProductCat, $rqProductText)
             ->paginate(12);
 
-        return Inertia::render('Shop/ProductsList', compact('products'));
+        return Inertia::render('Shop/ProductsList', compact(
+            'products', 'rqProductText', 'rqProductCat', 'isSearch'
+        ));
     }
 
     /**

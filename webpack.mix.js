@@ -28,7 +28,7 @@ if (mix.inProduction()) {
     mix.version();
 } else {
     mix.browserSync({
-        proxy: 'farmer-express.test'
+        proxy: 'farmer-xpress.test'
     });
     mix.disableNotifications();
 }

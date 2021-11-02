@@ -15,29 +15,19 @@
             <div class="header-center">
                 <div class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                    <form action="#" method="get">
+                    <form @submit.prevent="submitMainSearch">
                         <div class="header-search-wrapper search-wrapper-wide">
-                            <div class="select-custom d-none">
-                                <select id="cat" name="cat">
-                                    <option value="">All Departments</option>
-                                    <option value="1">Fashion</option>
-                                    <option value="2">- Women</option>
-                                    <option value="3">- Men</option>
-                                    <option value="4">- Jewellery</option>
-                                    <option value="5">- Kids Fashion</option>
-                                    <option value="6">Electronics</option>
-                                    <option value="7">- Smart TVs</option>
-                                    <option value="8">- Cameras</option>
-                                    <option value="9">- Games</option>
-                                    <option value="10">Home &amp; Garden</option>
-                                    <option value="11">Motors</option>
-                                    <option value="12">- Cars and Trucks</option>
-                                    <option value="15">- Boats</option>
-                                    <option value="16">- Auto Tools &amp; Supplies</option>
-                                </select>
+                            <div class="select-custom">
+                                <custom-select
+                                    id="cat"
+                                    name="cat"
+                                    v-model="form.cat"
+                                    :options="categoriesList"
+                                    placeholder="All categories"
+                                />
                             </div><!-- End .select-custom -->
                             <label for="q" class="sr-only">Search</label>
-                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
+                            <input type="search" class="form-control" name="q" id="q" v-model="form.q" placeholder="Search product ..." />
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                         </div><!-- End .header-search-wrapper -->
                     </form>
@@ -168,9 +158,10 @@
 <script>
 import { Inertia } from '@inertiajs/inertia'
 import utility from "@/Mixins/utility.js"
-import { usePage } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import useCartManager from '@/composables/useCartManager'
 import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
+import CustomSelect from "@/Components/CustomSelect.vue";
 
 export default {
 
@@ -178,6 +169,7 @@ export default {
 
     components: {
         TogglesDeliveryStateModal,
+        CustomSelect,
     },
 
     setup() {
@@ -189,6 +181,13 @@ export default {
             processing,
             removeItem,
         } =  useCartManager()
+
+        const pageProps = usePage().props.value
+        const product_categories = pageProps?.product_categories || {}
+        const categoriesList = {}
+        Object.keys(product_categories).forEach(key => {
+            categoriesList[product_categories[key]['id']] = product_categories[key]['name']
+        })
 
         const logout = () => {
             Inertia.post(route('logout'), {}, {
@@ -202,6 +201,14 @@ export default {
             $('body').eq(0).toggleClass('mmenu-active');
         }
 
+        const form = useForm({
+            cat: pageProps?.rqProductCat || '',
+            q: pageProps?.rqProductText || '',
+        })
+        const submitMainSearch = () => {
+            form.get(route('shop.index'))
+        }
+
         return {
             cart,
             cartItems,
@@ -211,6 +218,9 @@ export default {
             removeItem,
             toggleMobileMenu,
             logout,
+            form,
+            categoriesList,
+            submitMainSearch,
         }
     },
 }

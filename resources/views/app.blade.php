@@ -53,6 +53,7 @@
     <script src="/molla-template/js/jquery.magnific-popup.min.js"></script>
     <script src="/molla-template/js/jquery.plugin.min.js"></script>
     <script src="/molla-template/js/jquery.countdown.min.js"></script>
+    <script src="/molla-template/js/jquery.elevateZoom.min.js"></script>
     
     <!-- Main JS File -->
     <script src="/molla-template/js/main.js"></script>

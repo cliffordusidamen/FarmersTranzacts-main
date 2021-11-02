@@ -18,20 +18,21 @@
                                     </figure><!-- End .product-main-image -->
 
                                     <div id="product-zoom-gallery" class="product-image-gallery">
-                                        <a class="product-gallery-item active" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product side">
+                                        <a
+                                            class="product-gallery-item active"
+                                            href="#"
+                                            :data-image="product.feature_image"
+                                        >
+                                            <img :src="product.feature_image" :alt="`Main Picture`">
                                         </a>
-
-                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product cross">
-                                        </a>
-
-                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product with model">
-                                        </a>
-
-                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product back">
+                                        <a
+                                            v-for="image in getOtherImages(product.images)"
+                                            :key="image.id"
+                                            class="product-gallery-item"
+                                            href="#"
+                                            :data-image="getImagePath(image.path)"
+                                        >
+                                            <img :src="getImagePath(image.path)" :alt="`Picture`">
                                         </a>
                                     </div><!-- End .product-image-gallery -->
                                 </div><!-- End .row -->
@@ -79,6 +80,7 @@ import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
 import ProductDeliveryCostItem from "@/Components/ProductDeliveryCostItem.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: {
@@ -89,6 +91,7 @@ export default {
     },
     setup() {
         const {product} = usePage().props.value
+        console.log('product', product)
         const breadcrumbLinks = [
             {
                 text: "Shop",
@@ -99,9 +102,59 @@ export default {
             },
         ];
 
+        onMounted(() => {
+            $('#product-zoom').elevateZoom({
+                gallery:'product-zoom-gallery',
+                galleryActiveClass: 'active',
+                zoomType: "outer",
+                cursor: "crosshair",
+                zoomWindowFadeIn: 800,
+                zoomWindowFadeOut: 800,
+                responsive: true
+            });
+
+            // On click change thumbs active item
+            $('.product-gallery-item').on('click', function (e) {
+                $('#product-zoom-gallery').find('a').removeClass('active');
+                $(this).addClass('active');
+
+                e.preventDefault();
+            });
+
+            var ez = $('#product-zoom').data('elevateZoom');
+
+            // Open popup - product images
+            $('#btn-product-gallery').on('click', function (e) {
+                if ( $.fn.magnificPopup ) {
+                    $.magnificPopup.open({
+                        items: ez.getGalleryList(),
+                        type: 'image',
+                        gallery:{
+                            enabled:true
+                        },
+                        fixedContentPos: false,
+                        removalDelay: 600,
+                        closeBtnInside: false
+                    }, 0);
+
+                    e.preventDefault();
+                }
+            });
+        })
+
+        const getImagePath = (path) => {
+            return path.replace(/^(public\/)/, '/storage/')
+        }
+
+        const getOtherImages = (images) => {
+            return images.filter(image => !image.is_featured)
+        }
+
         return {
             breadcrumbLinks,
             product,
+            getImagePath,
+            getOtherImages,
         };
     },
 };

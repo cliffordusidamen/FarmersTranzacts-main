@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\OrderCollection;
 use App\Models\Designation;
 use App\Models\User;
 use Closure;
@@ -97,13 +98,12 @@ class HandleFrontendAppRequests
             ->delivered(false)
             ->with([
                 'user',
-                'vendorOrders',
-                'vendorOrders.items',
-                'vendorOrders.items.product',
-                'vendorOrders.items.product.packaging',
+                'address',
+                'address.state',
             ])
-            ->paginate(5)
-            ->toArray();
+            ->paginate(5);
+
+        
 
         $responseData = array_merge($user->toArray(), $response->getData(true), compact(
             'unapproved_vendors',

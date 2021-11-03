@@ -34,15 +34,18 @@ class VendorOrderResource extends JsonResource
             $vendorOrder['user'] = new UserResource($this->user);
         }
 
+        if ($this->whenLoaded('vendor')) {
+            $vendorOrder['vendor'] = $this->vendor;
+        }
+
         if ($this->whenLoaded('order')) {
             $vendorOrder['order'] = $this->order;
         }
 
         if ($this->whenLoaded('items')) {
-            $data['items'] = new OrderItemCollection($this->items);
+            $vendorOrder['items'] = new OrderItemCollection($this->items);
         }
 
-        return $data;
         return $vendorOrder;
     }
 }

@@ -94,7 +94,6 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::info($request->all());
         $product_category = ProductCategory::findOrFail((int) $id);
         $data = $request->only(['name', 'description', 'is_active', 'display_picture']);
         Validator::make($data, ProductCategory::validationRules((int) $id))->validate();

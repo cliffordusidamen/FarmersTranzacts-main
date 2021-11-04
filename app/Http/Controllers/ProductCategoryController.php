@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductCategory;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -45,8 +46,16 @@ class ProductCategoryController extends Controller
     {
         $data = $request->only(['name', 'description', 'is_active']);
         Validator::make($data, ProductCategory::validationRules())->validate();
+        $product_category = false;
 
-        $product_category = ProductCategory::create($data);
+        DB::transaction(function () use ($data, $request, &$product_category) {
+            $productCategory = ProductCategory::create($data);
+            if ($productCategory) {
+                $productCategory->addDisplayPicture($request->file('display_picture'));
+            }
+            $product_category = $productCategory;
+        });
+
 
         if (!$product_category) {
             throw ValidationException::withMessages([
@@ -85,13 +94,24 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Log::info($request->all());
         $product_category = ProductCategory::findOrFail((int) $id);
-        $data = $request->only(['name', 'description', 'is_active']);
+        $data = $request->only(['name', 'description', 'is_active', 'display_picture']);
         Validator::make($data, ProductCategory::validationRules((int) $id))->validate();
 
-        $product_category->forceFill($data);
+        $saved = false;
 
-        if (!$product_category->save()) {
+        DB::transaction(function () use ($request, &$product_category, &$saved) {
+            $saved = $product_category->forceFill(
+                $request->only(['name', 'description', 'is_active'])
+            )->save();
+
+            if ($saved && $request->hasFile('display_picture')) {
+                $product_category->addDisplayPicture($request->file('display_picture'));
+            }
+        });
+
+        if (!$saved) {
             return response()->json([
                 'save_failed' => true,
                 'message' => 'Product category not saved! Please, try again.'

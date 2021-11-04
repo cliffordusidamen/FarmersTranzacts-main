@@ -87,7 +87,7 @@ class ProductCategory extends Model
             'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],
             'description' => ['nullable', 'min:15', 'max:255', ],
             'is_active' => ['sometimes', 'boolean'],
-            'display_picture_path' => ['sometimes', 'nullable', 'mimes:png,jpg', 'max:1024'],
+            'display_picture' => ['sometimes', 'nullable', 'mimes:png,jpg', 'max:5000'],
         ];
     }
 

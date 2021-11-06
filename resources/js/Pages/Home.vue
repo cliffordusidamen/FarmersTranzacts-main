@@ -42,11 +42,11 @@
                 <div class="container" v-if="categoriesWithDisplayPicture.length > 3">
                     <h2 class="title title-border my-4">Categories</h2>
 
-                    <div class="row">
+                    <div class="entry-container max-col-6">
                         <div
                             v-for="category in categoriesWithDisplayPicture"
                             :key="category.id"
-                            class="col-md-3"
+                            class="entry-item col-sm-6 col-md-4"
                         >
                             <div class="banner banner-cat banner-badge">
                                 <inertia-link :href="route('shop.categorized', {slug: category.slug})">

@@ -37,6 +37,44 @@
                     </div>
                 </div>
             </div>
+
+            <div class="categories-page">
+                <div class="container" v-if="categoriesWithDisplayPicture.length > 3">
+                    <h2 class="title title-border my-4">Categories</h2>
+
+                    <div class="row">
+                        <div
+                            v-for="category in categoriesWithDisplayPicture"
+                            :key="category.id"
+                            class="col-md-3"
+                        >
+                            <div class="banner banner-cat banner-badge">
+                                <inertia-link :href="route('shop.categorized', {slug: category.slug})">
+                                    <img
+                                        :src="category.display_picture"
+                                        alt="{{ category.name }}"
+                                        class="img-fluid"
+                                    />
+                                </inertia-link>
+
+                                <inertia-link
+                                    class="banner-link"
+                                    :href="route('shop.categorized', {slug: category.slug})"
+                                >
+                                    <h3 class="banner-title">
+                                        {{ category.name }}
+                                    </h3>
+
+                                    <h4 class="banner-subtitle">
+                                        {{ category.products_count }} products
+                                    </h4>
+                                    <span class="banner-link-text">Shop Now</span>
+                                </inertia-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </app-layout>
 </template>
@@ -58,6 +96,8 @@ export default {
     setup() {
         const pageProps = usePage().props.value
         const productsContainerRef = ref(null)
+        const categoriesWithDisplayPicture = pageProps?.categoriesWithDisplayPicture?.data || []
+
         onMounted(() => {
             $(productsContainerRef.value).owlCarousel({
                 navText: ['<i class="icon-angle-left">', '<i class="icon-angle-right">'],
@@ -85,6 +125,7 @@ export default {
         return {
             productsContainerRef,
             pageProps,
+            categoriesWithDisplayPicture,
         }
     }
 }

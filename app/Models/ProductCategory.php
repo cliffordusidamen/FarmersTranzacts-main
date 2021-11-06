@@ -135,4 +135,15 @@ class ProductCategory extends Model
 
         return $path;
     }
+
+    /**
+     * Limit categories to ones that have display picture.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasDisplayPicture($query)
+    {
+        return $query->whereNotNull('display_picture_path');
+    }
 }

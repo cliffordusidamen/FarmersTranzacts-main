@@ -179,6 +179,9 @@ Route::resource('packagings', \App\Http\Controllers\VendorPackagingController::c
 Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function() {
     Route::get('settings', [\App\Http\Controllers\SetupController::class, 'settings']);
     Route::post('store-settings', [\App\Http\Controllers\SetupController::class, 'storeSettings']);
+    Route::get('pages', [\App\Http\Controllers\SetupController::class, 'pages']);
+    Route::get('edit-page/{id}', [\App\Http\Controllers\SetupController::class, 'editPage']);
+    Route::put('update-page/{id}', [\App\Http\Controllers\SetupController::class, 'updatePage']);
 });
 
 

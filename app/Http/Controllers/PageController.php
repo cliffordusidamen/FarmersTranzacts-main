@@ -41,12 +41,12 @@ class PageController extends Controller
     /**
      * Get the requested page
      * 
-     * @param  string  $name
+     * @param  string  $slug
      * @return \Inertia\Response
      */
-    public function _getPage($name)
+    public function _getPage($slug)
     {
-        $pageSetup = Page::byName($name)->first();
+        $pageSetup = Page::bySlug($slug)->first();
         $showMenu = false;
         return Inertia::render('ManagedPage', compact('pageSetup', 'showMenu'));
     }

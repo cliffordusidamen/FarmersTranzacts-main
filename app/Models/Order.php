@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Deliverable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 class Order extends Model
 {
     use HasFactory;
+    use Deliverable;
 
     /**
      * Mass assignable fields
@@ -38,16 +40,6 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Relationship: Belongs to delivery status
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function deliveryStatus(): BelongsTo
-    {
-        return $this->belongsTo(DeliveryStatus::class, 'delivery_status_id');
     }
 
     /**
@@ -223,35 +215,6 @@ class Order extends Model
     }
 
     /**
-     * Not cancelled, nor returned
-     * 
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeNotCancelledOrReturned(Builder $query): Builder
-    {
-        return $query->where('delivery_status_id', '!=', DeliveryStatus::CANCELED_ID)
-            ->where('delivery_status_id', '!=', DeliveryStatus::RETURNED_ID);
-    }
-
-    /**
-     * Filter by wheather delivered or not
-     * 
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  bool $delivered
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeDelivered(Builder $query, bool $delivered = true): Builder
-    {
-        $comparisonOperator = $delivered ? '=' : '!=';
-        return $query->where(
-            'delivery_status_id',
-            $comparisonOperator,
-            DeliveryStatus::DELIVERED_ID
-        );
-    }
-
-    /**
      * Get Available permissions for model
      * 
      * @return array
@@ -259,5 +222,27 @@ class Order extends Model
     public static function getPermissions(): array
     {
         return defaultModelPermissions();
+    }
+
+    /**
+     * Get the sales for the last 8 months
+     * 
+     * @return array
+     */
+    public static function getSalesTrend(): array
+    {
+        $monthSales = [];
+
+        for ($i = 8; $i >= 0; $i--) {
+            $month = date('M Y', strtotime("-$i month"));
+            $monthSales[$month] = VendorOrder::delivered()
+                ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
+                ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
+                ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))
+                ->addSelect(DB::raw('COUNT(id) as total_orders'))
+                ->first();
+        }
+
+        return $monthSales;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\QueriesDateField;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderItem extends Model
 {
     use HasFactory;
+    use QueriesDateField;
 
     /**
      * Mass assignable fields
@@ -55,5 +58,28 @@ class OrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    /**
+     * Order items that belong to vendor orders, that have been delivered
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfDeliveredVendorOrders(Builder $query): Builder
+    {
+        return $query->where(function($q) {
+            $q->whereIn('vendor_order_id', VendorOrder::delivered()->pluck('id'));
+        });
+    }
+    /**
+     * Created within the current month
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeThisMonth(Builder $query): Builder
+    {
+        return $this->_thisMonth($query, 'created_at');
     }
 }

@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\AppSetting;
 use App\Models\Designation;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\VendorOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -17,7 +22,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:sanctum']);
+        $this->middleware(['auth:sanctum', 'frontend']);
     }
 
     /**
@@ -77,14 +82,41 @@ class DashboardController extends Controller
     {
         $showCategories = false;
 
-        // Count shoppers, and sellers
-        $shoppersCount = User::designated(Designation::SHOPPER_ID)->count();
-        $sellersCount = User::designated(Designation::SELLER_ID)->count();
-        // count orders, with pending
-        // count products with pending approval
+        $shoppersCount = User::designated(Designation::SHOPPER_NAME)->count();
+        $sellersCount = User::designated(Designation::SELLER_NAME)->count();
+        $productsCount = Product::availableForSale()->count();
+        $topSellers = VendorOrder::delivered()
+            ->thisMonth()
+            ->with('vendor')
+            ->orderBy('total_amount', 'desc')
+            ->groupBy('vendor_id')
+            ->addSelect(
+                'vendor_id',
+                DB::raw('SUM(total_amount) as total_amount'),
+                DB::raw('COUNT(id) as total_orders'),
+            )
+            ->take(5)
+            ->get();
+
+        $topProducts = OrderItem::ofDeliveredVendorOrders()
+            ->thisMonth()
+            ->with('product', 'product.vendor')
+            ->groupBy('product_id')
+            ->orderBy('total_orders', 'desc')
+            ->addSelect(
+                '*',
+                'product_id',
+                DB::raw('SUM(total_amount) as sum_total_amount'),
+                DB::raw('SUM(quantity) as sum_quantity'),
+                DB::raw('COUNT(id) as total_orders'),
+            )
+            ->take(5)
+            ->get();
+
+        $salesTrend = Order::getSalesTrend();
 
         $responseData = compact(
-            'shoppersCount', 'sellersCount',
+            'shoppersCount', 'sellersCount', 'topSellers', 'topProducts', 'productsCount', 'salesTrend',
         );
 
         if (request()->wantsJson()) {

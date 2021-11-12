@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_notes', 1000)->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
             $table->unsignedSmallInteger('delivery_status_id')->default(DeliveryStatus::PENDING_ID);
+            $table->dateTime('vendor_notified_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

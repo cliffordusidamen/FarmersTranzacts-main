@@ -20,6 +20,17 @@ trait Deliverable
     }
 
     /**
+     * Not cancelled
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotCancelled(Builder $query): Builder
+    {
+        return $query->where('delivery_status_id', '!=', DeliveryStatus::CANCELED_ID);
+    }
+
+    /**
      * Not cancelled, nor returned
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query

@@ -51,19 +51,50 @@ class DashboardController extends Controller
      */
     public function _vendor()
     {
-        // Set view based on the role
         $showCategories = false;
         $user_vendor = auth()->user()->vendors()->first();
         $approvalPending = $user_vendor->approval_status == Vendor::STATUS_PENDING;
         $approvalDisapproved = $user_vendor->approval_status == Vendor::STATUS_DISAPPROVED;
         $user_vendor->append('storage_used');
-        // $user_vendor->append('current_month_orders');
         $storageAllowed = AppSetting::getSetting(AppSetting::VENDOR_STORAGE_LIMIT) * 1_000_000;
         $numberOfProducts = $user_vendor->products()->count();
 
+        $topProducts = OrderItem::ofDeliveredVendorOrders($user_vendor->id)
+            ->thisMonth()
+            ->with('product')
+            ->rankProducts()
+            ->take(5)
+            ->get();
+
+        $salesTrend = VendorOrder::getSalesTrend(6, $user_vendor->id);
+
+        $ordersThisMonth = VendorOrder::forVendor($user_vendor->id)
+            ->notCancelled($user_vendor->id)
+            ->thisMonth()
+            ->count();
+
+        $earningsThisMonth = OrderItem::ofDeliveredVendorOrders($user_vendor->id)
+            ->thisMonth()
+            ->sum('total_amount');
+
+        $topOrders = VendorOrder::thisMonth()
+            ->with(['deliveryStatus', 'user', 'items'])
+            ->orderBy('total_amount', 'desc')
+            ->take(5)
+            ->get();
+
         $responseData = compact(
-            'showCategories', 'user_vendor', 'approvalPending', 'approvalDisapproved',
-            'storageAllowed', 'numberOfProducts'
+            'showCategories',
+            'user_vendor',
+            'approvalPending',
+            'approvalDisapproved',
+            'storageAllowed',
+            'numberOfProducts',
+            'salesTrend',
+            'topProducts',
+            'topOrders',
+            'earningsThisMonth',
+            'ordersThisMonth'
         );
 
         if (request()->wantsJson()) {
@@ -101,22 +132,22 @@ class DashboardController extends Controller
         $topProducts = OrderItem::ofDeliveredVendorOrders()
             ->thisMonth()
             ->with('product', 'product.vendor')
-            ->groupBy('product_id')
-            ->orderBy('total_orders', 'desc')
-            ->addSelect(
-                '*',
-                'product_id',
-                DB::raw('SUM(total_amount) as sum_total_amount'),
-                DB::raw('SUM(quantity) as sum_quantity'),
-                DB::raw('COUNT(id) as total_orders'),
-            )
+            ->rankProducts()
             ->take(5)
             ->get();
 
-        $salesTrend = Order::getSalesTrend();
+        $salesTrend = VendorOrder::getSalesTrend(6);
+
+        $ordersThisMonth = Order::thisMonth()->count();
 
         $responseData = compact(
-            'shoppersCount', 'sellersCount', 'topSellers', 'topProducts', 'productsCount', 'salesTrend',
+            'shoppersCount',
+            'sellersCount',
+            'topSellers',
+            'topProducts',
+            'productsCount',
+            'salesTrend',
+            'ordersThisMonth',
         );
 
         if (request()->wantsJson()) {

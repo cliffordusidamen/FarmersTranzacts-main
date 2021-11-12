@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Deliverable;
+use App\Models\Traits\QueriesDateField;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ class Order extends Model
 {
     use HasFactory;
     use Deliverable;
+    use QueriesDateField;
 
     /**
      * Mass assignable fields
@@ -235,7 +237,7 @@ class Order extends Model
 
         for ($i = 8; $i >= 0; $i--) {
             $month = date('M Y', strtotime("-$i month"));
-            $monthSales[$month] = VendorOrder::delivered()
+            $monthSales[$month] = Order::delivered()
                 ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
                 ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
                 ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))

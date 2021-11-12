@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class OrderItem extends Model
 {
@@ -64,14 +65,42 @@ class OrderItem extends Model
      * Order items that belong to vendor orders, that have been delivered
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int|null  $vendorId
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOfDeliveredVendorOrders(Builder $query): Builder
-    {
-        return $query->where(function($q) {
-            $q->whereIn('vendor_order_id', VendorOrder::delivered()->pluck('id'));
+    public function scopeOfDeliveredVendorOrders(
+        Builder $query,
+        ?int $vendorId = null
+    ): Builder {
+        return $query->where(function($q) use ($vendorId) {
+            $vendorOrderQuery = VendorOrder::delivered();
+            if ($vendorId) {
+                $vendorOrderQuery->where('vendor_id', $vendorId);
+            }
+            $q->whereIn('vendor_order_id', $vendorOrderQuery->pluck('id'));
         });
     }
+
+    /**
+     * Order items that belong to vendor orders, that were not cancelled
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int|null  $vendorId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfVendorOrdersNotCancelled(
+        Builder $query,
+        ?int $vendorId = null
+    ): Builder {
+        return $query->where(function($q) use ($vendorId) {
+            $vendorOrderQuery = VendorOrder::notCancelled();
+            if ($vendorId) {
+                $vendorOrderQuery->where('vendor_id', $vendorId);
+            }
+            $q->whereIn('vendor_order_id', $vendorOrderQuery->pluck('id'));
+        });
+    }
+
     /**
      * Created within the current month
      * 
@@ -81,5 +110,25 @@ class OrderItem extends Model
     public function scopeThisMonth(Builder $query): Builder
     {
         return $this->_thisMonth($query, 'created_at');
+    }
+
+    /**
+     * Rank order items by products,
+     * sort by most ordered first
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRankProducts(Builder $query): Builder
+    {
+        return $query->groupBy('product_id')
+            ->orderBy('total_orders', 'desc')
+            ->addSelect(
+                '*',
+                'product_id',
+                DB::raw('SUM(total_amount) as sum_total_amount'),
+                DB::raw('SUM(quantity) as sum_quantity'),
+                DB::raw('COUNT(id) as total_orders'),
+            );
     }
 }

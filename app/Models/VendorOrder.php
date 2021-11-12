@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class VendorOrder extends Model
 {
@@ -100,6 +101,53 @@ class VendorOrder extends Model
     public function scopeThisMonth(Builder $query): Builder
     {
         return $this->_thisMonth($query, 'created_at');
+    }
+
+    /**
+     * Get orders for a particular vendor
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $vendorId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForVendor(Builder $query, int $vendorId): Builder
+    {
+        return $query->where('vendor_id', $vendorId);
+    }
+
+    /**
+     * Get the sales for the last 8 months
+     * 
+     * @param  int  $numberOfMonths
+     * @param  int|null  $vendorId
+     * @return array
+     */
+    public static function getSalesTrend(
+        int $numberOfMonths = 8,
+        ?int $vendorId = null
+    ): array {
+        $numberOfMonthsToUse = $numberOfMonths < 6 || $numberOfMonths > 12
+            ? 6 : $numberOfMonths;
+
+        $monthSales = [];
+
+        for ($i = $numberOfMonthsToUse - 1; $i >= 0; $i--) {
+            $month = date('M Y', strtotime("-$i month"));
+            $query = VendorOrder::delivered();
+
+            if ($vendorId) {
+                $query->where('vendor_id', $vendorId);
+            }
+
+            $monthSales[$month] = $query
+                ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
+                ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
+                ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))
+                ->addSelect(DB::raw('COUNT(id) as total_orders'))
+                ->first();
+        }
+
+        return $monthSales;
     }
 
 }

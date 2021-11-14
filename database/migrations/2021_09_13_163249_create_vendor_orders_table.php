@@ -25,6 +25,8 @@ class CreateVendorOrdersTable extends Migration
             $table->unsignedTinyInteger('delivery_days')->default(0);
             $table->unsignedDecimal('total_amount', 15);
             $table->unsignedBigInteger('address_id')->nullable();
+            $table->string('transit_note', 1000)->nullable();
+            $table->string('delivery_note', 1000)->nullable();
             $table->unsignedSmallInteger('delivery_status_id')->default(DeliveryStatus::PENDING_ID);
             $table->timestamps();
 

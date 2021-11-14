@@ -24,11 +24,22 @@ class VendorOrderResource extends JsonResource
             'items_amount'        => (float) $this->items_amount,
             'delivery_amount'     => (float) $this->delivery_amount,
             'delivery_days'       => $this->delivery_days,
+            'transit_note'       => $this->transit_note,
             'total_amount'        => (float) $this->total_amount,
             'delivery_status_id'  => $this->delivery_status_id,
-            'status'  => DeliveryStatus::getStatusName($this->delivery_status_id),
-            'created_at'  => carbon_ng($this->created_at),
+            'status'              => DeliveryStatus::getStatusName($this->delivery_status_id),
+            'created_at'          => carbon_ng($this->created_at),
+            'transitable' => $this->transitable,
+            'deliverable' => $this->deliverable,
         ];
+
+        if ($this->whenAppended('deliverable')) {
+            $vendorOrder['deliverable'] = $this->deliverable;
+        }
+
+        if ($this->whenAppended('transitable')) {
+            $vendorOrder['transitable'] = $this->transitable;
+        }
 
         if ($this->whenLoaded('user')) {
             $vendorOrder['user'] = new UserResource($this->user);

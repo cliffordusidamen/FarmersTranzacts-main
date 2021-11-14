@@ -15,12 +15,14 @@ class DeliveryStatus extends Model
     const  DELIVERED_ID = 3;
     const  RETURNED_ID = 4;
     const  CANCELED_ID = 5;
+    const  COMPLETED_ID = 6;
 
     const  PENDING = 'pending';
     const  IN_TRANSIT = 'in transit';
     const  DELIVERED = 'delivered';
     const  RETURNED = 'returned';
     const  CANCELLED = 'cancelled';
+    const  COMPLETED = 'completed';
 
     /**
      * Mass assignable fields
@@ -75,5 +77,41 @@ class DeliveryStatus extends Model
         }
 
         return $statuses[$deliveryStatusId];
+    }
+
+    /**
+     * CHeck if the specified status id is not cancelled or returned
+     * 
+     * @param  int  $deliveryStatusId
+     * @return bool
+     */
+    public static function isNotCancelledOrReturned(int $deliveryStatusId): bool
+    {
+        return $deliveryStatusId !== self::CANCELED_ID && $deliveryStatusId !== self::RETURNED_ID;
+    }
+
+    /**
+     * Determine if the specified status id is deliverable
+     * 
+     * @param  int  $deliveryStatusId
+     * @return bool
+     */
+    public static function isDeliverable(int $deliveryStatusId): bool {
+        return $deliveryStatusId != self::DELIVERED_ID
+            && (
+                $deliveryStatusId == self::PENDING_ID
+                || $deliveryStatusId == self::IN_TRANSIT_ID
+            );
+    }
+
+    /**
+     * Determine if the specified status id can be set as in transit
+     * 
+     * @param  int  $deliveryStatusId
+     * @return bool
+     */
+    public static function isTransitable(int $deliveryStatusId): bool {
+        return self::isDeliverable($deliveryStatusId)
+            && $deliveryStatusId !== self::IN_TRANSIT_ID;
     }
 }

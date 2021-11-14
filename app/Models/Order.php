@@ -274,4 +274,24 @@ class Order extends Model
         $rawDateCheck = "? >= DATE_ADD(created_at, INTERVAL {$maxCancellationHours} HOUR)";
         return $query->whereRaw($rawDateCheck, [$now]);
     }
+
+    /**
+     * Update the delivery status of the order,
+     * based on the status of each vendor order
+     * 
+     * @return void
+     */
+    public function updateDeliveryStatus(): void {
+        $totalVendorOrders = $this->vendorOrders->count();
+        $totalCompletedVendorOrders = $this->vendorOrders
+            ->whereNotIn('delivery_status_id', [
+                DeliveryStatus::PENDING_ID,
+                DeliveryStatus::IN_TRANSIT_ID,
+            ])->count();
+
+        $this->delivery_status_id = $totalVendorOrders === $totalCompletedVendorOrders ?
+            DeliveryStatus::COMPLETED_ID : DeliveryStatus::PENDING_ID;
+
+        $this->save();
+    }
 }

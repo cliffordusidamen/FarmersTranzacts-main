@@ -191,6 +191,10 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
 | Vendor orders routes (for seller app)
 |-------------------------------------------------------------------------
 */
+Route::prefix('vendor_orders')->group(function() {
+    Route::put('{id}/transit', [\App\Http\Controllers\VendorOrderController::class, 'transit']);
+    Route::put('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'delivery']);
+});
 Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);
 
 

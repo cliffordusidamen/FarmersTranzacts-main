@@ -32,6 +32,8 @@ class VendorOrder extends Model
         'delivery_days',
         'total_amount',
         'delivery_status_id',
+        'transit_note',
+        'delivery_note',
     ];
     
     /**
@@ -113,6 +115,19 @@ class VendorOrder extends Model
     public function scopeForVendor(Builder $query, int $vendorId): Builder
     {
         return $query->where('vendor_id', $vendorId);
+    }
+
+    /**
+     * Filter completed orders
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCompleted(Builder $query): Builder {
+        return $query->whereNotIn('delivery_status_id', [
+            DeliveryStatus::PENDING_ID,
+            DeliveryStatus::IN_TRANSIT_ID,
+        ]);
     }
 
     /**

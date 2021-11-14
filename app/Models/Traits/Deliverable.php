@@ -92,4 +92,24 @@ trait Deliverable
             now()->endOfMonth()->format('Y-m-d')
         );
     }
+
+    /**
+     * Get if current entity is deliverable
+     * 
+     * @return bool
+     */
+    public function getDeliverableAttribute(): bool
+    {
+        return DeliveryStatus::isDeliverable($this->delivery_status_id);
+    }
+
+    /**
+     * Get if current entity is transitable
+     * 
+     * @return bool
+     */
+    public function getTransitableAttribute(): bool
+    {
+        return DeliveryStatus::isTransitable($this->delivery_status_id);
+    }
 }

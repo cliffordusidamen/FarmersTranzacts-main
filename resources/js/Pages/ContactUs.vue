@@ -5,27 +5,27 @@
         <div class="page-content">
             <div class="page-content pb-0">
                 <div class="container">
-                	<div class="row">
-                		<div class="col-lg-6 mb-2 mb-lg-0">
-                            <h2 class="title mb-1">Contact Information</h2>
+                	<div class="row justify-content-center">
+                		<div class="col-lg-3 mb-2 mb-lg-0">
+                            <h5 class="mb-1">Contact Information</h5>
                             <div class="contact-info">
                                 <ul class="contact-list">
-                                    <li>
+                                    <li v-if="address">
                                         <i class="icon-map-marker"></i>
-                                        70 Washington Square South New York, NY 10012, United States
+                                        {{ address }}
                                     </li>
-                                    <li>
+                                    <li v-if="hotline">
                                         <i class="icon-phone"></i>
-                                        <a href="tel:#">+92 423 567</a>
+                                        <a :href="`tel:#${hotline}`">{{ hotline }}</a>
                                     </li>
-                                    <li>
+                                    <li v-if="email">
                                         <i class="icon-envelope"></i>
-                                        <a href="mailto:#">info@Molla.com</a>
+                                        <a :href="`mailto:${email}`">{{ email }}</a>
                                     </li>
                                 </ul><!-- End .contact-list -->
                             </div>
                         </div>
-                		<div class="col-lg-6 mb-2">
+                		<div class="col-lg-5 mb-2">
                             <h2 class="title mb-1">Got Any Questions?</h2>
                 			<p class="mb-2">Use the form below to send a message to us now.</p>
 
@@ -123,6 +123,7 @@
 
 
 <script>
+import useAppSettings from '@/composables/useAppSettings'
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
@@ -147,6 +148,7 @@ export default {
         JetInputError,
     },
     setup() {
+        const { hotline, address, email } = useAppSettings()
         const breadcrumbLinks = [
             {
                 text: "Shop",
@@ -230,6 +232,9 @@ export default {
             form,
             frmContact,
             submit,
+            hotline,
+            address,
+            email,
         };
     },
 };

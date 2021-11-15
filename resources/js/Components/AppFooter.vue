@@ -127,7 +127,7 @@
                                     <ul class="widget-list text-center text-md-left">
                                         <li><inertia-link :href="route('terms')">Terms and conditions</inertia-link></li>
                                         <li><inertia-link :href="route('privacy_policy')">Privacy Policy</inertia-link></li>
-                                        <li><a href="#">Contact us</a></li>
+                                        <li><inertia-link :href="route('contact_us')">Contact us</inertia-link></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-md-4 -->
@@ -137,7 +137,14 @@
                                     <h4 class="widget-title text-center text-md-left">Make Money</h4><!-- End .widget-title -->
 
                                     <ul class="widget-list text-center text-md-left">
-                                        <li><a href="#">Sell on {{ this.$page.props.config_app.name }}</a></li>
+                                        <li>
+                                            <a
+                                                :href="this.$page.props.config_app.seller_app_url"
+                                                target="_blank"
+                                            >
+                                                Sell on {{ this.$page.props.config_app.name }}
+                                            </a>
+                                        </li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-md-4 -->

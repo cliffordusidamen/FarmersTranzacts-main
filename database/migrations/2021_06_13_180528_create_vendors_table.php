@@ -24,9 +24,11 @@ class CreateVendorsTable extends Migration
             $table->boolean('is_vat_registered')->default(false);
             $table->enum('ownership_type', Vendor::getOwnershipTypes());
             $table->string('logo_image_path', 2048)->nullable();
+            $table->string('cover_picture_path', 2048)->nullable();
             $table->string('reject_reason', 255)->nullable();
             $table->unsignedSmallInteger('entity_country_id')->nullable();
             $table->enum('approval_status', Vendor::getApprovalStatuses())->default(Vendor::STATUS_PENDING);
+            $table->string('about', 10000)->nullable();
             $table->timestamps();
 
             $table->foreign('entity_country_id')

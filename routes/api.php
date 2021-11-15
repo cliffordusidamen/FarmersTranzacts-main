@@ -204,3 +204,26 @@ Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::cl
 |-------------------------------------------------------------------------
 */
 Route::resource('orders', \App\Http\Controllers\OrderController::class);
+
+
+/*
+|-------------------------------------------------------------------------
+| Business info routes (for seller app)
+|-------------------------------------------------------------------------
+*/
+Route::prefix('business-info')->group(function() {
+    Route::get('/', [\App\Http\Controllers\BusinessInfoController::class, 'index']);
+    Route::post('update-logo', [\App\Http\Controllers\BusinessInfoController::class, 'updateLogo']);
+    Route::post('update-cover-image', [\App\Http\Controllers\BusinessInfoController::class, 'updateCoverImage']);
+    Route::post('update-about', [\App\Http\Controllers\BusinessInfoController::class, 'updateAbout']);
+});
+
+/*
+ |-----------------------------------------------------------------------------
+ | Profile routes
+ |-----------------------------------------------------------------------------
+ */
+Route::prefix('profile')->group(function() {
+    Route::post('/change-password', [\App\Http\Controllers\SellerProfileController::class, 'changePassword']);
+    
+});

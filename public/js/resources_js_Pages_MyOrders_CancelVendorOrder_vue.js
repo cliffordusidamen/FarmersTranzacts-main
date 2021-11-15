@@ -1094,7 +1094,6 @@ __webpack_require__.r(__webpack_exports__);
         vendor_order: vendorOrder.id
       });
       form.post(actionRoute, {
-        // errorBag: 'SaveProductCategory',
         preserveScroll: true,
         onFinish: function onFinish() {
           form.processing = false;

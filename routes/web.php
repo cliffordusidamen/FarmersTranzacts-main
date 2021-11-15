@@ -131,6 +131,9 @@ Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
     ]))
     ->name('contact_us');
 
+Route::post('/contact-us', [\App\Http\Controllers\PageController::class, 'sendContactUs'])
+    ->name('send_contact_us');
+
 /*
 |-----------------------------------------------------------------------------
 | Shoppers personal orders routes

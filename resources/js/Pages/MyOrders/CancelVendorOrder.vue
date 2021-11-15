@@ -113,7 +113,6 @@ export default {
             const actionRoute = route("my_orders.cancel_vendor_order", {vendor_order: vendorOrder.id});
 
             form.post(actionRoute, {
-                // errorBag: 'SaveProductCategory',
                 preserveScroll: true,
                  onFinish: () => {
                     form.processing = false;

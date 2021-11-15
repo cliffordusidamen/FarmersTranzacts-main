@@ -183,7 +183,10 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('edit-page/{id}', [\App\Http\Controllers\SetupController::class, 'editPage']);
     Route::put('update-page/{id}', [\App\Http\Controllers\SetupController::class, 'updatePage']);
     Route::get('banners', [\App\Http\Controllers\SetupController::class, 'banners']);
-    Route::post('create-banners', [\App\Http\Controllers\SetupController::class, 'createBanners']);
+    Route::post('create-banner', [\App\Http\Controllers\SetupController::class, 'createBanner']);
+    Route::get('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'editBanner']);
+    Route::post('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'updateBanner']);
+    Route::delete('delete-banner/{id}', [\App\Http\Controllers\SetupController::class, 'deleteBanner']);
 });
 
 

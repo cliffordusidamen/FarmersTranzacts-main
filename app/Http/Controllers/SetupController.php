@@ -130,7 +130,7 @@ class SetupController extends Controller
      * @param  \App\Http\Requests\SaveBannerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function createBanners(SaveBannerRequest $request)
+    public function createBanner(SaveBannerRequest $request)
     {
         $banner = new Banner($request->only('name'));
 
@@ -150,5 +150,64 @@ class SetupController extends Controller
         }
 
         return response()->json(compact('banner'));
+    }
+
+    /**
+     * Fetch banner details for edit
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editBanner(Request $request, int $id)
+    {
+        $banner = Banner::findOrFail($id);
+        $banner->append('image_url');
+        return response()->json(compact('banner'));
+    }
+
+    /**
+     * Update banner details
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBanner(Request $request, int $id)
+    {
+        $this->validate($request, Banner::validationRules($id));
+        $banner = Banner::findOrFail($id);
+        $saved = true;
+
+        DB::transaction(function () use ($banner, $request, &$saved) {
+            $banner->name = $request->input('name');
+            $banner->save();
+            $banner->saveBannerImage($request->file('image'));
+
+            $saved = true;
+        });
+
+        if (!$saved) {
+            throw new \Exception('Banner not updated! Please, try again.');
+        }
+
+        return response()->json(compact('banner'));
+    }
+
+    /**
+     * Delete a particular banner, with its image
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteBanner(int $id)
+    {
+        $banner = Banner::findOrFail($id);
+
+        if ($banner->deleteWithImage()) {
+            return response()->json();
+        }
+
+        throw new \Exception('Banner not deleted! Please, try again.');
     }
 }

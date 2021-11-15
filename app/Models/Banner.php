@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class Banner extends Model
 {
@@ -108,8 +109,14 @@ class Banner extends Model
         $imageRules = is_null($id)
             ? 'required|image|mimes:jpeg,png,jpg|max:1024'
             : 'image|mimes:jpeg,png,jpg|max:1024';
+
+        $uniqueNameRule = Rule::unique('banners', 'name');
+
+        if (!is_null($id)) {
+            $uniqueNameRule->ignore($id);
+        }
         $rules = [
-            'name' => 'required|min:3|max:191',
+            'name' => ['required', 'min:3', 'max:191', $uniqueNameRule],
             'image' => $imageRules,
         ];
 

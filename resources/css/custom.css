@@ -45,6 +45,10 @@ ul {
 ol {
     list-style-type: decimal;
 }
+
+.dropdown-item.font-size-normal {
+    font-size: initial;
+}
 /*
  |------------------------------------------------------------------------
  | Custom alert style

@@ -139,4 +139,6 @@ Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
 Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/', [\App\Http\Controllers\MyOrderController::class, 'index'])->name('index');
     Route::get('/{order}', [\App\Http\Controllers\MyOrderController::class, 'show'])->name('show');
+    Route::get('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'showCancelVendorOrder'])->name('show_cancel_vendor_order');
+    Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
 });

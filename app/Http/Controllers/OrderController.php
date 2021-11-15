@@ -34,6 +34,7 @@ class OrderController extends Controller
             'vendorOrders.items.product',
             'vendorOrders.items.product.packaging',
         ])
+        ->withCount(['cancelledVendorOrder'])
         ->paginate(10);
 
         return new OrderCollection($orders);
@@ -53,6 +54,7 @@ class OrderController extends Controller
             'address',
             'address.state',
             'vendorOrders',
+            'vendorOrders.deliveryStatus',
             'vendorOrders.vendor',
             'vendorOrders.items',
             'vendorOrders.items.product',

@@ -77,7 +77,7 @@ class OrderItem extends Model
             if ($vendorId) {
                 $vendorOrderQuery->where('vendor_id', $vendorId);
             }
-            $q->whereIn('vendor_order_id', $vendorOrderQuery->pluck('id'));
+            $q->whereIn('vendor_order_id', $vendorOrderQuery->select('id'));
         });
     }
 

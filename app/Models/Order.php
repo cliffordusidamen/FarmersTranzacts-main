@@ -65,6 +65,17 @@ class Order extends Model
     }
 
     /**
+     * Relatioship: Has many vendor orders
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cancelledVendorOrder(): HasMany
+    {
+        return $this->hasMany(VendorOrder::class, 'order_id')
+            ->where('delivery_status_id', DeliveryStatus::CANCELED_ID);
+    }
+
+    /**
      * Relationship: Payment(s) for order
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -257,22 +268,6 @@ class Order extends Model
     public function scopeVendorNotNotified(Builder $query): Builder
     {
         return $query->where('vendor_notified_at', '=', NULL);
-    }
-
-    /**
-     * Filter order than are not cancellable,
-     * based on the max number hours set in app_settings table(by admin)
-     * 
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeCancellationPeriodElapsed(
-        Builder $query
-    ): Builder {
-        $maxCancellationHours = (int) AppSetting::getSetting(AppSetting::CANCEL_ORDER_HOURS);
-        $now = now()->format('Y-m-d H:i:s');
-        $rawDateCheck = "? >= DATE_ADD(created_at, INTERVAL {$maxCancellationHours} HOUR)";
-        return $query->whereRaw($rawDateCheck, [$now]);
     }
 
     /**

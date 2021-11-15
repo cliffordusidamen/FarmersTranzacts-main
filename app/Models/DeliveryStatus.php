@@ -57,6 +57,8 @@ class DeliveryStatus extends Model
             self::IN_TRANSIT_ID => ucwords(self::IN_TRANSIT),
             self::DELIVERED_ID => ucwords(self::DELIVERED),
             self::RETURNED_ID => ucwords(self::RETURNED),
+            self::CANCELED_ID => ucwords(self::CANCELLED),
+            self::COMPLETED_ID => ucwords(self::COMPLETED),
         ];
 
         return $asKeys ? $statuses : array_keys($statuses);

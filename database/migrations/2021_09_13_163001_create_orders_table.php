@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedTinyInteger('delivery_days')->default(0);
             $table->unsignedDecimal('total_amount', 15);
             $table->string('order_notes', 1000)->nullable();
+            $table->string('cancel_reason', 1000)->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
             $table->unsignedSmallInteger('delivery_status_id')->default(DeliveryStatus::PENDING_ID);
             $table->dateTime('vendor_notified_at')->nullable();

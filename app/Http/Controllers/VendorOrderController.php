@@ -30,7 +30,10 @@ class VendorOrderController extends Controller
      */
     public function index(Request $request)
     {
-        $vendorOrders = $request->user()->vendors()->first()->orders()
+        $vendor = $request->user()->vendors()->first();
+        $vendorOrders = VendorOrder::cancellationPeriodElapsed()
+            ->notCancelled()
+            ->forVendor($vendor->id)
             ->with([
                 'order', 'user', 'items'
             ])

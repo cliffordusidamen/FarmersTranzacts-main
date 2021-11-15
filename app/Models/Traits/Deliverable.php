@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\AppSetting;
 use App\Models\DeliveryStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -104,12 +105,54 @@ trait Deliverable
     }
 
     /**
-     * Get if current entity is transitable
+     * Determine if current entity is transitable
      * 
      * @return bool
      */
     public function getTransitableAttribute(): bool
     {
         return DeliveryStatus::isTransitable($this->delivery_status_id);
+    }
+
+    /**
+     * Determine if current entity is cancellable
+     * 
+     * @return bool
+     */
+    public function getCancellableAttribute(): bool
+    {
+        if (
+            $this->delivery_status_id != DeliveryStatus::PENDING_ID
+        ) {
+            return false;
+        }
+
+        $maxCancellationHours = (int) AppSetting::getSetting(AppSetting::CANCEL_ORDER_HOURS);
+        $cancellationTs = (int) carbon_ng($this->created_at)
+            ->addHours($maxCancellationHours)
+            ->format('U');
+
+        $nowTs = (int) carbon_ng()->format('U');
+
+        return  $cancellationTs >= $nowTs;
+    }
+
+    /**
+     * Filter order than are not cancellable,
+     * based on the max number hours set in app_settings table(by admin)
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  bool  $elapsed
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCancellationPeriodElapsed(
+        Builder $query,
+        bool $elapsed = true
+    ): Builder {
+        $maxCancellationHours = (int) AppSetting::getSetting(AppSetting::CANCEL_ORDER_HOURS);
+        $now = now()->format('Y-m-d H:i:s');
+        $comparisonSymbol = $elapsed ? '>=' : '<';
+        $rawDateCheck = "? {$comparisonSymbol} DATE_ADD(created_at, INTERVAL {$maxCancellationHours} HOUR)";
+        return $query->whereRaw($rawDateCheck, [$now]);
     }
 }

@@ -1,89 +1,53 @@
 <template>
-    <div class="container">
+    <div v-if="banners?.length" class="container">
         <div class="row">
             <div class="col-12">
                 <div
-                    id="carouselExampleCaptions"
+                    id="HomeCarousel"
                     class="carousel slide carousel-fade"
                     data-ride="carousel"
+                    style="height: 300px;"
                 >
                     <ol class="carousel-indicators">
                         <li
-                            data-target="#carouselExampleCaptions"
-                            data-slide-to="0"
-                            class="active"
-                        ></li>
-                        <li
-                            data-target="#carouselExampleCaptions"
-                            data-slide-to="1"
-                        ></li>
-                        <li
-                            data-target="#carouselExampleCaptions"
-                            data-slide-to="2"
+                            v-for="(banner, index) in banners"
+                            :key="index"
+                            data-target="#HomeCarousel"
+                            :data-slide-to="index"
+                            :class="{
+                                'active' : index == 0,
+                            }"
                         ></li>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <div
+                            v-for="(banner, index) in banners"
+                            :key="index"
+                            :class="{
+                                'carousel-item': true,
+                                'active': index == 0,
+                            }"
+                        >
                             <img
-                                src="https://via.placeholder.com/1170x470.png?text=FIRST+BANNER"
+                                :src="banner.image_url"
                                 class="d-block w-100"
-                                alt="..."
+                                :alt="banner.name"
                             />
                             <div
+                                v-if="banner?.caption || banner?.description"
                                 class="
                                     carousel-caption
                                     d-none d-md-block
                                 "
                             >
-                                <h5>First slide label</h5>
-                                <p>
-                                    Some representative placeholder
-                                    content for the first slide.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img
-                                src="https://via.placeholder.com/1170x470.png?text=SECOND+BANNER"
-                                class="d-block w-100"
-                                alt="..."
-                            />
-                            <div
-                                class="
-                                    carousel-caption
-                                    d-none d-md-block
-                                "
-                            >
-                                <h5>Second slide label</h5>
-                                <p>
-                                    Some representative placeholder
-                                    content for the second slide.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img
-                                src="/img/banner-fullwidth.jpg"
-                                class="d-block w-100"
-                                alt="..."
-                            />
-                            <div
-                                class="
-                                    carousel-caption
-                                    d-none d-md-block
-                                "
-                            >
-                                <h5>Third slide label</h5>
-                                <p>
-                                    Some representative placeholder
-                                    content for the third slide.
-                                </p>
+                                <h5 v-if="banner?.caption">{{ banner?.caption }}</h5>
+                                <p v-if="banner?.description">{{ banner?.description }}</p>
                             </div>
                         </div>
                     </div>
                     <a
                         class="carousel-control-prev"
-                        href="#carouselExampleCaptions"
+                        href="#HomeCarousel"
                         role="button"
                         data-slide="prev"
                     >
@@ -95,7 +59,7 @@
                     </a>
                     <a
                         class="carousel-control-next"
-                        href="#carouselExampleCaptions"
+                        href="#HomeCarousel"
                         role="button"
                         data-slide="next"
                     >
@@ -109,8 +73,21 @@
             </div>
         </div>
     </div>
-
-
-
     <!-- End Intro Container -->
 </template>
+
+<script>
+import { usePage } from '@inertiajs/inertia-vue3'
+
+export default {
+    setup() {
+        const { banners } = usePage().props.value
+
+        console.log('The banners', { banners })
+
+        return {
+            banners,
+        }
+    },
+}
+</script>

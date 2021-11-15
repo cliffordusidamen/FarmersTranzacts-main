@@ -1464,10 +1464,7 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   id: "HomeCarousel",
   "class": "carousel slide carousel-fade",
-  "data-ride": "carousel",
-  style: {
-    "height": "300px"
-  }
+  "data-ride": "carousel"
 };
 var _hoisted_5 = {
   "class": "carousel-indicators"

@@ -6,7 +6,6 @@
                     id="HomeCarousel"
                     class="carousel slide carousel-fade"
                     data-ride="carousel"
-                    style="height: 300px;"
                 >
                     <ol class="carousel-indicators">
                         <li

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveBannerRequest;
 use App\Models\AppSetting;
+use App\Models\Banner;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SetupController extends Controller
@@ -98,5 +101,54 @@ class SetupController extends Controller
         $saved = $page->save();
 
         return response()->json(compact('page', 'saved'));
+    }
+
+    /**
+     * Get all the available homepage banners
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function banners(Request $request)
+    {
+        abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
+
+        $banners = Banner::get();
+
+        if ($banners->count()) {
+            $banners->each(fn($banner) => (
+                $banner->append('image_url')
+            ));
+        }
+
+        return response()->json(compact('banners'));
+    }
+
+    /**
+     * Create a banner
+     * 
+     * @param  \App\Http\Requests\SaveBannerRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createBanners(SaveBannerRequest $request)
+    {
+        $banner = new Banner($request->only('name'));
+
+        $saved = false;
+
+        DB::transaction(function () use ($banner, $request, &$saved) {
+            $banner->saveBannerImage($request->file('image'));
+            if (!$banner->save()) {
+                $banner->deleteBannerImage();
+            }
+
+            $saved = true;
+        });
+
+        if (!$saved) {
+            throw new \Exception('Banner not created! Please, try again.');
+        }
+
+        return response()->json(compact('banner'));
     }
 }

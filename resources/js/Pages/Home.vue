@@ -1,16 +1,6 @@
 <template>
     <app-layout>
-        <div class="intro-slider-container d-none">
-            <div class="container intro-content">
-                <div class="row">
-                    <div class="col-auto offset-lg-3 intro-col">
-                        <h2 class="h4 font-weight-bold">
-                            Dashboard
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div><!-- End Intro Container -->
+        <home-banner />
 
         <div class="page-content">
             <div class="container">
@@ -85,12 +75,14 @@ import CartUpdateButton from '@/Components/Controls/CartUpdateButton.vue'
 import ProductBox from '@/Components/ProductBox.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { usePage } from '@inertiajs/inertia-vue3'
+import HomeBanner from '@/Components/HomeBanner.vue'
 
 export default {
     components: {
         AppLayout,
         CartUpdateButton,
         ProductBox,
+        HomeBanner,
     },
 
     setup() {

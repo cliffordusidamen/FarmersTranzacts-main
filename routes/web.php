@@ -29,8 +29,8 @@ Route::middleware(['guest'])->prefix('registration')->name('registration.')->gro
     Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm'])->name('shopper');
     Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper'])->name('save_shopper');
 
-    Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm'])->name('vendor');
-    Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor'])->name('save_vendor');
+    Route::get('agent', [\App\Http\Controllers\RegistrationController::class, 'showAgentForm'])->name('agent');
+    Route::post('agent', [\App\Http\Controllers\RegistrationController::class, 'saveAgent'])->name('save_agent');
 });
 
 
@@ -134,6 +134,9 @@ Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
 Route::post('/contact-us', [\App\Http\Controllers\PageController::class, 'sendContactUs'])
     ->name('send_contact_us');
 
+Route::get('/become-an-agent', [\App\Http\Controllers\PageController::class, 'becomeAnAgent'])
+    ->name('become_an_agent');
+
 /*
 |-----------------------------------------------------------------------------
 | Shoppers personal orders routes
@@ -145,3 +148,10 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'showCancelVendorOrder'])->name('show_cancel_vendor_order');
     Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
 });
+
+
+/*
+|-----------------------------------------------------------------------------
+| Agent private routes
+|-----------------------------------------------------------------------------
+*/

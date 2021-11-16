@@ -128,6 +128,21 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Relationship: interested product categories
+     * 
+     * @return BelongsToMany
+     */
+    public function interestedProductCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ProductCategory::class,
+            'product_category_user',
+            'user_id',
+            'product_category_id'
+        );
+    }
+
+    /**
      * Setter for "password" field
      * 
      * @param  string  $value

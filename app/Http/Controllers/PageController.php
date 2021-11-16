@@ -73,4 +73,13 @@ class PageController extends Controller
         flashMessage('success', 'Message sent!');
         return redirect()->route('contact_us');
     }
+    /**
+     * Disolay the landing page, with details on becoming an agent
+     * 
+     * @return \Inertia\Response
+     */
+    public function becomeAnAgent()
+    {
+        return Inertia::render('BecomeAnAgent');
+    }
 }

@@ -145,6 +145,14 @@
                                                 Sell on {{ this.$page.props.config_app.name }}
                                             </a>
                                         </li>
+
+                                        <li>
+                                            <inertia-link
+                                                :href="route('become_an_agent')"
+                                            >
+                                                Become an agent
+                                            </inertia-link>
+                                        </li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-md-4 -->

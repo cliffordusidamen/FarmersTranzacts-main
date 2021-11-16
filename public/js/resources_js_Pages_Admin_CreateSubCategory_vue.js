@@ -1047,7 +1047,7 @@ var _hoisted_1 = {
   "class": "footer footer-2"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"icon-boxes-container\"><div class=\"container\"><div class=\"row\"><div class=\"col-sm-6 col-lg-4\"><div class=\"icon-box icon-box-side\"><span class=\"icon-box-icon\"><i class=\"icon-rocket\"></i></span><div class=\"icon-box-content\"><h3 class=\"icon-box-title\">Prompt Delivery</h3><!-- End .icon-box-title --><p>Direct to your address</p></div><!-- End .icon-box-content --></div><!-- End .icon-box --></div><!-- End .col-sm-6 col-lg-4 --><div class=\"col-sm-6 col-lg-4\"><div class=\"icon-box icon-box-side\"><span class=\"icon-box-icon\"><i class=\"icon-star-o\"></i></span><div class=\"icon-box-content\"><h3 class=\"icon-box-title\">Secure Payments</h3><!-- End .icon-box-title --><p>Make payments without worry</p></div><!-- End .icon-box-content --></div><!-- End .icon-box --></div><!-- End .col-sm-6 col-lg-4 --><div class=\"col-sm-6 col-lg-4\"><div class=\"icon-box icon-box-side\"><span class=\"icon-box-icon\"><i class=\"icon-life-ring\"></i></span><div class=\"icon-box-content\"><h3 class=\"icon-box-title\">We Support</h3><!-- End .icon-box-title --><p>24/7 amazing services</p></div><!-- End .icon-box-content --></div><!-- End .icon-box --></div><!-- End .col-sm-6 col-lg-4 --></div><!-- End .row --></div><!-- End .container --></div>", 1);
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"icon-boxes-container\"><div class=\"container\"><div class=\"row\"><div class=\"col-sm-6 col-lg-4\"><div class=\"icon-box icon-box-side\"><span class=\"icon-box-icon text-success\"><i class=\"icon-rocket\"></i></span><div class=\"icon-box-content\"><h3 class=\"icon-box-title\">Prompt Delivery</h3><!-- End .icon-box-title --><p>Direct to your address</p></div><!-- End .icon-box-content --></div><!-- End .icon-box --></div><!-- End .col-sm-6 col-lg-4 --><div class=\"col-sm-6 col-lg-4\"><div class=\"icon-box icon-box-side\"><span class=\"icon-box-icon text-success\"><i class=\"icon-star-o\"></i></span><div class=\"icon-box-content\"><h3 class=\"icon-box-title\">Secure Payments</h3><!-- End .icon-box-title --><p>Make payments without worry</p></div><!-- End .icon-box-content --></div><!-- End .icon-box --></div><!-- End .col-sm-6 col-lg-4 --><div class=\"col-sm-6 col-lg-4\"><div class=\"icon-box icon-box-side\"><span class=\"icon-box-icon text-success\"><i class=\"icon-life-ring\"></i></span><div class=\"icon-box-content\"><h3 class=\"icon-box-title\">We Support</h3><!-- End .icon-box-title --><p>24/7 amazing services</p></div><!-- End .icon-box-content --></div><!-- End .icon-box --></div><!-- End .col-sm-6 col-lg-4 --></div><!-- End .row --></div><!-- End .container --></div>", 1);
 
 var _hoisted_3 = {
   "class": "footer-middle border-0 pb-3"
@@ -1130,13 +1130,13 @@ var _hoisted_27 = {
 };
 
 var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "widget-title text-center text-md-left"
+  "class": "widget-title text-center text-success text-md-left"
 }, "Information", -1
 /* HOISTED */
 );
 
 var _hoisted_29 = {
-  "class": "widget-list text-center text-md-left"
+  "class": "widget-list list-unstyled text-center text-md-left"
 };
 
 var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
@@ -1159,13 +1159,13 @@ var _hoisted_33 = {
 };
 
 var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "widget-title text-center text-md-left"
+  "class": "widget-title text-center text-success text-md-left"
 }, "Customer Service", -1
 /* HOISTED */
 );
 
 var _hoisted_35 = {
-  "class": "widget-list text-center text-md-left"
+  "class": "widget-list list-unstyled text-center text-md-left"
 };
 
 var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Terms and conditions");
@@ -1182,13 +1182,13 @@ var _hoisted_40 = {
 };
 
 var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "widget-title text-center text-md-left"
+  "class": "widget-title text-center text-success text-md-left"
 }, "Make Money", -1
 /* HOISTED */
 );
 
 var _hoisted_42 = {
-  "class": "widget-list text-center text-md-left"
+  "class": "widget-list list-unstyled text-center text-md-left"
 };
 var _hoisted_43 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1999,7 +1999,12 @@ var _hoisted_6 = [_hoisted_4, _hoisted_5];
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
   href: "/",
   "class": "logo"
-}, " LOGO ", -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/logo-full-small.png",
+  style: {
+    "height": "40px"
+  }
+})], -1
 /* HOISTED */
 );
 
@@ -2527,7 +2532,10 @@ var _hoisted_10 = {
   "class": "mobile-nav"
 };
 var _hoisted_11 = {
-  "class": "mobile-menu"
+  "class": "mobile-menu",
+  style: {
+    "font-weight": "500"
+  }
 };
 var _hoisted_12 = {
   "class": "active"
@@ -2551,7 +2559,10 @@ var _hoisted_18 = {
   "class": "mobile-cats-nav"
 };
 var _hoisted_19 = {
-  "class": "mobile-cats-menu"
+  "class": "mobile-cats-menu list-unstyled",
+  style: {
+    "font-weight": "500"
+  }
 };
 var _hoisted_20 = {
   key: 1
@@ -2564,8 +2575,45 @@ var _hoisted_23 = {
 
 var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" All ");
 
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"social-icons\"><a href=\"#\" class=\"social-icon\" target=\"_blank\" title=\"Facebook\"><i class=\"icon-facebook-f\"></i></a><a href=\"#\" class=\"social-icon\" target=\"_blank\" title=\"Twitter\"><i class=\"icon-twitter\"></i></a><a href=\"#\" class=\"social-icon\" target=\"_blank\" title=\"Instagram\"><i class=\"icon-instagram\"></i></a><a href=\"#\" class=\"social-icon\" target=\"_blank\" title=\"Youtube\"><i class=\"icon-youtube\"></i></a></div>", 1);
+var _hoisted_25 = {
+  "class": "social-icons"
+};
+var _hoisted_26 = ["href"];
 
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-facebook-f"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_28 = [_hoisted_27];
+var _hoisted_29 = ["href"];
+
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-twitter"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_31 = [_hoisted_30];
+var _hoisted_32 = ["href"];
+
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-instagram"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_34 = [_hoisted_33];
+var _hoisted_35 = ["href"];
+
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-youtube"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_37 = [_hoisted_36];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
 
@@ -2719,7 +2767,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , _hoisted_22)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" END MENU ")]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-cats-menu ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-cats-nav ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" .End .tab-pane ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .tab-content "), _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .social-icons ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-menu-wrapper ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-menu-container ")], 64
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-cats-menu ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-cats-nav ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" .End .tab-pane ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .tab-content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_ctx.social_facebook ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+    key: 0,
+    href: "https://facebook.com/".concat(_ctx.social_facebook),
+    "class": "social-icon",
+    title: "Connect with us on Facebook",
+    target: "_blank"
+  }, _hoisted_28, 8
+  /* PROPS */
+  , _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.social_twitter ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+    key: 1,
+    href: "https://twitter.com/@".concat(_ctx.social_twitter),
+    "class": "social-icon",
+    title: "Follow us on Twitter",
+    target: "_blank"
+  }, _hoisted_31, 8
+  /* PROPS */
+  , _hoisted_29)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.social_instagram ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+    key: 2,
+    href: "https://instagram.com/@".concat(_ctx.social_instagram),
+    "class": "social-icon",
+    title: "Follow us on Instagram",
+    target: "_blank"
+  }, _hoisted_34, 8
+  /* PROPS */
+  , _hoisted_32)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.social_youtube ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+    key: 3,
+    href: "https://youtube.com/@".concat(_ctx.social_youtube),
+    "class": "social-icon",
+    title: "Subscribe to our Youtube channel",
+    target: "_blank"
+  }, _hoisted_37, 8
+  /* PROPS */
+  , _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .social-icons ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-menu-wrapper ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .mobile-menu-container ")], 64
   /* STABLE_FRAGMENT */
   );
 }

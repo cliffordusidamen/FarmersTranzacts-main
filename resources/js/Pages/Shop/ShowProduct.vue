@@ -1,5 +1,5 @@
 <template>
-    <app-layout :show-categories="false">
+    <app-layout :show-categories="true">
         <breadcrumb-default :breadcrumbs="breadcrumbLinks" />
 
         <div class="page-content">
@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <div class="product-details mx-3">
                                 <h1 class="product-title">{{ product.name }}</h1>
-                                <div class="product-price">
+                                <div class="product-price text-success">
                                     &#8358;{{ Number(product.price).toLocaleString() }} per {{product.packaging.name}}
                                 </div><!-- End .product-price -->
 

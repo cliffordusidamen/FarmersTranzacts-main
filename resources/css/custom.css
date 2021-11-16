@@ -71,10 +71,30 @@ ol {
 
  /* 
  |------------------------------------------------------------------
+ | Theme/Skin adjustment
+ |------------------------------------------------------------------
+ |
+*/
+.header-10 .header-bottom {
+    background-color: #046400;
+}
+.header.header-10.header-intro-clearance .header-bottom .menu>li:hover>a, .header.header-10.header-intro-clearance .header-bottom .menu>li:focus>a, .header.header-10.header-intro-clearance .header-bottom .menu>li.active>a, .header.header-10.header-intro-clearance .header-bottom .menu>li.show>a {
+    color: #fff;
+    background-color: #069700;
+}
+
+.header-bottom .menu>li>a:before {
+    background-color: #58df53;
+    height: 0.5rem;
+}
+
+
+ /* 
+ |------------------------------------------------------------------
  | Accordion caret effect
  |------------------------------------------------------------------
  |
-  */
+*/
  a.with-caret.collapsed:before {
     content: '\f110';
     color: #8c8c8c;

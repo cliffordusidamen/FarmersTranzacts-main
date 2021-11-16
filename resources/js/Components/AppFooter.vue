@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-lg-4">
                         <div class="icon-box icon-box-side">
-                            <span class="icon-box-icon">
+                            <span class="icon-box-icon text-success">
                                 <i class="icon-rocket"></i>
                             </span>
 
@@ -18,7 +18,7 @@
                     
                     <div class="col-sm-6 col-lg-4">
                         <div class="icon-box icon-box-side">
-                            <span class="icon-box-icon">
+                            <span class="icon-box-icon text-success">
                                 <i class="icon-star-o"></i>
                             </span>
 
@@ -31,7 +31,7 @@
 
                     <div class="col-sm-6 col-lg-4">
                         <div class="icon-box icon-box-side">
-                            <span class="icon-box-icon">
+                            <span class="icon-box-icon text-success">
                                 <i class="icon-life-ring"></i>
                             </span>
 
@@ -110,9 +110,9 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="widget">
-                                    <h4 class="widget-title text-center text-md-left">Information</h4><!-- End .widget-title -->
+                                    <h4 class="widget-title text-center text-success text-md-left">Information</h4><!-- End .widget-title -->
 
-                                    <ul class="widget-list text-center text-md-left">
+                                    <ul class="widget-list list-unstyled text-center text-md-left">
                                         <li><inertia-link @click="toggleMobileMenu" :href="route('about_us')">About {{ this.$page.props.config_app.name }}</inertia-link></li>
                                         <li><a href="#">How to shop</a></li>
                                         <li><a href="#">FAQ</a></li>
@@ -122,9 +122,9 @@
 
                             <div class="col-md-4">
                                 <div class="widget">
-                                    <h4 class="widget-title text-center text-md-left">Customer Service</h4><!-- End .widget-title -->
+                                    <h4 class="widget-title text-center text-success text-md-left">Customer Service</h4><!-- End .widget-title -->
 
-                                    <ul class="widget-list text-center text-md-left">
+                                    <ul class="widget-list list-unstyled text-center text-md-left">
                                         <li><inertia-link :href="route('terms')">Terms and conditions</inertia-link></li>
                                         <li><inertia-link :href="route('privacy_policy')">Privacy Policy</inertia-link></li>
                                         <li><inertia-link :href="route('contact_us')">Contact us</inertia-link></li>
@@ -134,9 +134,9 @@
 
                             <div class="col-md-4">
                                 <div class="widget">
-                                    <h4 class="widget-title text-center text-md-left">Make Money</h4><!-- End .widget-title -->
+                                    <h4 class="widget-title text-center text-success text-md-left">Make Money</h4><!-- End .widget-title -->
 
-                                    <ul class="widget-list text-center text-md-left">
+                                    <ul class="widget-list list-unstyled text-center text-md-left">
                                         <li>
                                             <a
                                                 :href="this.$page.props.config_app.seller_app_url"

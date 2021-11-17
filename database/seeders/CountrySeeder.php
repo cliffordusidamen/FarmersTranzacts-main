@@ -18,7 +18,7 @@ class CountrySeeder extends Seeder
     }
 
     /**
-     * Get dat for all countries
+     * Get data for all countries
      * 
      * @return array
      */

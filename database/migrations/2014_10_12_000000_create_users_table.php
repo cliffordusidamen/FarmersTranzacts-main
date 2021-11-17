@@ -29,7 +29,6 @@ class CreateUsersTable extends Migration
             $table->boolean('is_super_admin')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_active')->default(true);
-            $table->string('business_name')->unique()->nullable();
             $table->boolean('require_password_change')->default(false);
             $table->timestamps();
 

@@ -6,6 +6,7 @@ use App\Events\AgentRegistered;
 use App\Http\Requests\StoreShopperRequest;
 use App\Http\Requests\StoreAgentRequest;
 use App\Models\Address;
+use App\Models\AgentSpendingVolume;
 use App\Models\Country;
 use App\Models\Designation;
 use App\Models\ProductCategory;
@@ -60,17 +61,21 @@ class RegistrationController extends Controller
     {
         $app_states = State::pluck('state_name', 'id');
 
-        if (request()->wantsJson()) {
-            $product_categories = ProductCategory::with('subcategories')->get();
-            $countries = Country::pluck('name', 'id');
+        $product_categories = ProductCategory::with('subcategories')->get();
+        $countries = Country::pluck('name', 'id');
+        $spendingVolumes = AgentSpendingVolume::get()->keyBy('id')->map(function ($volume) {
+            return number_format($volume->minimum_amount)
+                . ($volume->maximum_amount
+                    ? " - " . number_format($volume->maximum_amount)
+                    : '+');
+        });
 
-            return response()->json(compact(
-                'app_states',
-                'product_categories',
-                'countries',
-            ));
+        $viewData = compact('app_states', 'product_categories', 'countries', 'spendingVolumes');
+
+        if (request()->wantsJson()) {
+            return response()->json($viewData);
         }
-        return Inertia::render('Registration/Agent', compact('app_states'));
+        return Inertia::render('Registration/Agent', $viewData);
     }
 
     /**
@@ -86,23 +91,24 @@ class RegistrationController extends Controller
 
             $userData = $request->only([
                 'first_name', 'last_name', 'phone', 'email', 'password',
-                'business_name',
             ]);
             $userData['designation_id'] = Designation::AGENT_ID;
             $user = User::create($userData);
 
-            $user->interestedProductCategories()
-                ->attach($request->input('product_categories'));
-
             $address = Address::create([
-                'user_id' => $user->id,
-                'line_1' => $request->input('address_line_1'),
-                'line_2' => $request->input('address_line_2'),
-                'city' => $request->input('city'),
-                'state_id' => $request->input('state_id'),
-                'postal_code' => $request->input('postal_code'),
+                'line_1' => $request->input('store_address_line_1'),
+                'line_2' => $request->input('store_address_line_2'),
+                'city' => $request->input('store_city'),
+                'state_id' => $request->input('store_state'),
             ]);
 
+            $agent = $user->agent()->create([
+                'business_name' => $request->business_name,
+                'address_id' => $address->id,
+                'spending_volume_id' => $request->spending_volume_id,
+            ]);
+
+            $agent->productCategories()->attach($request->product_categories);
         });
 
         if ($request->wantsJson()) {
@@ -112,7 +118,7 @@ class RegistrationController extends Controller
                 ]);
             }
 
-            event(new AgentRegistered($user));
+            event(new Registered($user));
             return response()->json(compact('user'));
         }
 
@@ -121,7 +127,7 @@ class RegistrationController extends Controller
             return back()->withInput();
         }
 
-        event(new AgentRegistered($user));
+        event(new Registered($user));
         flashMessage('success', 'Registration successful! Please, check you email in click on the verification link.');
         return back();
     }

@@ -151,6 +151,7 @@
 <script>
 import { onMounted } from '@vue/runtime-core';
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
+import useAppSettings from '@/composables/useAppSettings';
 
 export default {
     setup() {
@@ -179,7 +180,18 @@ export default {
             form.get(route('shop.index'))
         }
 
+        const {
+            social_facebook,
+            social_youtube,
+            social_instagram,
+            social_twitter,
+        } = useAppSettings()
+
         return {
+            social_facebook,
+            social_youtube,
+            social_instagram,
+            social_twitter,
             form,
             submitMobileSearch,
             toggleMobileMenu,

@@ -143,6 +143,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Relationship: has one agent
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    function agent(): HasOne
+    {
+        return $this->hasOne(Agent::class);
+    }
+
+    /**
      * Setter for "password" field
      * 
      * @param  string  $value

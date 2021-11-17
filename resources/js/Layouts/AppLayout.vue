@@ -4,7 +4,7 @@
 
     <main class="main">
       <jet-banner />
-      <pending-agent-banner />
+      <pending-agent-banner v-if="this.$page?.props?.user" />
       <slot></slot>
     </main>
 

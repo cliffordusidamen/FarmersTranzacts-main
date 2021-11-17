@@ -3505,6 +3505,8 @@ var _hoisted_2 = {
   "class": "main"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this$$page, _this$$page$props;
+
   var _component_navigation_top = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("navigation-top");
 
   var _component_jet_banner = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-banner");
@@ -3519,7 +3521,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "show-categories": $props.showCategories
   }, null, 8
   /* PROPS */
-  , ["show-categories"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_banner), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_pending_agent_banner), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_footer)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .page-wrapper "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_nav_mobile)], 64
+  , ["show-categories"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_banner), (_this$$page = this.$page) !== null && _this$$page !== void 0 && (_this$$page$props = _this$$page.props) !== null && _this$$page$props !== void 0 && _this$$page$props.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_pending_agent_banner, {
+    key: 0
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_footer)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .page-wrapper "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_nav_mobile)], 64
   /* STABLE_FRAGMENT */
   );
 }

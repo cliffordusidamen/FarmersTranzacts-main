@@ -222,6 +222,7 @@ class User extends Authenticatable implements MustVerifyEmail
             Designation::STAFF_NAME     => Designation::STAFF_ID,
             Designation::SHOPPER_NAME   => Designation::SHOPPER_ID,
             Designation::SELLER_NAME    => Designation::SELLER_ID,
+            Designation::AGENT_NAME    => Designation::AGENT_ID,
         ];
 
         $designationName = strtolower($designationName);

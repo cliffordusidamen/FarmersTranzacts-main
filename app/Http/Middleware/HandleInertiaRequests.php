@@ -36,11 +36,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $userAgent = request()->user() ? request()->user()->agent : null;
+        if ($userAgent) {
+            $userAgent->load('spendingVolume');
+        }
+
         return array_merge(parent::share($request), [
             'product_categories' => \App\Models\ProductCategory::with('subcategories')->get(),
             'permissions' => \App\Models\Designation::getUserPermissions(),
             'userIsVendor' => authUserIsVendor(),
             'config_app' => config('app'),
+            'userAgent' => $userAgent,
             'cart' => $request->session()->get('cart'),
             'app_settings' => \App\Models\AppSetting::first(),
             'states' => \App\Models\State::pluck('state_name', 'id'),

@@ -35,12 +35,14 @@ class StoreAgentRequest extends FormRequest
             'password' => ['required', 'confirmed', 'min:8', 'max:50'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
 
-            'business_name' => ['required', 'max:150', 'unique:vendors,business_name'],
+            'business_name' => ['required', 'max:150', 'unique:agents,business_name'],
             'spending_volume_id' => ['required', 'exists:agent_spending_volumes,id'],
             'store_address_line_1' => ['required', 'min:5', 'max:50'],
             'store_address_line_2' => ['nullable', 'min:5', 'max:50'],
             'store_city' => ['nullable', 'min:3', 'max:50'],
             'store_state' => ['required', 'exists:states,id'],
+
+            'product_categories' => ['array', 'min:1'],
         ];
     }
 }

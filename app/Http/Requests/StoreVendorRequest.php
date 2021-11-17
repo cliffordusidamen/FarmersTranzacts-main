@@ -46,6 +46,7 @@ class StoreVendorRequest extends FormRequest
             'state_id' => ['required', 'exists:states,id'],
             'shipping_country_id' => ['nullable', 'exists:countries,id'],
             'store_phone' => ['nullable', 'min:11', 'max:16'],
+            'product_categories' => ['array', 'min:1'],
         ];
     }
 }

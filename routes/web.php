@@ -71,9 +71,9 @@ Route::resource('vendors', \App\Http\Controllers\VendorController::class);
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->name('profile.')->group(function() {
-    Route::get('vendor-details', [\App\Http\Controllers\ProfileController::class, 'showEditVendorForm'])->name('edit_vendor_details');
-    Route::get('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedVendorForm'])->name('edit_vendor_disapproval');
-    Route::post('update-vendor-profile', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('update_vendor_profile');
+    Route::get('agent-details', [\App\Http\Controllers\ProfileController::class, 'showEditAgentForm'])->name('edit_agent_details');
+    Route::get('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedAgentForm'])->name('edit_agent_disapproval');
+    Route::post('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'resubmitForApproval'])->name('resubmit_for_approval');
     Route::delete('destroy-vendor-logo', [\App\Http\Controllers\ProfileController::class, 'destroyVendorLogo'])->name('destroy_vendor_logo');
 });
 

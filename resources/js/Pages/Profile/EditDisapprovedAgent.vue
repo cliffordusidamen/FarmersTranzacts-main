@@ -8,13 +8,13 @@
                             Re-submission of vendor registration
                         </h4>
 
-                        <p class="text-center" v-if="user_vendor.reject_reason">
+                        <p class="text-center" v-if="agent.reject_reason">
                             <strong>Reason for disapproval:</strong>
-                            {{ user_vendor.reject_reason }}
+                            {{ agent.reject_reason }}
                         </p>
                         <jet-validation-errors class="mb-3" />
 
-                        <form ref="registerForm" id="registerForm">
+                        <form ref="frmAgent" id="frmAgent">
                             <div class="card">
                                 <div class="card-body">
                                     
@@ -25,36 +25,19 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <jet-label class="required" for="store_name" value="Name" />
+                                                <jet-label class="required" for="business_name" value="Name" />
                                                 <jet-input
-                                                    name="store_name"
+                                                    name="business_name"
                                                     max-length="100"
-                                                    id="store_name"
+                                                    id="business_name"
                                                     type="text"
-                                                    v-model="form.store_name"
+                                                    v-model="form.business_name"
                                                     required
                                                 />
-                                                <jet-input-error :message="form.errors.store_name" />
+                                                <jet-input-error :message="form.errors.business_name" />
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <jet-label class="required" for="store_phone" value="Phone" />
-                                                <jet-input
-                                                    name="store_phone"
-                                                    max-length="16"
-                                                    id="store_phone"
-                                                    type="text"
-                                                    v-model="form.store_phone"
-                                                    required
-                                                    autocomplete="store_phone"
-                                                />
-                                                <jet-input-error :message="form.errors.store_phone" />
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <jet-label class="required" for="store_address_line_1" value="Address Line 1" />
@@ -70,6 +53,10 @@
                                                 <jet-input-error :message="form.errors.store_address_line_1" />
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="row">
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <jet-label for="store_address_line_2" value="Address Line 2" />
@@ -84,9 +71,6 @@
                                                 <jet-input-error :message="form.errors.store_address_line_2" />
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <jet-label for="store_city" value="City" />
@@ -101,6 +85,9 @@
                                                 <jet-input-error :message="form.errors.store_city" />
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <jet-label class="required" for="store_state" value="State" />
@@ -114,10 +101,23 @@
                                                 <jet-input-error :message="form.errors.store_state" />
                                             </div>
                                         </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <jet-label class="required" for="spending_volume_id" value="Target spending volume" />
+                                                <custom-select
+                                                    id="spending_volume_id"
+                                                    name="spending_volume_id"
+                                                    v-model="form.spending_volume_id"
+                                                    :options="this.$page.props.spendingVolumes"
+                                                    required
+                                                />
+                                                <jet-input-error :message="form.errors.spending_volume_id" />
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- PRODUCTS CATERGORIES -->
-                                    
                                     <p class="pb-1 mb-2 border-bottom text-muted text-uppercase">
                                         Product categories
                                     </p>
@@ -171,10 +171,12 @@ import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
+import { onMounted, ref } from '@vue/runtime-core';
 
 export default {
     props: [
-        'user_vendor',
+        'agent',
         'app_states',
         'product_categories',
         'product_category_ids',
@@ -191,96 +193,92 @@ export default {
         CustomSelect,
     },
 
-    
-    data() {
-        return {
-            jqueryValidator: null,
-            processing: true,
-            form: this.$inertia.form({
-                store_name: this.user_vendor.name,
-                store_phone: this.user_vendor.phone,
-                store_address_line_1: this.user_vendor.address.line_1,
-                store_address_line_2: this.user_vendor.address.line_2,
-                store_city: this.user_vendor.address.city,
-                store_state: this.user_vendor.address.state_id,
-                product_categories: [],
-            }),
-        };
-    },
+    setup() {
+        const { agent, product_categories, app_states } = usePage().props.value
+        const jqueryValidator = ref(null)
+        const frmAgent = ref(null)
+        const processing = ref(false)
+        const form = useForm({
+            business_name: agent.business_name,
+            spending_volume_id: agent.spending_volume_id,
+            store_address_line_1: agent.address.line_1,
+            store_address_line_2: agent.address.line_2,
+            store_city: agent.address.city,
+            store_state: agent.address.state_id,
+            product_categories: agent.product_categories.map(category => category.id),
+        })
 
-    mounted() {
-        window.initInputTransforms();
-        window.initInputFilters();
+        const submit = () => {
+            processing.value = true;
 
-        this.form.product_categories = [];
-
-        for( const idKey in this.product_category_ids) {
-            this.form.product_categories.push(this.product_category_ids[idKey]);
-        }
-
-        this.jqueryValidator = $(this.$refs.registerForm).validate(
-            this.validationConfig()
-        );
-    },
-    
-    methods: {
-        submit() {
-            this.processing = true;
-
-            this.form.post(this.route("profile.update_vendor_profile"), {
+            form.post(route("profile.resubmit_for_approval"), {
                 preserveState: true,
                 onFinish: () => {
-                    this.processing = false;
+                    processing.value = false;
                 },
             });
-        }, // [end] submit()
+        }
 
-        validationConfig() {
-            const vueObj = this;
+        const nameValidation = {
+            required: true,
+            minlength: 3,
+            maxlength: 25,
+        };
 
-            const nameValidation = {
-                required: true,
-                minlength: 3,
-                maxlength: 25,
-            };
-
-            return {
-                submitHandler() {
-                    vueObj.$refs.registerForm.classList.add("was-validated");
-                    vueObj.submit();
+        const validationConfig =  {
+            submitHandler() {
+                frmAgent.value.classList.add("was-validated");
+                submit();
+            },
+            rules: {
+                business_name: { ...nameValidation },
+                store_phone: {
+                    required: true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength: 16,
                 },
-                rules: {
-                    store_name: { ...nameValidation },
-                    store_phone: {
-                        required: true,
-                        digits: true,
-                        minlength: 11,
-                        maxlength: 16,
-                    },
-                    store_address_line_1: {
-                        required: true,
-                        minlength: 5,
-                    },
-                    store_address_line_2: {
-                        required: false,
-                        minlength: 5,
-                    },
-                    store_city: {
-                        required: false,
-                        minlength: 5,
-                    },
-                    store_state: 'required',
-                    'product_categories[]': {
-                        required: true,
-                        rangelength: [1, vueObj.product_categories.length]
-                    }
+                store_address_line_1: {
+                    required: true,
+                    minlength: 5,
                 },
+                store_address_line_2: {
+                    required: false,
+                    minlength: 5,
+                },
+                store_city: {
+                    required: false,
+                    minlength: 5,
+                },
+                store_state: 'required',
+                spending_volume_id: 'required',
+                'product_categories[]': {
+                    required: true,
+                    rangelength: [1, product_categories.length]
+                }
+            },
 
-                messages: {
-                    'product_categories[]': 'Select at least one(1) product category',
-                },
-            };
-        }, // [end] validationConfig()
-    },
+            messages: {
+                'product_categories[]': 'Select at least one(1) product category',
+            },
+        }
+
+        onMounted(() => {
+            agent.product_categories.forEach(category => {
+                form.product_categories.push(category.id)
+            })
+
+            jqueryValidator.value = $(frmAgent.value).validate(validationConfig)
+        })
+
+        return {
+            agent,
+            product_categories,
+            app_states,
+            frmAgent,
+            form,
+        }
+
+    }
 }
 </script>

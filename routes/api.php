@@ -80,6 +80,7 @@ Route::prefix('users')->group(function() {
     Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
     Route::get('add-staff', [\App\Http\Controllers\UserController::class, 'addStaff']);
     Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);
+    Route::post('/change-agent-status/{id}', [\App\Http\Controllers\AgentController::class, 'changeStatus']);
 });
 Route::apiResource('users', \App\Http\Controllers\UserController::class)->only([
     'show', 'update', 'destroy',

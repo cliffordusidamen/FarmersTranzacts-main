@@ -4,6 +4,7 @@
 
     <main class="main">
       <jet-banner />
+      <pending-agent-banner />
       <slot></slot>
     </main>
 
@@ -23,6 +24,7 @@ import JetNavLink from "@/Jetstream/NavLink";
 import NavigationTop from "@/Components/NavigationTop.vue";
 import NavMobile from "@/Components/NavMobile";
 import AppFooter from "@/Components/AppFooter";
+import PendingAgentBanner from "@/Components/PendingAgentBanner.vue";
 
 export default {
   components: {
@@ -36,6 +38,7 @@ export default {
     NavigationTop,
     NavMobile,
     AppFooter,
+    PendingAgentBanner,
   },
 
   props: {

@@ -153,6 +153,19 @@ if (!function_exists('userIsAdminDesignation')) {
     }
 }
 
+if (!function_exists('authUserIsAgent')) {
+
+    /**
+     * Check if authenticated user is agent
+     * 
+     * @return bool
+     */
+    function authUserIsAgent(): bool
+    {
+        return auth()->check() && auth()->user()->designation_id && auth()->user()->designation_id == Designation::AGENT_ID;
+    }
+}
+
 if (!function_exists('authUserIsShopper')) {
 
     /**

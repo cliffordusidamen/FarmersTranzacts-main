@@ -1,9 +1,9 @@
 <template>
     <app-layout>
         <page-header :title="'Become an agent'" />
-
+        <div class="container">
             <div class="row justify-content-center mt-4">
-                <div class="col-md-8">
+                <div class="col-md-8 mx-4">
                     <jet-validation-errors class="mb-3" />
 
                     <form ref="registerForm" id="registerForm">
@@ -286,6 +286,7 @@
                     </form>
                 </div>
             </div>
+        </div>
     </app-layout>
 </template>
 

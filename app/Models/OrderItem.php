@@ -122,7 +122,8 @@ class OrderItem extends Model
     public function scopeRankProducts(Builder $query): Builder
     {
         return $query->groupBy('product_id')
-            ->orderBy('total_orders', 'desc')
+            ->orderByDesc('total_orders')
+            ->orderByDesc('sum_quantity')
             ->addSelect(
                 '*',
                 'product_id',

@@ -21,11 +21,13 @@
                 :disabled="processing"
             >
                 <span class="text-white">
-                    {{
-                        processing
-                            ? 'processing'
-                            : (isInCart ? 'remove from cart' : 'add to cart')
-                    }}
+                    <span v-if="processing">processing</span>
+                    <span v-else-if="isInCart">
+                        remove <span class="d-none d-sm-inline">from cart</span>
+                    </span>
+                    <span v-else>
+                        add <span class="d-none d-sm-inline">to cart</span>
+                    </span>
                 </span>
             </button>
         </toggles-delivery-state-modal>

@@ -94,8 +94,7 @@ class HandleFrontendAppRequests
             ->paginate(5)
             ->toArray();
 
-        $pendingOrders = \App\Models\Order::notCancelledOrReturned()
-            ->delivered(false)
+        $pendingOrders = \App\Models\Order::pending()
             ->with([
                 'user',
                 'address',

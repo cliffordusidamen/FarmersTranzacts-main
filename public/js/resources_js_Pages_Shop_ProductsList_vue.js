@@ -1454,6 +1454,35 @@ var _hoisted_2 = ["onClick", "disabled"];
 var _hoisted_3 = {
   "class": "text-white"
 };
+var _hoisted_4 = {
+  key: 0
+};
+var _hoisted_5 = {
+  key: 1
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" remove ");
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "d-none d-sm-inline"
+}, "from cart", -1
+/* HOISTED */
+);
+
+var _hoisted_8 = [_hoisted_6, _hoisted_7];
+var _hoisted_9 = {
+  key: 2
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" add ");
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "d-none d-sm-inline"
+}, "to cart", -1
+/* HOISTED */
+);
+
+var _hoisted_12 = [_hoisted_10, _hoisted_11];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_toggles_delivery_state_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("toggles-delivery-state-modal");
 
@@ -1476,9 +1505,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return !((_$setup$cart = $setup.cart) !== null && _$setup$cart !== void 0 && (_$setup$cart$state = _$setup$cart.state) !== null && _$setup$cart$state !== void 0 && _$setup$cart$state.id) ? slotProps.showModal() : $setup.updateCart();
         },
         disabled: $setup.processing
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.processing ? 'processing' : $setup.isInCart ? 'remove from cart' : 'add to cart'), 1
-      /* TEXT */
-      )], 10
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, [$setup.processing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, "processing")) : $setup.isInCart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, _hoisted_8)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, _hoisted_12))])], 10
       /* CLASS, PROPS */
       , _hoisted_2)];
     }),

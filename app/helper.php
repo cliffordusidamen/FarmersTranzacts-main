@@ -363,3 +363,33 @@ if (!function_exists('spaceCamelCase')) {
         return $lowerCase ? strtolower($spaced) : $spaced;
     }
 }
+
+
+if (!function_exists('shortenNumber')) {
+    /**
+     * Shorten number, with letters
+     * eg 5300 = 5.3k
+     * 
+     * @param  float  $number
+     * @param  int  $decimalPlaces
+     * @return string
+     */
+    function shortenNumber(float $number, int $decimalPlaces = 1)
+    {
+        $billion = 1_000_000_000;
+        $million = 1_000_000;
+        if ($number >= $billion) {
+            return (round($number/$billion, $decimalPlaces)) . 'B';
+        }
+
+        if ($number >= $million) {
+            return (round($number/$million, $decimalPlaces)) . 'M';
+        }
+
+        if ($number >= 1000) {
+            return (round($number/1000, $decimalPlaces)) . 'k';
+        }
+
+        return $number;
+    }
+}

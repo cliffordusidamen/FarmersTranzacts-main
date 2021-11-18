@@ -21,6 +21,17 @@ trait Deliverable
     }
 
     /**
+     * Pending delivery status
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('delivery_status_id', DeliveryStatus::PENDING_ID);
+    }
+
+    /**
      * Not cancelled
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query

@@ -169,21 +169,38 @@ class DashboardController extends Controller
      */
     public function _agent()
     {
-        // TODO: get total amount spent by agent for past 8 months
         $spendingTrend = VendorOrder::getUserSpendingTrend(
             8, request()->user()->id);
+
+        $currMonthSpending = $spendingTrend[carbon_ng()->format('M Y')];
+        $prevMonthSpending = $spendingTrend[
+            carbon_ng()->subtract('1 month')->format('M Y')
+        ];
+        $spendingDifference =
+            $currMonthSpending->month_total_amount - $prevMonthSpending->month_total_amount;
 
         $mostOrderedProduct = OrderItem::ofDeliveredVendorOrders()
             ->thisMonth()
             ->with('product', 'product.vendor')
             ->rankProducts()
-            ->take(5)
-            ->get();
+            ->first();
+            
+        $preferredVendor = VendorOrder::delivered()
+            ->thisMonth()
+            ->with('vendor')
+            ->orderByDesc('total_orders')
+            ->orderByDesc('total_amount')
+            ->groupBy('vendor_id')
+            ->addSelect(
+                '*',
+                DB::raw('SUM(total_amount) as total_amount'),
+                DB::raw('COUNT(id) as total_orders'),
+            )
+            ->first();
 
-        // TODO: get most ordered product
-        // TODO: get most patronized seller
         return Inertia::render('Dashboards/AgentDashboard', compact(
-            'spendingTrend'
+            'spendingTrend', 'spendingDifference', 'mostOrderedProduct',
+            'preferredVendor', 'currMonthSpending'
         ));
     }
 }

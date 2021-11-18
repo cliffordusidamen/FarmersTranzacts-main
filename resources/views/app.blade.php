@@ -9,6 +9,19 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <!-- ios support -->
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-72x72.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-96x96.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-128x128.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-144x144.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-152x152.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-192x192.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-384x384.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-512x512.png') }}" />
+    <meta name="apple-mobile-web-app-status-bar" content="#046400" />
+    <meta name="theme-color" content="#381af6" />
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/molla-template/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/molla-template/images/icons/favicon-32x32.png">

@@ -17,6 +17,7 @@ const jsFiles = [
 ];
 
 mix.js(jsFiles, 'public/js/')
+    .js('resources/js/sw.js', 'public/sw.js')
     .vue()
     .styles([
         'resources/css/app.css',

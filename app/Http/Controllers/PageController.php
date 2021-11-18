@@ -12,6 +12,14 @@ use Inertia\Inertia;
 class PageController extends Controller
 {
     /**
+     * Create instance
+     */
+    public function __construct()
+    {
+        $this->middleware(['guest'])->only('becomeAnAgent');
+    }
+
+    /**
      * Get content of the about page from the database
      * 
      * @return  \Inertia\Response

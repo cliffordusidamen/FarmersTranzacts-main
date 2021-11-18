@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AgentSpendingVolume;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
             DeliveryStatusSeeder::class,
             AppSettingSeeder::class,
             PageSeeder::class,
+            AgentSpendingVolumeSeeder::class,
         ]);
 
         \App\Models\User::factory([

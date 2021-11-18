@@ -165,4 +165,39 @@ class VendorOrder extends Model
         return $monthSales;
     }
 
+    /**
+     * Get the sales for the last 8 months
+     * 
+     * @param  int  $numberOfMonths
+     * @param  int  $userId
+     * @return array
+     */
+    public static function getUserSpendingTrend(
+        int $numberOfMonths = 8,
+        int $userId
+    ): array {
+        $numberOfMonthsToUse = $numberOfMonths < 6 || $numberOfMonths > 12
+            ? 6 : $numberOfMonths;
+
+        $monthSales = [];
+
+        for ($i = $numberOfMonthsToUse - 1; $i >= 0; $i--) {
+            $month = date('M Y', strtotime("-$i month"));
+            $query = VendorOrder::delivered();
+
+            if ($userId) {
+                $query->where('user_id', $userId);
+            }
+
+            $monthSales[$month] = $query
+                ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
+                ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
+                ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))
+                ->addSelect(DB::raw('COUNT(id) as total_orders'))
+                ->first();
+        }
+
+        return $monthSales;
+    }
+
 }

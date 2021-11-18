@@ -41,6 +41,10 @@ class DashboardController extends Controller
             return $this->_vendor();
         }
 
+        if (authUserIsAgent()) {
+            return $this->_agent();
+        }
+
         return $this->_admin();
     }
 
@@ -156,6 +160,30 @@ class DashboardController extends Controller
         return Inertia::render('Dashboards/AdminDashboard', compact(
             'showCategories'
         ));
+    }
 
+    /**
+     * Display dashboard for agent
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function _agent()
+    {
+        // TODO: get total amount spent by agent for past 8 months
+        $spendingTrend = VendorOrder::getUserSpendingTrend(
+            8, request()->user()->id);
+
+        $mostOrderedProduct = OrderItem::ofDeliveredVendorOrders()
+            ->thisMonth()
+            ->with('product', 'product.vendor')
+            ->rankProducts()
+            ->take(5)
+            ->get();
+
+        // TODO: get most ordered product
+        // TODO: get most patronized seller
+        return Inertia::render('Dashboards/AgentDashboard', compact(
+            'spendingTrend'
+        ));
     }
 }

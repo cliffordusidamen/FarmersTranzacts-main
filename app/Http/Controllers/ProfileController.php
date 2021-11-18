@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware(['auth:sanctum', 'verified', 'frontend']);
+        $this->middleware(['auth:sanctum', 'verified', 'frontend']);
 
         // $this->middleware('auth.vendor')->only([
         //     'showEditDisapprovedVendorForm',

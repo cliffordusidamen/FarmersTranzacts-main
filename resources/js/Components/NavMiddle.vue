@@ -137,6 +137,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right user_nav_menu px-0">
                             <inertia-link v-if="isAuthenticated"  :href="route('profile.show')" class="dropdown-item">Profile</inertia-link>
+                            <inertia-link v-if="isAuthenticated && this.$page.props?.userAgent?.data?.id"  :href="route('dashboard')" class="dropdown-item">Dashboard</inertia-link>
                             <inertia-link v-if="isAuthenticated"  :href="route('my_orders.index')" class="dropdown-item">My Orders</inertia-link>
                             <inertia-link v-if="this.$page.props.userIsVendor"  :href="route('profile.edit_vendor_details')" class="dropdown-item">Vendor Details</inertia-link>
                             <a v-if="isAuthenticated" href="#" class="dropdown-item" @click.prevent="logout">Log out</a>

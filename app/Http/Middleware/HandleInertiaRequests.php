@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\AgentResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,7 +39,9 @@ class HandleInertiaRequests extends Middleware
     {
         $userAgent = request()->user() ? request()->user()->agent : null;
         if ($userAgent) {
-            $userAgent->load('spendingVolume');
+            $userAgent->load('spendingVolume')
+                ->append('is_approved')
+                ->append('is_disapproved');
         }
 
         return array_merge(parent::share($request), [
@@ -46,7 +49,7 @@ class HandleInertiaRequests extends Middleware
             'permissions' => \App\Models\Designation::getUserPermissions(),
             'userIsVendor' => authUserIsVendor(),
             'config_app' => config('app'),
-            'userAgent' => $userAgent,
+            'userAgent' => !$userAgent ? null : new AgentResource($userAgent),
             'cart' => $request->session()->get('cart'),
             'app_settings' => \App\Models\AppSetting::first(),
             'states' => \App\Models\State::pluck('state_name', 'id'),

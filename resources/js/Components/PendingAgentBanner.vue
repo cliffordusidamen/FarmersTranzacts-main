@@ -1,6 +1,6 @@
 <template>
     <div
-      v-if="!isEditAgentPage && user.email_verified_at && (isPendingAgentApproval || isDisapprovedAgent)"
+      v-if="showBanner && user.email_verified_at && (isPendingAgentApproval || isDisapprovedAgent)"
       :class="{
           'alert alert-dismissible': true,
           'alert-secondary': isPendingAgentApproval,
@@ -20,13 +20,13 @@
 
                 <p class="text-white" v-else>
                     Your registration as agent was not approved!
-                    <Link
-                        v-if="!isEditAgentPage"
-                        :href="route('profile.edit_agent_disapproval')"
+                    <inertia-link
+                        v-if="!showBanner"
+                        :href="route('dashboard')"
                         class="btn btn-primary btn-link"
                     >
                         VIEW DETAILS
-                    </Link>
+                    </inertia-link>
                 </p>
             </div>
         </div>
@@ -48,15 +48,20 @@ export default {
 
     setup() {
         const {user, userAgent, url} = usePage().props.value
-        const isPendingAgentApproval = userAgent.approval_status == 'pending'
-        const isDisapprovedAgent = userAgent.approval_status == 'disapproved'
-        const isEditAgentPage = usePage().url.value == '/profile/edit-agent-disapproval'
+        const isPendingAgentApproval = userAgent && userAgent?.approval_status == 'pending'
+        const isDisapprovedAgent = userAgent && userAgent?.approval_status == 'disapproved'
+        const hideBannerUrls = {
+            '/profile/edit-agent-disapproval': true,
+            '/dashboard': true,
+        }
+        const showBanner = user && userAgent?.data?.id
+            && undefined == hideBannerUrls[usePage().url.value]
 
         return {
             user,
             isPendingAgentApproval,
             isDisapprovedAgent,
-            isEditAgentPage,
+            showBanner,
         }
     },
 }

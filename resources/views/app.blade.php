@@ -23,13 +23,13 @@
     <meta name="theme-color" content="#381af6" />
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/molla-template/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/molla-template/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/molla-template/images/icons/favicon-16x16.png">
-    <link rel="mask-icon" href="/molla-template/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="/molla-template/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/icons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/icons/favicon-16x16.png') }}">
+    <link rel="mask-icon" href="{{ asset('img/icons/safari-pinned-tab.svg') }}" color="#666666">
+    <link rel="shortcut icon" href="{{ asset('img/icons/favicon.ico') }}">
+    <meta name="apple-mobile-web-app-title" content="{{ config('app.name') }}">
+    <meta name="application-name" content="{{ config('app.name') }}">
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="msapplication-config" content="/molla-template/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductCategory extends Model
@@ -21,6 +23,7 @@ class ProductCategory extends Model
         'slug',
         'description',
         'is_active',
+        'display_picture_path',
     ];
 
     /**
@@ -84,6 +87,7 @@ class ProductCategory extends Model
             'name' => ['required', 'min:3', 'max:255', $uniqueRule, ],
             'description' => ['nullable', 'min:15', 'max:255', ],
             'is_active' => ['sometimes', 'boolean'],
+            'display_picture' => ['sometimes', 'nullable', 'mimes:png,jpg', 'max:5000'],
         ];
     }
 
@@ -95,5 +99,51 @@ class ProductCategory extends Model
     public static function getPermissions(): array
     {
         return defaultModelPermissions();
+    }
+
+    /**
+     * Get the URL to the display picture.
+     *
+     * @return string
+     */
+    public function getDisplayPictureAttribute()
+    {
+        return $this->display_picture_path
+            ? Storage::disk()->url($this->display_picture_path)
+            : '';
+    }
+
+    /**
+     * Add category picture.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $picture
+     * @return bool|string
+     */
+    public function addDisplayPicture(UploadedFile $picture)
+    {
+        $path = false;
+        tap($this->display_picture_path, function ($previous) use ($picture, &$path) {
+            $path =$picture->storePublicly('public/product-category-pictures/');
+            $this->forceFill([
+                'display_picture_path' => $path,
+            ])->save();
+
+            if ($previous) {
+                Storage::disk()->delete($previous);
+            }
+        });
+
+        return $path;
+    }
+
+    /**
+     * Limit categories to ones that have display picture.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasDisplayPicture($query)
+    {
+        return $query->whereNotNull('display_picture_path');
     }
 }

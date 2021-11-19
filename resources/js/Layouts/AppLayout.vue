@@ -4,6 +4,7 @@
 
     <main class="main">
       <jet-banner />
+      <pending-agent-banner v-if="this.$page?.props?.user" />
       <slot></slot>
     </main>
 
@@ -23,6 +24,7 @@ import JetNavLink from "@/Jetstream/NavLink";
 import NavigationTop from "@/Components/NavigationTop.vue";
 import NavMobile from "@/Components/NavMobile";
 import AppFooter from "@/Components/AppFooter";
+import PendingAgentBanner from "@/Components/PendingAgentBanner.vue";
 
 export default {
   components: {
@@ -36,6 +38,7 @@ export default {
     NavigationTop,
     NavMobile,
     AppFooter,
+    PendingAgentBanner,
   },
 
   props: {
@@ -52,21 +55,11 @@ export default {
   },
 
   methods: {
-    switchToTeam(team) {
-      this.$inertia.put(
-        route("current-team.update"),
-        {
-          team_id: team.id,
-        },
-        {
-          preserveState: false,
-        }
-      );
-    },
 
     logout() {
       this.$inertia.post(route("logout"));
     },
+
   },
 
   computed: {

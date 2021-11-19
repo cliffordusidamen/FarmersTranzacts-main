@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductDeliveryCost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -34,5 +35,32 @@ class ProductFactory extends Factory
             'approval_status' => Product::STATUS_APPROVED,
             'maximum_order_quantity' => mt_rand(5, 20),
         ];
+    }
+
+    /**
+     * Setup delivery costs for the product
+     * 
+     * @return static
+     */
+    public function withDeliveryCosts()
+    {
+        $maxQuantity = mt_rand(5, 20);
+
+        $this->state(function(array $attributes) use ($maxQuantity) {
+            return [
+                'maximum_order_quantity' => $maxQuantity,
+            ];
+        });
+
+        return $this->has(
+            ProductDeliveryCost::factory()
+                ->state(function(array $attributes, Product $product) use ($maxQuantity) {
+
+                    return [
+                        'maximum_quantity' => $maxQuantity,
+                    ];
+                }),
+            'deliveryCosts'
+        );
     }
 }

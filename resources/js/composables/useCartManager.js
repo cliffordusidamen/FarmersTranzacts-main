@@ -2,6 +2,7 @@
 import { ref } from '@vue/reactivity'
 import { usePage } from '@inertiajs/inertia-vue3'
 import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
 
 export default function useCartManager() {
     
@@ -18,36 +19,23 @@ export default function useCartManager() {
 
     const addItem = (product, quantity) => {
         processing.value = true
-
-        axios.post(route('shopping_cart.add_item'), {
+        const data = {
             'product_id': product.id,
             'quantity': undefined == quantity || !Number(quantity) ? 1 : quantity,
-        })
-        .then(() => {
-            window.location.reload()
-        })
-        .catch(errors => {
-            console.log(`Error while adding item`, {
-                product,
-                error: errors,
-            })
-            processing.value = false
+        }
+
+        Inertia.post(route('shopping_cart.add_item'), data, {
+            onFinish: () => window.location.reload(),
         })
     }
 
     const removeItem = (product) => {
         processing.value = true
 
-        axios.post(route('shopping_cart.remove_item'), { 'product_id': product.id })
-        .then(() => {
-            window.location.reload()
-        })
-        .catch(errors => {
-            console.log(`Error while removing item`, {
-                product,
-                error: errors,
-            })
-            processing.value = false
+        console.log('Removeing theitem form the cart', product.id)
+
+        Inertia.post(route('shopping_cart.remove_item'), { 'product_id': product.id }, {
+            onFinish: () => window.location.reload(),
         })
     }
 

@@ -16,19 +16,38 @@ class CreateVendorOrdersTable extends Migration
     {
         Schema::create('vendor_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('reference_number', 50)->unique();
+            $table->unsignedInteger('vendor_id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedDecimal('items_amount', 15)->nullable();
             $table->unsignedDecimal('delivery_amount', 15)->default(0);
+            $table->unsignedTinyInteger('delivery_days')->default(0);
             $table->unsignedDecimal('total_amount', 15);
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->string('transit_note', 1000)->nullable();
+            $table->string('delivery_note', 1000)->nullable();
+            $table->string('cancel_reason', 1000)->nullable();
             $table->unsignedSmallInteger('delivery_status_id')->default(DeliveryStatus::PENDING_ID);
             $table->timestamps();
+
+            $table->foreign('vendor_id')
+                ->references('id')
+                ->on('vendors')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('set null');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('addresses')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->foreign('order_id')
                 ->references('id')

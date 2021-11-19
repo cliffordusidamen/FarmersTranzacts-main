@@ -21,8 +21,24 @@ class VendorPackagingFactory extends Factory
      */
     public function definition()
     {
+        $packages = [
+            'litre',
+            'kilogram',
+            'gram',
+            'cl',
+            'box',
+            'carton',
+            'cup',
+            'ton',
+            'bowl',
+            'wrap',
+            'pack',
+            'bottle',
+            'yard',
+            'roll',
+        ];
         return [
-            'name' => $this->faker->word(),
+            'name' => $packages[mt_rand(0, 13)],
             'description' => $this->faker->sentence(),
         ];
     }

@@ -20,9 +20,10 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedInteger('quantity');
             $table->unsignedDecimal('unit_amount', 15);
-            $table->unsignedDecimal('items_amount', 15);
+            $table->unsignedDecimal('total_amount', 15);
             $table->unsignedDecimal('delivery_amount')->default(0);
-            $table->unsignedDecimal('grand_total_amount')->nullable();
+            $table->unsignedTinyInteger('delivery_days')->default(0);
+            $table->unsignedDecimal('grand_total_amount', 15)->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')

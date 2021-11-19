@@ -40,11 +40,13 @@ class Vendor extends Model
         'slug',
         'phone',
         'logo_image_path',
+        'cover_picture_path',
         'ownership_type',
         'is_approved',
         'reject_reason',
         'entity_country_id',
         'shipping_country_id',
+        'about',
     ];
 
     /**
@@ -101,6 +103,16 @@ class Vendor extends Model
     public function wallet(): HasOne
     {
         return $this->hasOne(VendorWallet::class, 'vendor_id');
+    }
+
+    /**
+     * Has many orders
+     * 
+     * @return  \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(VendorOrder::class, 'vendor_id');
     }
 
     /**
@@ -172,11 +184,12 @@ class Vendor extends Model
      * Update the user's profile photo.
      *
      * @param  \Illuminate\Http\UploadedFile  $photo
-     * @return void
+     * @return bool
      */
-    public function updateLogo(UploadedFile $photo)
+    public function updateLogo(UploadedFile $photo): bool
     {
-        tap($this->logo_image_path, function ($previous) use ($photo) {
+        $saved = false;
+        tap($this->logo_image_path, function ($previous) use ($photo, &$saved) {
             $this->forceFill([
                 'logo_image_path' => $photo->storePublicly(
                     self::LOGO_STORAGE_PATH
@@ -186,7 +199,10 @@ class Vendor extends Model
             if ($previous) {
                 Storage::disk()->delete($previous);
             }
+            $saved = true;
         });
+
+        return $saved;
     }
 
     /**
@@ -215,7 +231,7 @@ class Vendor extends Model
     {
         return $this->logo_image_path
                     ? Storage::disk()->url($this->logo_image_path)
-                    : $this->defaultLogoUrl();
+                    : null;
     }
 
     /**
@@ -345,46 +361,56 @@ class Vendor extends Model
     }
 
     /**
-     * Get the orders stats for the current month
-     * 
-     * @return array
+     * Update the user's profile photo.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @return bool
      */
-    public function getCurrentMonthOrdersAttribute(): array
+    public function updateCoverPicture(UploadedFile $photo): bool
     {
-        // determine total number of orders for the current month
-        // $totalOrders = $this->
-        //  determine the total amount for the orders for the current month, where not cancelled/returned
-        $orders = Order::whereHas('items', function(Builder $query) {
-            return $query->whereIn('product_id', function(QueryBuilder $query) {
-                return $query->from('products')
-                    ->where('vendor_id', $this->id)
-                    ->select('id');
-            });
-        })
-        ->orderByDesc('created_at')
-        ->notCancelledOrReturned()
-        ->selectRaw('*')
-        ->selectRaw('EXTRACT(YEAR_MONTH FROM created_at) as the_year_month')
-        ->selectRaw('count(id) as num_orders')
-        ->selectRaw('sum(total_amount) as total_amount')
-        ->groupByRaw('the_year_month')
-        ->take(1)
-        ->get();
+        $saved = false;
+        tap($this->cover_picture_path, function ($previous) use ($photo, &$saved) {
+            $this->forceFill([
+                'cover_picture_path' => $photo->storePublicly(
+                    self::LOGO_STORAGE_PATH
+                ),
+            ])->save();
 
-        dd($orders);
+            if ($previous) {
+                Storage::disk()->delete($previous);
+            }
+            $saved = true;
+        });
+
+        return $saved;
+    }
+
+    /**
+     * Delete the user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteCoverPicture()
+    {
+        if ($this->cover_picture_path) {
+            Storage::disk()->delete($this->cover_picture_path);
+        }
 
 
-        // get total price of items where product belongs to vendor and the order of the items is not cancelled/returned
-        // $totalOrders = OrderItem::whereIn('product_id', function(QueryBuilder $query) {
-        //     return $query->from('products')
-        //         ->where('vendor_id', $this->id)
-        //         ->select('id');
-        // })
-        // ->whereIn('order_id', function(QueryBuilder $query) {
-        //     return $query->from('products')
-        //         ->where('vendor_id', $this->id)
-        //         ->select('id');
-        // })
-        return [];
+        $this->forceFill([
+            'cover_picture_path' => null,
+        ])->save();
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     *
+     * @return string
+     */
+    public function getCoverPictureUrlAttribute()
+    {
+        return $this->cover_picture_path
+                    ? Storage::disk()->url($this->cover_picture_path)
+                    : null;
     }
 }

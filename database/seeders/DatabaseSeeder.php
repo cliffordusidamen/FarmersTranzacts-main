@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AgentSpendingVolume;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,10 +24,12 @@ class DatabaseSeeder extends Seeder
             DeliveryStatusSeeder::class,
             AppSettingSeeder::class,
             PageSeeder::class,
+            AgentSpendingVolumeSeeder::class,
         ]);
 
         \App\Models\User::factory([
-            'email' => 'admin@website.com',
+            'email' => 'admin@farmerxpress.com',
+            'password' => 'admin111',
         ])->isSuperAdmin()->create();
     }
 }

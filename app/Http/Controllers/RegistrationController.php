@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AgentRegistered;
 use App\Http\Requests\StoreShopperRequest;
+use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\StoreVendorRequest;
 use App\Models\Address;
+use App\Models\AgentSpendingVolume;
 use App\Models\Country;
 use App\Models\Designation;
 use App\Models\ProductCategory;
@@ -12,7 +15,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Models\User;
-use App\Models\Vendor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 
@@ -113,6 +115,86 @@ class RegistrationController extends Controller
 
             $user->vendors()->attach($vendor);
 
+        });
+
+        if ($request->wantsJson()) {
+            if (!$user) {
+                return response()->json([
+                    'failed' => true,
+                ]);
+            }
+
+            event(new Registered($user));
+            return response()->json(compact('user'));
+        }
+
+        if (!$user) {
+            flashMessage('warning', 'Registration failed! Please, try again.');
+            return back()->withInput();
+        }
+
+        event(new Registered($user));
+        flashMessage('success', 'Registration successful! Please, check you email in click on the verification link.');
+        return back();
+    }
+
+    /**
+     * Show the form for registering as agent
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function showAgentForm()
+    {
+        $app_states = State::pluck('state_name', 'id');
+
+        $product_categories = ProductCategory::with('subcategories')->get();
+        $countries = Country::pluck('name', 'id');
+        $spendingVolumes = AgentSpendingVolume::get()->keyBy('id')->map(function ($volume) {
+            return number_format($volume->minimum_amount)
+                . ($volume->maximum_amount
+                    ? " - " . number_format($volume->maximum_amount)
+                    : '+');
+        });
+
+        $viewData = compact('app_states', 'product_categories', 'countries', 'spendingVolumes');
+
+        if (request()->wantsJson()) {
+            return response()->json($viewData);
+        }
+        return Inertia::render('Registration/Agent', $viewData);
+    }
+
+    /**
+     * Save the vendor information to the database
+     * 
+     * @param \App\Http\Requests\StoreAgentRequest  $request
+     * @return  \Illuminate\Http\Response
+     */
+    public function saveAgent(StoreAgentRequest $request)
+    {
+        $user = false;
+        DB::transaction(function() use ($request, &$user) {
+
+            $userData = $request->only([
+                'first_name', 'last_name', 'phone', 'email', 'password',
+            ]);
+            $userData['designation_id'] = Designation::AGENT_ID;
+            $user = User::create($userData);
+
+            $address = Address::create([
+                'line_1' => $request->input('store_address_line_1'),
+                'line_2' => $request->input('store_address_line_2'),
+                'city' => $request->input('store_city'),
+                'state_id' => $request->input('store_state'),
+            ]);
+
+            $agent = $user->agent()->create([
+                'business_name' => $request->business_name,
+                'address_id' => $address->id,
+                'spending_volume_id' => $request->spending_volume_id,
+            ]);
+
+            $agent->productCategories()->attach($request->product_categories);
         });
 
         if ($request->wantsJson()) {

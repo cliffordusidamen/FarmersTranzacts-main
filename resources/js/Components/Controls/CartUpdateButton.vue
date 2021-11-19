@@ -1,24 +1,36 @@
 <template>
     <form class="d-block w-100">
-        <button
-            href="#"
-            :class="{
-                'btn-product btn-block btn-cart text-white': true,
-                'bg-primary bg-primary': !isInCart && !processing,
-                'bg-danger border-danger': isInCart && !processing,
-                'bg-secondary border-secondary': processing,
-            }"
-            @click.prevent="updateCart()"
-            :disabled="processing"
+        <toggles-delivery-state-modal
+            :id="`addToCart_${product.id}`"
+            :product="product"
+            v-slot="slotProps"
         >
-            <span class="text-white">
-                {{
-                    processing
-                        ? 'processing'
-                        : (isInCart ? 'remove from cart' : 'add to cart')
-                }}
-            </span>
-        </button>
+            <button
+                type="button"
+                :class="{
+                    'btn-product btn-block btn-cart text-white': true,
+                    'bg-primary bg-primary': !isInCart && !processing,
+                    'bg-danger border-danger': isInCart && !processing,
+                    'bg-secondary border-secondary': processing,
+                }"
+                @click="
+                    !cart?.state?.id
+                        ? slotProps.showModal()
+                        : updateCart()
+                "
+                :disabled="processing"
+            >
+                <span class="text-white">
+                    <span v-if="processing">processing</span>
+                    <span v-else-if="isInCart">
+                        remove <span class="d-none d-sm-inline">from cart</span>
+                    </span>
+                    <span v-else>
+                        add <span class="d-none d-sm-inline">to cart</span>
+                    </span>
+                </span>
+            </button>
+        </toggles-delivery-state-modal>
     </form>
 </template>
 
@@ -26,8 +38,16 @@
 import { ref } from '@vue/reactivity'
 import { usePage } from '@inertiajs/inertia-vue3'
 import axios from 'axios'
+import Button from '../../Jetstream/Button.vue'
+import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
+import { Inertia } from '@inertiajs/inertia'
+
 
 export default {
+    components: {
+        Button,
+        TogglesDeliveryStateModal,
+    },
     props: {
         product: {
             required: true,
@@ -40,6 +60,8 @@ export default {
         const processing = ref(false)
         const { cart } = usePage().props.value
 
+        console.log('cart', cart)
+
         const isInCart = cart?.items && undefined != cart?.items[product.id]
 
         const targetRoute = isInCart
@@ -49,24 +71,24 @@ export default {
         const updateCart = () => {
             processing.value = true
 
-            axios.post(targetRoute, { 'product_id': product.id })
-            .then(() => {
-                window.location.reload()
-            })
-            .catch(errors => {
-                console.log(`Error while ${isInCart ? 'removing' : 'adding'} item`, {
-                    product,
-                    error: errors,
-                })
-                processing.value = false
+            Inertia.post(targetRoute, { 'product_id': product.id }, {
+                onFinish: () => window.location.reload(),
+                onError: errors => {
+                    console.log(`Error while ${isInCart ? 'removing' : 'adding'} item`, {
+                        product,
+                        error: errors,
+                    })
+                    processing.value = false
+                },
             })
 
         }
 
         return  {
+            cart,
             isInCart,
             updateCart,
-            processing
+            processing,
         }
     },
 }

@@ -6,9 +6,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close" @click="toggleMobileMenu"><i class="icon-close"></i></span>
             
-            <form action="#" method="get" class="mobile-search">
+            <form @submit.prevent="submitMobileSearch" class="mobile-search">
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" v-model="form.q" placeholder="Search in..." />
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
 
@@ -24,7 +24,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
                     <nav class="mobile-nav">
-                        <ul class="mobile-menu">
+                        <ul class="mobile-menu"  style="font-weight: 500;">
                             <li class="active">
                                 <inertia-link @click="toggleMobileMenu" :href="route('home')">Home</inertia-link>
                             </li>
@@ -42,7 +42,7 @@
                 </div><!-- .End .tab-pane -->
                 <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
                     <nav class="mobile-cats-nav">
-                        <ul class="mobile-cats-menu">
+                        <ul class="mobile-cats-menu list-unstyled" style="font-weight: 500;">
                             <li
                                 v-for="category in $page.props.product_categories"
                                 :key="category.id"
@@ -104,30 +104,98 @@
             </div><!-- End .tab-content -->
 
             <div class="social-icons">
-                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+                <a
+                    v-if="social_facebook"
+                    :href="`https://facebook.com/${social_facebook}`"
+                    class="social-icon"
+                    title="Connect with us on Facebook"
+                    target="_blank"
+                >
+                    <i class="icon-facebook-f"></i>
+                </a>
+
+                <a
+                    v-if="social_twitter"
+                    :href="`https://twitter.com/@${social_twitter}`"
+                    class="social-icon"
+                    title="Follow us on Twitter"
+                    target="_blank"
+                >
+                    <i class="icon-twitter"></i>
+                </a>
+
+                <a
+                    v-if="social_instagram"
+                    :href="`https://instagram.com/@${social_instagram}`"
+                    class="social-icon"
+                    title="Follow us on Instagram"
+                    target="_blank"
+                >
+                    <i class="icon-instagram"></i>
+                </a>
+
+                <a
+                    v-if="social_youtube"
+                    :href="`https://youtube.com/@${social_youtube}`"
+                    class="social-icon"
+                    title="Subscribe to our Youtube channel"
+                    target="_blank"
+                >
+                    <i class="icon-youtube"></i>
+                </a>
             </div><!-- End .social-icons -->
         </div><!-- End .mobile-menu-wrapper -->
     </div><!-- End .mobile-menu-container -->
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
+import useAppSettings from '@/composables/useAppSettings';
+
 export default {
-    mounted() {
-        $('ul.mobile-menu li a').on('click', function(event) {
-            if ($(this).parent('li').find('ul').length > 0) {
-                event.preventDefault()
-                $(this).parent('li').toggleClass('open');
-                $(this).parent('li').find('ul').eq(0).toggleClass('d-block');
-            }
-        });
-    },
-    methods: {
-        toggleMobileMenu() {
+    setup() {
+
+        onMounted(() => {
+            $('ul.mobile-menu li a').on('click', function(event) {
+                if ($(this).parent('li').find('ul').length > 0) {
+                    event.preventDefault()
+                    $(this).parent('li').toggleClass('open');
+                    $(this).parent('li').find('ul').eq(0).toggleClass('d-block');
+                }
+            });
+        })
+        const toggleMobileMenu = () => {
             $('body').eq(0).toggleClass('mmenu-active');
         }
-    }
+
+        const pageProps = usePage().props.value
+
+        const form = useForm({
+            q: pageProps?.rqProductText || '',
+        })
+    
+        const submitMobileSearch = () => {
+            toggleMobileMenu()
+            form.get(route('shop.index'))
+        }
+
+        const {
+            social_facebook,
+            social_youtube,
+            social_instagram,
+            social_twitter,
+        } = useAppSettings()
+
+        return {
+            social_facebook,
+            social_youtube,
+            social_instagram,
+            social_twitter,
+            form,
+            submitMobileSearch,
+            toggleMobileMenu,
+        }
+    },
 }
 </script>

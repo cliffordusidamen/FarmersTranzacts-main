@@ -1,5 +1,5 @@
 <template>
-    <app-layout :show-categories="false">
+    <app-layout :show-categories="true">
         <breadcrumb-default :breadcrumbs="breadcrumbLinks" />
 
         <div class="page-content">
@@ -18,20 +18,21 @@
                                     </figure><!-- End .product-main-image -->
 
                                     <div id="product-zoom-gallery" class="product-image-gallery">
-                                        <a class="product-gallery-item active" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product side">
+                                        <a
+                                            class="product-gallery-item active"
+                                            href="#"
+                                            :data-image="product.feature_image"
+                                        >
+                                            <img :src="product.feature_image" :alt="`Main Picture`">
                                         </a>
-
-                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product cross">
-                                        </a>
-
-                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product with model">
-                                        </a>
-
-                                        <a class="product-gallery-item" href="#" :data-image="product.feature_image" :data-zoom-image="product.feature_image">
-                                            <img :src="product.feature_image" alt="product back">
+                                        <a
+                                            v-for="image in getOtherImages(product.images)"
+                                            :key="image.id"
+                                            class="product-gallery-item"
+                                            href="#"
+                                            :data-image="getImagePath(image.path)"
+                                        >
+                                            <img :src="getImagePath(image.path)" :alt="`Picture`">
                                         </a>
                                     </div><!-- End .product-image-gallery -->
                                 </div><!-- End .row -->
@@ -40,28 +41,24 @@
                         <div class="col-md-6">
                             <div class="product-details mx-3">
                                 <h1 class="product-title">{{ product.name }}</h1>
-                                <div class="product-price">
+                                <div class="product-price text-success">
                                     &#8358;{{ Number(product.price).toLocaleString() }} per {{product.packaging.name}}
                                 </div><!-- End .product-price -->
 
+                                <div class="product-content" v-html="product.description"></div>
                                 <div class="product-content">
-                                    <p>{{ product.description }}</p>
-
-                                </div>
-                               <div class="product-content">
-                                   <h6>Shipping &amp; Returns</h6>
-                                   <p>
-                                       Items will be shipped within xdays.
-                                       Items can only be returned within 30 days of delivery.
-                                   </p>
-                                   <div class="row mt-2">
-                                       <div class="col-sm-6 col-md-5">
+                                    <h6>Delivery</h6>
+                                    <div class="border-top">
+                                        <product-delivery-cost-item :item="item" :product-package="product.packaging.name" v-for="item in product.delivery_costs" :key="item.id" />
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6 col-md-5">
                                             <p>
                                                 <cart-update-button :product="product" />
                                             </p>
 
                                        </div>
-                                   </div>
+                                    </div>
                                 </div>
 
                                 <div class="product-details-footer">
@@ -81,16 +78,20 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
+import ProductDeliveryCostItem from "@/Components/ProductDeliveryCostItem.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: {
         AppLayout,
         BreadcrumbDefault,
         CartUpdateButton,
+        ProductDeliveryCostItem,
     },
     setup() {
         const {product} = usePage().props.value
+        console.log('product', product)
         const breadcrumbLinks = [
             {
                 text: "Shop",
@@ -101,9 +102,59 @@ export default {
             },
         ];
 
+        onMounted(() => {
+            $('#product-zoom').elevateZoom({
+                gallery:'product-zoom-gallery',
+                galleryActiveClass: 'active',
+                zoomType: "outer",
+                cursor: "crosshair",
+                zoomWindowFadeIn: 800,
+                zoomWindowFadeOut: 800,
+                responsive: true
+            });
+
+            // On click change thumbs active item
+            $('.product-gallery-item').on('click', function (e) {
+                $('#product-zoom-gallery').find('a').removeClass('active');
+                $(this).addClass('active');
+
+                e.preventDefault();
+            });
+
+            var ez = $('#product-zoom').data('elevateZoom');
+
+            // Open popup - product images
+            $('#btn-product-gallery').on('click', function (e) {
+                if ( $.fn.magnificPopup ) {
+                    $.magnificPopup.open({
+                        items: ez.getGalleryList(),
+                        type: 'image',
+                        gallery:{
+                            enabled:true
+                        },
+                        fixedContentPos: false,
+                        removalDelay: 600,
+                        closeBtnInside: false
+                    }, 0);
+
+                    e.preventDefault();
+                }
+            });
+        })
+
+        const getImagePath = (path) => {
+            return path.replace(/^(public\/)/, '/storage/')
+        }
+
+        const getOtherImages = (images) => {
+            return images.filter(image => !image.is_featured)
+        }
+
         return {
             breadcrumbLinks,
             product,
+            getImagePath,
+            getOtherImages,
         };
     },
 };

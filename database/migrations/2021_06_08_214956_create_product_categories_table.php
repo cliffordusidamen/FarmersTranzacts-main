@@ -19,6 +19,7 @@ class CreateProductCategoriesTable extends Migration
             $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('display_picture_path', 2048)->nullable();
             $table->timestamps();
         });
     }

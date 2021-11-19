@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCategoryCollection;
+use App\Models\Banner;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +32,18 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        $categoriesWithDisplayPicture = ProductCategory::hasDisplayPicture()
+            ->withCount('products')
+            ->inRandomOrder()
+            ->get();
+
+        $banners = Banner::inRandomOrder()->get();
+        if ($banners->count()) {
+            $banners->each(fn($banner) => (
+                $banner->append('image_url')
+            ));
+        }
+
         return Inertia::render('Home', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -36,6 +51,9 @@ class HomeController extends Controller
             'phpVersion' => PHP_VERSION,
             'showMenu' => false,
             'products' => $products,
+            'banners' => $banners,
+            'categoriesWithDisplayPicture'
+                => new ProductCategoryCollection($categoriesWithDisplayPicture),
         ]);
     }
 }

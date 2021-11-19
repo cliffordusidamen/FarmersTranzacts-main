@@ -29,8 +29,8 @@ Route::middleware(['guest'])->prefix('registration')->name('registration.')->gro
     Route::get('shopper', [\App\Http\Controllers\RegistrationController::class, 'showShopperForm'])->name('shopper');
     Route::post('shopper', [\App\Http\Controllers\RegistrationController::class, 'saveShopper'])->name('save_shopper');
 
-    Route::get('vendor', [\App\Http\Controllers\RegistrationController::class, 'showVendorForm'])->name('vendor');
-    Route::post('vendor', [\App\Http\Controllers\RegistrationController::class, 'saveVendor'])->name('save_vendor');
+    Route::get('agent', [\App\Http\Controllers\RegistrationController::class, 'showAgentForm'])->name('agent');
+    Route::post('agent', [\App\Http\Controllers\RegistrationController::class, 'saveAgent'])->name('save_agent');
 });
 
 
@@ -71,9 +71,9 @@ Route::resource('vendors', \App\Http\Controllers\VendorController::class);
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->name('profile.')->group(function() {
-    Route::get('vendor-details', [\App\Http\Controllers\ProfileController::class, 'showEditVendorForm'])->name('edit_vendor_details');
-    Route::get('edit-vendor-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedVendorForm'])->name('edit_vendor_disapproval');
-    Route::post('update-vendor-profile', [\App\Http\Controllers\ProfileController::class, 'saveDisapprovedVendor'])->name('update_vendor_profile');
+    Route::get('agent-details', [\App\Http\Controllers\ProfileController::class, 'showEditAgentForm'])->name('edit_agent_details');
+    Route::get('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedAgentForm'])->name('edit_agent_disapproval');
+    Route::post('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'resubmitForApproval'])->name('resubmit_for_approval');
     Route::delete('destroy-vendor-logo', [\App\Http\Controllers\ProfileController::class, 'destroyVendorLogo'])->name('destroy_vendor_logo');
 });
 
@@ -87,6 +87,7 @@ Route::prefix('shopping-cart')->name('shopping_cart.')->group(function() {
     Route::post('/', [\App\Http\Controllers\ShoppingCartController::class, 'addItem'])->name('add_item');
     Route::post('remove-item', [\App\Http\Controllers\ShoppingCartController::class, 'removeItem'])->name('remove_item');
     Route::post('update-items', [\App\Http\Controllers\ShoppingCartController::class, 'updateCartItems'])->name('update_all');
+    Route::post('set-delivery-state', [\App\Http\Controllers\ShoppingCartController::class, 'setDeliveryState'])->name('set_delivery_state');
     Route::get('checkout', [\App\Http\Controllers\ShoppingCartController::class, 'checkout'])->name('checkout');
     Route::post('order', [\App\Http\Controllers\ShoppingCartController::class, 'order'])->name('order');
     Route::get('payment-verify', [\App\Http\Controllers\ShoppingCartController::class, 'paymentVerify'])->name('payment_callback');
@@ -130,6 +131,12 @@ Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
     ]))
     ->name('contact_us');
 
+Route::post('/contact-us', [\App\Http\Controllers\PageController::class, 'sendContactUs'])
+    ->name('send_contact_us');
+
+Route::get('/become-an-agent', [\App\Http\Controllers\PageController::class, 'becomeAnAgent'])
+    ->name('become_an_agent');
+
 /*
 |-----------------------------------------------------------------------------
 | Shoppers personal orders routes
@@ -138,11 +145,13 @@ Route::get('/contact-us', fn () => Inertia::render('ContactUs.vue', [
 Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/', [\App\Http\Controllers\MyOrderController::class, 'index'])->name('index');
     Route::get('/{order}', [\App\Http\Controllers\MyOrderController::class, 'show'])->name('show');
+    Route::get('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'showCancelVendorOrder'])->name('show_cancel_vendor_order');
+    Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
 });
 
-// Testing
-Route::get('test-1', function() {
-    $vendor = \App\Models\Vendor::find(1);
-    return $vendor->current_month_orders;
-    return 'Done!';
-});
+
+/*
+|-----------------------------------------------------------------------------
+| Agent private routes
+|-----------------------------------------------------------------------------
+*/

@@ -1,16 +1,6 @@
 <template>
     <app-layout>
-        <div class="intro-slider-container d-none">
-            <div class="container intro-content">
-                <div class="row">
-                    <div class="col-auto offset-lg-3 intro-col">
-                        <h2 class="h4 font-weight-bold">
-                            Dashboard
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div><!-- End Intro Container -->
+        <home-banner />
 
         <div class="page-content">
             <div class="container">
@@ -37,6 +27,44 @@
                     </div>
                 </div>
             </div>
+
+            <div class="categories-page">
+                <div class="container" v-if="categoriesWithDisplayPicture.length > 3">
+                    <h2 class="title title-border my-4">Categories</h2>
+
+                    <div class="entry-container max-col-6">
+                        <div
+                            v-for="category in categoriesWithDisplayPicture"
+                            :key="category.id"
+                            class="entry-item col-sm-6 col-md-4"
+                        >
+                            <div class="banner banner-cat banner-badge">
+                                <inertia-link :href="route('shop.categorized', {slug: category.slug})">
+                                    <img
+                                        :src="category.display_picture"
+                                        alt="{{ category.name }}"
+                                        class="img-fluid"
+                                    />
+                                </inertia-link>
+
+                                <inertia-link
+                                    class="banner-link"
+                                    :href="route('shop.categorized', {slug: category.slug})"
+                                >
+                                    <h3 class="banner-title">
+                                        {{ category.name }}
+                                    </h3>
+
+                                    <h4 class="banner-subtitle">
+                                        {{ category.products_count }} products
+                                    </h4>
+                                    <span class="banner-link-text">Shop Now</span>
+                                </inertia-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </app-layout>
 </template>
@@ -47,17 +75,21 @@ import CartUpdateButton from '@/Components/Controls/CartUpdateButton.vue'
 import ProductBox from '@/Components/ProductBox.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { usePage } from '@inertiajs/inertia-vue3'
+import HomeBanner from '@/Components/HomeBanner.vue'
 
 export default {
     components: {
         AppLayout,
         CartUpdateButton,
         ProductBox,
+        HomeBanner,
     },
 
     setup() {
         const pageProps = usePage().props.value
         const productsContainerRef = ref(null)
+        const categoriesWithDisplayPicture = pageProps?.categoriesWithDisplayPicture?.data || []
+
         onMounted(() => {
             $(productsContainerRef.value).owlCarousel({
                 navText: ['<i class="icon-angle-left">', '<i class="icon-angle-right">'],
@@ -85,6 +117,7 @@ export default {
         return {
             productsContainerRef,
             pageProps,
+            categoriesWithDisplayPicture,
         }
     }
 }

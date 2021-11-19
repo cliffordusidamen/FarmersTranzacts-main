@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendAgentEmailVerificationNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        AgentRegistered::class => [
+            SendAgentEmailVerificationNotification::class,
+        ],
 
         \App\Events\VendorApprovalStatusChangedEvent::class => [
             \App\Listeners\VendorApprovalStatusChangedListener::class,
@@ -25,6 +29,18 @@ class EventServiceProvider extends ServiceProvider
 
         \App\Events\OrderCompletedEvent::class => [
             \App\Listeners\OrderCompletedListener::class,
+        ],
+
+        \App\Events\VendorOrderTransitEvent::class => [
+            \App\Listeners\VendorOrderTransitListener::class,
+        ],
+
+        \App\Events\VendorOrderDeliveredEvent::class => [
+            \App\Listeners\VendorOrderDeliveredListener::class,
+        ],
+
+        \App\Events\AgentApprovalStatusChangedEvent::class => [
+            \App\Listeners\AgentApprovalStatusChangedListener::class,
         ],
     ];
 

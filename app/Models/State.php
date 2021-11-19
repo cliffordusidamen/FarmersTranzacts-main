@@ -17,7 +17,7 @@ class State extends Model
      */
     public function zone(): BelongsTo
     {
-        return $this->belongsTo(GeopoliticalZone::class);
+        return $this->belongsTo(GeopoliticalZone::class, 'geopolitical_zone_id');
     }
 
 }

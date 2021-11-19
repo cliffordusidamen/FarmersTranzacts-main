@@ -47,6 +47,10 @@ class UserResource extends JsonResource
             $data['vendor'] = $this->vendors->first() ?? [];
         }
 
+        if ($this->relationLoaded('agent')) {
+            $data['agent'] = new AgentResource($this->agent);
+        }
+
         return $data;
     }
 }

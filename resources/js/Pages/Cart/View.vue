@@ -19,15 +19,15 @@
                                     <thead>
                                         <tr>
                                             <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
+                                            <th class="text-right pr-4">Price(&#8358;)</th>
+                                            <th class="text-center">Quantity</th>
+                                            <th class="text-right">Total(&#8358;)</th>
                                             <th></th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        <tr v-for="{product, quantity } in cartItems" :key="product.id">
+                                        <tr v-for="{product, quantity, can_be_delivered, delivery_amount, delivery_days } in cartItems" :key="product.id">
                                             <td class="product-col">
                                                 <div class="product">
                                                     <figure class="product-media">
@@ -43,19 +43,43 @@
                                                     </figure>
 
                                                     <h3 class="product-title">
-                                                        <a href="#">{{ product.name }}</a>
+                                                        <inertia-link
+                                                            :href="route('shop.show_product', { slug: product.slug })"
+                                                        >
+                                                            {{ product.name }}
+                                                        </inertia-link>
+                                                        <small v-if="!can_be_delivered" class="d-block text-danger text-sm">
+                                                            <span class="fa fa-warning mr-2"></span>
+                                                            Not deliverable to {{ cart.state.state_name }}
+                                                        </small>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>
-                                            <td class="price-col">&#8358;{{ Number(product.price).toLocaleString() }}</td>
+                                            <td class="price-col text-center text-md-right pr-4">
+                                                <span class="d-none d-md-inline">
+                                                    {{ Number(product.price).toLocaleString() }}
+                                                </span> 
+                                            </td>
                                             <td class="quantity-col">
                                                 <div class="cart-product-quantity">
                                                     <input type="number" class="form-control" @change="$event => updateProductQuantity(product, $event.target.value)" :value="quantity" min="1" max="10" step="1" data-decimals="0" required="" style="display: none;">
                                                 </div>
+                                                <span v-if="delivery_days" class="d-block text-sm">
+                                                    Delivery in {{ Number(delivery_days).toLocaleString() }} days
+                                                </span>
                                             </td>
-                                            <td class="total-col">&#8358;{{ Number(itemTotalPricesRx[product.id]).toLocaleString() }}</td>
+                                            <td class="total-col text-center text-md-right">
+                                                <span class="d-md-none mr-2">Price:</span>
+                                                <span class="d-md-none">&#8358;</span>
+                                                {{ Number(itemTotalPricesRx[product.id]).toLocaleString() }}
+                                                <span v-if="delivery_days" class="d-block text-sm mt-1">
+                                                    <span class="d-md-none mr-2">Delivery cost:</span>
+                                                    <span class="d-md-none">&#8358;</span>
+                                                    {{ Number(delivery_amount).toLocaleString() }}
+                                                </span>
+                                            </td>
                                             <td class="remove-col">
-                                                <button class="btn-remove" @click="removeItem(product)"><i class="icon-close"></i></button>
+                                                <button type="button" class="btn-remove" @click="removeItem(product)"><i class="icon-close"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -83,18 +107,22 @@
                                             <td>&#8358;{{ Number(grandTotal).toLocaleString()}}</td>
                                         </tr><!-- End .summary-subtotal -->
                                         <tr class="summary-shipping">
-                                            <td>Shipping:</td>
-                                            <td>&#8358;0.00</td>
+                                            <td>
+                                                Delivery (
+                                                    {{ Number(cart.total_delivery_days) }} Days
+                                                ):
+                                            </td>
+                                            <td>&#8358;{{ Number(cart?.total_delivery_amount || 0).toLocaleString() }}</td>
                                         </tr>
 
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td>&#8358;{{ Number(grandTotal).toLocaleString()}}</td>
+                                            <td>&#8358;{{ Number(cart?.grand_total_with_delivery || 0).toLocaleString() }}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->
 
-                                <inertia-link :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</inertia-link>
+                                <inertia-link v-if="cart?.can_be_delivered" :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</inertia-link>
                             </div><!-- End .summary -->
 
                             <inertia-link :href="route('shop.index')" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></inertia-link>

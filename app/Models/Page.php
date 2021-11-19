@@ -20,21 +20,21 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'slug',
         'title',
         'content',
     ];
 
     /**
-     * Get the by name
+     * Get the by slug
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $pageName
+     * @param  string  $pageSlug
      * @return  \Illuminate\Database\Eloquent\Builder  $query
      */
-    public function scopeByName(Builder $query, string $pageName): Builder
+    public function scopeBySlug(Builder $query, string $pageSlug): Builder
     {
-        return $query->where('name', $pageName);
+        return $query->where('slug', $pageSlug);
     }
 
     /**
@@ -45,7 +45,7 @@ class Page extends Model
      */
     public function scopeAbout(Builder $query): Builder
     {
-        return $this->byName(self::ABOUT);
+        return $this->bySlug(self::ABOUT);
     }
 
 }

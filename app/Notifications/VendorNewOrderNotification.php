@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Order;
 use App\Models\Vendor;
+use App\Models\VendorOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -28,6 +29,13 @@ class VendorNewOrderNotification extends Notification
     public Order $order;
 
     /**
+     * vendor
+     * 
+     * @var  \App\Models\VendorOrder
+     */
+    public VendorOrder $vendorOrders;
+
+    /**
      * Create a new notification instance.
      *
      * @param  \App\Models\Vendor  $vendor
@@ -38,6 +46,7 @@ class VendorNewOrderNotification extends Notification
     {
         $this->vendor = $vendor;
         $this->order = $order;
+        $this->vendorOrder = $order->vendorOrders()->where('vendor_id', $vendor->id)->first();
     }
 
     /**
@@ -64,6 +73,7 @@ class VendorNewOrderNotification extends Notification
             ->view('emails.vendor_new_order_notice', [
                 'order' => $this->order,
                 'vendor' => $this->vendor,
+                'vendorOrder' => $this->vendorOrder,
                 'user' => $notifiable,
             ]);
     }

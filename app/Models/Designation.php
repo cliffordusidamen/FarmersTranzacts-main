@@ -13,10 +13,12 @@ class Designation extends Model
     const STAFF_ID = 1;
     const SHOPPER_ID = 2;
     const SELLER_ID = 3;
+    const AGENT_ID = 4;
 
     const STAFF_NAME = 'staff';
     const SHOPPER_NAME = 'shopper';
     const SELLER_NAME = 'seller';
+    const AGENT_NAME = 'agent';
     
     /**
      * The attributes that are mass assignable.
@@ -51,6 +53,7 @@ class Designation extends Model
             self::STAFF_ID => ucwords(self::STAFF_NAME),
             self::SHOPPER_ID => ucwords(self::SHOPPER_NAME),
             self::SELLER_ID => ucwords(self::SELLER_NAME),
+            self::AGENT_ID => ucwords(self::AGENT_NAME),
         ];
 
         return $asKeys ? $types : array_keys($types);

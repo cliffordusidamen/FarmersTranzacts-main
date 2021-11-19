@@ -27,6 +27,7 @@
                                     <tr class="d-none d-sm-table-row">
                                         <th class="d-none text-uppercase d-sm-table-cell">Date</th>
                                         <th class="text-uppercase">Order</th>
+                                        <th class="d-none text-uppercase d-sm-table-cell">Delivery</th>
                                         <th class="d-none text-uppercase d-sm-table-cell">Amount(&#8358;)</th>
                                         <th class="d-none text-uppercase d-sm-table-cell">Items</th>
                                         <th class="d-none text-uppercase d-sm-table-cell">Status</th>
@@ -39,6 +40,7 @@
                                         :key="order.id"
                                     >
                                         <td class="d-none d-sm-table-cell">{{ formatDate(order.created_at) }}</td>
+
                                         <td>
                                             <inertia-link
                                                 :href="route('my_orders.show', order)"
@@ -49,8 +51,10 @@
                                             <div class=" mx-3 mb-3 d-sm-none lead">
                                                 <p>
                                                     {{ formatDate(order.created_at) }}<br />
-                                                    &#8358; {{ Number(order.amount).toLocaleString() }}
-                                                    ({{ order.items_count }} items)
+                                                    &#8358; {{ Number(order.total_amount).toLocaleString() }}
+                                                    ({{ order.items_count }} items)<br>
+                                                    Delivery ({{ Number(order.delivery_days) }} days):
+                                                    &#8358;{{ Number(order.delivery_amount).toLocaleString() }}
                                                 </p>
 
                                                 <p>
@@ -67,8 +71,10 @@
                                             </div>
                                         </td>
 
+                                        <td class="d-none d-sm-table-cell">{{ Number(order.delivery_days) }} days</td>
+
                                         <td class="d-none d-sm-table-cell">
-                                            {{ Number(order.amount).toLocaleString() }}
+                                            {{ Number(order.total_amount).toLocaleString() }}
                                         </td>
 
                                         <td class="d-none d-sm-table-cell">

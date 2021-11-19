@@ -20,6 +20,14 @@
     </x-email.p>
 
     <x-email.p>
+        <strong>Address:</strong><br />
+        {{ $order->address->line_1 }}
+        {!! $order->address->line_2 ? "<br />{$order->address->line_2},<br />" : '<br />' !!}
+        {{ $order->address->city ? "{$order->address->city}, " : '' }}
+        {{ $order->address->state ? $order->address->state->state_name : '' }}
+    </x-email.p>
+
+    <x-email.p>
         <h4>Order details:</h4><br />
         <table>
             <thead>
@@ -27,12 +35,12 @@
                     <th class="text-sm uppercase">S/N</th>
                     <th class="text-sm uppercase" width="30%">Product</th>
                     <th class="text-sm text-right uppercase">Quantity</th>
-                    <th class="text-sm text-right uppercase">Unit Price</th>
-                    <th class="text-sm text-right uppercase">Total Price</th>
+                    <th class="text-sm text-right uppercase">Unit Price(&#8358;)</th>
+                    <th class="text-sm text-right uppercase">Total Price(&#8358;)</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($order->items as $key => $orderItem)
+                @foreach ($vendorOrder->items as $key => $orderItem)
                     @php
                         $grandTotal += $orderItem->total_amount;
                     @endphp
@@ -42,19 +50,32 @@
                             <strong>{{ $orderItem->product->name }}</strong><br />
                         </td>
                         <td class="text-right">{{ number_format($orderItem->quantity) }}</td>
-                        <td class="text-right">&#8358;{{ number_format($orderItem->unit_amount) }}</td>
-                        <td class="text-right">&#8358;{{ number_format($orderItem->total_amount) }}</td>
+                        <td class="text-right">{{ number_format($orderItem->unit_amount) }}</td>
+                        <td class="text-right">{{ number_format($orderItem->total_amount) }}</td>
                     </tr>
                 @endforeach
+                
+                <tr>
+                    <th colspan="4" class="text-right">Delivery ({{ $vendorOrder->delivery_days }} days)</th>
+                    <th style="text-align: right;">
+                        {{ number_format($vendorOrder->delivery_amount) }}
+                    </th>
+                </tr>
                 <tr>
                     <th colspan="4" class="text-right">GRAND TOTAL</th>
                     <th style="text-align: right;">
-                        &#8358;{{ number_format($grandTotal) }}
+                        {{ number_format($vendorOrder->total_amount) }}
                     </th>
                 </tr>
             </tbody>
         </table>
     </x-email.p>
+
+    <br />
+    @if (!empty($order->order_notes))
+        <strong>Order notes:</strong><br />
+        {{ $order->order_notes }}
+    @endif
 
     <br />
 

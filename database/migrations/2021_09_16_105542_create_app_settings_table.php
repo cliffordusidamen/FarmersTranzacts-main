@@ -18,7 +18,8 @@ class CreateAppSettingsTable extends Migration
             $table->string('hotline', 20)->nullable();
             $table->string('email', 200)->nullable();
             $table->string('address', 200)->nullable();
-            $table->integer('vendor_storage_limit')->nullable();
+            $table->unsignedSmallInteger('vendor_storage_limit')->nullable();
+            $table->unsignedSmallInteger('cancel_order_hours')->nullable();
             $table->string('social_facebook', 500)->nullable();
             $table->string('social_twitter', 500)->nullable();
             $table->string('social_youtube', 500)->nullable();

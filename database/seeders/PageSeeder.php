@@ -16,41 +16,48 @@ class PageSeeder extends Seeder
     {
         $pages = [
             [
-                'name' => Page::PRIVACY_POLICY,
+                'slug' => Page::PRIVACY_POLICY,
                 'title' => 'Privacy policy',
+                'description' => 'General privacy policy. Used on the main website',
                 'content' => 'At FarmerXpress, your information are secure!',
             ],
             [
-                'name' => 'about',
+                'slug' => 'about',
                 'title' => 'About FarmerXpress',
+                'description' => 'About content on the main website',
                 'content' => 'Welcome to the about page of FarmerXpress!',
             ],
             [
-                'name' => 'seller_about',
+                'slug' => 'seller_about',
                 'title' => 'Selling on FarmerXpress',
+                'description' => 'Information about selling on Farmer Xpress, displayed on the seller website',
                 'content' => 'Selling on FarmerXpress!',
             ],
             [
-                'name' => 'logistics_about',
-                'title' => 'Logistics on FarmerXpress',
-                'content' => 'Logistics on FarmerXpress!',
+                'slug' => 'agent_about',
+                'title' => 'Agent on FarmerXpress',
+                'description' => 'Information about being an agent on Farmer Xpress, displayed on the agent page',
+                'content' => 'Agent on FarmerXpress!',
             ],
             [
-                'name' => Page::TERMS,
+                'slug' => Page::TERMS,
                 'title' => 'terms',
+                'description' => 'Terms & Conditions (displayed on the main website)',
                 'content' => 'Welcome to the terms page of FarmerXpress!',
             ],
             [
-                'name' => 'seller_terms',
-                'title' => 'Selling on FarmerXpress',
+                'slug' => 'seller_terms',
+                'title' => 'Terms & Conditions for selling on FarmerXpress',
+                'description' => 'Terms & Conditions (displayed on the seller website)',
                 'content' => 'Selling on FarmerXpress!',
             ],
             [
-                'name' => 'logistics_terms',
-                'title' => 'Logistics on FarmerXpress',
-                'content' => 'Logistics on FarmerXpress!',
+                'slug' => 'agent_terms',
+                'title' => 'Terms & Conditions for selling for agents',
+                'description' => 'Terms & Conditions (displayed on the agent page)',
+                'content' => 'agent on FarmerXpress!',
             ],
         ];
-        Page::upsert($pages, ['name']);
+        Page::upsert($pages, ['slug']);
     }
 }

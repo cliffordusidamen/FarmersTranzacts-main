@@ -11,6 +11,7 @@ use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -53,6 +54,11 @@ class UserController extends Controller
         if (strtolower($searchDesignation) == Designation::SELLER_NAME) {
             $relations[] = 'vendors';
             $relations[] = 'vendors.productCategories';
+        }
+        if (strtolower($searchDesignation) == Designation::AGENT_NAME) {
+            $relations[] = 'agent';
+            $relations[] = 'agent.spendingVolume';
+            $relations[] = 'agent.productCategories';
         }
 
         $users = User::with($relations)

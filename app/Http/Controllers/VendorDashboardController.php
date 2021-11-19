@@ -2,24 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProductApprovalStatusChangedEvent;
-use App\Http\Requests\AddProductPictureRequest;
-use App\Http\Requests\SaveProductRequest;
-use App\Http\Resources\ProductCollection;
-use App\Http\Resources\ProductResource;
 use App\Models\AppSetting;
-use App\Models\GeopoliticalZone;
-use App\Models\Product;
-use App\Models\ProductDeliveryCost;
-use App\Models\ProductImage;
-use App\Models\VendorPackaging;
-use App\Models\ProductSubcategory;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class VendorDashboardController extends Controller
 {
@@ -28,7 +13,7 @@ class VendorDashboardController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware(['auth:sanctum', 'frontend']);
+        $this->middleware(['auth:sanctum', 'frontend']);
     }
 
     /**

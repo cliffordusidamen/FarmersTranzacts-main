@@ -9,17 +9,30 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <!-- ios support -->
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-72x72.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-96x96.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-128x128.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-144x144.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-152x152.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-192x192.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-384x384.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-512x512.png') }}" />
+    <meta name="apple-mobile-web-app-status-bar" content="#046400" />
+    <meta name="theme-color" content="#381af6" />
+
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/molla-template/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/molla-template/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/molla-template/images/icons/favicon-16x16.png">
-    <link rel="mask-icon" href="/molla-template/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="/molla-template/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/icons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/icons/favicon-16x16.png') }}">
+    <link rel="mask-icon" href="{{ asset('img/icons/safari-pinned-tab.svg') }}" color="#666666">
+    <link rel="shortcut icon" href="{{ asset('img/icons/favicon.ico') }}">
+    <meta name="apple-mobile-web-app-title" content="{{ config('app.name') }}">
+    <meta name="application-name" content="{{ config('app.name') }}">
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="msapplication-config" content="/molla-template/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
+
     <link rel="stylesheet" href="/molla-template/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="/molla-template/css/bootstrap.min.css">
@@ -53,6 +66,7 @@
     <script src="/molla-template/js/jquery.magnific-popup.min.js"></script>
     <script src="/molla-template/js/jquery.plugin.min.js"></script>
     <script src="/molla-template/js/jquery.countdown.min.js"></script>
+    <script src="/molla-template/js/jquery.elevateZoom.min.js"></script>
     
     <!-- Main JS File -->
     <script src="/molla-template/js/main.js"></script>

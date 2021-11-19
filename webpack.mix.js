@@ -17,6 +17,7 @@ const jsFiles = [
 ];
 
 mix.js(jsFiles, 'public/js/')
+    .js('resources/js/sw.js', 'public/sw.js')
     .vue()
     .styles([
         'resources/css/app.css',
@@ -28,7 +29,7 @@ if (mix.inProduction()) {
     mix.version();
 } else {
     mix.browserSync({
-        proxy: 'xpress1.test'
+        proxy: 'farmer-xpress.test'
     });
     mix.disableNotifications();
 }

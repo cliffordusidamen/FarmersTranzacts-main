@@ -38,16 +38,6 @@ class AuthFrontendController extends Controller
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        // $currentToken = $request->user()->tokens->first(function ($token, $index) use ($request) {
-        //     return Hash::check(
-        //         $token->getKey().'|'. $request->bearerToken(),
-        //         $token->token
-        //     );
-        // });
-
-        // if ($currentToken) {
-        //     $currentToken->delete();
-        // }
 
         return response()->json();
     }

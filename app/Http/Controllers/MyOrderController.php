@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VendorOrderCanceledNotifyAdminMail;
+use App\Models\AppSetting;
+use App\Models\DeliveryStatus;
 use App\Models\Order;
+use App\Models\VendorOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class MyOrderController extends Controller
@@ -30,6 +36,12 @@ class MyOrderController extends Controller
             ->with(['deliveryStatus'])
             ->orderByDesc('id')
             ->paginate(10);
+            
+        if ($orders->total()) {
+            $orders->each(function ($order) {
+                $order->append('cancellable');
+            });
+        }
 
         return Inertia::render('MyOrders/Index', compact('orders'));
     }
@@ -48,11 +60,100 @@ class MyOrderController extends Controller
         $order->load([
             'payments',
             'deliveryStatus',
-            'items',
-            'items.product',
-            'items.product.vendor',
+            'vendorOrders',
+            'vendorOrders.vendor',
+            'vendorOrders.items',
+            'vendorOrders.items.product',
+            'vendorOrders.deliveryStatus',
         ]);
 
+        $order->vendorOrders->each(fn($vendorOrder) => (
+            $vendorOrder->append('cancellable')
+        ));
+
+        $order->append('cancellable');
+        
+
         return Inertia::render('MyOrders/Show', compact('order'));
+    }
+
+    /**
+     * Display form for cancelling vendor order
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\VendorOrder  $vendorOrder
+     * @return \Inertia\Response
+     */
+    public function showCancelVendorOrder(
+        Request $request,
+        VendorOrder $vendorOrder
+    ) {
+        $vendorOrder->append('cancellable');
+
+        if (!$vendorOrder->cancellable) {
+            $maxCancellationHours = (int) AppSetting::getSetting(AppSetting::CANCEL_ORDER_HOURS);
+            flashMessage('warning', "You cannot cancel this order as the allowed window of {$maxCancellationHours} hours has elapsed.");
+            return redirect()->route('my_orders.show', [
+                'order' => $vendorOrder->order,
+            ]);
+        }
+        $vendorOrder->load([
+            'order',
+            'vendor',
+            'items',
+            'items.product',
+            'deliveryStatus',
+        ]);
+
+        return Inertia::render('MyOrders/CancelVendorOrder', compact('vendorOrder'));
+    }
+
+    /**
+     * Cancel vendor order
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\VendorOrder  $vendorOrder
+     * @return \Inertia\Response
+     */
+    public function cancelVendorOrder(
+        Request $request,
+        VendorOrder $vendorOrder
+    ) {
+        $vendorOrder->append('cancellable');
+
+        if (!$vendorOrder->cancellable) {
+            $maxCancellationHours = (int) AppSetting::getSetting(AppSetting::CANCEL_ORDER_HOURS);
+            flashMessage('warning', "You cannot cancel this order as the window of '{$maxCancellationHours} hours' is elapsed.");
+            return redirect()->route('my_orders.show', [
+                'order' => $vendorOrder->order,
+            ]);
+        }
+
+        $this->validate($request, [
+            'cancel_reason' => 'required|min:3|max:255',
+        ]);
+
+        $saved = false;
+        DB::transaction(function() use ($request, $vendorOrder, &$saved) {
+            $vendorOrder->delivery_status_id = DeliveryStatus::CANCELED_ID;
+            $vendorOrder->cancel_reason = $request->cancel_reason;
+            $saved = $vendorOrder->save();
+
+            if ($saved) {
+                $vendorOrder->order->updateDeliveryStatus();
+                $adminOrderMail = new VendorOrderCanceledNotifyAdminMail($vendorOrder);
+                Mail::to(config('mail.from.address'))->send($adminOrderMail);
+            }
+        });
+
+        if ($saved) {
+            flashMessage('success', 'Seller order canceled!');
+            return redirect()->route('my_orders.show', [
+                'order' => $vendorOrder->order,
+            ]);
+        }
+
+        flashMessage('warning', 'Seller order was not canceled. You may try again!');
+        return back();
     }
 }

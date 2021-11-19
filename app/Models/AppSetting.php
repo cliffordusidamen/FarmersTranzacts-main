@@ -10,6 +10,7 @@ class AppSetting extends Model
     use HasFactory;
 
     const VENDOR_STORAGE_LIMIT = 'vendor_storage_limit';
+    const CANCEL_ORDER_HOURS = 'cancel_order_hours';
 
     /**
      * Mass assignable fields
@@ -21,6 +22,7 @@ class AppSetting extends Model
         'email',
         'address',
         self::VENDOR_STORAGE_LIMIT,
+        self::CANCEL_ORDER_HOURS,
         'social_facebook',
         'social_twitter',
         'social_youtube',

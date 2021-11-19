@@ -35,11 +35,12 @@ class AuthenticateLogin
             Designation::STAFF_NAME,
             Designation::SHOPPER_NAME,
             Designation::SELLER_NAME,
+            Designation::AGENT_NAME,
         ];
         $rules = [
             'email' => 'required|string|min:5',
             'password' => 'required|string|min:6',
-            'as_designation' => ['required', 'string', Rule::in($designationNames)],
+            'as_designation' => ['sometimes', 'nullable', 'string', Rule::in($designationNames)],
             'device_name' => 'sometimes',
         ];
         $messages = [
@@ -62,6 +63,13 @@ class AuthenticateLogin
             throw ValidationException::withMessages([
                 'email' => ['Account has been deactivated. Contact Admin'],
             ]);
+        }
+
+        $loginAsShopperOrAgent = empty($request->input('as_designation'))
+            || $request->input('as_designation') == Designation::SHOPPER_NAME;
+
+        if ($loginAsShopperOrAgent) {
+            return $user;
         }
 
         $loginAsStaff = $request->input('as_designation') == Designation::STAFF_NAME;

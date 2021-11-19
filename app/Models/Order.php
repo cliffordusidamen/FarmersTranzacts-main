@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Deliverable;
+use App\Models\Traits\QueriesDateField;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 class Order extends Model
 {
     use HasFactory;
+    use Deliverable;
+    use QueriesDateField;
 
     /**
      * Mass assignable fields
@@ -24,6 +28,7 @@ class Order extends Model
         'user_id',
         'items_amount',
         'delivery_amount',
+        'delivery_days',
         'total_amount',
         'delivery_status_id',
         'order_notes',
@@ -37,16 +42,6 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Relationship: Belongs to delivery status
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function deliveryStatus(): BelongsTo
-    {
-        return $this->belongsTo(DeliveryStatus::class, 'delivery_status_id');
     }
 
     /**
@@ -67,6 +62,17 @@ class Order extends Model
     public function vendorOrders(): HasMany
     {
         return $this->hasMany(VendorOrder::class, 'order_id');
+    }
+
+    /**
+     * Relatioship: Has many vendor orders
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cancelledVendorOrder(): HasMany
+    {
+        return $this->hasMany(VendorOrder::class, 'order_id')
+            ->where('delivery_status_id', DeliveryStatus::CANCELED_ID);
     }
 
     /**
@@ -94,7 +100,8 @@ class Order extends Model
      * 
      * @return string
      */
-    public static function generateReferenceNumber() {
+    public static function generateReferenceNumber()
+    {
         $referenceNumber = '';
         $referenceNumberExists = true;
 
@@ -112,7 +119,8 @@ class Order extends Model
      * @param  \App\Models\Order  $order
      * @return string
      */
-    public static function generatePaymentReference(Order $order) {
+    public static function generatePaymentReference(Order $order)
+    {
         $referenceNumber = '';
         $referenceNumberExists = true;
 
@@ -138,34 +146,69 @@ class Order extends Model
 
         $saved = false;
         $order = new Order();
-        DB::transaction(function() use ($data, $cart, &$saved, &$order) {
+        DB::transaction(function () use ($data, $cart, &$saved, &$order) {
             $orderItems = [];
+            $vendorOrders = [];
+            $vendorProducts = [];
 
             $addressData = collect($data)->only([
-                'line_1', 'line_2', 'city', 'state_id',
+                'line_1', 'line_2', 'city',
                 'country_id',
             ])->toArray();
+            $state = $cart->getDeliveryState();
+            $addressData['state_id'] = $state['id'];
 
             $address = Address::create($addressData);
-            
-            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems) {
+
+            collect($cart->getItems())->map(function ($item, $key) use (&$orderItems, &$vendorProducts, $cart) {
                 $orderItems[] = (new OrderItem([
                     'product_id'    => $item['product']['id'],
                     'quantity'      => $item['quantity'],
                     'unit_amount'   => $item['product']['price'],
-                    'total_amount'  => $item['quantity'] * $item['product']['price'],
+                    'total_amount'  => $item['total'],
+                    'delivery_amount'   => $item['delivery_amount'],
+                    'delivery_days'   => $item['delivery_days'],
+                    'grand_total_amount'  => $item['total_with_delivery_amount'],
                 ]));
+
+                if (!isset($vendorProducts[$item['product']['vendor_id']])) {
+                    $vendorProducts[$item['product']['vendor_id']] = [];
+                }
+                $vendorProducts[$item['product']['vendor_id']][] = $item['product']['id'];
             });
-            
+
             $order->forceFill([
                 'reference_number' => self::generateReferenceNumber(),
                 'user_id'     => auth()->user()->id,
                 'address_id'  => $address->id,
-                'amount'      => $cart->getGrandTotal(),
+                'items_amount'      => $cart->getGrandTotal(),
+                'delivery_amount'      => $cart->getTotalDeliveryAmount(),
+                'delivery_days'      => $cart->getTotalDeliveryDays(),
+                'total_amount'      => $cart->getGrandTotalWithDelivery(),
                 'order_notes' => $data['order_notes'] ?? null,
             ])->save();
 
+            collect($cart->getVendorOrders())->map(function ($vendorOrder, $i) use (&$vendorOrders, $address, $order) {
+                $vendorOrders[] = new VendorOrder([
+                    'reference_number' => "{$order->reference_number}-{$vendorOrder['vendor']['id']}",
+                    'user_id'     => auth()->user()->id,
+                    'address_id'  => $address->id,
+                    'vendor_id'      => $vendorOrder['vendor']['id'],
+                    'items_amount'      => $vendorOrder['amount'],
+                    'delivery_amount'      => $vendorOrder['delivery_amount'],
+                    'delivery_days'      => $vendorOrder['delivery_days'],
+                    'total_amount'      => $vendorOrder['grand_total_amount'],
+                ]);
+            });
+
+
             $order->items()->saveMany($orderItems);
+            $order->vendorOrders()->saveMany($vendorOrders);
+            $order->vendorOrders()->get()->map(fn ($vOrder, $i) => (OrderItem::where('order_id', $order->id)
+                ->whereIn('product_id', $vendorProducts[$vOrder->vendor_id])
+                ->update([
+                    'vendor_order_id' => $vOrder->id,
+                ])));
             $saved = true;
         });
 
@@ -185,14 +228,65 @@ class Order extends Model
     }
 
     /**
-     * Not cancelled, nor returned
+     * Get Available permissions for model
+     * 
+     * @return array
+     */
+    public static function getPermissions(): array
+    {
+        return defaultModelPermissions();
+    }
+
+    /**
+     * Get the sales for the last 8 months
+     * 
+     * @return array
+     */
+    public static function getSalesTrend(): array
+    {
+        $monthSales = [];
+
+        for ($i = 8; $i >= 0; $i--) {
+            $month = date('M Y', strtotime("-$i month"));
+            $monthSales[$month] = Order::delivered()
+                ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
+                ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
+                ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))
+                ->addSelect(DB::raw('COUNT(id) as total_orders'))
+                ->first();
+        }
+
+        return $monthSales;
+    }
+
+    /**
+     * Filter orders where the vendor(s) have not been notified
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeNotCancelledOrReturned(Builder $query): Builder
+    public function scopeVendorNotNotified(Builder $query): Builder
     {
-        return $query->where('delivery_status_id', '!=', DeliveryStatus::CANCELED_ID)
-            ->where('delivery_status_id', '!=', DeliveryStatus::RETURNED_ID);
+        return $query->where('vendor_notified_at', '=', NULL);
+    }
+
+    /**
+     * Update the delivery status of the order,
+     * based on the status of each vendor order
+     * 
+     * @return void
+     */
+    public function updateDeliveryStatus(): void {
+        $totalVendorOrders = $this->vendorOrders->count();
+        $totalCompletedVendorOrders = $this->vendorOrders
+            ->whereNotIn('delivery_status_id', [
+                DeliveryStatus::PENDING_ID,
+                DeliveryStatus::IN_TRANSIT_ID,
+            ])->count();
+
+        $this->delivery_status_id = $totalVendorOrders === $totalCompletedVendorOrders ?
+            DeliveryStatus::COMPLETED_ID : DeliveryStatus::PENDING_ID;
+
+        $this->save();
     }
 }

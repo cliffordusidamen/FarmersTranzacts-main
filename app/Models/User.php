@@ -128,6 +128,31 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Relationship: interested product categories
+     * 
+     * @return BelongsToMany
+     */
+    public function interestedProductCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ProductCategory::class,
+            'product_category_user',
+            'user_id',
+            'product_category_id'
+        );
+    }
+
+    /**
+     * Relationship: has one agent
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    function agent(): HasOne
+    {
+        return $this->hasOne(Agent::class);
+    }
+
+    /**
      * Setter for "password" field
      * 
      * @param  string  $value
@@ -197,6 +222,7 @@ class User extends Authenticatable implements MustVerifyEmail
             Designation::STAFF_NAME     => Designation::STAFF_ID,
             Designation::SHOPPER_NAME   => Designation::SHOPPER_ID,
             Designation::SELLER_NAME    => Designation::SELLER_ID,
+            Designation::AGENT_NAME    => Designation::AGENT_ID,
         ];
 
         $designationName = strtolower($designationName);

@@ -1,11 +1,12 @@
 <template>
-    <!-- <select :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="select" class="form-select"> -->
     <select
         v-model="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         ref="select"
-        class="form-control"
-        :classes="classes"
+        :class="{
+            'form-control': true,
+            ...classes,
+        }"
     >
         <option :selected="modelValueEmpty" value="">{{ placeholder }}</option>
         <option v-for="key in Object.keys(options)" :value="key" :key="key" :selected="!modelValueEmpty && modelValue == options[key]">{{ options[key] }}</option>
@@ -17,7 +18,7 @@ export default {
     props: {
         modelValue: {
             type: String,
-            default: null,
+            default: '',
         },
         options: {
             type: Object,

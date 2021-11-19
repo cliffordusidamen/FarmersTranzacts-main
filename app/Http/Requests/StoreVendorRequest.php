@@ -30,7 +30,7 @@ class StoreVendorRequest extends FormRequest
             'first_name' => ['required', 'string', 'min:3', 'max:25'],
             'last_name' => ['required', 'string', 'min:3', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable', 'min:11', 'max:15', 'unique:users'],
+            'phone' => ['nullable', 'unique:users'],
             'password' => ['required', 'confirmed', 'min:8', 'max:50'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
 
@@ -46,6 +46,7 @@ class StoreVendorRequest extends FormRequest
             'state_id' => ['required', 'exists:states,id'],
             'shipping_country_id' => ['nullable', 'exists:countries,id'],
             'store_phone' => ['nullable', 'min:11', 'max:16'],
+            'product_categories' => ['array', 'min:1'],
         ];
     }
 }

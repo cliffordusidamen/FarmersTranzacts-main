@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\OrderCollection;
 use App\Models\Designation;
 use App\Models\User;
 use Closure;
@@ -93,8 +94,21 @@ class HandleFrontendAppRequests
             ->paginate(5)
             ->toArray();
 
+        $pendingOrders = \App\Models\Order::pending()
+            ->with([
+                'user',
+                'address',
+                'address.state',
+            ])
+            ->paginate(5);
+
+        
+
         $responseData = array_merge($user->toArray(), $response->getData(true), compact(
-            'unapproved_vendors', 'unapproved_products', 'permissions'
+            'unapproved_vendors',
+            'unapproved_products',
+            'permissions',
+            'pendingOrders'
         ));
         $response->setData($responseData);
     }

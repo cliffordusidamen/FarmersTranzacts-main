@@ -1,0 +1,4 @@
+@import url('/plugins/intl-tel-input/css/intlTelInput.min.css');
+.iti .invalid-feedback {
+    position: absolute !important;
+}

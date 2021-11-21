@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="/molla-template/css/skins/skin-demo-13.css">
     <link rel="stylesheet" href="/molla-template/css/demos/demo-13.css">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/intl-tel-input/css/intlTelInput.min.css') }}">
 
     @routes
 </head>

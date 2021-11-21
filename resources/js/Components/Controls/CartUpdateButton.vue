@@ -24,7 +24,7 @@
                 <span v-else-if="isInCart">
                     remove <span class="d-none d-sm-inline text-white">from cart</span>
                 </span>
-                <span v-else>
+                <span class="text-white" v-else>
                     add <span class="d-none d-sm-inline text-white">to cart</span>
                 </span>
             </button>

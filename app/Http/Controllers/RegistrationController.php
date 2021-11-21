@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 

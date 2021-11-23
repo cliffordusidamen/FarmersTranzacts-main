@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactUsRequest;
+use App\Http\Resources\ProductCollection;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -81,13 +82,41 @@ class PageController extends Controller
         flashMessage('success', 'Message sent!');
         return redirect()->route('contact_us');
     }
+
     /**
-     * Disolay the landing page, with details on becoming an agent
+     * Display the landing page, with details on becoming an agent
      * 
      * @return \Inertia\Response
      */
     public function becomeAnAgent()
     {
         return Inertia::render('BecomeAnAgent');
+    }
+
+    /**
+     * Display vendor page
+     * 
+     * @param  string  $slug
+     * @return \Inertia\Response
+     */
+    public function vendorPage($slug)
+    {
+        $vendor = \App\Models\Vendor::where('slug', $slug)->firstOrFail();
+        $vendor->append([
+            'cover_picture_url',
+            'logo_url',
+        ]);
+        $productsResult = \App\Models\Product::with([
+                'category', 'images', 'vendor', 'packaging',
+            ])
+            ->availableForSale()
+            ->forVendor($vendor->id)
+            ->paginate(12);
+
+        $vendorProducts = $productsResult->total() > 0
+            ? $productsResult
+            : [];
+
+        return Inertia::render('VendorPage', compact('vendor', 'vendorProducts'));
     }
 }

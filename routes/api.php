@@ -220,7 +220,7 @@ Route::resource('orders', \App\Http\Controllers\OrderController::class);
 Route::prefix('business-info')->group(function() {
     Route::get('/', [\App\Http\Controllers\BusinessInfoController::class, 'index']);
     Route::post('update-logo', [\App\Http\Controllers\BusinessInfoController::class, 'updateLogo']);
-    Route::post('update-cover-image', [\App\Http\Controllers\BusinessInfoController::class, 'updateCoverImage']);
+    Route::post('update-cover-picture', [\App\Http\Controllers\BusinessInfoController::class, 'updateCoverPicture']);
     Route::post('update-about', [\App\Http\Controllers\BusinessInfoController::class, 'updateAbout']);
 });
 

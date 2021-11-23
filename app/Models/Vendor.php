@@ -363,11 +363,15 @@ class Vendor extends Model
     /**
      * Update the user's profile photo.
      *
-     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @param  \Illuminate\Http\UploadedFile|null  $photo
      * @return bool
      */
-    public function updateCoverPicture(UploadedFile $photo): bool
+    public function updateCoverPicture(?UploadedFile $photo = null): bool
     {
+        if (is_null($photo)) {
+            return false;
+        }
+
         $saved = false;
         tap($this->cover_picture_path, function ($previous) use ($photo, &$saved) {
             $this->forceFill([

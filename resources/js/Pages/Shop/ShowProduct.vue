@@ -17,7 +17,7 @@
                                         </a>
                                     </figure><!-- End .product-main-image -->
 
-                                    <div id="product-zoom-gallery" class="product-image-gallery">
+                                    <div id="product-zoom-gallery" class="product-image-gallery overflow-hidden">
                                         <a
                                             class="product-gallery-item active"
                                             href="#"
@@ -62,8 +62,12 @@
                                 </div>
 
                                 <div class="product-details-footer">
-                                    <strong class="mr-2">SHOP:</strong>
-                                    {{ product.vendor.shop_name }}
+                                    <strong class="mr-2 lead">SHOP:</strong>
+                                    <inertia-link
+                                        :href="route('vendor_page', { slug: product.vendor.slug })"
+                                    >
+                                        {{ product.vendor.shop_name }}
+                                    </inertia-link>
                                 </div>
                             </div>
                         </div>

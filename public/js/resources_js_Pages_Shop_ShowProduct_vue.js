@@ -3731,7 +3731,7 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_11 = {
   id: "product-zoom-gallery",
-  "class": "product-image-gallery"
+  "class": "product-image-gallery overflow-hidden"
 };
 var _hoisted_12 = ["data-image"];
 var _hoisted_13 = ["src"];
@@ -3772,7 +3772,7 @@ var _hoisted_26 = {
 };
 
 var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-  "class": "mr-2"
+  "class": "mr-2 lead"
 }, "SHOP:", -1
 /* HOISTED */
 );
@@ -3783,6 +3783,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_product_delivery_cost_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("product-delivery-cost-item");
 
   var _component_cart_update_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("cart-update-button");
+
+  var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
 
   var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
 
@@ -3851,9 +3853,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         product: $setup.product
       }, null, 8
       /* PROPS */
-      , ["product"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.product.vendor.shop_name), 1
-      /* TEXT */
-      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] row ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] product-details-top ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] container ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] page-content ")];
+      , ["product"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
+        href: _ctx.route('vendor_page', {
+          slug: $setup.product.vendor.slug
+        })
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.product.vendor.shop_name), 1
+          /* TEXT */
+          )];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["href"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] row ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] product-details-top ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] container ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] page-content ")];
     }),
     _: 1
     /* STABLE */

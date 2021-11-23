@@ -64,9 +64,32 @@ class BusinessInfoController extends Controller
         $saved = $vendor->updateLogo($request->file('logo', null));
 
         if ($saved) {
+            $vendor->append('logo_url');
             return response()->json(compact('vendor'));
         }
 
         throw new \Exception('Logo not updated. Please, try again!');
+    }
+
+    /**
+     * Update the cover picture of the vendor
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCoverPicture(Request $request)
+    {
+        $this->validate($request, [
+            'cover_picture' => 'required|mimes:png,jpg|max:1024',
+        ]);
+        $vendor = $request->user()->vendors()->first();
+        $saved = $vendor->updateCoverPicture($request->file('cover_picture', null));
+
+        if ($saved) {
+            $vendor->append('cover_picture_url');
+            return response()->json(compact('vendor'));
+        }
+
+        throw new \Exception('Cover picture not updated. Please, try again!');
     }
 }

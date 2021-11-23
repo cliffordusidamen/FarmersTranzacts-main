@@ -10,5 +10,4 @@ self.addEventListener('activate', function(event) {
 
 // Fetch event
 self.addEventListener('fetch', function(event) {
-    console.log('[ServiceWorker] Fetch', event);
 });

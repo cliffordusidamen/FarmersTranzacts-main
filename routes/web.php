@@ -136,6 +136,14 @@ Route::post('/contact-us', [\App\Http\Controllers\PageController::class, 'sendCo
 
 Route::get('/become-an-agent', [\App\Http\Controllers\PageController::class, 'becomeAnAgent'])
     ->name('become_an_agent');
+/*
+ |-----------------------------------------------------------------------------
+ | Vendor mini-web routes
+ |-----------------------------------------------------------------------------
+ */
+Route::get('/page/{slug}', [\App\Http\Controllers\PageController::class, 'vendorPage'])
+    ->name('vendor_page');
+
 
 /*
 |-----------------------------------------------------------------------------
@@ -148,10 +156,3 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'showCancelVendorOrder'])->name('show_cancel_vendor_order');
     Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
 });
-
-
-/*
-|-----------------------------------------------------------------------------
-| Agent private routes
-|-----------------------------------------------------------------------------
-*/

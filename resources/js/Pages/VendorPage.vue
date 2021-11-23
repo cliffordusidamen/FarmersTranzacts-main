@@ -34,7 +34,7 @@
                                     class="tab-pane fade"
                                 >
                                     <h3>About</h3>
-                                    {{ vendor.about }}
+                                    <div v-html="vendor.about || ''"></div>
                                 </div>
                             </div>
                         </div>

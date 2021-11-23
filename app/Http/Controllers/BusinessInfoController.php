@@ -23,7 +23,10 @@ class BusinessInfoController extends Controller
     public function index(Request $request)
     {
         $vendor = $request->user()->vendors()->first();
-        $vendor->append('logo_url');
+        $vendor->append([
+            'logo_url',
+            'cover_picture_url',
+        ]);
 
         return response()->json(compact('vendor'));
     }

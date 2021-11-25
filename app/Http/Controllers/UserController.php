@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderCollection;
 use App\Http\Resources\UserCollection;
 use App\Models\Department;
 use App\Models\DepartmentSection;
@@ -9,6 +10,7 @@ use App\Models\Designation;
 use App\Models\Role;
 use App\Models\State;
 use App\Models\User;
+use App\Models\VendorOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -69,17 +71,6 @@ class UserController extends Controller
             ->paginate(15);
 
         return new UserCollection($users);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -328,5 +319,48 @@ class UserController extends Controller
         });
 
         return $savedUser ? $user : false;
+        
+    }
+
+    /**
+     * Agent information
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showAgent(Request $request, $id)
+    {
+        $agent = User::designated(Designation::AGENT_NAME)
+            ->with(['agent', 'agent.spendingVolume'])
+            ->findOrFail($id);
+        $agent->append('full_name')
+            ->append('profile_photo_url');
+        $spendingTrendData = VendorOrder::getUserMonthlyPurchases(
+            8, request()->user()->id);
+
+        return response()->json(compact(
+            'agent', 'spendingTrendData'
+        ));
+    }
+
+    /**
+     * Get records of users orders
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userOrders(Request $request, int $id)
+    {
+        $user = User::findOrFail($id);
+        $orders = $user->orders()
+            ->with(['deliveryStatus', 'vendorOrders'])
+            ->withCount(['cancelledVendorOrder'])
+            ->paginate(10);
+
+        $orders->each(fn ($order) => $order->append('total_quantity'));
+
+        return response()->json(compact('orders'));
     }
 }

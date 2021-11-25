@@ -15,10 +15,37 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+/*
+|-------------------------------------------------------------------------
+| Users routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('users')->group(function() {
+    Route::get('/{id}/orders', [\App\Http\Controllers\UserController::class, 'userOrders']);
+    Route::get('/show-agent/{id}', [\App\Http\Controllers\UserController::class, 'showAgent']);
+    Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
+    Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
+    Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);
+    Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
+    Route::get('add-staff', [\App\Http\Controllers\UserController::class, 'addStaff']);
+    Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);
+    Route::post('/change-agent-status/{id}', [\App\Http\Controllers\AgentController::class, 'changeStatus']);
+});
+Route::apiResource('users', \App\Http\Controllers\UserController::class)->only([
+    'show', 'update', 'destroy',
+]);
+
+
+
+/*
+|-------------------------------------------------------------------------
+| Guest route
+|-------------------------------------------------------------------------
+*/
 Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request $request) {
     return response()->json();
 });
-
 Route::middleware(['frontend'])->post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
 Route::middleware(['auth:sanctum'])->post('/logout', [\App\Http\Controllers\AuthFrontendController::class, 'logout']);
 
@@ -67,24 +94,6 @@ Route::prefix('roles')->group(function() {
 });
 Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 
-
-/*
-|-------------------------------------------------------------------------
-| Users routes
-|-------------------------------------------------------------------------
-*/
-Route::prefix('users')->group(function() {
-    Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
-    Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
-    Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);
-    Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
-    Route::get('add-staff', [\App\Http\Controllers\UserController::class, 'addStaff']);
-    Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);
-    Route::post('/change-agent-status/{id}', [\App\Http\Controllers\AgentController::class, 'changeStatus']);
-});
-Route::apiResource('users', \App\Http\Controllers\UserController::class)->only([
-    'show', 'update', 'destroy',
-]);
 
 
 /*

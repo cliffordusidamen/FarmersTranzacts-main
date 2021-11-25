@@ -169,15 +169,10 @@ class DashboardController extends Controller
      */
     public function _agent()
     {
-        $spendingTrend = VendorOrder::getUserSpendingTrend(
+        $spendingTrendData = VendorOrder::getUserMonthlyPurchases(
             8, request()->user()->id);
 
-        $currMonthSpending = $spendingTrend[carbon_ng()->format('M Y')];
-        $prevMonthSpending = $spendingTrend[
-            carbon_ng()->subtract('1 month')->format('M Y')
-        ];
-        $spendingDifference =
-            $currMonthSpending->month_total_amount - $prevMonthSpending->month_total_amount;
+        $spendingTrend = $spendingTrendData['monthlyPurchases'];
 
         $mostOrderedProduct = OrderItem::ofDeliveredVendorOrders()
             ->thisMonth()
@@ -198,9 +193,12 @@ class DashboardController extends Controller
             )
             ->first();
 
-        return Inertia::render('Dashboards/AgentDashboard', compact(
-            'spendingTrend', 'spendingDifference', 'mostOrderedProduct',
-            'preferredVendor', 'currMonthSpending'
+        $viewData = array_merge($spendingTrendData, compact(
+            'spendingTrend',
+            'mostOrderedProduct',
+            'preferredVendor',
         ));
+
+        return Inertia::render('Dashboards/AgentDashboard', $viewData);
     }
 }

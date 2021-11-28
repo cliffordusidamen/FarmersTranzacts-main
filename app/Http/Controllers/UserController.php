@@ -323,24 +323,72 @@ class UserController extends Controller
     }
 
     /**
-     * Agent information
+     * Agent or shopper information
      * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showAgent(Request $request, $id)
+    public function showAgentOrShopper(Request $request, $id)
     {
-        $agent = User::designated(Designation::AGENT_NAME)
-            ->with(['agent', 'agent.spendingVolume'])
-            ->findOrFail($id);
-        $agent->append('full_name')
-            ->append('profile_photo_url');
+        $rq_user = User::with(['designation'])->findOrFail($id);
+        if (
+            $rq_user->designation_id != Designation::AGENT_ID
+            && $rq_user->designation_id != Designation::SHOPPER_ID
+        ) {
+            abort(404);
+        }
+
+        if ($rq_user->designation_id = Designation::AGENT_ID) {
+            $rq_user->load(['agent', 'agent.spendingVolume']);
+        }
+
+        $rq_user->append('full_name')->append('profile_photo_url');
         $spendingTrendData = VendorOrder::getUserMonthlyPurchases(
             8, request()->user()->id);
 
         return response()->json(compact(
-            'agent', 'spendingTrendData'
+            'rq_user', 'spendingTrendData'
+        ));
+    }
+
+    /**
+     * Staff information
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showStaff(Request $request, int $id)
+    {
+        $staff = User::designated(Designation::STAFF_NAME)
+            ->with(['designation', 'department', 'departmentSection', 'roles'])
+            ->findOrFail($id);
+        $staff->append('full_name')->append('profile_photo_url');
+
+        return response()->json(compact(
+            'staff'
+        ));
+    }
+
+    /**
+     * Seller account information
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showSeller(Request $request, int $id)
+    {
+        $rq_seller = User::designated(Designation::SELLER_NAME)
+            ->with(['vendors'])
+            ->findOrFail($id);
+        $rq_seller->append('full_name')
+            ->append('profile_photo_url')
+            ->append('vendor_data');
+
+        return response()->json(compact(
+            'rq_seller'
         ));
     }
 
@@ -354,13 +402,20 @@ class UserController extends Controller
     public function userOrders(Request $request, int $id)
     {
         $user = User::findOrFail($id);
-        $orders = $user->orders()
+        $ordersQuery = $user->orders()
             ->with(['deliveryStatus', 'vendorOrders'])
-            ->withCount(['cancelledVendorOrder'])
-            ->paginate(10);
+            ->withCount(['cancelledVendorOrder']);
 
-        $orders->each(fn ($order) => $order->append('total_quantity'));
+        $q = trim($request->query('q', ''));
+        if (strlen($q) > 0) {
+            $ordersQuery->where('reference_number', 'like', "%{$q}%");
+        }
+        $orders = $ordersQuery->paginate(10);
 
-        return response()->json(compact('orders'));
+        if ($orders->total()) {
+            $orders->each(fn ($order) => $order->append('total_quantity'));
+        }
+
+        return new OrderCollection($orders);
     }
 }

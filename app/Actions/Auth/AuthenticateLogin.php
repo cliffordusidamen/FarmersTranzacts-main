@@ -6,7 +6,6 @@ use App\Models\Designation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -59,6 +58,7 @@ class AuthenticateLogin
             return false;
         }
 
+
         if (!$user->is_active) {
             throw ValidationException::withMessages([
                 'email' => ['Account has been deactivated. Contact Admin'],
@@ -66,7 +66,8 @@ class AuthenticateLogin
         }
 
         $loginAsShopperOrAgent = empty($request->input('as_designation'))
-            || $request->input('as_designation') == Designation::SHOPPER_NAME;
+            || $request->input('as_designation') == Designation::SHOPPER_NAME
+            || $request->input('as_designation') == Designation::AGENT_NAME;
 
         if ($loginAsShopperOrAgent) {
             return $user;

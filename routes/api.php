@@ -22,8 +22,10 @@ use Illuminate\Support\Facades\Route;
 |-------------------------------------------------------------------------
 */
 Route::prefix('users')->group(function() {
+    Route::get('shopper-info/{id}', [\App\Http\Controllers\UserController::class, 'showAgentOrShopper']);
+    Route::get('staff-info/{id}', [\App\Http\Controllers\UserController::class, 'showStaff']);
+    Route::get('seller-info/{id}', [\App\Http\Controllers\UserController::class, 'showSeller']);
     Route::get('/{id}/orders', [\App\Http\Controllers\UserController::class, 'userOrders']);
-    Route::get('/show-agent/{id}', [\App\Http\Controllers\UserController::class, 'showAgent']);
     Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
     Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
     Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);

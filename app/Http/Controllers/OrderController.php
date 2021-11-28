@@ -21,12 +21,14 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // TODO: Implement filering by date range, delivery status, reference number, buyer name
-        $orders = Order::with([
+        $q = trim($request->query('q', ''));
+        $ordersQuery = Order::with([
             'deliveryStatus',
             'user',
             'vendorOrders',
@@ -34,8 +36,13 @@ class OrderController extends Controller
             'vendorOrders.items.product',
             'vendorOrders.items.product.packaging',
         ])
-        ->withCount(['cancelledVendorOrder'])
-        ->paginate(10);
+        ->withCount(['cancelledVendorOrder']);
+
+        if (strlen($q) > 0) {
+            $ordersQuery->where('reference_number', 'like', "%{$q}%");
+        }
+
+        $orders = $ordersQuery->paginate(10);
 
         return new OrderCollection($orders);
     }

@@ -4005,6 +4005,7 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
+var _hoisted_14 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_vendor_page_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vendor-page-header");
 
@@ -4040,9 +4041,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         paginator: $setup.products
       }, null, 8
       /* PROPS */
-      , ["paginator"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.vendor.about), 1
-      /* TEXT */
-      )])]))])])])])])];
+      , ["paginator"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        innerHTML: $setup.vendor.about || ''
+      }, null, 8
+      /* PROPS */
+      , _hoisted_14)])]))])])])])])];
     }),
     _: 1
     /* STABLE */
@@ -4655,10 +4658,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 // runtime helper for setting properties on components
 // in a tree-shakable way
 exports["default"] = (sfc, props) => {
+    const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
-        sfc[key] = val;
+        target[key] = val;
     }
-    return sfc;
+    return target;
 };
 
 

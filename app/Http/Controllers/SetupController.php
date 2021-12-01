@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveBannerRequest;
+use App\Http\Requests\StoreSpendingVolumeRequest;
+use App\Models\AgentSpendingVolume;
 use App\Models\AppSetting;
 use App\Models\Banner;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class SetupController extends Controller
 {
@@ -209,5 +212,51 @@ class SetupController extends Controller
         }
 
         throw new \Exception('Banner not deleted! Please, try again.');
+    }
+
+    /**
+     * List all available agent commissions setup
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function agentCommissions(Request $request)
+    {
+        abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
+
+        $spendingVolumes = AgentSpendingVolume::withCount('agents')->get();
+
+        return response()->json(compact('spendingVolumes'));
+    }
+
+    /**
+     * Store new agent commissions setup
+     * 
+     * @param \App\Http\Requests\StoreSpendingVolumeRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAgentCommissions(StoreSpendingVolumeRequest $request)
+    {
+        if (AgentSpendingVolume::checkAmount($request->minimum_amount)) {
+            return ValidationException::withMessages([
+                'minimum_amount' => 'Another commission setup already exists for the quantity',
+            ]);
+        }
+
+        if (AgentSpendingVolume::checkAmount($request->maximum_amount)) {
+            return ValidationException::withMessages([
+                'maximum_amount' => 'Another commission setup already exists for the quantity',
+            ]);
+        }
+
+        $spendingVolume = AgentSpendingVolume::create($request->only([
+            'minimum_amount', 'maximum_amount', 'commission_percentage',
+        ]));
+
+        if (!$spendingVolume) {
+            throw new \Exception('Commission setup not saved! Please, try again.');
+        }
+
+        return response()->json($spendingVolume);
     }
 }

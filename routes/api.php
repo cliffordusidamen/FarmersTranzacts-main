@@ -199,6 +199,8 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'editBanner']);
     Route::post('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'updateBanner']);
     Route::delete('delete-banner/{id}', [\App\Http\Controllers\SetupController::class, 'deleteBanner']);
+    Route::get('agent-commissions', [\App\Http\Controllers\SetupController::class, 'agentCommissions']);
+    Route::post('agent-commissions', [\App\Http\Controllers\SetupController::class, 'storeAgentCommissions']);
 });
 
 

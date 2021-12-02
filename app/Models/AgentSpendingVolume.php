@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Validation\Rule;
 
 class AgentSpendingVolume extends Model
 {
@@ -47,5 +48,35 @@ class AgentSpendingVolume extends Model
             ->first();
 
         return $agentSpendingVolume ?? null;
+    }
+
+    /**
+     * Default validation rules
+     * 
+     * @param  int|null  $id
+     * @return array
+     */
+    public static function validationRules(?int $id = null): array
+    {
+        
+        $commissionUniqueRule = Rule::unique('agent_spending_volumes', 'commission_percentage');
+
+        if ($id) {
+            $commissionUniqueRule->ignore($id);
+        }
+
+        $rules = [
+            'minimum_amount' => 'required|numeric|min:0|max:999999999',
+            'maximum_amount' => 'sometimes|nullable|numeric|min:0|max:999999999',
+            'commission_percentage' => [
+                'required',
+                'numeric',
+                'min:0.1',
+                'max:99',
+                $commissionUniqueRule,
+            ],
+        ];
+
+        return $rules;
     }
 }

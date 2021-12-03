@@ -62,6 +62,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'email_verified_at' => null,
         ])->save();
 
+        flashMessage('success', 'Your email address was changed, and a new email verification link has been sent to your new email address.');
+
         $user->sendEmailVerificationNotification();
     }
 }

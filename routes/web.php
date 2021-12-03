@@ -71,6 +71,7 @@ Route::resource('vendors', \App\Http\Controllers\VendorController::class);
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->name('profile.')->group(function() {
+    Route::get('unverified-profile', [\App\Http\Controllers\ProfileController::class, 'showUnverifiedProfile'])->name('unverified_profile');
     Route::get('agent-details', [\App\Http\Controllers\ProfileController::class, 'showEditAgentForm'])->name('edit_agent_details');
     Route::get('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedAgentForm'])->name('edit_agent_disapproval');
     Route::post('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'resubmitForApproval'])->name('resubmit_for_approval');

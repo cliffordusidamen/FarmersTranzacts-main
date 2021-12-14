@@ -63,7 +63,9 @@ Route::prefix('shop')->name('shop.')->group(function() {
 Route::prefix('vendors')->name('vendors.')->group(function() {
     Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
 });
-Route::resource('vendors', \App\Http\Controllers\VendorController::class);
+Route::resource('vendors', \App\Http\Controllers\VendorController::class)->except([
+    'index',
+]);
 
 /*
  |-----------------------------------------------------------------------------

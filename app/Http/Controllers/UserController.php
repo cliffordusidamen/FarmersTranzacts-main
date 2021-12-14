@@ -184,15 +184,23 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update personal information
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request)
     {
-        //
+        $user = User::find($request->user()->id);
+        $data = $this->validate($request, User::defaultValidationRules($user->id));
+
+        $saved = $user->forceFill($data)->save();
+
+        if (!$saved) {
+            throw new \Exception('Profile information not saved! Please, try again.');
+        }
+
+        return response()->json(compact('user'));
     }
 
     /**

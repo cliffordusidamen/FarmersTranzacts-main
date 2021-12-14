@@ -199,11 +199,18 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'editBanner']);
     Route::post('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'updateBanner']);
     Route::delete('delete-banner/{id}', [\App\Http\Controllers\SetupController::class, 'deleteBanner']);
+
     Route::get('agent-commissions', [\App\Http\Controllers\SetupController::class, 'agentCommissions']);
     Route::post('agent-commissions', [\App\Http\Controllers\SetupController::class, 'storeAgentCommissions']);
     Route::get('edit-agent-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'editAgentCommissions']);
     Route::put('update-agent-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateAgentCommissions']);
     Route::delete('delete-agent-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteAgentCommission']);
+
+    Route::get('sales-commissions', [\App\Http\Controllers\SetupController::class, 'salesCommissions']);
+    Route::post('sales-commissions', [\App\Http\Controllers\SetupController::class, 'storeSalesCommissions']);
+    Route::get('edit-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'editSalesCommissions']);
+    Route::put('update-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateSalesCommissions']);
+    Route::delete('delete-sales-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteSalesCommission']);
 });
 
 

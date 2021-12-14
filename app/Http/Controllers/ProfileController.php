@@ -22,13 +22,32 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:sanctum', 'verified', 'frontend']);
+        $this->middleware([
+            'auth:sanctum',
+            'frontend'
+        ]);
+
+        $this->middleware('verified')->except('showUnverifiedProfile');
 
         // $this->middleware('auth.vendor')->only([
         //     'showEditDisapprovedVendorForm',
         //     'saveDisapprovedVendor',
         //     'showEditVendorForm',
         // ]);
+    }
+
+    /**
+     * Show profile form for unverified user
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function showUnverifiedProfile()
+    {
+        $user = auth()->user();
+        if ($user->email_verified_at) {
+            return redirect()->route('profile.show');
+        }
+        return Inertia::render('Profile/UnverifiedProfile', compact('user'));
     }
 
     /**

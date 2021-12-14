@@ -12,6 +12,16 @@
 
       <div class="mb-3 text-muted">
         You need to verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
+
+        <div class="bg-light mx-2 py-2 px-3">
+          your email address is:<br />
+          <strong>{{ this.$page.props.user.email }}</strong>
+          
+            <inertia-link
+                :href="route('profile.unverified_profile')"
+                class="btn btn-link"
+            >Edit email</inertia-link>
+        </div>
       </div>
 
       <form @submit.prevent="submit">

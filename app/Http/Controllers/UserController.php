@@ -204,6 +204,27 @@ class UserController extends Controller
     }
 
     /**
+     * Change personal password
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:6|max:50|confirmed',
+            'password_confirmation' => 'required|min:6|max:50',
+        ]);
+        $user = User::find($request->user()->id);
+        $user->password = $request->input('password');
+        if ($user->save()) {
+            return response()->json(compact('user'));
+        }
+
+        throw new \Exception('Password was not changed! Please, try again.');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

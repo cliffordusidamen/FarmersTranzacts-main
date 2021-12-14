@@ -253,6 +253,6 @@ Route::prefix('business-info')->group(function() {
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->group(function() {
-    Route::post('/change-password', [\App\Http\Controllers\SellerProfileController::class, 'changePassword']);
+    Route::post('/change-password', [\App\Http\Controllers\UserController::class, 'changePassword']);
     Route::post('/update', [\App\Http\Controllers\UserController::class, 'updateProfile']);
 });

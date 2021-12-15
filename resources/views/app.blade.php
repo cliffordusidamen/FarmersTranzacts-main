@@ -31,7 +31,6 @@
     <meta name="apple-mobile-web-app-title" content="{{ config('app.name') }}">
     <meta name="application-name" content="{{ config('app.name') }}">
     <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="/molla-template/images/icons/browserconfig.xml">
 
     <link rel="stylesheet" href="/molla-template/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
     <!-- Plugins CSS File -->

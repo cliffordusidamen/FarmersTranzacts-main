@@ -63,7 +63,7 @@
                                             </toggles-delivery-state-modal>
                                         </span>
                                     </div>
-                                    <div class="product" v-for="{product, quantity, can_be_delivered} in cartItems" :key="product.id">
+                                    <div class="product" v-for="{product, quantity, can_be_delivered} in cartItemsToDisplay" :key="product.id">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
                                                 <inertia-link :href="route('shop.show_product', {slug: product.slug})">{{product.name}}</inertia-link>
@@ -91,6 +91,16 @@
                                         </figure>
                                         <a href="#" class="btn-remove text-dark" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
+
+                                    <div
+                                        v-if="cartItemsCount > 2"
+                                    >
+                                        <inertia-link :href="route('shopping_cart.view')" class="btn btn-link">
+                                            +{{ cartItemsCount - 2 }} 
+                                            {{ cartItemsCount > 3 ? 'more items' : 'more item' }}
+                                        </inertia-link>
+                                    </div>
+
                                 </div><!-- End .cart-product -->
 
                                 <div class="dropdown-cart-total">
@@ -191,6 +201,8 @@ export default {
             removeItem,
         } =  useCartManager()
 
+        const cartItemsToDisplay = Object.keys(cartItems).slice(0, 2).map(key => cartItems[key])
+
         const pageProps = usePage().props.value
         const product_categories = pageProps?.product_categories || {}
         const categoriesList = {}
@@ -220,9 +232,10 @@ export default {
 
         return {
             cart,
+            cartHasItems,
             cartItems,
             cartItemsCount,
-            cartHasItems,
+            cartItemsToDisplay,
             processing,
             removeItem,
             toggleMobileMenu,

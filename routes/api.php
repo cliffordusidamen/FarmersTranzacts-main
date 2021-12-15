@@ -256,3 +256,11 @@ Route::prefix('profile')->group(function() {
     Route::post('/change-password', [\App\Http\Controllers\UserController::class, 'changePassword']);
     Route::post('/update', [\App\Http\Controllers\UserController::class, 'updateProfile']);
 });
+
+
+/*
+ |-----------------------------------------------------------------------------
+ | Page content routes
+ |-----------------------------------------------------------------------------
+ */
+Route::get('page/{slug}', [\App\Http\Controllers\SetupController::class, 'showPage']);

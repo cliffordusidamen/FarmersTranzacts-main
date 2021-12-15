@@ -67,6 +67,20 @@ class SetupController extends Controller
     }
 
     /**
+     * Get page by permalink/slug
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showPage(Request $request, string $slug)
+    {
+        $page = Page::where('slug', $slug)->firstOrFail();
+
+        return response()->json(compact('page'));
+    }
+
+    /**
      * Get page by id, for editing
      * 
      * @param  \Illuminate\Http\Request  $request

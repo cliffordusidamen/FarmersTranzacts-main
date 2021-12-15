@@ -243,37 +243,38 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- [END] - PRODUCTS CATERGORIES -->
 
-                        <div
-                            class="form-group"
-                            v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
-                        >
-                            <div class="custom-control custom-checkbox">
-                                <input
-                                    class="custom-control-input"
-                                    name="terms"
-                                    type="checkbox"
-                                    id="terms"
-                                    value="1"
-                                    v-model="form.terms"
-                                    required
-                                />
+                        <!-- DISPLAY TERMS & CONDITIONS -->
+                        <div class="card p-0 border rounded-md mb-4">
+                            <div class="card-header border-bottom px-3 py-3">
+                                {{ $page.props.agentTermsPage.title }}
+                            </div>
+                            <div
+                                class="card-body m-0"
+                                style="max-height: 300px; overflow-y: auto;"
+                                v-html="$page.props.agentTermsPage.content"
+                            ></div>
+                            <div class="card-footer bg-white border-top px-3 py-3">
+                                <!-- CHECKBOX FOR TERMS AND CONDITTIONS ACCEPTANCE -->
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input
+                                        class="custom-control-input"
+                                        name="terms"
+                                        type="checkbox"
+                                        id="terms"
+                                        value="1"
+                                        v-model="form.terms"
+                                        required
+                                    />
 
-                                <label class="custom-control-label" for="terms">
-                                    I agree to the
-                                    <a target="_blank" :href="route('terms.show')"
-                                        >Terms of Service</a
-                                    >
-                                    and
-                                    <a target="_blank" :href="route('privacy_policy')"
-                                        >Privacy Policy</a
-                                    >
-                                </label>
-                                <jet-input-error :message="form.errors.terms" />
+                                    <label class="custom-control-label" for="terms">
+                                        I agree to the terms &amp; conditions stated above
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                        <!-- [END] - DISPLAY TERMS & CONDITIONS -->
 
                         <div class="mb-0 text-center">
                             <jet-button

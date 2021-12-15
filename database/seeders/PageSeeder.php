@@ -52,7 +52,7 @@ class PageSeeder extends Seeder
                 'content' => 'Selling on FarmerXpress!',
             ],
             [
-                'slug' => 'agent_terms',
+                'slug' => Page::AGENT_TERMS,
                 'title' => 'Terms & Conditions for selling for agents',
                 'description' => 'Terms & Conditions (displayed on the agent page)',
                 'content' => 'agent on FarmerXpress!',

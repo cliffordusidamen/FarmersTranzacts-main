@@ -183,6 +183,20 @@ Route::resource('products', \App\Http\Controllers\ProductController::class);
 Route::resource('packagings', \App\Http\Controllers\VendorPackagingController::class);
 
 
+
+/*
+|-------------------------------------------------------------------------
+| Vendor orders routes (for seller app)
+|-------------------------------------------------------------------------
+*/
+Route::prefix('vendor_orders')->group(function() {
+    Route::put('{id}/transit', [\App\Http\Controllers\VendorOrderController::class, 'transit']);
+    Route::put('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'delivery']);
+});
+Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);
+
+
+
 /*
 |-------------------------------------------------------------------------
 | Setup routes
@@ -212,19 +226,6 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::put('update-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateSalesCommissions']);
     Route::delete('delete-sales-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteSalesCommission']);
 });
-
-
-
-/*
-|-------------------------------------------------------------------------
-| Vendor orders routes (for seller app)
-|-------------------------------------------------------------------------
-*/
-Route::prefix('vendor_orders')->group(function() {
-    Route::put('{id}/transit', [\App\Http\Controllers\VendorOrderController::class, 'transit']);
-    Route::put('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'delivery']);
-});
-Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);
 
 
 /*

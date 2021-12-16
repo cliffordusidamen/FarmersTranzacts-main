@@ -21,7 +21,7 @@
                 :disabled="processing"
             >
                 <span class="text-white" v-if="processing">processing</span>
-                <span v-else-if="isInCart">
+                <span v-else-if="isInCart" class="text-white">
                     remove <span class="d-none d-sm-inline text-white">from cart</span>
                 </span>
                 <span class="text-white" v-else>

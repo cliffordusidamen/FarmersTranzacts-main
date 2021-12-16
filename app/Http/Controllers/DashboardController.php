@@ -74,6 +74,7 @@ class DashboardController extends Controller
 
         $ordersThisMonth = VendorOrder::forVendor($user_vendor->id)
             ->notCancelled($user_vendor->id)
+            ->cancellationPeriodElapsed()
             ->thisMonth()
             ->count();
 
@@ -83,6 +84,8 @@ class DashboardController extends Controller
 
         $topOrders = VendorOrder::thisMonth()
             ->with(['deliveryStatus', 'user', 'items'])
+            ->notCancelled($user_vendor->id)
+            ->cancellationPeriodElapsed()
             ->orderBy('total_amount', 'desc')
             ->take(5)
             ->get();

@@ -18,23 +18,11 @@ class VendorOrder extends Model
     use QueriesDateField;
 
     /**
-     * Mass assignable fields
+     * Guarded fields
      * 
      * @var array
      */
-    protected $fillable = [
-        'reference_number',
-        'user_id',
-        'order_id',
-        'vendor_id',
-        'items_amount',
-        'delivery_amount',
-        'delivery_days',
-        'total_amount',
-        'delivery_status_id',
-        'transit_note',
-        'delivery_note',
-    ];
+    protected $guarded = [];
     
     /**
      * Relationship: Belongs to a vendor
@@ -210,6 +198,30 @@ class VendorOrder extends Model
             'prevMonthSpending',
             'spendingDifference'
         );
+    }
+
+    /**
+     * Custom attribute to determine if the customer can leave review
+     * 
+     * @return bool
+     */
+    public function getCanLeaveReviewAttribute(): bool
+    {
+        if (
+            !empty($this->customer_reviewed_at)
+            || empty($this->delivery_date)
+            || $this->delivery_status_id !== DeliveryStatus::DELIVERED_ID
+        ) {
+            return false;
+        }
+
+        if (
+            carbon_ng($this->delivery_date)->diffInDays(carbon_ng()) <= 7
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
 }

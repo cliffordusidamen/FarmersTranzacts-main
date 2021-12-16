@@ -393,3 +393,22 @@ if (!function_exists('shortenNumber')) {
         return $number;
     }
 }
+
+if (!function_exists('formatDateValue')) {
+
+    /**
+     * Check if string value is valid date
+     * 
+     * @param string $dateValue
+     * @param string $dateFormat
+     * @return string|null
+     */
+    function formatDateValue(string $dateValue, string $dateFormat = 'd-m-Y'): ?string
+    {
+        try {
+            return carbon_ng($dateValue)->format($dateFormat);
+        } catch (\Exception $e) {
+        }
+        return null;
+    }
+}

@@ -31,6 +31,7 @@ class VendorOrderResource extends JsonResource
             'created_at'          => carbon_ng($this->created_at),
             'transitable' => $this->transitable,
             'deliverable' => $this->deliverable,
+            'created_at' => $this->created_at,
         ];
 
         if ($this->whenAppended('deliverable')) {

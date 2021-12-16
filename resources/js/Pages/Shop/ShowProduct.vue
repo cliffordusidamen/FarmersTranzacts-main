@@ -84,7 +84,7 @@ import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
 import ProductDeliveryCostItem from "@/Components/ProductDeliveryCostItem.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
-import { onMounted } from '@vue/runtime-core';
+import { onMounted, onUnmounted } from '@vue/runtime-core';
 
 export default {
     components: {
@@ -146,6 +146,14 @@ export default {
             });
         })
 
+
+        onUnmounted(() => {
+            const $zoomContainers = $('.zoomContainer');
+
+            if ($zoomContainers.length) {
+                $zoomContainers.remove();
+            }
+        })
         const getImagePath = (path) => {
             return path.replace(/^(public\/)/, '/storage/')
         }

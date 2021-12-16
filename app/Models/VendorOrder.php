@@ -201,11 +201,25 @@ class VendorOrder extends Model
     }
 
     /**
+     * Custom attribute: get rating remark
+     * 
+     * @return string
+     */
+    public function getRatingRemarkAttribute(): string
+    {
+        if (!empty($this->customer_review_rating)) {
+            $ratingOptions = AppSetting::getReviewRatingOptions();
+            return $ratingOptions[$this->customer_review_rating] ?? '';
+        }
+        return '';
+    }
+
+    /**
      * Custom attribute to determine if the customer can leave review
      * 
      * @return bool
      */
-    public function getCanLeaveReviewAttribute(): bool
+    public function getCanSubmitReviewAttribute(): bool
     {
         if (
             !empty($this->customer_reviewed_at)

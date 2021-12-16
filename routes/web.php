@@ -156,4 +156,5 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/{order}', [\App\Http\Controllers\MyOrderController::class, 'show'])->name('show');
     Route::get('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'showCancelVendorOrder'])->name('show_cancel_vendor_order');
     Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
+    Route::post('/{vendor_order}/review', [\App\Http\Controllers\MyOrderController::class, 'reviewVendorOrder'])->name('review_vendor_order');
 });

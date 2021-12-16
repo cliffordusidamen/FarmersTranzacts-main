@@ -34,7 +34,7 @@ class ShoppingCartController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware(['auth:sanctum', 'verified'])->only([
-            'checkout',
+            'checkout', 'paymentVerify',
         ]);
     }
     

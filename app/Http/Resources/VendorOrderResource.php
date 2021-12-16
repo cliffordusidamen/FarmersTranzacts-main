@@ -32,6 +32,7 @@ class VendorOrderResource extends JsonResource
             'transitable' => $this->transitable,
             'deliverable' => $this->deliverable,
             'created_at' => $this->created_at,
+            'can_submit_review' => $this->can_submit_review,
         ];
 
         if ($this->whenAppended('deliverable')) {

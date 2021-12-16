@@ -98,6 +98,23 @@
                                             </tr><!-- End .summary-total -->
                                         </tbody>
                                     </table>
+
+                                    <div class="m-4" v-if="vendorOrder.can_submit_review">
+                                        <order-review-form
+                                            :vendor-order="vendorOrder"
+                                            :rating-options="ratingOptions"
+                                        />
+                                    </div>
+                                    <div class="m-4" v-if="Number(vendorOrder.customer_review_rating)">
+                                        <p>
+                                            <strong>Your Review:</strong><br>
+                                            <ratings-stars
+                                                :stars="Number(vendorOrder.customer_review_rating)"
+                                                :remark="vendorOrder?.rating_remark ?? ''"
+                                            />
+                                            <span class="text-muted">{{vendorOrder.customer_review_comment}}</span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,6 +132,8 @@ import PageHeader from "@/Components/Utils/PageHeader.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
 import useDate from '@/composables/useDate'
 import Pagination from '@/Components/Pagination.vue'
+import RatingsStars from '@/Components/RatingsStars.vue'
+import OrderReviewForm from '@/Components/Forms/OrderReviewForm.vue'
 
 export default {
     components: {
@@ -122,10 +141,12 @@ export default {
         BreadcrumbDefault,
         PageHeader,
         Pagination,
+        OrderReviewForm,
+        RatingsStars,
     },
     setup() {
 
-        const { order } = usePage().props.value
+        const { order, ratingOptions } = usePage().props.value
         const { formatDate } = useDate()
         const breadcrumbLinks = [
             {
@@ -139,8 +160,9 @@ export default {
 
         return {
             breadcrumbLinks,
-            order,
             formatDate,
+            order,
+            ratingOptions,
         };
     },
 };

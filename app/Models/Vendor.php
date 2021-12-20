@@ -361,6 +361,32 @@ class Vendor extends Model
     }
 
     /**
+     * Custom attribute: Get average rating
+     * 
+     * @return float
+     */
+    public function getAverageRatingAttribute(): float
+    {
+        return $this->orders()
+            ->whereNotNull('customer_review_rating')
+            ->avg('customer_review_rating');
+    }
+
+    /**
+     * Custom attribute: Get average rating remark
+     * 
+     * @return string
+     */
+    public function getAverageRatingRemarkAttribute(): ?string
+    {
+        $rating = floor($this->average_rating ?? 0);
+        $appRemarks = AppSetting::getReviewRatingOptions();
+
+        return $rating == 0 || !isset($appRemarks[$rating])
+            ? null : $appRemarks[$rating];
+    }
+
+    /**
      * Update the user's profile photo.
      *
      * @param  \Illuminate\Http\UploadedFile|null  $photo

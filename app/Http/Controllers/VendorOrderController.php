@@ -41,8 +41,10 @@ class VendorOrderController extends Controller
         
         if ($vendorOrders->total()) {
             $vendorOrders->each(function ($vendorOrder) {
-                $vendorOrder->append('transitable');
-                $vendorOrder->append('deliverable');
+                $vendorOrder->append([
+                    'transitable',
+                    'deliverable',
+                ]);
             });
         }
 

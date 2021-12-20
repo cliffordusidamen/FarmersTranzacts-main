@@ -238,4 +238,18 @@ class VendorOrder extends Model
         return false;
     }
 
+    /**
+     * Custom attribute: Get rating remark
+     * 
+     * @return string
+     */
+    public function getCustomerReviewRemarkAttribute(): ?string
+    {
+        $rating = floor($this->customer_review_rating ?? 0);
+        $appRemarks = AppSetting::getReviewRatingOptions();
+
+        return $rating == 0 || !isset($appRemarks[$rating])
+            ? null : $appRemarks[$rating];
+    }
+
 }

@@ -367,9 +367,11 @@ class Vendor extends Model
      */
     public function getAverageRatingAttribute(): float
     {
-        return $this->orders()
+        $averageRating = $this->orders()
             ->whereNotNull('customer_review_rating')
             ->avg('customer_review_rating');
+
+        return $averageRating ?? 0;
     }
 
     /**
@@ -384,6 +386,20 @@ class Vendor extends Model
 
         return $rating == 0 || !isset($appRemarks[$rating])
             ? null : $appRemarks[$rating];
+    }
+
+    /**
+     * Custom attribute: Get number of reviews
+     * 
+     * @return int
+     */
+    public function getNumberOfReviewsAttribute(): int
+    {
+        $numberOfReviews = $this->orders()
+            ->whereNotNull('customer_review_rating')
+            ->count();
+        
+        return $numberOfReviews ?? 0;
     }
 
     /**

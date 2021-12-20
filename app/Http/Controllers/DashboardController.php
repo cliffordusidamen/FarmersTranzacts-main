@@ -59,7 +59,12 @@ class DashboardController extends Controller
         $user_vendor = auth()->user()->vendors()->first();
         $approvalPending = $user_vendor->approval_status == Vendor::STATUS_PENDING;
         $approvalDisapproved = $user_vendor->approval_status == Vendor::STATUS_DISAPPROVED;
-        $user_vendor->append(['storage_used', 'average_rating', 'average_rating_remark']);
+        $user_vendor->append([
+            'storage_used',
+            'average_rating',
+            'average_rating_remark',
+            'number_of_reviews',
+        ]);
         $storageAllowed = AppSetting::getSetting(AppSetting::VENDOR_STORAGE_LIMIT) * 1_000_000;
         $numberOfProducts = $user_vendor->products()->count();
 

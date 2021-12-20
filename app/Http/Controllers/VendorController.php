@@ -35,6 +35,16 @@ class VendorController extends Controller
         ->orderByDesc('id')
         ->paginate(10);
 
+        if ($vendors->total()) {
+            $vendors->each(fn ($vendor) => (
+                $vendor->append([
+                    'average_rating',
+                    'number_of_reviews',
+                    'average_rating_remark',
+                ])
+            ));
+        }
+
         
         if (request()->wantsJson()) {
             $approvalStatuses = Vendor::getApprovalStatuses(true);
@@ -127,6 +137,12 @@ class VendorController extends Controller
         $vendor = Vendor::with([
             'users', 'address', 'address.state',
         ])->findOrFail((int) $id);
+
+        $vendor->append([
+            'average_rating',
+            'number_of_reviews',
+            'average_rating_remark',
+        ]);
 
         $approvalStatuses = Vendor::getApprovalStatuses(true);
         

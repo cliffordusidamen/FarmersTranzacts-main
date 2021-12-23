@@ -9,7 +9,7 @@
             target="_blank"
             :href="shareLink"
             class="fb-xfbml-parse-ignore"
-            >Share</a
+            >Share on Facebook</a
         >
     </div>
 </template>

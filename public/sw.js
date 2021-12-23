@@ -1,1 +1,17 @@
-self.addEventListener("install",(function(e){console.log("[ServiceWorker] Installed")})),self.addEventListener("activate",(function(e){console.log("[ServiceWorker] Activated")})),self.addEventListener("fetch",(function(e){}));
+/******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!****************************!*\
+  !*** ./resources/js/sw.js ***!
+  \****************************/
+// Install service worker
+self.addEventListener('install', function (event) {
+  console.log('[ServiceWorker] Installed');
+}); // Activate event
+
+self.addEventListener('activate', function (event) {
+  console.log('[ServiceWorker] Activated');
+}); // Fetch event
+
+self.addEventListener('fetch', function (event) {});
+/******/ })()
+;

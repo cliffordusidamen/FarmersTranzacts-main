@@ -62,12 +62,22 @@
                                 </div>
 
                                 <div class="product-details-footer">
-                                    <strong class="mr-2 lead">SHOP:</strong>
-                                    <inertia-link
-                                        :href="route('vendor_page', { slug: product.vendor.slug })"
-                                    >
-                                        {{ product.vendor.shop_name }}
-                                    </inertia-link>
+                                    <div class="d-flex flex-column align-items-sta">
+
+                                        <div class="d-flex align-items-center">
+                                            <strong class="mr-2 lead">SHOP:</strong>
+                                            <inertia-link
+                                                :href="route('vendor_page', { slug: product.vendor.slug })"
+                                            >
+                                                {{ product.vendor.shop_name }}
+                                            </inertia-link>
+                                        </div>
+
+                                        <div class="d-block">
+                                            SHARE:
+                                            <facebook-share :link="route('shop.show_product', { slug: product.slug })" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +95,7 @@ import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
 import ProductDeliveryCostItem from "@/Components/ProductDeliveryCostItem.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
 import { onMounted, onUnmounted } from '@vue/runtime-core';
+import FacebookShare from '../../Components/Controls/FacebookShare.vue';
 
 export default {
     components: {
@@ -92,6 +103,7 @@ export default {
         BreadcrumbDefault,
         CartUpdateButton,
         ProductDeliveryCostItem,
+        FacebookShare,
     },
     setup() {
         const {product} = usePage().props.value

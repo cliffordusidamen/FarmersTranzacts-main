@@ -19,8 +19,8 @@
     <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-192x192.png') }}" />
     <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-384x384.png') }}" />
     <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-512x512.png') }}" />
-    <meta name="apple-mobile-web-app-status-bar" content="#046400" />
-    <meta name="theme-color" content="#381af6" />
+    <meta name="apple-mobile-web-app-status-bar" content="#005401" />
+    <meta name="theme-color" content="#005401" />
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/icons/apple-touch-icon.png') }}">
@@ -30,7 +30,7 @@
     <link rel="shortcut icon" href="{{ asset('img/icons/favicon.ico') }}">
     <meta name="apple-mobile-web-app-title" content="{{ config('app.name') }}">
     <meta name="application-name" content="{{ config('app.name') }}">
-    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-TileColor" content="#005401">
     <meta name="description" content="{{ config('app.description') }}">
 
     <link rel="stylesheet" href="/molla-template/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">

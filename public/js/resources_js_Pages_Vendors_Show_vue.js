@@ -774,7 +774,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     contextClass: {
       type: String,
-      "default": 'btn-dark'
+      "default": 'btn-primary'
     }
   }
 });
@@ -1945,10 +1945,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   href: "/",
   "class": "logo"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "/img/logo-full-small.png",
-  style: {
-    "height": "40px"
-  }
+  src: "/img/logo-full-small-new.png"
 })], -1
 /* HOISTED */
 );

@@ -830,7 +830,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     contextClass: {
       type: String,
-      "default": 'btn-dark'
+      "default": 'btn-primary'
     }
   }
 });
@@ -1468,10 +1468,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-          'btn-product btn-block btn-cart text-white': true,
-          'bg-primary text-white': !$setup.isInCart && !$setup.processing,
-          'bg-danger border-danger': $setup.isInCart && !$setup.processing,
-          'bg-secondary border-secondary': $setup.processing
+          'btn-block': true,
+          'btn-product': !$setup.isInCart && !$setup.processing,
+          'bg-danger border-danger text-white': $setup.isInCart && !$setup.processing,
+          'btn-product-processing': $setup.processing
         }),
         onClick: function onClick($event) {
           var _$setup$cart, _$setup$cart$state;
@@ -1517,7 +1517,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     target: "_blank",
     href: $setup.shareLink,
     "class": "fb-xfbml-parse-ignore"
-  }, "Share", 8
+  }, "Share on Facebook", 8
   /* PROPS */
   , _hoisted_2)], 8
   /* PROPS */
@@ -2125,10 +2125,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   href: "/",
   "class": "logo"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "/img/logo-full-small.png",
-  style: {
-    "height": "40px"
-  }
+  src: "/img/logo-full-small-new.png"
 })], -1
 /* HOISTED */
 );

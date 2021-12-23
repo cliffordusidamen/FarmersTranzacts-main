@@ -3,8 +3,8 @@
     "short_name": "FarmerXpress",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#046400",
-    "theme_color": "#381af6",
+    "background_color": "#28b94b",
+    "theme_color": "#005401",
     "orientation": "portrait-primary",
     "icons": [
       {
@@ -38,9 +38,9 @@
         "sizes": "192x192"
       },
       {
-        "src": "/img/icons/icon-241x302.png",
+        "src": "/img/icons/icon-479x520.png",
         "type": "image/png",
-        "sizes": "241x302",
+        "sizes": "479x520",
         "purpose": "maskable"
       },
       {

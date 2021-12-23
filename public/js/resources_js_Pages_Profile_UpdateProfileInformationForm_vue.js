@@ -99,7 +99,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     contextClass: {
       type: String,
-      "default": 'btn-dark'
+      "default": 'btn-primary'
     }
   }
 });

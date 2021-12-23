@@ -8,10 +8,10 @@
             <button
                 type="button"
                 :class="{
-                    'btn-product btn-block btn-cart text-white': true,
-                    'bg-primary text-white': !isInCart && !processing,
-                    'bg-danger border-danger': isInCart && !processing,
-                    'bg-secondary border-secondary': processing,
+                    'btn-block': true,
+                    'btn-product': !isInCart && !processing,
+                    'bg-danger border-danger text-white': isInCart && !processing,
+                    'btn-product-processing': processing,
                 }"
                 @click="
                     !cart?.state?.id

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\NigeriaMobile;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Laravel\Jetstream\Jetstream;
 
 class StoreShopperRequest extends FormRequest
@@ -29,7 +30,7 @@ class StoreShopperRequest extends FormRequest
             'first_name' => ['required', 'string', 'min:3', 'max:25'],
             'last_name' => ['required', 'string', 'min:3', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable',  new NigeriaMobile, 'unique:users'],
+            'phone' => ['nullable', 'string', 'max:15', 'unique:users'],
             'password' => ['required', 'confirmed', 'min:8', 'max:50'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ];

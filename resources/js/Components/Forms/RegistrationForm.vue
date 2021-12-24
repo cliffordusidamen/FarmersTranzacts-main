@@ -66,7 +66,7 @@
                         id="phone"
                         max-length="15"
                         type="text"
-                        v-model="form.phone"
+                        v-model="form.phoneInput"
                     />
                     <jet-input-error :message="form.errors.phone" />
                 </div>
@@ -172,6 +172,7 @@ import JetLabel from "@/Jetstream/Label";
 import { ref } from '@vue/reactivity';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { onMounted } from '@vue/runtime-core';
+import useInitIntlPhone from "@/composables/useInitIntlPhone"
 
 export default {
     components: {
@@ -185,10 +186,15 @@ export default {
     setup() {
         const jqueryValidator = ref(null)
         const registerForm = ref(null)
+        const phoneInput = ref(null)
+        const telInput = ref(null)
+        const { initIntlPhone } = useInitIntlPhone()
+
         const form = useForm({
             first_name: "",
             last_name: "",
             email: "",
+            phoneInput: "",
             phone: "",
             password: "",
             password_confirmation: "",
@@ -196,6 +202,7 @@ export default {
         })
 
         const submit = () => {
+            form.phone = telInput.value.getNumber()
             form.post(route("register"), {
                 onFinish: () => {
                     form.processing = false;
@@ -240,9 +247,8 @@ export default {
                         maxlength: 255,
                     },
                     phone: {
-						digits: true,
-						minlength: 11,
-						maxlength: 15,
+						maxlength: 17,
+                        intl_phone: true,
 					},
                     password: {...passwordRules},
                     password_confirmation: {
@@ -254,6 +260,7 @@ export default {
         }
 
         onMounted(() => {
+            initIntlPhone(phoneInput, telInput, 'phone')
             jqueryValidator.value = $(registerForm.value).validate(
                 validationConfig()
             );
@@ -264,6 +271,7 @@ export default {
             form,
             submit,
             registerForm,
+            phoneInput,
         }
     },
 };

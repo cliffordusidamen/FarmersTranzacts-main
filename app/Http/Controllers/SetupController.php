@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveBannerRequest;
+use App\Http\Requests\StoreSalesCommissionRequest;
+use App\Http\Requests\StoreSpendingVolumeRequest;
+use App\Models\AgentSpendingVolume;
 use App\Models\AppSetting;
 use App\Models\Banner;
 use App\Models\Page;
+use App\Models\SalesCommission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class SetupController extends Controller
 {
@@ -59,6 +64,20 @@ class SetupController extends Controller
         $pages = Page::get();
 
         return response()->json(compact('pages'));
+    }
+
+    /**
+     * Get page by permalink/slug
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showPage(Request $request, string $slug)
+    {
+        $page = Page::where('slug', $slug)->firstOrFail();
+
+        return response()->json(compact('page'));
     }
 
     /**
@@ -209,5 +228,243 @@ class SetupController extends Controller
         }
 
         throw new \Exception('Banner not deleted! Please, try again.');
+    }
+
+    /**
+     * List all available agent commissions setup
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function agentCommissions(Request $request)
+    {
+        abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
+
+        $spendingVolumes = AgentSpendingVolume::withCount('agents')->get();
+
+        return response()->json(compact('spendingVolumes'));
+    }
+
+    /**
+     * Store new agent commissions setup
+     * 
+     * @param \App\Http\Requests\StoreSpendingVolumeRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAgentCommissions(StoreSpendingVolumeRequest $request)
+    {
+        if (AgentSpendingVolume::checkAmount($request->minimum_amount)) {
+            throw ValidationException::withMessages([
+                'minimum_amount' => 'There is another commission setup that covers this quantity',
+            ]);
+        }
+
+        if (AgentSpendingVolume::checkAmount($request->maximum_amount)) {
+            throw ValidationException::withMessages([
+                'maximum_amount' => 'There is another commission setup that covers this quantity',
+            ]);
+        }
+
+        $spendingVolume = AgentSpendingVolume::create($request->only([
+            'minimum_amount', 'maximum_amount', 'commission_percentage',
+        ]));
+
+        if (!$spendingVolume) {
+            throw new \Exception('Commission setup not saved! Please, try again.');
+        }
+
+        return response()->json(compact('spendingVolume'));
+    }
+
+    /**
+     * Get details for editing an agent commission setup
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editAgentCommissions(Request $request, int $id)
+    {
+        $spendingVolume = AgentSpendingVolume::findOrFail($id);
+
+        return response()->json(compact('spendingVolume'));
+    }
+
+    /**
+     * Store new agent commissions setup
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAgentCommissions(
+        Request $request,
+        int $id
+    ) {
+        $spendingVolume = AgentSpendingVolume::findOrFail($id);
+        $this->validate($request, AgentSpendingVolume::validationRules($id));
+
+        $minAmountClash = AgentSpendingVolume::checkAmount($request->minimum_amount);
+        if ($minAmountClash && $spendingVolume->id != $minAmountClash->id) {
+            throw ValidationException::withMessages([
+                'minimum_amount' => 'There is another commission setup that covers this amount',
+            ]);
+        }
+
+        $spendingVolume = AgentSpendingVolume::findOrFail($id);
+        $maxAmountClash = AgentSpendingVolume::checkAmount($request->maximum_amount);
+        if ($maxAmountClash && $spendingVolume->id != $maxAmountClash->id) {
+            throw ValidationException::withMessages([
+                'maximum_amount' => 'There is another commission setup that covers this amount',
+            ]);
+        }
+
+        $spendingVolume->forceFill($request->only([
+            'minimum_amount', 'maximum_amount', 'commission_percentage',
+        ]));
+
+        if (!$spendingVolume->save()) {
+            throw new \Exception('Commission setup not saved! Please, try again.');
+        }
+
+        return response()->json(compact('spendingVolume'));
+    }
+
+    /**
+     * Delete an agent commission setup
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAgentCommission(int $id)
+    {
+        $spendingVolume = AgentSpendingVolume::findOrFail($id);
+
+        if ($spendingVolume->agents()->count()) {
+            throw new \Exception('Commission setup already in use and cannot be deleted');
+        }
+
+        if ($spendingVolume->delete()) {
+            return response()->json(['success' => true]);
+        }
+
+        throw new \Exception('Commission setup not deleted! Please, try again.');
+    }
+
+    /**
+     * List all available sales commissions setup
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function salesCommissions(Request $request)
+    {
+        abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
+
+        $salesCommissions = SalesCommission::get();
+
+        return response()->json(compact('salesCommissions'));
+    }
+
+    /**
+     * Store new sales commissions setup
+     * 
+     * @param \App\Http\Requests\StoreSalesCommissionRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeSalesCommissions(StoreSalesCommissionRequest $request)
+    {
+        if (SalesCommission::checkAmount($request->minimum_amount)) {
+            throw ValidationException::withMessages([
+                'minimum_amount' => 'There is another commission setup that covers this quantity',
+            ]);
+        }
+
+        if (SalesCommission::checkAmount($request->maximum_amount)) {
+            throw ValidationException::withMessages([
+                'maximum_amount' => 'There is another commission setup that covers this quantity',
+            ]);
+        }
+
+        $salesCommission = SalesCommission::create($request->only([
+            'minimum_amount', 'maximum_amount', 'percentage',
+        ]));
+
+        if (!$salesCommission) {
+            throw new \Exception('Commission setup not saved! Please, try again.');
+        }
+
+        return response()->json(compact('salesCommission'));
+    }
+
+    /**
+     * Get details for editing an sales commission setup
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editSalesCommissions(Request $request, int $id)
+    {
+        $salesCommission = SalesCommission::findOrFail($id);
+
+        return response()->json(compact('salesCommission'));
+    }
+
+    /**
+     * Store new sales commissions setup
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSalesCommissions(
+        Request $request,
+        int $id
+    ) {
+        $salesCommission = SalesCommission::findOrFail($id);
+        $this->validate($request, SalesCommission::validationRules());
+
+        $minAmountClash = SalesCommission::checkAmount($request->minimum_amount);
+        if ($minAmountClash && $salesCommission->id != $minAmountClash->id) {
+            throw ValidationException::withMessages([
+                'minimum_amount' => 'There is another commission setup that covers this amount',
+            ]);
+        }
+
+        $salesCommission = SalesCommission::findOrFail($id);
+        $maxAmountClash = SalesCommission::checkAmount($request->maximum_amount);
+        if ($maxAmountClash && $salesCommission->id != $maxAmountClash->id) {
+            throw ValidationException::withMessages([
+                'maximum_amount' => 'There is another commission setup that covers this amount',
+            ]);
+        }
+
+        $salesCommission->forceFill($request->only([
+            'minimum_amount', 'maximum_amount', 'percentage',
+        ]));
+
+        if (!$salesCommission->save()) {
+            throw new \Exception('Commission setup not saved! Please, try again.');
+        }
+
+        return response()->json(compact('salesCommission'));
+    }
+
+    /**
+     * Delete an sales commission setup
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteSalesCommission(int $id)
+    {
+        $spendingVolume = SalesCommission::findOrFail($id);
+
+        if ($spendingVolume->delete()) {
+            return response()->json(['success' => true]);
+        }
+
+        throw new \Exception('Commission setup not deleted! Please, try again.');
     }
 }

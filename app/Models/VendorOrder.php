@@ -18,23 +18,11 @@ class VendorOrder extends Model
     use QueriesDateField;
 
     /**
-     * Mass assignable fields
+     * Guarded fields
      * 
      * @var array
      */
-    protected $fillable = [
-        'reference_number',
-        'user_id',
-        'order_id',
-        'vendor_id',
-        'items_amount',
-        'delivery_amount',
-        'delivery_days',
-        'total_amount',
-        'delivery_status_id',
-        'transit_note',
-        'delivery_note',
-    ];
+    protected $guarded = [];
     
     /**
      * Relationship: Belongs to a vendor
@@ -144,7 +132,7 @@ class VendorOrder extends Model
         $numberOfMonthsToUse = $numberOfMonths < 6 || $numberOfMonths > 12
             ? 6 : $numberOfMonths;
 
-        $monthSales = [];
+        $monthlyPurchases = [];
 
         for ($i = $numberOfMonthsToUse - 1; $i >= 0; $i--) {
             $month = date('M Y', strtotime("-$i month"));
@@ -154,7 +142,7 @@ class VendorOrder extends Model
                 $query->where('vendor_id', $vendorId);
             }
 
-            $monthSales[$month] = $query
+            $monthlyPurchases[$month] = $query
                 ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
                 ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
                 ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))
@@ -162,24 +150,24 @@ class VendorOrder extends Model
                 ->first();
         }
 
-        return $monthSales;
+        return $monthlyPurchases;
     }
 
     /**
-     * Get the sales for the last 8 months
+     * Get the purchases made by a particular for recent months
      * 
      * @param  int  $numberOfMonths
      * @param  int  $userId
      * @return array
      */
-    public static function getUserSpendingTrend(
+    public static function getUserMonthlyPurchases(
         int $numberOfMonths = 8,
         int $userId
     ): array {
         $numberOfMonthsToUse = $numberOfMonths < 6 || $numberOfMonths > 12
             ? 6 : $numberOfMonths;
 
-        $monthSales = [];
+        $monthlyPurchases = [];
 
         for ($i = $numberOfMonthsToUse - 1; $i >= 0; $i--) {
             $month = date('M Y', strtotime("-$i month"));
@@ -189,7 +177,7 @@ class VendorOrder extends Model
                 $query->where('user_id', $userId);
             }
 
-            $monthSales[$month] = $query
+            $monthlyPurchases[$month] = $query
                 ->whereMonth('created_at', '=', date('m', strtotime("-$i month")))
                 ->whereYear('created_at', '=', date('Y', strtotime("-$i month")))
                 ->addSelect(DB::raw('SUM(total_amount) as month_total_amount'))
@@ -197,7 +185,65 @@ class VendorOrder extends Model
                 ->first();
         }
 
-        return $monthSales;
+        $currMonthSpending = $monthlyPurchases[carbon_ng()->format('M Y')];
+        $prevMonthSpending = $monthlyPurchases[
+            carbon_ng()->subtract('1 month')->format('M Y')
+        ];
+        $spendingDifference =
+            $currMonthSpending->month_total_amount - $prevMonthSpending->month_total_amount;
+
+        return compact(
+            'monthlyPurchases',
+            'currMonthSpending',
+            'prevMonthSpending',
+            'spendingDifference'
+        );
+    }
+
+    /**
+     * Custom attribute: get rating remark
+     * 
+     * @return string
+     */
+    public function getRatingRemarkAttribute(): string
+    {
+        if (!empty($this->customer_review_rating)) {
+            $ratingOptions = AppSetting::getReviewRatingOptions();
+            return $ratingOptions[$this->customer_review_rating] ?? '';
+        }
+        return '';
+    }
+
+    /**
+     * Custom attribute to determine if the customer can leave review
+     * 
+     * @return bool
+     */
+    public function getCanSubmitReviewAttribute(): bool
+    {
+        if (
+            !empty($this->customer_reviewed_at)
+            || empty($this->delivery_date)
+            || $this->delivery_status_id !== DeliveryStatus::DELIVERED_ID
+        ) {
+            return false;
+        }
+
+        return carbon_ng($this->delivery_date)->diffInDays(carbon_ng()) <= 7;
+    }
+
+    /**
+     * Custom attribute: Get rating remark
+     * 
+     * @return string
+     */
+    public function getCustomerReviewRemarkAttribute(): ?string
+    {
+        $rating = floor($this->customer_review_rating ?? 0);
+        $appRemarks = AppSetting::getReviewRatingOptions();
+
+        return $rating == 0 || !isset($appRemarks[$rating])
+            ? null : $appRemarks[$rating];
     }
 
 }

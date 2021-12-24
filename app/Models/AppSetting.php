@@ -52,4 +52,20 @@ class AppSetting extends Model
             ? $appSettingsArray[$key]
             : $default;
     }
+
+    /**
+     * Get options for review rating
+     * 
+     * @return array
+     */
+    public static function getReviewRatingOptions(): array
+    {
+        return [
+            '1' => 'Very Poor',
+            '2' => 'Poor',
+            '3' => 'Average',
+            '4' => 'Good',
+            '5' => 'Excellent',
+        ];
+    }
 }

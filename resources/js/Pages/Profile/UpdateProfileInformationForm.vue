@@ -149,7 +149,7 @@
                                     name="phone"
                                     type="phone"
                                     data-cfilter="digits"
-                                    v-model="form.phone"
+                                    v-model="form.phoneIntl"
                                     :class="{ 'is-invalid': form.errors.phone }"
                                 />
                                 <jet-input-error :message="form.errors.phone" />
@@ -181,6 +181,11 @@ import JetActionMessage from "@/Jetstream/ActionMessage";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 import ProfileSection from "@/Components/ProfileSection";
 import CustomSelect from "@/Components/CustomSelect";
+import useInitIntlPhone from "@/composables/useInitIntlPhone"
+import { ref } from '@vue/reactivity';
+import { Inertia } from '@inertiajs/inertia';
+import { onMounted } from '@vue/runtime-core';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
     components: {
@@ -194,65 +199,67 @@ export default {
         CustomSelect,
     },
     props: ["user"],
-    data() {
-        return {
-            form: this.$inertia.form({
-                _method: "PUT",
-                first_name: this.user.first_name || '',
-                last_name: this.user.last_name || '',
-                email: this.user.email || '',
-                phone: this.user.phone || '',
-                photo: null,
-            }),
-            photoPreview: null,
-            jqueryValidator: null,
-        };
-    },
 
-    mounted() {
-        window.initInputTransforms();
-        window.initInputFilters();
-        this.jqueryValidator = $(this.$refs.profileUpdateForm).validate(
-            this.validationConfig()
-        );
-    },
-    methods: {
-        updateProfileInformation() {
-            if (this.$refs.photo) {
-                this.form.photo = this.$refs.photo.files[0];
+    setup(props) {
+        const form = useForm({
+            _method: "PUT",
+            first_name: props.user.first_name || '',
+            last_name: props.user.last_name || '',
+            email: props.user.email || '',
+            phone: props.user.phone || '',
+            phoneIntl: props.user.phone || '',
+            photo: null,
+        })
+        const photo = ref(null)
+        const photoPreview = ref(null)
+        const profileUpdateForm = ref(null)
+        const jqueryValidator = ref(null)
+        const phoneInput = ref(null)
+        const telInput = ref(null)
+        const { initIntlPhone } = useInitIntlPhone()
+
+        const updateProfileInformation = () => {
+            if (photo.value) {
+                form.photo = photo.value.files[0];
             }
 
-            this.form.post(route("user-profile-information.update"), {
+            form.phone = telInput.value.getNumber()
+
+            form.post(route("user-profile-information.update"), {
                 errorBag: "updateProfileInformation",
                 preserveScroll: true,
             });
-        },
-        selectNewPhoto() {
-            this.$refs.photo.click();
-        },
-        updatePhotoPreview() {
+        }
+
+        const selectNewPhoto = () => {
+            photo.value.click();
+        }
+
+        const updatePhotoPreview = () => {
             const reader = new FileReader();
             reader.onload = (e) => {
-                this.photoPreview = e.target.result;
+                photoPreview.value = e.target.result;
             };
-            reader.readAsDataURL(this.$refs.photo.files[0]);
-        },
-        deletePhoto() {
-            this.$inertia.delete(route("current-user-photo.destroy"), {
+            reader.readAsDataURL(photo.value.files[0]);
+        }
+
+        const deletePhoto = () => {
+            Inertia.delete(route("current-user-photo.destroy"), {
                 preserveScroll: true,
-                onSuccess: () => (this.photoPreview = null),
+                onSuccess: () => (photoPreview.value = null),
             });
-        },
-        validationConfig() {
-            const vueObj = this;
+        }
+
+        const validationConfig = () => {
             const nameValidation = {
                 required: true,
                 minlength: 3,
                 maxlength: 25,
             };
+
             return {
                 submitHandler() {
-                    vueObj.updateProfileInformation();
+                    updateProfileInformation();
                 },
                 rules: {
                     first_name: { ...nameValidation },
@@ -263,12 +270,31 @@ export default {
                         maxlength: 255,
                     },
                     phone: {
-                        digits: true,
-                        maxlength: 16,
+                        maxlength: 17,
+                        intl_phone: true,
                     },
                 },
             };
-        }, // end - validateConfig()
+        }
+
+        onMounted(() => {
+            initIntlPhone(phoneInput, telInput, 'phone')
+            jqueryValidator.value = $(profileUpdateForm.value).validate(
+                validationConfig()
+            );
+        })
+
+        return {
+            form,
+            profileUpdateForm,
+            photo,
+            photoPreview,
+            jqueryValidator,
+            selectNewPhoto,
+            updatePhotoPreview,
+            deletePhoto,
+        }
+
     },
 };
 </script>

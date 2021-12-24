@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderCollection;
 use App\Http\Resources\UserCollection;
 use App\Models\Department;
 use App\Models\DepartmentSection;
@@ -9,6 +10,7 @@ use App\Models\Designation;
 use App\Models\Role;
 use App\Models\State;
 use App\Models\User;
+use App\Models\VendorOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -69,17 +71,6 @@ class UserController extends Controller
             ->paginate(15);
 
         return new UserCollection($users);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -193,15 +184,44 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update personal information
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request)
     {
-        //
+        $user = User::find($request->user()->id);
+        $data = $this->validate($request, User::defaultValidationRules($user->id));
+
+        $saved = $user->forceFill($data)->save();
+
+        if (!$saved) {
+            throw new \Exception('Profile information not saved! Please, try again.');
+        }
+
+        return response()->json(compact('user'));
+    }
+
+    /**
+     * Change personal password
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:6|max:50|confirmed',
+            'password_confirmation' => 'required|min:6|max:50',
+        ]);
+        $user = User::find($request->user()->id);
+        $user->password = $request->input('password');
+        if ($user->save()) {
+            return response()->json(compact('user'));
+        }
+
+        throw new \Exception('Password was not changed! Please, try again.');
     }
 
     /**
@@ -328,5 +348,103 @@ class UserController extends Controller
         });
 
         return $savedUser ? $user : false;
+        
+    }
+
+    /**
+     * Agent or shopper information
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showAgentOrShopper(Request $request, $id)
+    {
+        $rq_user = User::with(['designation'])->findOrFail($id);
+        if (
+            $rq_user->designation_id != Designation::AGENT_ID
+            && $rq_user->designation_id != Designation::SHOPPER_ID
+        ) {
+            abort(404);
+        }
+
+        if ($rq_user->designation_id = Designation::AGENT_ID) {
+            $rq_user->load(['agent', 'agent.spendingVolume']);
+        }
+
+        $rq_user->append('full_name')->append('profile_photo_url');
+        $spendingTrendData = VendorOrder::getUserMonthlyPurchases(
+            8, request()->user()->id);
+
+        return response()->json(compact(
+            'rq_user', 'spendingTrendData'
+        ));
+    }
+
+    /**
+     * Staff information
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showStaff(Request $request, int $id)
+    {
+        $staff = User::designated(Designation::STAFF_NAME)
+            ->with(['designation', 'department', 'departmentSection', 'roles'])
+            ->findOrFail($id);
+        $staff->append('full_name')->append('profile_photo_url');
+
+        return response()->json(compact(
+            'staff'
+        ));
+    }
+
+    /**
+     * Seller account information
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showSeller(Request $request, int $id)
+    {
+        $rq_seller = User::designated(Designation::SELLER_NAME)
+            ->with(['vendors'])
+            ->findOrFail($id);
+        $rq_seller->append('full_name')
+            ->append('profile_photo_url')
+            ->append('vendor_data');
+
+        return response()->json(compact(
+            'rq_seller'
+        ));
+    }
+
+    /**
+     * Get records of users orders
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userOrders(Request $request, int $id)
+    {
+        $user = User::findOrFail($id);
+        $ordersQuery = $user->orders()
+            ->with(['deliveryStatus', 'vendorOrders'])
+            ->withCount(['cancelledVendorOrder']);
+
+        $q = trim($request->query('q', ''));
+        if (strlen($q) > 0) {
+            $ordersQuery->where('reference_number', 'like', "%{$q}%");
+        }
+        $orders = $ordersQuery->paginate(10);
+
+        if ($orders->total()) {
+            $orders->each(fn ($order) => $order->append('total_quantity'));
+        }
+
+        return new OrderCollection($orders);
     }
 }

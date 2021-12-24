@@ -65,14 +65,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <jet-label for="phone" value="Phone" />
-                                    <jet-input
-                                        name="phone"
-                                        id="phone"
-                                        max-length="15"
-                                        type="text"
-                                        v-model="form.phone"
-                                    />
-                                    <jet-input-error :message="form.errors.phone" />
+                                    <div>
+                                        <jet-input
+                                            name="phone"
+                                            id="phone"
+                                            max-length="15"
+                                            type="text"
+                                            v-model="form.phoneInput"
+                                        />
+                                        <jet-input-error :message="form.errors.phone" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -241,37 +243,38 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- [END] - PRODUCTS CATERGORIES -->
 
-                        <div
-                            class="form-group"
-                            v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
-                        >
-                            <div class="custom-control custom-checkbox">
-                                <input
-                                    class="custom-control-input"
-                                    name="terms"
-                                    type="checkbox"
-                                    id="terms"
-                                    value="1"
-                                    v-model="form.terms"
-                                    required
-                                />
+                        <!-- DISPLAY TERMS & CONDITIONS -->
+                        <div class="card p-0 border rounded-md mb-4">
+                            <div class="card-header border-bottom px-3 py-3">
+                                {{ $page.props.agentTermsPage.title }}
+                            </div>
+                            <div
+                                class="card-body m-0"
+                                style="max-height: 300px; overflow-y: auto;"
+                                v-html="$page.props.agentTermsPage.content"
+                            ></div>
+                            <div class="card-footer bg-white border-top px-3 py-3">
+                                <!-- CHECKBOX FOR TERMS AND CONDITTIONS ACCEPTANCE -->
+                                <div class="custom-control custom-checkbox font-weight-bold">
+                                    <input
+                                        class="custom-control-input"
+                                        name="terms"
+                                        type="checkbox"
+                                        id="terms"
+                                        value="1"
+                                        v-model="form.terms"
+                                        required
+                                    />
 
-                                <label class="custom-control-label" for="terms">
-                                    I agree to the
-                                    <a target="_blank" :href="route('terms.show')"
-                                        >Terms of Service</a
-                                    >
-                                    and
-                                    <a target="_blank" :href="route('privacy_policy')"
-                                        >Privacy Policy</a
-                                    >
-                                </label>
-                                <jet-input-error :message="form.errors.terms" />
+                                    <label class="custom-control-label" for="terms">
+                                        I agree to the terms &amp; conditions stated above
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                        <!-- [END] - DISPLAY TERMS & CONDITIONS -->
 
                         <div class="mb-0 text-center">
                             <jet-button
@@ -301,6 +304,10 @@ import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
+import { useForm } from '@inertiajs/inertia-vue3';
+import { ref } from '@vue/reactivity';
+import { onMounted } from '@vue/runtime-core';
+import useInitIntlPhone from "@/composables/useInitIntlPhone"
 
 export default {
     props: ['app_states', 'product_categories'],
@@ -318,57 +325,52 @@ export default {
         CustomSelect,
     },
 
-    data() {
-        return {
-            jqueryValidator: null,
-            form: this.$inertia.form({
-                first_name: "",
-                last_name: "",
-                email: "",
-                phone: "",
-                password: "",
-                password_confirmation: "",
-                terms: false,
-                business_name: '',
-                store_address_line_1: '',
-                store_address_line_2: '',
-                store_city: '',
-                store_state: '',
-                product_categories: [],
-                spending_volume_id: '',
-            }),
-        };
-    },
+    setup(props) {
+        const {app_states, product_categories} = props;
+        const jqueryValidator = ref(null)
+        const registerForm = ref(null)
 
-    mounted() {
-        window.initInputTransforms();
-        window.initInputFilters();
+        const phoneInput = ref(null)
+        const telInput = ref(null)
+        const { initIntlPhone } = useInitIntlPhone()
 
-        this.jqueryValidator = $(this.$refs.registerForm).validate(
-            this.validationConfig()
-        );
-    },
+        const form = useForm({
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+            phoneInput: "",
+            password: "",
+            password_confirmation: "",
+            terms: false,
+            business_name: '',
+            store_address_line_1: '',
+            store_address_line_2: '',
+            store_city: '',
+            store_state: '',
+            product_categories: [],
+            spending_volume_id: '',
+        })
 
-    methods: {
-        submit() {
-            this.form.post(this.route("registration.save_agent"), {
+        const submit = () => {
+            form.phone = telInput.value.getNumber()
+            form.post(route("registration.save_agent"), {
                 preserveState: true,
                 onFinish: () => {
-                    this.form.processing = false;
+                    form.processing = false;
                 },
                 onSuccess: () => {
-                    this.form.reset();
-                    this.jqueryValidator.resetForm();
+                    form.reset();
+                    jqueryValidator.value.resetForm();
                     $('#registerForm').removeClass('was-validated');
                 },
                 onError: () => {
-                    this.form.reset("password", "password_confirmation");
+                    form.reset("password", "password_confirmation");
                 },
             });
-        }, // [end] submit()
+        }
 
-        validationConfig() {
-            const vueObj = this;
+        const validationConfig = () => {
 
             const nameValidation = {
                 required: true,
@@ -384,8 +386,8 @@ export default {
 
             return {
                 submitHandler() {
-                    vueObj.$refs.registerForm.classList.add("was-validated");
-                    vueObj.submit();
+                    registerForm.value.classList.add("was-validated");
+                    submit();
                 },
                 rules: {
                     first_name: { ...nameValidation },
@@ -396,9 +398,8 @@ export default {
                         maxlength: 255,
                     },
                     phone: {
-						digits: true,
-						minlength: 11,
-						maxlength: 15,
+						intl_phone: true,
+						maxlength: 17,
 					},
                     password: {...passwordRules},
                     password_confirmation: {
@@ -429,7 +430,7 @@ export default {
                     spending_volume_id: 'required',
                     'product_categories[]': {
                         required: true,
-                        rangelength: [1, vueObj.product_categories.length]
+                        rangelength: [1, product_categories.length]
                     }
                 },
 
@@ -437,7 +438,22 @@ export default {
                     'product_categories[]': 'Select at least one(1) product category',
                 },
             };
-        }, // [end] validationConfig()
+        }
+        
+        onMounted(() => {
+            initIntlPhone(phoneInput, telInput, 'phone')
+            jqueryValidator.value = $(registerForm.value).validate(
+                validationConfig()
+            );
+        })
+
+        return {
+            form,
+            registerForm,
+            jqueryValidator,
+            app_states,
+            product_categories,
+        }
     },
 };
 </script>

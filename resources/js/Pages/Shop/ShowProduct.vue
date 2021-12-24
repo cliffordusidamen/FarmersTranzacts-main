@@ -17,7 +17,7 @@
                                         </a>
                                     </figure><!-- End .product-main-image -->
 
-                                    <div id="product-zoom-gallery" class="product-image-gallery">
+                                    <div id="product-zoom-gallery" class="product-image-gallery overflow-hidden">
                                         <a
                                             class="product-gallery-item active"
                                             href="#"
@@ -62,8 +62,22 @@
                                 </div>
 
                                 <div class="product-details-footer">
-                                    <strong class="mr-2">SHOP:</strong>
-                                    {{ product.vendor.shop_name }}
+                                    <div class="d-flex flex-column align-items-sta">
+
+                                        <div class="d-flex align-items-center">
+                                            <strong class="mr-2 lead">SHOP:</strong>
+                                            <inertia-link
+                                                :href="route('vendor_page', { slug: product.vendor.slug })"
+                                            >
+                                                {{ product.vendor.shop_name }}
+                                            </inertia-link>
+                                        </div>
+
+                                        <div class="d-block">
+                                            SHARE:
+                                            <facebook-share :link="route('shop.show_product', { slug: product.slug })" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +94,8 @@ import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import CartUpdateButton from "@/Components/Controls/CartUpdateButton.vue";
 import ProductDeliveryCostItem from "@/Components/ProductDeliveryCostItem.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
-import { onMounted } from '@vue/runtime-core';
+import { onMounted, onUnmounted } from '@vue/runtime-core';
+import FacebookShare from '../../Components/Controls/FacebookShare.vue';
 
 export default {
     components: {
@@ -88,6 +103,7 @@ export default {
         BreadcrumbDefault,
         CartUpdateButton,
         ProductDeliveryCostItem,
+        FacebookShare,
     },
     setup() {
         const {product} = usePage().props.value
@@ -142,6 +158,14 @@ export default {
             });
         })
 
+
+        onUnmounted(() => {
+            const $zoomContainers = $('.zoomContainer');
+
+            if ($zoomContainers.length) {
+                $zoomContainers.remove();
+            }
+        })
         const getImagePath = (path) => {
             return path.replace(/^(public\/)/, '/storage/')
         }

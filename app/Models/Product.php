@@ -226,6 +226,20 @@ class Product extends Model
     }
 
     /**
+     * filter by vendor
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $vendorId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForVendor(
+        Builder $query,
+        int  $vendorId
+    ): Builder {
+        return $query->where('vendor_id', $vendorId);
+    }
+
+    /**
      * filter by available for sale:
      *     approved
      * 

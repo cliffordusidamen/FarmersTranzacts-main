@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VendorOrderReviewedEvent;
 use App\Mail\VendorOrderCanceledNotifyAdminMail;
 use App\Models\AppSetting;
 use App\Models\DeliveryStatus;
@@ -68,13 +69,19 @@ class MyOrderController extends Controller
         ]);
 
         $order->vendorOrders->each(fn($vendorOrder) => (
-            $vendorOrder->append('cancellable')
+            $vendorOrder->append([
+                'cancellable',
+                'can_submit_review',
+                'rating_remark',
+            ])
         ));
+
+        $ratingOptions = AppSetting::getReviewRatingOptions();
 
         $order->append('cancellable');
         
 
-        return Inertia::render('MyOrders/Show', compact('order'));
+        return Inertia::render('MyOrders/Show', compact('order', 'ratingOptions'));
     }
 
     /**
@@ -154,6 +161,46 @@ class MyOrderController extends Controller
         }
 
         flashMessage('warning', 'Seller order was not canceled. You may try again!');
+        return back();
+    }
+
+    /**
+     * Submit review for vendor order
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\VendorOrder  $vendorOrder
+     * @return \Inertia\Response
+     */
+    public function reviewVendorOrder(
+        Request $request,
+        VendorOrder $vendorOrder
+    ) {
+        $vendorOrder->append('can_submit_review');
+
+        if (!$vendorOrder->can_submit_review) {
+            return back();
+        }
+
+        $this->validate($request, [
+            'customer_review_rating' => 'required|integer|min:1|max:5',
+            'customer_review_comment' => 'required|min:3|max:255',
+        ]);
+
+        $saved = false;
+        DB::transaction(function() use ($request, $vendorOrder, &$saved) {
+            $vendorOrder->customer_review_rating = $request->customer_review_rating;
+            $vendorOrder->customer_review_comment = $request->customer_review_comment;
+            $vendorOrder->customer_reviewed_at = now();
+            $saved = $vendorOrder->save();
+        });
+
+        if ($saved) {
+            flashMessage('success', 'Review submitted!');
+            event(new VendorOrderReviewedEvent($vendorOrder));
+            return back();
+        }
+
+        flashMessage('warning', 'Review was not submitted. You may try again!');
         return back();
     }
 }

@@ -42,6 +42,10 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\AgentApprovalStatusChangedEvent::class => [
             \App\Listeners\AgentApprovalStatusChangedListener::class,
         ],
+
+        \App\Events\VendorOrderReviewedEvent::class => [
+            \App\Listeners\VendorOrderReviewedListener::class,
+        ],
     ];
 
     /**

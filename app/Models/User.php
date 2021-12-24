@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -147,9 +149,19 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    function agent(): HasOne
+    public function agent(): HasOne
     {
         return $this->hasOne(Agent::class);
+    }
+
+    /**
+     * Relationship: Has many orders
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 
     /**
@@ -271,5 +283,24 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function getPermissions(): array
     {
         return defaultModelPermissions();
+    }
+
+    /**
+     * Default validation rules
+     * 
+     * @param int|null $id
+     * @return array
+     */
+    public static function defaultValidationRules(?int $id = null): array
+    {
+        $rules = [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($id)],
+            'phone' => ['nullable', 'min:7', 'max:17', Rule::unique('users', 'phone')->ignore($id)],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+        ];
+
+        return $rules;
     }
 }

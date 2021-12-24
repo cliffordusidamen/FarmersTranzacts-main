@@ -41,8 +41,10 @@ class VendorOrderController extends Controller
         
         if ($vendorOrders->total()) {
             $vendorOrders->each(function ($vendorOrder) {
-                $vendorOrder->append('transitable');
-                $vendorOrder->append('deliverable');
+                $vendorOrder->append([
+                    'transitable',
+                    'deliverable',
+                ]);
             });
         }
 
@@ -57,10 +59,11 @@ class VendorOrderController extends Controller
      */
     public function show($id)
     {
-        $vendorOrder = request()->user()
+        $vendor = request()->user()
             ->vendors()
-            ->first()
-            ->orders()
+            ->first();
+
+        $vendorOrder = $vendor->orders()
             ->with([
                 'order', 'user', 'items',
                 'items.product',
@@ -172,15 +175,18 @@ class VendorOrderController extends Controller
      */
     public function delivery(Request $request, int $id)
     {
-        $this->validate($request, [
-            'delivery_note' => 'sometimes|nullable|string|max:1000',
-        ]);
 
         $vendorOrder = request()->user()
             ->vendors()
             ->first()
             ->orders()
             ->findOrFail((int) $id);
+
+        $this->validate($request, [
+            'delivery_note' => 'sometimes|nullable|string|max:1000',
+            'delivery_date' => 'required|date|after_or_equal:'
+                    . carbon_ng($vendorOrder->created_at)->format('d-m-Y'),
+        ]);
 
         if (!$vendorOrder->deliverable) {
             if (DeliveryStatus::IN_TRANSIT_ID == $vendorOrder->delivery_status_id) {
@@ -197,6 +203,7 @@ class VendorOrderController extends Controller
             $vendorOrder->forceFill([
                 'delivery_status_id' => DeliveryStatus::DELIVERED_ID,
                 'delivery_note' => $request->delivery_note,
+                'delivery_date' => formatDateValue($request->delivery_date, 'Y-m-d'),
             ]);
 
             $saved = $vendorOrder->save();

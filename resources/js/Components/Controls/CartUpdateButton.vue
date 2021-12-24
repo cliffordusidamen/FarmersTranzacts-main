@@ -8,10 +8,10 @@
             <button
                 type="button"
                 :class="{
-                    'btn-product btn-block btn-cart text-white': true,
-                    'bg-primary bg-primary': !isInCart && !processing,
-                    'bg-danger border-danger': isInCart && !processing,
-                    'bg-secondary border-secondary': processing,
+                    'btn-block': true,
+                    'btn-product': !isInCart && !processing,
+                    'bg-danger border-danger text-white': isInCart && !processing,
+                    'btn-product-processing': processing,
                 }"
                 @click="
                     !cart?.state?.id
@@ -20,14 +20,12 @@
                 "
                 :disabled="processing"
             >
-                <span class="text-white">
-                    <span v-if="processing">processing</span>
-                    <span v-else-if="isInCart">
-                        remove <span class="d-none d-sm-inline">from cart</span>
-                    </span>
-                    <span v-else>
-                        add <span class="d-none d-sm-inline">to cart</span>
-                    </span>
+                <span class="text-white" v-if="processing">processing</span>
+                <span v-else-if="isInCart" class="text-white">
+                    remove <span class="d-none d-sm-inline text-white">from cart</span>
+                </span>
+                <span class="text-white" v-else>
+                    add <span class="d-none d-sm-inline text-white">to cart</span>
                 </span>
             </button>
         </toggles-delivery-state-modal>

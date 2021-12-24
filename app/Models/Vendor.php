@@ -361,13 +361,59 @@ class Vendor extends Model
     }
 
     /**
+     * Custom attribute: Get average rating
+     * 
+     * @return float
+     */
+    public function getAverageRatingAttribute(): float
+    {
+        $averageRating = $this->orders()
+            ->whereNotNull('customer_review_rating')
+            ->avg('customer_review_rating');
+
+        return $averageRating ?? 0;
+    }
+
+    /**
+     * Custom attribute: Get average rating remark
+     * 
+     * @return string
+     */
+    public function getAverageRatingRemarkAttribute(): ?string
+    {
+        $rating = floor($this->average_rating ?? 0);
+        $appRemarks = AppSetting::getReviewRatingOptions();
+
+        return $rating == 0 || !isset($appRemarks[$rating])
+            ? null : $appRemarks[$rating];
+    }
+
+    /**
+     * Custom attribute: Get number of reviews
+     * 
+     * @return int
+     */
+    public function getNumberOfReviewsAttribute(): int
+    {
+        $numberOfReviews = $this->orders()
+            ->whereNotNull('customer_review_rating')
+            ->count();
+        
+        return $numberOfReviews ?? 0;
+    }
+
+    /**
      * Update the user's profile photo.
      *
-     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @param  \Illuminate\Http\UploadedFile|null  $photo
      * @return bool
      */
-    public function updateCoverPicture(UploadedFile $photo): bool
+    public function updateCoverPicture(?UploadedFile $photo = null): bool
     {
+        if (is_null($photo)) {
+            return false;
+        }
+
         $saved = false;
         tap($this->cover_picture_path, function ($previous) use ($photo, &$saved) {
             $this->forceFill([

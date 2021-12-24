@@ -289,4 +289,14 @@ class Order extends Model
 
         $this->save();
     }
+
+    /**
+     * Custom attribute: get the total quantity of items ordered
+     * 
+     * @return int
+     */
+    public function getTotalQuantityAttribute(): int
+    {
+        return $this->items->sum('quantity');
+    }
 }

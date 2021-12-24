@@ -19,8 +19,8 @@
     <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-192x192.png') }}" />
     <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-384x384.png') }}" />
     <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-512x512.png') }}" />
-    <meta name="apple-mobile-web-app-status-bar" content="#046400" />
-    <meta name="theme-color" content="#381af6" />
+    <meta name="apple-mobile-web-app-status-bar" content="#005401" />
+    <meta name="theme-color" content="#005401" />
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/icons/apple-touch-icon.png') }}">
@@ -30,8 +30,8 @@
     <link rel="shortcut icon" href="{{ asset('img/icons/favicon.ico') }}">
     <meta name="apple-mobile-web-app-title" content="{{ config('app.name') }}">
     <meta name="application-name" content="{{ config('app.name') }}">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="/molla-template/images/icons/browserconfig.xml">
+    <meta name="msapplication-TileColor" content="#005401">
+    <meta name="description" content="{{ config('app.description') }}">
 
     <link rel="stylesheet" href="/molla-template/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
     <!-- Plugins CSS File -->
@@ -45,6 +45,15 @@
     <link rel="stylesheet" href="/molla-template/css/skins/skin-demo-13.css">
     <link rel="stylesheet" href="/molla-template/css/demos/demo-13.css">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/intl-tel-input/css/intlTelInput.min.css') }}">
+
+
+    <!-- Facebook meta tags -->
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ config('app.name') }}" />
+    <meta property="og:description" content="{{ config('app.description') }}" />
+    <meta property="og:image" content="{{ asset('img/icons/icon-512x512.png') }}" />
 
     @routes
 </head>
@@ -72,6 +81,10 @@
     <script src="/molla-template/js/main.js"></script>
 
     <script src="{{ mix('js/app.js') }}" defer></script>
+    <div id="fb-root"></div>
+
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v12.0" nonce="IbvzUE0h"></script>
 </body>
 
 

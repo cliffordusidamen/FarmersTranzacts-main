@@ -11,15 +11,15 @@
                             <div class="contact-info">
                                 <ul class="contact-list">
                                     <li v-if="address">
-                                        <i class="icon-map-marker"></i>
+                                        <i class="icon-map-marker text-success"></i>
                                         {{ address }}
                                     </li>
                                     <li v-if="hotline">
-                                        <i class="icon-phone"></i>
+                                        <i class="icon-phone text-success"></i>
                                         <a :href="`tel:#${hotline}`">{{ hotline }}</a>
                                     </li>
                                     <li v-if="email">
-                                        <i class="icon-envelope"></i>
+                                        <i class="icon-envelope text-success"></i>
                                         <a :href="`mailto:${email}`">{{ email }}</a>
                                     </li>
                                 </ul><!-- End .contact-list -->

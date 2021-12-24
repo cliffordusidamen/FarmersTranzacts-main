@@ -8,7 +8,7 @@
                 </button>
                 
                 <a href="/" class="logo">
-                    <img src="/img/logo-full-small.png" style="height: 40px;" />
+                    <img src="/img/logo-full-small-new.png" />
                 </a>
             </div><!-- End .header-left -->
 
@@ -63,7 +63,7 @@
                                             </toggles-delivery-state-modal>
                                         </span>
                                     </div>
-                                    <div class="product" v-for="{product, quantity, can_be_delivered} in cartItems" :key="product.id">
+                                    <div class="product" v-for="{product, quantity, can_be_delivered} in cartItemsToDisplay" :key="product.id">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
                                                 <inertia-link :href="route('shop.show_product', {slug: product.slug})">{{product.name}}</inertia-link>
@@ -91,6 +91,16 @@
                                         </figure>
                                         <a href="#" class="btn-remove text-dark" @click.prevent="removeItem(product)" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
+
+                                    <div
+                                        v-if="cartItemsCount > 2"
+                                    >
+                                        <inertia-link :href="route('shopping_cart.view')" class="btn btn-link">
+                                            +{{ cartItemsCount - 2 }} 
+                                            {{ cartItemsCount > 3 ? 'more items' : 'more item' }}
+                                        </inertia-link>
+                                    </div>
+
                                 </div><!-- End .cart-product -->
 
                                 <div class="dropdown-cart-total">
@@ -136,10 +146,17 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right user_nav_menu px-0">
-                            <inertia-link v-if="isAuthenticated"  :href="route('profile.show')" class="dropdown-item">Profile</inertia-link>
+                            <inertia-link
+                                v-if="isAuthenticated"
+                                :href="
+                                    this.$page.props?.user.email_verified_at
+                                        ? route('profile.show')
+                                        : route('profile.unverified_profile')
+                                "
+                                class="dropdown-item"
+                            >Profile</inertia-link>
                             <inertia-link v-if="isAuthenticated && this.$page.props?.userAgent?.data?.id"  :href="route('dashboard')" class="dropdown-item">Dashboard</inertia-link>
                             <inertia-link v-if="isAuthenticated"  :href="route('my_orders.index')" class="dropdown-item">My Orders</inertia-link>
-                            <inertia-link v-if="this.$page.props.userIsVendor"  :href="route('profile.edit_vendor_details')" class="dropdown-item">Vendor Details</inertia-link>
                             <a v-if="isAuthenticated" href="#" class="dropdown-item" @click.prevent="logout">Log out</a>
                             <inertia-link v-if="!isAuthenticated" :href="route('login')" class="dropdown-item">
                                 Log in
@@ -183,6 +200,8 @@ export default {
             removeItem,
         } =  useCartManager()
 
+        const cartItemsToDisplay = Object.keys(cartItems).slice(0, 2).map(key => cartItems[key])
+
         const pageProps = usePage().props.value
         const product_categories = pageProps?.product_categories || {}
         const categoriesList = {}
@@ -212,9 +231,10 @@ export default {
 
         return {
             cart,
+            cartHasItems,
             cartItems,
             cartItemsCount,
-            cartHasItems,
+            cartItemsToDisplay,
             processing,
             removeItem,
             toggleMobileMenu,

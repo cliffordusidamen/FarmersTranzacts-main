@@ -56,8 +56,14 @@
                             <div class="my-4 text-center">
                                 <inertia-link
                                     :href="route('registration.agent')"
-                                    class="btn btn-primary btn-lg">
+                                    class="btn btn-primary btn-lg mr-2">
                                     GET STARTED NOW
+                                </inertia-link>
+
+                                <inertia-link
+                                    :href="route('login')"
+                                    class="btn btn-secondary btn-lg">
+                                    LOGIN NOW
                                 </inertia-link>
                             </div>
                         </div>

@@ -27,8 +27,13 @@ class CreateVendorOrdersTable extends Migration
             $table->unsignedBigInteger('address_id')->nullable();
             $table->string('transit_note', 1000)->nullable();
             $table->string('delivery_note', 1000)->nullable();
+            $table->date('delivery_date')->nullable();
             $table->string('cancel_reason', 1000)->nullable();
             $table->unsignedSmallInteger('delivery_status_id')->default(DeliveryStatus::PENDING_ID);
+
+            $table->dateTime('customer_reviewed_at')->nullable();
+            $table->unsignedTinyInteger('customer_review_rating')->nullable();
+            $table->string('customer_review_comment', 1000)->nullable();
             $table->timestamps();
 
             $table->foreign('vendor_id')

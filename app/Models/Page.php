@@ -13,6 +13,8 @@ class Page extends Model
     const ABOUT = 'about';
     const TERMS = 'shopper_terms';
     const PRIVACY_POLICY = 'privary_policy';
+    
+    const AGENT_TERMS = 'agent_terms';
 
     /**
      * Mass assignable fields

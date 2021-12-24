@@ -63,7 +63,7 @@ Route::prefix('shop')->name('shop.')->group(function() {
 Route::prefix('vendors')->name('vendors.')->group(function() {
     Route::post('changeStatus/{vendor}', [\App\Http\Controllers\VendorController::class, 'changeStatus'])->name('change_status');
 });
-Route::resource('vendors', \App\Http\Controllers\VendorController::class);
+// Route::resource('vendors', \App\Http\Controllers\VendorController::class);
 
 /*
  |-----------------------------------------------------------------------------
@@ -71,6 +71,7 @@ Route::resource('vendors', \App\Http\Controllers\VendorController::class);
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->name('profile.')->group(function() {
+    Route::get('unverified-profile', [\App\Http\Controllers\ProfileController::class, 'showUnverifiedProfile'])->name('unverified_profile');
     Route::get('agent-details', [\App\Http\Controllers\ProfileController::class, 'showEditAgentForm'])->name('edit_agent_details');
     Route::get('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'showEditDisapprovedAgentForm'])->name('edit_agent_disapproval');
     Route::post('edit-agent-disapproval', [\App\Http\Controllers\ProfileController::class, 'resubmitForApproval'])->name('resubmit_for_approval');
@@ -136,6 +137,14 @@ Route::post('/contact-us', [\App\Http\Controllers\PageController::class, 'sendCo
 
 Route::get('/become-an-agent', [\App\Http\Controllers\PageController::class, 'becomeAnAgent'])
     ->name('become_an_agent');
+/*
+ |-----------------------------------------------------------------------------
+ | Vendor mini-web routes
+ |-----------------------------------------------------------------------------
+ */
+Route::get('/page/{slug}', [\App\Http\Controllers\PageController::class, 'vendorPage'])
+    ->name('vendor_page');
+
 
 /*
 |-----------------------------------------------------------------------------
@@ -147,11 +156,5 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::get('/{order}', [\App\Http\Controllers\MyOrderController::class, 'show'])->name('show');
     Route::get('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'showCancelVendorOrder'])->name('show_cancel_vendor_order');
     Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
+    Route::post('/{vendor_order}/review', [\App\Http\Controllers\MyOrderController::class, 'reviewVendorOrder'])->name('review_vendor_order');
 });
-
-
-/*
-|-----------------------------------------------------------------------------
-| Agent private routes
-|-----------------------------------------------------------------------------
-*/

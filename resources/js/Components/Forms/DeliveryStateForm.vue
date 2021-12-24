@@ -39,7 +39,7 @@ export default {
         const cart = pageProps?.cart || {};
         const form = useForm({
             product_id: props?.productId || "",
-            state_id: cart?.state?.id || '',
+            state_id: cart?.state?.id?.toString() || '',
         });
 
         const submit = () => {

@@ -39,7 +39,7 @@ class Agent extends Model
      */
     public function spendingVolume(): BelongsTo
     {
-        return $this->belongsTo(AgentSpendingVolume::class);
+        return $this->belongsTo(AgentSpendingVolume::class, 'spending_volume_id');
     }
 
     /**

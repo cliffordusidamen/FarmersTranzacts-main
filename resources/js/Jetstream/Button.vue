@@ -14,7 +14,7 @@
 
       contextClass: {
         type: String,
-        default: 'btn-dark',
+        default: 'btn-success',
       },
     }
   }

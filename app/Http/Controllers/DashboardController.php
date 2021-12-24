@@ -59,7 +59,12 @@ class DashboardController extends Controller
         $user_vendor = auth()->user()->vendors()->first();
         $approvalPending = $user_vendor->approval_status == Vendor::STATUS_PENDING;
         $approvalDisapproved = $user_vendor->approval_status == Vendor::STATUS_DISAPPROVED;
-        $user_vendor->append('storage_used');
+        $user_vendor->append([
+            'storage_used',
+            'average_rating',
+            'average_rating_remark',
+            'number_of_reviews',
+        ]);
         $storageAllowed = AppSetting::getSetting(AppSetting::VENDOR_STORAGE_LIMIT) * 1_000_000;
         $numberOfProducts = $user_vendor->products()->count();
 
@@ -74,6 +79,7 @@ class DashboardController extends Controller
 
         $ordersThisMonth = VendorOrder::forVendor($user_vendor->id)
             ->notCancelled($user_vendor->id)
+            ->cancellationPeriodElapsed()
             ->thisMonth()
             ->count();
 
@@ -83,6 +89,8 @@ class DashboardController extends Controller
 
         $topOrders = VendorOrder::thisMonth()
             ->with(['deliveryStatus', 'user', 'items'])
+            ->notCancelled($user_vendor->id)
+            ->cancellationPeriodElapsed()
             ->orderBy('total_amount', 'desc')
             ->take(5)
             ->get();
@@ -169,15 +177,10 @@ class DashboardController extends Controller
      */
     public function _agent()
     {
-        $spendingTrend = VendorOrder::getUserSpendingTrend(
+        $spendingTrendData = VendorOrder::getUserMonthlyPurchases(
             8, request()->user()->id);
 
-        $currMonthSpending = $spendingTrend[carbon_ng()->format('M Y')];
-        $prevMonthSpending = $spendingTrend[
-            carbon_ng()->subtract('1 month')->format('M Y')
-        ];
-        $spendingDifference =
-            $currMonthSpending->month_total_amount - $prevMonthSpending->month_total_amount;
+        $spendingTrend = $spendingTrendData['monthlyPurchases'];
 
         $mostOrderedProduct = OrderItem::ofDeliveredVendorOrders()
             ->thisMonth()
@@ -198,9 +201,12 @@ class DashboardController extends Controller
             )
             ->first();
 
-        return Inertia::render('Dashboards/AgentDashboard', compact(
-            'spendingTrend', 'spendingDifference', 'mostOrderedProduct',
-            'preferredVendor', 'currMonthSpending'
+        $viewData = array_merge($spendingTrendData, compact(
+            'spendingTrend',
+            'mostOrderedProduct',
+            'preferredVendor',
         ));
+
+        return Inertia::render('Dashboards/AgentDashboard', $viewData);
     }
 }

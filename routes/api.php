@@ -15,10 +15,39 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+/*
+|-------------------------------------------------------------------------
+| Users routes
+|-------------------------------------------------------------------------
+*/
+Route::prefix('users')->group(function() {
+    Route::get('shopper-info/{id}', [\App\Http\Controllers\UserController::class, 'showAgentOrShopper']);
+    Route::get('staff-info/{id}', [\App\Http\Controllers\UserController::class, 'showStaff']);
+    Route::get('seller-info/{id}', [\App\Http\Controllers\UserController::class, 'showSeller']);
+    Route::get('/{id}/orders', [\App\Http\Controllers\UserController::class, 'userOrders']);
+    Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
+    Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
+    Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);
+    Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
+    Route::get('add-staff', [\App\Http\Controllers\UserController::class, 'addStaff']);
+    Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);
+    Route::post('/change-agent-status/{id}', [\App\Http\Controllers\AgentController::class, 'changeStatus']);
+});
+Route::apiResource('users', \App\Http\Controllers\UserController::class)->only([
+    'show', 'update', 'destroy',
+]);
+
+
+
+/*
+|-------------------------------------------------------------------------
+| Guest route
+|-------------------------------------------------------------------------
+*/
 Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request $request) {
     return response()->json();
 });
-
 Route::middleware(['frontend'])->post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
 Route::middleware(['auth:sanctum'])->post('/logout', [\App\Http\Controllers\AuthFrontendController::class, 'logout']);
 
@@ -67,24 +96,6 @@ Route::prefix('roles')->group(function() {
 });
 Route::apiResource('roles', \App\Http\Controllers\RoleController::class);
 
-
-/*
-|-------------------------------------------------------------------------
-| Users routes
-|-------------------------------------------------------------------------
-*/
-Route::prefix('users')->group(function() {
-    Route::get('sellers', [\App\Http\Controllers\UserController::class, 'sellers']);
-    Route::get('list/{designation}', [\App\Http\Controllers\UserController::class, 'list']);
-    Route::get('edit-staff/{id}', [\App\Http\Controllers\UserController::class, 'editStaff']);
-    Route::post('/store-staff', [\App\Http\Controllers\UserController::class, 'storeStaff']);
-    Route::get('add-staff', [\App\Http\Controllers\UserController::class, 'addStaff']);
-    Route::post('/update-staff/{staff}', [\App\Http\Controllers\UserController::class, 'updateStaff']);
-    Route::post('/change-agent-status/{id}', [\App\Http\Controllers\AgentController::class, 'changeStatus']);
-});
-Route::apiResource('users', \App\Http\Controllers\UserController::class)->only([
-    'show', 'update', 'destroy',
-]);
 
 
 /*
@@ -172,6 +183,20 @@ Route::resource('products', \App\Http\Controllers\ProductController::class);
 Route::resource('packagings', \App\Http\Controllers\VendorPackagingController::class);
 
 
+
+/*
+|-------------------------------------------------------------------------
+| Vendor orders routes (for seller app)
+|-------------------------------------------------------------------------
+*/
+Route::prefix('vendor_orders')->group(function() {
+    Route::put('{id}/transit', [\App\Http\Controllers\VendorOrderController::class, 'transit']);
+    Route::put('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'delivery']);
+});
+Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);
+
+
+
 /*
 |-------------------------------------------------------------------------
 | Setup routes
@@ -188,20 +213,19 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'editBanner']);
     Route::post('edit-banner/{id}', [\App\Http\Controllers\SetupController::class, 'updateBanner']);
     Route::delete('delete-banner/{id}', [\App\Http\Controllers\SetupController::class, 'deleteBanner']);
+
+    Route::get('agent-commissions', [\App\Http\Controllers\SetupController::class, 'agentCommissions']);
+    Route::post('agent-commissions', [\App\Http\Controllers\SetupController::class, 'storeAgentCommissions']);
+    Route::get('edit-agent-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'editAgentCommissions']);
+    Route::put('update-agent-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateAgentCommissions']);
+    Route::delete('delete-agent-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteAgentCommission']);
+
+    Route::get('sales-commissions', [\App\Http\Controllers\SetupController::class, 'salesCommissions']);
+    Route::post('sales-commissions', [\App\Http\Controllers\SetupController::class, 'storeSalesCommissions']);
+    Route::get('edit-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'editSalesCommissions']);
+    Route::put('update-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateSalesCommissions']);
+    Route::delete('delete-sales-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteSalesCommission']);
 });
-
-
-
-/*
-|-------------------------------------------------------------------------
-| Vendor orders routes (for seller app)
-|-------------------------------------------------------------------------
-*/
-Route::prefix('vendor_orders')->group(function() {
-    Route::put('{id}/transit', [\App\Http\Controllers\VendorOrderController::class, 'transit']);
-    Route::put('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'delivery']);
-});
-Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);
 
 
 /*
@@ -220,7 +244,7 @@ Route::resource('orders', \App\Http\Controllers\OrderController::class);
 Route::prefix('business-info')->group(function() {
     Route::get('/', [\App\Http\Controllers\BusinessInfoController::class, 'index']);
     Route::post('update-logo', [\App\Http\Controllers\BusinessInfoController::class, 'updateLogo']);
-    Route::post('update-cover-image', [\App\Http\Controllers\BusinessInfoController::class, 'updateCoverImage']);
+    Route::post('update-cover-picture', [\App\Http\Controllers\BusinessInfoController::class, 'updateCoverPicture']);
     Route::post('update-about', [\App\Http\Controllers\BusinessInfoController::class, 'updateAbout']);
 });
 
@@ -230,6 +254,14 @@ Route::prefix('business-info')->group(function() {
  |-----------------------------------------------------------------------------
  */
 Route::prefix('profile')->group(function() {
-    Route::post('/change-password', [\App\Http\Controllers\SellerProfileController::class, 'changePassword']);
-    
+    Route::post('/change-password', [\App\Http\Controllers\UserController::class, 'changePassword']);
+    Route::post('/update', [\App\Http\Controllers\UserController::class, 'updateProfile']);
 });
+
+
+/*
+ |-----------------------------------------------------------------------------
+ | Page content routes
+ |-----------------------------------------------------------------------------
+ */
+Route::get('page/{slug}', [\App\Http\Controllers\SetupController::class, 'showPage']);

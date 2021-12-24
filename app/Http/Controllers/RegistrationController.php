@@ -10,11 +10,13 @@ use App\Models\Address;
 use App\Models\AgentSpendingVolume;
 use App\Models\Country;
 use App\Models\Designation;
+use App\Models\Page;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 
@@ -156,7 +158,12 @@ class RegistrationController extends Controller
                     : '+');
         });
 
-        $viewData = compact('app_states', 'product_categories', 'countries', 'spendingVolumes');
+        $agentTermsPage = Page::bySlug(Page::AGENT_TERMS)->first();
+
+        $viewData = compact(
+            'app_states', 'product_categories', 'countries', 'spendingVolumes',
+            'agentTermsPage'
+        );
 
         if (request()->wantsJson()) {
             return response()->json($viewData);

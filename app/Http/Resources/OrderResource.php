@@ -30,6 +30,10 @@ class OrderResource extends JsonResource
             $data['address'] = new AddressResource($this->address);
         }
 
+        if ($this->whenAppended('total_quantity')) {
+            $vendorOrder['total_quantity'] = $this->total_quantity;
+        }
+
         return $data;
     }
 }

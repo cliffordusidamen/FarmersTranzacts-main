@@ -25,11 +25,12 @@ class NigeriaMobile implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!preg_match('/^[0-9]{11}$/', $value)) {
+        $withoutDialCode = preg_replace('/^\+?234/', '', $value);
+        if (!preg_match('/^[0-9]{10,11}$/', $withoutDialCode)) {
             return false;
         }
 
-        $first_three_digits = substr($value, 0, 3);
+        $first_three_digits = substr($withoutDialCode, 0, 3);
 
         $prefixes = [
             '070' => true,

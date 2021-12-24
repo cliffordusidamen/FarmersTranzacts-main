@@ -14,7 +14,7 @@
 
       contextClass: {
         type: String,
-        default: 'btn-primary',
+        default: 'btn-success',
       },
     }
   }

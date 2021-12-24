@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VendorOrderReviewedEvent;
 use App\Mail\VendorOrderCanceledNotifyAdminMail;
 use App\Models\AppSetting;
 use App\Models\DeliveryStatus;
@@ -195,6 +196,7 @@ class MyOrderController extends Controller
 
         if ($saved) {
             flashMessage('success', 'Review submitted!');
+            event(new VendorOrderReviewedEvent($vendorOrder));
             return back();
         }
 

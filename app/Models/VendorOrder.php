@@ -229,13 +229,7 @@ class VendorOrder extends Model
             return false;
         }
 
-        if (
-            carbon_ng($this->delivery_date)->diffInDays(carbon_ng()) <= 7
-        ) {
-            return true;
-        }
-
-        return false;
+        return carbon_ng($this->delivery_date)->diffInDays(carbon_ng()) <= 7;
     }
 
     /**

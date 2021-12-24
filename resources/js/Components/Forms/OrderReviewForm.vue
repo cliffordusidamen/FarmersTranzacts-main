@@ -19,7 +19,7 @@
             <jet-textarea
                 name="customer_review_comment"
                 maxlength="500"
-                rows="4"
+                rows="2"
                 v-model="form.customer_review_comment"
                 autocomplete="off"
                 required
@@ -28,7 +28,7 @@
         </div>
 
         <div class="form-group text-center">
-            <jet-button context-class="btn-primary" :disabled="form.processing">SUBMIT</jet-button>
+            <jet-button :disabled="form.processing">SUBMIT</jet-button>
         </div>
     </form>
 </template>

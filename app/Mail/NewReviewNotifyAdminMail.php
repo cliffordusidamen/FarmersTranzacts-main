@@ -38,7 +38,7 @@ class NewReviewNotifyAdminMail extends Mailable
     public function build()
     {
         return $this
-            ->subject('New Order Received')
+            ->subject('New Order Review')
             ->view('emails.new_review_notify_admin', [
                 'vendorOrder' => $this->vendorOrder,
             ]);

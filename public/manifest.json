@@ -1,6 +1,6 @@
 {
-    "name": "FarmerXpress",
-    "short_name": "FarmerXpress",
+    "name": "FarmersTranzacts",
+    "short_name": "FarmersTranzacts",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#28b94b",

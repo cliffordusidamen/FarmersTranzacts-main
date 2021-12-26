@@ -8,7 +8,7 @@
                 </button>
                 
                 <a href="/" class="logo">
-                    <img src="/img/logo-full-small-new.png" />
+                    <img src="/img/logo-with-slogan-small.png" />
                 </a>
             </div><!-- End .header-left -->
 

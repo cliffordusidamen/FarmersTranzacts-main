@@ -1,6 +1,7 @@
 {
     "name": "FarmersTranzacts",
     "short_name": "FarmersTranzacts",
+    "id": "/",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#28b94b",

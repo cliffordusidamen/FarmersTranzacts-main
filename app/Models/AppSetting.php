@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class AppSetting extends Model
 {
@@ -11,6 +12,7 @@ class AppSetting extends Model
 
     const VENDOR_STORAGE_LIMIT = 'vendor_storage_limit';
     const CANCEL_ORDER_HOURS = 'cancel_order_hours';
+    const REFERENCE_NUMBER_PREFIX = 'reference_number_prefix';
 
     /**
      * Mass assignable fields
@@ -67,5 +69,35 @@ class AppSetting extends Model
             '4' => 'Good',
             '5' => 'Excellent',
         ];
+    }
+
+    /**
+     * Default validaton rules
+     * 
+     * @return array
+     */
+    public static function getDefaultValidation(): array
+    {
+        Log::info(request()->all());
+        $rules = [
+            'hotline' => [
+                'string',
+                function ($attribute, $value, $fail) {
+                    $valid = preg_match('/^\+?\d{8,16}$/', $value);
+                    if (!$valid) {
+                        $fail('The hotline is invalid.');
+                    }
+                },
+            ],
+            'email' => 'email',
+            'social_facebook' => 'string|min:5|max:50',
+            'social_instagram' => 'string|min:5|max:50',
+            'address' => 'string|min:5|max:50',
+            'cancel_order_hours' => 'required|numeric|min:1|max:72',
+            'vendor_storage_limit' => 'required|numeric|min:1|max:100',
+            'reference_number_prefix' => 'required|string|min:2|max:3',
+        ];
+
+        return $rules;
     }
 }

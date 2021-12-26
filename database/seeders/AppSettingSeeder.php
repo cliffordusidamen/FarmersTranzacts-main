@@ -27,6 +27,7 @@ class AppSettingSeeder extends Seeder
             'social_linkedin' => 'https://linkedin.com/in/farmerxpress',
             'social_instagram' => 'farmerxpress',
             'social_whatsapp' => 'farmerxpress',
+            AppSetting::REFERENCE_NUMBER_PREFIX => 'FTA', 
         ]], ['id']);
     }
 }

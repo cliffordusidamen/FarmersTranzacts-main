@@ -41,7 +41,7 @@ class SetupController extends Controller
     public function storeSettings(Request  $request)
     {
         abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
-        // TO DO: Implement validation
+        $this->validate($request, AppSetting::getDefaultValidation());
         $settings = AppSetting::first();
         $saved = $settings->forceFill($request->all())->save();
 

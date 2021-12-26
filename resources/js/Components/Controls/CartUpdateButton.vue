@@ -8,7 +8,7 @@
             <button
                 type="button"
                 :class="{
-                    'btn-block': true,
+                    'btn-block text-uppercase': true,
                     'btn-product': !isInCart && !processing,
                     'bg-danger border-danger text-white': isInCart && !processing,
                     'btn-product-processing': processing,

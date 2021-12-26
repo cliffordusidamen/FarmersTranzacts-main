@@ -10,7 +10,7 @@
         <h4 class="text-center text-primary text-uppercase">Register As Shopper</h4>
         <jet-validation-errors class="mb-3" />
 
-        <form ref="registerForm">
+        <form ref="registerForm" id="shopperRegForm">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -69,7 +69,7 @@
                             id="phone"
                             max-length="15"
                             type="text"
-                            v-model="form.phone"
+                            v-model="form.phoneInput"
                         />
                         <jet-input-error :message="form.errors.phone" />
                     </div>
@@ -174,6 +174,10 @@ import JetInputError from "@/Jetstream/InputError";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
+import useInitIntlPhone from "@/composables/useInitIntlPhone"
+import { ref } from '@vue/reactivity';
+import { useForm } from '@inertiajs/inertia-vue3';
+import { onMounted } from '@vue/runtime-core';
 
 export default {
     components: {
@@ -187,48 +191,43 @@ export default {
         JetValidationErrors,
     },
 
-    data() {
-        return {
-            jqueryValidator: null,
-            form: this.$inertia.form({
-                first_name: "",
-                last_name: "",
-                email: "",
-                phone: "",
-                password: "",
-                password_confirmation: "",
-                terms: false,
-            }),
-        };
-    },
+    setup() {
+        const jqueryValidator = ref(null)
+        const registerForm = ref(null)
+        const form = useForm({
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+            phoneInput: "",
+            password: "",
+            password_confirmation: "",
+            terms: false,
+        })
+        
+        const phoneInput = ref(null)
+        const telInput = ref(null)
+        const { initIntlPhone } = useInitIntlPhone()
 
-    mounted() {
-        this.jqueryValidator = $(this.$refs.registerForm).validate(
-            this.validationConfig()
-        );
-    },
-
-    methods: {
-        submit() {
-            const vueObj = this;
-            this.form.post(this.route("registration.save_shopper"), {
+        const submit = () => {
+            form.phone = telInput.value.getNumber()
+            form.post(route("registration.save_shopper"), {
                 preserveState: true,
                 onFinish: () => {
-                    this.form.processing = false;
+                    form.processing = false;
                 },
                 onSuccess: () => {
-                    this.form.reset();
-                    this.jqueryValidator.resetForm();
-                    $('#registerForm').removeClass('was-validated');
+                    form.reset();
+                    jqueryValidator.value.resetForm();
+                    $(registerForm.value).removeClass('was-validated');
                 },
                 onError: () => {
-                    this.form.reset("password", "password_confirmation");
+                    form.reset("password", "password_confirmation");
                 },
             });
-        }, // [end] submit()
+        }
 
-        validationConfig() {
-            const vueObj = this;
+        const validationConfig = () => {
 
             const nameValidation = {
                 required: true,
@@ -244,8 +243,8 @@ export default {
 
             return {
                 submitHandler() {
-                    vueObj.$refs.registerForm.classList.add("was-validated");
-                    vueObj.submit();
+                    registerForm.value.classList.add("was-validated");
+                    submit();
                 },
                 rules: {
                     first_name: { ...nameValidation },
@@ -256,9 +255,8 @@ export default {
                         maxlength: 255,
                     },
                     phone: {
-						digits: true,
-						minlength: 11,
-						maxlength: 15,
+						intl_phone: true,
+                        maxlength: 17,
 					},
                     terms: 'required',
                     password: {...passwordRules},
@@ -268,7 +266,21 @@ export default {
                     },
                 },
             };
-        }, // [end] validationConfig()
+        }
+
+        onMounted(() => {
+            initIntlPhone(phoneInput, telInput, 'phone')
+            jqueryValidator.value = $('#shopperRegForm').validate(
+                validationConfig())
+        })
+
+        return {
+            registerForm,
+            jqueryValidator,
+            form,
+            submit,
+        }
     },
+
 };
 </script>

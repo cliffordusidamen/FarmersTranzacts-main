@@ -30,7 +30,18 @@ class StoreShopperRequest extends FormRequest
             'first_name' => ['required', 'string', 'min:3', 'max:25'],
             'last_name' => ['required', 'string', 'min:3', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable', 'string', 'max:15', 'unique:users'],
+            'phone' => [
+                'nullable',
+                'string',
+                'max:15',
+                'unique:users',
+                function ($attribute, $value, $fail) {
+                    $valid = preg_match('/^\+?\d{8,16}$/', $value);
+                    if (!$valid) {
+                        $fail('The phone number is invalid.');
+                    }
+                },
+            ],
             'password' => ['required', 'confirmed', 'min:8', 'max:50'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ];

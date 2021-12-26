@@ -102,15 +102,18 @@ class Order extends Model
      */
     public static function generateReferenceNumber()
     {
+        
         $referenceNumber = '';
         $referenceNumberExists = true;
+        $prefix = AppSetting::getSetting(AppSetting::REFERENCE_NUMBER_PREFIX);
+        $randomNumberLength = 11 - strlen($prefix);
 
         do {
-            $referenceNumber = \Illuminate\Support\Str::random(3) . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $referenceNumber = "{$prefix}-" . str_pad(mt_rand(0, 99999), $randomNumberLength, '0', STR_PAD_LEFT);
             $referenceNumberExists = (bool) Order::where('reference_number', $referenceNumber)->count();
         } while ($referenceNumberExists);
 
-        return strtoupper($referenceNumber);
+        return $referenceNumber;
     }
 
     /**
@@ -123,11 +126,9 @@ class Order extends Model
     {
         $referenceNumber = '';
         $referenceNumberExists = true;
-        $prefix = AppSetting::getSetting(AppSetting::REFERENCE_NUMBER_PREFIX);
-        $randomNumberLength = 11 - strlen($prefix) - strlen("{{$order->id}}");
 
         do {
-            $referenceNumber = "{$prefix}{$order->id}-" . str_pad(mt_rand(0, 99999), $randomNumberLength, '0', STR_PAD_LEFT);
+            $referenceNumber = "SH{$order->id}-" . str_pad(mt_rand(0, 99999), 5, '0', STR_PAD_LEFT);
             $referenceNumberExists = (bool) Payment::where('reference_number', $referenceNumber)->count();
         } while ($referenceNumberExists);
 

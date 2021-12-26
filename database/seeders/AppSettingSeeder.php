@@ -16,7 +16,7 @@ class AppSettingSeeder extends Seeder
     {
         AppSetting::upsert([[
             'id' => 1,
-            'hotline' => '(234) 0801 234 5678',
+            'hotline' => '+2348032345678',
             'email' => 'info@fructuo.com',
             'address' => '1, FarmerXpress Close',
             AppSetting::VENDOR_STORAGE_LIMIT => '25',

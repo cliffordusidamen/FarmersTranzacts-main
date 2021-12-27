@@ -224,7 +224,7 @@ class VendorOrder extends Model
         if (
             !empty($this->customer_reviewed_at)
             || empty($this->delivery_date)
-            || $this->delivery_status_id !== DeliveryStatus::DELIVERED_ID
+            || $this->delivery_status_id != DeliveryStatus::DELIVERED_ID
         ) {
             return false;
         }

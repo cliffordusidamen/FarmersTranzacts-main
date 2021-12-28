@@ -1,4 +1,4 @@
-const STATIC_CACHE_NAME = 'sw-cache-static-v1.3';
+const STATIC_CACHE_NAME = 'sw-cache-static-v1.4';
 
 const urlsToCache = [
     'molla-template/css/bootstrap.min.css',

@@ -1,4 +1,4 @@
-const STATIC_CACHE_NAME = 'sw-cache-static-v1.4';
+const STATIC_CACHE_NAME = 'sw-cache-static-v1.5';
 
 const urlsToCache = [
     'molla-template/css/bootstrap.min.css',
@@ -9,9 +9,6 @@ const urlsToCache = [
     'molla-template/css/plugins/nouislider/nouislider.css',
     'molla-template/css/skins/skin-demo-13.css',
     'molla-template/css/demos/demo-13.css',
-
-    '/css/app.css',
-    '/js/app.js',
 
     'plugins/intl-tel-input/css/intlTelInput.min.css',
 

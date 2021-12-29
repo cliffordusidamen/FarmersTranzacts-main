@@ -116,11 +116,15 @@ class ProductCategory extends Model
     /**
      * Add category picture.
      *
-     * @param  \Illuminate\Http\UploadedFile  $picture
+     * @param  \Illuminate\Http\UploadedFile|null  $picture
      * @return bool|string
      */
-    public function addDisplayPicture(UploadedFile $picture)
+    public function addDisplayPicture(?UploadedFile $picture = null)
     {
+        if (is_null($picture)) {
+            return false;
+        }
+
         $path = false;
         tap($this->display_picture_path, function ($previous) use ($picture, &$path) {
             $path =$picture->storePublicly('public/product-category-pictures/');

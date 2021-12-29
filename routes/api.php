@@ -82,6 +82,7 @@ Route::prefix('departments')->group(function() {
 Route::prefix('product_categories')->group(function() {
     Route::post('{id}/store-subcategory', [\App\Http\Controllers\ProductCategoryController::class, 'storeSubcategory']);
     Route::put('{category_id}/update-subcategory/{id}', [\App\Http\Controllers\ProductCategoryController::class, 'updateSubcategory']);
+    Route::get('show-subcategory/{id}', [\App\Http\Controllers\ProductCategoryController::class, 'showSubcategory']);
 });
 Route::apiResource('product_categories', \App\Http\Controllers\ProductCategoryController::class);
 

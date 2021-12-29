@@ -173,6 +173,20 @@ class ProductCategoryController extends Controller
     }
 
     /**
+     * Get information for a subcategory
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $subcategoryId
+     * @return \Illuminate\Http\Response
+     */
+    public function showSubcategory(Request $request, $subcategoryId)
+    {
+        $product_subcategory = ProductSubcategory::with('category')->findOrFail((int) $subcategoryId);
+
+        return response()->json(compact('product_subcategory'));
+    }
+
+    /**
      * Update subcategory details
      * 
      * @param  \Illuminate\Http\Request  $request

@@ -18,10 +18,23 @@ use App\Models\State;
 use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller
 {
+
+    /**
+     * Create instance of the controller
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('registration-terminating')->only([
+            'saveShopper', 'saveVendor', 'saveAgent'
+        ]);
+    }
     /**
      * Show the form for registering as shopper
      * 
@@ -126,7 +139,6 @@ class RegistrationController extends Controller
                 ]);
             }
 
-            event(new Registered($user));
             return response()->json(compact('user'));
         }
 
@@ -135,7 +147,6 @@ class RegistrationController extends Controller
             return back()->withInput();
         }
 
-        event(new Registered($user));
         flashMessage('success', 'Registration successful! Please, check you email in click on the verification link.');
         return back();
     }
@@ -211,7 +222,6 @@ class RegistrationController extends Controller
                 ]);
             }
 
-            event(new Registered($user));
             return response()->json(compact('user'));
         }
 
@@ -220,8 +230,8 @@ class RegistrationController extends Controller
             return back()->withInput();
         }
 
-        event(new Registered($user));
         flashMessage('success', 'Registration successful! Please, check you email in click on the verification link.');
-        return back();
+        Auth::login($user);
+        return redirect()->route('dashboard');
     }
 }

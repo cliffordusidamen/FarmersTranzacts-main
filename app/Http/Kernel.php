@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'auth.admin' => \App\Http\Middleware\Admin::class,
         'auth.vendor' => \App\Http\Middleware\VendorUser::class,
         'frontend' => \App\Http\Middleware\HandleFrontendAppRequests::class,
+        'registration-terminating' => \App\Http\Middleware\RegistrationTerminating::class,
     ];
 }

@@ -159,6 +159,16 @@
                 </jet-button>
             </div>
         </div>
+
+        <div class="mt-3 border-top pt-2">
+            Do you know you can become an agent and get great commissions on bulk purchases?
+            <a
+                :href="route('become_an_agent')"
+                class="btn btn-link text-uppercase"
+            >
+                Learn more
+            </a>
+        </div>
     </form>
 </template>
 

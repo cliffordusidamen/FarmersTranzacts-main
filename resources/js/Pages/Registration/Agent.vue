@@ -281,7 +281,6 @@
                                 class="ml-4 text-uppercase"
                                 :class="{ 'text-white-50': form.processing }"
                                 :disabled="form.processing"
-                                context-class="btn-primary"
                             >
                                 Register
                             </jet-button>

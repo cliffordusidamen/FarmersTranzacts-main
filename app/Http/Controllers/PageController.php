@@ -76,7 +76,7 @@ class PageController extends Controller
 
         if (!empty($request->email)) {
             $contactUsResponse = new \App\Mail\ContactUsResponseMail($request->all());
-            Mail::to(config('mail.from.address'))->send($contactUsResponse);
+            Mail::to($request->email)->send($contactUsResponse);
         }
 
         flashMessage('success', 'Message sent!');

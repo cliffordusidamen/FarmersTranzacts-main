@@ -52,6 +52,7 @@ class HandleInertiaRequests extends Middleware
             'userAgent' => !$userAgent ? null : new AgentResource($userAgent),
             'cart' => $request->session()->get('cart'),
             'app_settings' => \App\Models\AppSetting::first(),
+            'app_help_pages' => \App\Models\HelpPage::published()->get(),
             'states' => \App\Models\State::pluck('state_name', 'id'),
         ]);
     }

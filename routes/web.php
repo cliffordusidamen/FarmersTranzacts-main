@@ -158,3 +158,12 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
     Route::post('/{vendor_order}/cancel-vendor-order', [\App\Http\Controllers\MyOrderController::class, 'cancelVendorOrder'])->name('cancel_vendor_order');
     Route::post('/{vendor_order}/review', [\App\Http\Controllers\MyOrderController::class, 'reviewVendorOrder'])->name('review_vendor_order');
 });
+
+/*
+|-----------------------------------------------------------------------------
+| Help center routes
+|-----------------------------------------------------------------------------
+*/
+Route::prefix('help')->name('help.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\HelpController::class, 'index'])->name('index');
+});

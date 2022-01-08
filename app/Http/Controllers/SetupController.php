@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSpendingVolumeRequest;
 use App\Models\AgentSpendingVolume;
 use App\Models\AppSetting;
 use App\Models\Banner;
+use App\Models\HelpPage;
 use App\Models\Page;
 use App\Models\SalesCommission;
 use Illuminate\Http\Request;
@@ -466,5 +467,84 @@ class SetupController extends Controller
         }
 
         throw new \Exception('Commission setup not deleted! Please, try again.');
+    }
+
+    /**
+     * Get a listing of all help pages
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function helpPages()
+    {
+        $helpPages = HelpPage::get();
+        return response()->json(compact('helpPages'));
+    }
+
+    /**
+     * Store help page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeHelpPage(Request $request)
+    {
+        $data = $this->validate($request, HelpPage::validationRules());
+        $helpPage = HelpPage::create($data);
+
+        if (!$helpPage) {
+            throw new \Exception('Help page not saved! Please, try again.');
+        }
+
+        return response()->json(compact('helpPage'));
+    }
+
+    /**
+     * Get details of a help page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showHelpPage(Request $request, int $id)
+    {
+        $helpPage = HelpPage::findOrFail($id);
+        return response()->json(compact('helpPage'));
+    }
+
+    /**
+     * Update the help page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateHelpPage(Request $request, int $id)
+    {
+        $helpPage = HelpPage::findOrFail($id);
+        $data = $this->validate($request, HelpPage::validationRules((int) $id));
+        $helpPage->forceFill($data);
+
+        if (!$helpPage->save()) {
+            throw new \Exception('Help page not saved! Please, try again.');
+        }
+
+        return response()->json(compact('helpPage'));
+    }
+
+    /**
+     * Delete an help page
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteHelpPage(int $id)
+    {
+        $helpPage = HelpPage::findOrFail($id);
+
+        if ($helpPage->delete()) {
+            return response()->json(['success' => true]);
+        }
+
+        throw new \Exception('Help page not deleted! Please, try again.');
     }
 }

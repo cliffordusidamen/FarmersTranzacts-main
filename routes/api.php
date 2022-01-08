@@ -226,6 +226,12 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('edit-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'editSalesCommissions']);
     Route::put('update-sales-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateSalesCommissions']);
     Route::delete('delete-sales-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteSalesCommission']);
+
+    Route::get('help-pages', [\App\Http\Controllers\SetupController::class, 'helpPages']);
+    Route::post('help-pages/store', [\App\Http\Controllers\SetupController::class, 'storeHelpPage']);
+    Route::get('help-pages/{id}', [\App\Http\Controllers\SetupController::class, 'showHelpPage']);
+    Route::put('help-pages/{id}/update', [\App\Http\Controllers\SetupController::class, 'updateHelpPage']);
+    Route::delete('help-pages/{id}', [\App\Http\Controllers\SetupController::class, 'deleteHelpPage']);
 });
 
 

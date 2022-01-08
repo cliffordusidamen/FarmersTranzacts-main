@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             AppSettingSeeder::class,
             PageSeeder::class,
             AgentSpendingVolumeSeeder::class,
+            HelpPageSeeder::class,
         ]);
 
         \App\Models\User::factory([

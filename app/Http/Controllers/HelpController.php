@@ -17,6 +17,10 @@ class HelpController extends Controller
     public function index()
     {
         $helpPages = HelpPage::published()->get();
+
+        if (request()->wantsJson()) {
+            return response()->json($helpPages);
+        }
         return Inertia::render('Help/Index', compact('helpPages'));
     }
 

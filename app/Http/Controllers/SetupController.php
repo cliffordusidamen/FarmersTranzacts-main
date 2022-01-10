@@ -596,15 +596,27 @@ class SetupController extends Controller
     /**
      * Get data of frequently asked question for edit
      * 
-     * @param  \App\Http\Requests\FaqSaveRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function faqsEdit(FaqSaveRequest $request, int $id)
+    public function faqsEdit(Request $request, int $id)
     {
         $faq = Faq::findOrFail($id);
         $helpPages = HelpPage::pluck('title', 'id');
         return response()->json(compact('faq', 'helpPages'));
+
+    }
+
+    /**
+     * Update frequently asked question
+     * 
+     * @param  \App\Http\Requests\FaqSaveRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function faqsUpdate(FaqSaveRequest $request, int $id)
+    {
         $faq = Faq::findOrFail($id);
         $data = collect($request->all())->only(array_keys(
             Faq::defaultValidationRules()

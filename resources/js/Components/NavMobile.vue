@@ -37,6 +37,9 @@
                             <li>
                                 <inertia-link @click="toggleMobileMenu" :href="route('contact_us')">Contact Us</inertia-link>
                             </li>
+                            <li>
+                                <inertia-link @click="toggleMobileMenu" :href="route('help.index')">Help center</inertia-link>
+                            </li>
                         </ul>
                     </nav><!-- End .mobile-nav -->
                 </div><!-- .End .tab-pane -->

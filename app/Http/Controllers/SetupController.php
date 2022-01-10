@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FaqSaveRequest;
 use App\Http\Requests\SaveBannerRequest;
 use App\Http\Requests\StoreSalesCommissionRequest;
 use App\Http\Requests\StoreSpendingVolumeRequest;
 use App\Models\AgentSpendingVolume;
 use App\Models\AppSetting;
 use App\Models\Banner;
+use App\Models\Faq;
+use App\Models\HelpPage;
 use App\Models\Page;
 use App\Models\SalesCommission;
 use Illuminate\Http\Request;
@@ -466,5 +469,171 @@ class SetupController extends Controller
         }
 
         throw new \Exception('Commission setup not deleted! Please, try again.');
+    }
+
+    /**
+     * Get a listing of all help pages
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function helpPages()
+    {
+        $helpPages = HelpPage::get();
+        return response()->json(compact('helpPages'));
+    }
+
+    /**
+     * Store help page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeHelpPage(Request $request)
+    {
+        $data = $this->validate($request, HelpPage::validationRules());
+        $helpPage = HelpPage::create($data);
+
+        if (!$helpPage) {
+            throw new \Exception('Help page not saved! Please, try again.');
+        }
+
+        return response()->json(compact('helpPage'));
+    }
+
+    /**
+     * Get details of a help page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showHelpPage(Request $request, int $id)
+    {
+        $helpPage = HelpPage::findOrFail($id);
+        return response()->json(compact('helpPage'));
+    }
+
+    /**
+     * Update the help page
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateHelpPage(Request $request, int $id)
+    {
+        $helpPage = HelpPage::findOrFail($id);
+        $data = $this->validate($request, HelpPage::validationRules((int) $id));
+        $helpPage->forceFill($data);
+
+        if (!$helpPage->save()) {
+            throw new \Exception('Help page not saved! Please, try again.');
+        }
+
+        return response()->json(compact('helpPage'));
+    }
+
+    /**
+     * Delete an help page
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteHelpPage(int $id)
+    {
+        $helpPage = HelpPage::findOrFail($id);
+
+        if ($helpPage->delete()) {
+            return response()->json(['success' => true]);
+        }
+
+        throw new \Exception('Help page not deleted! Please, try again.');
+    }
+
+    /**
+     * Get a listing of all frequently asked questions
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function faqs()
+    {
+        $faqs = Faq::with('helpPage')->get();
+        return response()->json(compact('faqs'));
+    }
+
+    /**
+     * Create frequently asked question
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function faqsCreate()
+    {
+        $helpPages = HelpPage::pluck('title', 'id');
+        return response()->json(compact('helpPages'));
+    }
+
+    /**
+     * Store frequently asked question to the database
+     * 
+     * @param  \App\Http\Requests\FaqSaveRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function faqsStore(FaqSaveRequest $request)
+    {
+        $data = collect($request->all())->only(array_keys(
+            Faq::defaultValidationRules()
+        ))->all();
+
+        $faq = Faq::create($data);
+
+        if (!$faq) {
+            throw new \Exception('FAQ not saved! Please try again.');
+        }
+
+        return response()->json(compact('faq'));
+    }
+
+    /**
+     * Get data of frequently asked question for edit
+     * 
+     * @param  \App\Http\Requests\FaqSaveRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function faqsEdit(FaqSaveRequest $request, int $id)
+    {
+        $faq = Faq::findOrFail($id);
+        $helpPages = HelpPage::pluck('title', 'id');
+        return response()->json(compact('faq', 'helpPages'));
+        $faq = Faq::findOrFail($id);
+        $data = collect($request->all())->only(array_keys(
+            Faq::defaultValidationRules()
+        ))->all();
+        $updated = $faq->forceFill($data)->save();
+
+        if (!$updated) {
+            throw new \Exception('FAQ not saved! Please try again.');
+        }
+
+        return response()->json(compact('faq'));
+    }
+
+    /**
+     * Delete a frequently asked question to the database
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function faqsDelete(
+        int $id
+    ) {
+        $faq = Faq::findOrFail($id);
+
+        if ($faq->delete()) {
+            return response()->json(['success' => true]);
+        }
+
+        throw new \Exception('FAQ not deleted! Please, try again.');
+
     }
 }

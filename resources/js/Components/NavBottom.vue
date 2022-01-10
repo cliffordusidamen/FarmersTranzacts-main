@@ -60,6 +60,20 @@
                             }">
                                 <inertia-link :href="route('contact_us')">Contact Us</inertia-link>
                             </li>
+                            <li
+                                v-if="app_help_pages?.length"
+                            >
+                                <a href="#" @click.prevent class="sf-with-ul">Help</a>
+                                <ul>
+                                    <li>
+                                        <inertia-link :href="route('help.index')">Help center</inertia-link>
+                                    </li>
+
+                                    <li v-for="page in app_help_pages" :key="page.id">
+                                        <inertia-link :href="route('help.page', {slug: page.slug})">{{ page.title }}</inertia-link>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                 </div><!-- End. header-center -->
@@ -75,6 +89,7 @@
 <script>
 import useAppSettings from '@/composables/useAppSettings'
 import { onMounted } from '@vue/runtime-core'
+import { usePage } from '@inertiajs/inertia-vue3'
 
 export default {
     props: {
@@ -86,6 +101,9 @@ export default {
 
     setup() {
         const { hotline } = useAppSettings()
+        const { app_help_pages } = usePage().props.value
+
+        console.log(app_help_pages)
 
         onMounted(() => {
             // Sticky header 
@@ -129,8 +147,9 @@ export default {
         }
 
         return {
-            hotline,
+            app_help_pages,
             hasSubcategory,
+            hotline,
             isCurrentRoute,
         }
     },

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\Rule;
 
 class HelpPage extends Model
@@ -17,6 +18,16 @@ class HelpPage extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Relationship: Has many faqs
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function faqs(): HasMany
+    {
+        return $this->hasMany(Faq::class);
+    }
 
     /**
      * Scope a query to only include published pages.

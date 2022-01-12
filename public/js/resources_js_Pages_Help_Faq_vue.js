@@ -969,11 +969,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout.vue */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Components_Utils_BreadcrumbDefault_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/Utils/BreadcrumbDefault.vue */ "./resources/js/Components/Utils/BreadcrumbDefault.vue");
-/* harmony import */ var _Components_FaqAccordion_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/FaqAccordion.vue */ "./resources/js/Components/FaqAccordion.vue");
-/* harmony import */ var _Components_Utils_PageHeader_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Utils/PageHeader.vue */ "./resources/js/Components/Utils/PageHeader.vue");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/AppLayout.vue */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Components_Utils_BreadcrumbDefault_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Utils/BreadcrumbDefault.vue */ "./resources/js/Components/Utils/BreadcrumbDefault.vue");
+/* harmony import */ var _Components_FaqAccordion_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/FaqAccordion.vue */ "./resources/js/Components/FaqAccordion.vue");
+/* harmony import */ var _Components_Utils_PageHeader_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/Utils/PageHeader.vue */ "./resources/js/Components/Utils/PageHeader.vue");
+
 
 
 
@@ -981,22 +984,56 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    BreadcrumbDefault: _Components_Utils_BreadcrumbDefault_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    PageHeader: _Components_Utils_PageHeader_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    FaqAccordion: _Components_FaqAccordion_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    BreadcrumbDefault: _Components_Utils_BreadcrumbDefault_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    PageHeader: _Components_Utils_PageHeader_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    FaqAccordion: _Components_FaqAccordion_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   setup: function setup() {
-    var faqs = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.usePage)().props.value.faqs;
+    var faqs = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props.value.faqs;
     var breadcrumbLinks = [{
       link: route('help.index'),
       text: 'Help center'
     }, {
       text: 'FAQ'
     }];
+    var filterText = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__.ref)('');
+    var filteredFaqs = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__.ref)(faqs);
+    var isFiltering = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__.ref)(false);
+    var debounceTimer = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__.ref)(null);
+
+    var filterFaqs = function filterFaqs() {
+      console.log("Fitlering using ".concat(filterText.value));
+      var newFaqs = faqs.filter(function (faq) {
+        var question = faq.question.toLowerCase();
+        var answer = faq.answer.toLowerCase();
+        return question.includes(filterText.value) || answer.includes(filterText.value);
+      });
+      filteredFaqs.value = newFaqs;
+      isFiltering.value = false;
+    };
+
+    var handleFilterInput = function handleFilterInput() {
+      isFiltering.value = true;
+
+      if (debounceTimer.value) {
+        clearTimeout(debounceTimer.value);
+      }
+
+      debounceTimer.value = setTimeout(function () {
+        return filterFaqs();
+      }, 1800);
+    };
+
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__.onUnmounted)(function () {
+      return clearTimeout(debounceTimer);
+    });
     return {
       breadcrumbLinks: breadcrumbLinks,
-      faqs: faqs
+      filteredFaqs: filteredFaqs,
+      filterText: filterText,
+      handleFilterInput: handleFilterInput,
+      isFiltering: isFiltering
     };
   }
 });
@@ -3606,6 +3643,40 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   "class": "col-md-8"
 };
+var _hoisted_6 = {
+  "class": "form-group"
+};
+var _hoisted_7 = {
+  key: 0,
+  "class": "card"
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "card body text-center lead"
+}, "No FAQ found!", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = [_hoisted_8];
+var _hoisted_10 = {
+  key: 1,
+  "class": "d-flex flex-row justify-content-center mb-4 mt-1"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "spinner-grow",
+  style: {
+    "width": "5rem",
+    "height": "5rem"
+  },
+  role: "status"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "sr-only"
+}, "Loading...")], -1
+/* HOISTED */
+);
+
+var _hoisted_12 = [_hoisted_11];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_page_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("page-header");
 
@@ -3617,17 +3688,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_app_layout, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$setup$filteredFaqs;
+
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_page_header, {
         title: "Frequently Asked Questions"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breadcrumb_default, {
         breadcrumbs: $setup.breadcrumbLinks
       }, null, 8
       /* PROPS */
-      , ["breadcrumbs"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_faq_accordion, {
-        faqs: $setup.faqs
+      , ["breadcrumbs"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "text",
+        "class": "form-control",
+        placeholder: "Find questions",
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return $setup.filterText = $event;
+        }),
+        onKeyup: _cache[1] || (_cache[1] = function ($event) {
+          return $setup.handleFilterInput();
+        })
+      }, null, 544
+      /* HYDRATE_EVENTS, NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.filterText]])]), !((_$setup$filteredFaqs = $setup.filteredFaqs) !== null && _$setup$filteredFaqs !== void 0 && _$setup$filteredFaqs.length) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _hoisted_9)) : $setup.isFiltering ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, _hoisted_12)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_faq_accordion, {
+        key: 2,
+        faqs: $setup.filteredFaqs
       }, null, 8
       /* PROPS */
-      , ["faqs"])])])])])])];
+      , ["faqs"]))])])])])])];
     }),
     _: 1
     /* STABLE */

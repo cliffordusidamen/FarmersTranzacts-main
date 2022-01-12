@@ -166,5 +166,6 @@ Route::prefix('my-orders')->name('my_orders.')->group(function() {
 */
 Route::prefix('help')->name('help.')->group(function() {
     Route::get('/', [\App\Http\Controllers\HelpController::class, 'index'])->name('index');
+    Route::get('/faq', [\App\Http\Controllers\HelpController::class, 'faq'])->name('faq');
     Route::get('{slug}', [\App\Http\Controllers\HelpController::class, 'page'])->name('page');
 });

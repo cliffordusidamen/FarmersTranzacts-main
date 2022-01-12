@@ -10,6 +10,13 @@
                             class="col-md-8"
                             v-html="helpPage.content"
                         ></div>
+                        <div
+                            v-if="helpPage?.faqs?.length > 0"
+                            class="col-md-4"
+                        >
+                            <h4>Related questions</h4>
+                            <faq-accordion :faqs="helpPage.faqs" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -30,16 +37,19 @@
 </style>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
+
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
-import { usePage } from '@inertiajs/inertia-vue3';
+import FaqAccordion from '@/Components/FaqAccordion.vue'
 
 export default {
     components: {
         AppLayout,
         BreadcrumbDefault,
         PageHeader,
+        FaqAccordion,
     },
     setup() {
 

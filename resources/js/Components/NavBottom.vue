@@ -45,28 +45,35 @@
                             }">
                                 <inertia-link :href="route('home')">Home</inertia-link>
                             </li>
+
                             <li :class="{
                                 'active': isCurrentRoute(route('shop.index'))
                             }">
                                 <inertia-link :href="route('shop.index')">Shop</inertia-link>
                             </li>
+
                             <li :class="{
                                 'active': isCurrentRoute(route('about_us'))
                             }">
                                 <inertia-link :href="route('about_us')">About Us</inertia-link>
                             </li>
+
                             <li :class="{
                                 'active': isCurrentRoute(route('contact_us'))
                             }">
                                 <inertia-link :href="route('contact_us')">Contact Us</inertia-link>
                             </li>
-                            <li
-                                v-if="app_help_pages?.length"
-                            >
+
+                            <li>
                                 <a href="#" @click.prevent class="sf-with-ul">Help</a>
+                               
                                 <ul>
-                                    <li>
+                                    <li v-if="app_help_pages?.length">
                                         <inertia-link :href="route('help.index')">Help center</inertia-link>
+                                    </li>
+
+                                    <li>
+                                        <inertia-link :href="route('help.faq')">FAQ</inertia-link>
                                     </li>
 
                                     <li v-for="page in app_help_pages" :key="page.id">

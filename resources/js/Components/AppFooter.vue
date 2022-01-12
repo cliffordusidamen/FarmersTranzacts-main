@@ -114,6 +114,8 @@
 
                                     <ul class="widget-list list-unstyled text-center text-md-left">
                                         <li><inertia-link :href="route('about_us')">About {{ this.$page.props.config_app.name }}</inertia-link></li>
+                                        <li><inertia-link :href="route('help.faq')">FAQ</inertia-link></li>
+                                        <li><inertia-link :href="route('help.index')">Help center</inertia-link></li>
                                     </ul><!-- End .widget-list -->
                                 </div><!-- End .widget -->
                             </div><!-- End .col-md-4 -->

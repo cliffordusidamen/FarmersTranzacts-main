@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faq;
 use App\Models\HelpPage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,7 +34,19 @@ class HelpController extends Controller
      */
     public function page(string $slug)
     {
-        $helpPage = HelpPage::where('slug', 'LIKE', $slug)->firstOrFail();
+        $helpPage = HelpPage::with('faqs')->where('slug', 'LIKE', $slug)->firstOrFail();
         return Inertia::render('Help/ShowPage', compact('helpPage'));
+    }
+
+    /**
+     * Fetch the list of FAQs
+     * 
+     * @return \Inertia\Response
+     */
+    public function faq()
+    {
+        $faqs = Faq::get();
+
+        return Inertia::render('Help/Faq', compact('faqs'));
     }
 }

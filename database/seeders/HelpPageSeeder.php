@@ -47,7 +47,7 @@ class HelpPageSeeder extends Seeder
                 'slug' => 'how-to-pay',
                 'title' => 'Payment methods',
                 'description' => 'How to pay items',
-                'content' => 'How to pay for items',
+                'content' => '<h4>How to pay for items</h4><img src="https://farmerstranzacts.com/molla-template/images/payments.png" />',
             ],
         ];
     }

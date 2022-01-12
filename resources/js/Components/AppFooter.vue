@@ -50,17 +50,6 @@
                 <div class="row flex-column-reverse flex-lg-row">
                     <div class="col-lg-5">
                         <div class="widget widget-about mb-0 d-flex flex-column flex-md-row justify-content-md-center flex-lg-column align-items-md-center  align-items-lg-start">
-                            
-                            <div class="widget-about-info flex-fill">
-                                <div class="row">
-                                    <div class="col-12 mt-0">
-                                        <span class="widget-about-title text-uppercase font-weight-bold text-center text-md-left">Payment Method</span>
-                                        <figure class="footer-payments d-flex justify-content-center justify-content-md-start">
-                                            <img src="/molla-template/images/payments.png" alt="Payment methods" width="272" height="20">
-                                        </figure><!-- End .footer-payments -->
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
-                            </div><!-- End .widget-about-info -->
 
                             <div class="flex-fill">
                                 <span class="widget-about-title text-uppercase font-weight-bold mt-2 text-center text-md-left">Connect with us:</span>

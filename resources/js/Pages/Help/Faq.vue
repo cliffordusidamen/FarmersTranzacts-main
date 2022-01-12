@@ -7,9 +7,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
-                            <div class="accordion accordion-rounded" id="accordion-1">
-                                <faq-accordion :faqs="faqs" />
-                            </div>
+                            <faq-accordion :faqs="faqs" />
                         </div>
                     </div>
                 </div>

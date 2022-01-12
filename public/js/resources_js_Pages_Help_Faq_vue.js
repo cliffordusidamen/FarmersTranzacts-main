@@ -1353,7 +1353,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  key: 0
+  key: 0,
+  "class": "accordion accordion-rounded",
+  id: "accordion-1"
 };
 var _hoisted_2 = ["id"];
 var _hoisted_3 = {
@@ -3604,10 +3606,6 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   "class": "col-md-8"
 };
-var _hoisted_6 = {
-  "class": "accordion accordion-rounded",
-  id: "accordion-1"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_page_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("page-header");
 
@@ -3625,11 +3623,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         breadcrumbs: $setup.breadcrumbLinks
       }, null, 8
       /* PROPS */
-      , ["breadcrumbs"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_faq_accordion, {
+      , ["breadcrumbs"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_faq_accordion, {
         faqs: $setup.faqs
       }, null, 8
       /* PROPS */
-      , ["faqs"])])])])])])])];
+      , ["faqs"])])])])])])];
     }),
     _: 1
     /* STABLE */

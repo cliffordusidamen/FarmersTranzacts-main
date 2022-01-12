@@ -1,6 +1,8 @@
 <template>
     <div
         v-if="faqs.length"
+        class="accordion accordion-rounded"
+        id="accordion-1"
     >
         <div
             v-for="faq in faqs"
@@ -21,7 +23,7 @@
                     'show': faq.id == faqs[0].id,
                 }"
                 :aria-labelledby="`heading-${faq.id}`"
-                data-parent="#accordion-1"
+                :data-parent="`#accordion-1`"
             >
                 <div class="card-body" v-html="faq.answer">
                 </div><!-- End .card-body -->

@@ -43,6 +43,8 @@ class Product extends Model
         'approval_status',
         'submitted_at',
         'approved_at',
+        'is_perishable',
+        'shelf_life_days',
     ];
 
     /**

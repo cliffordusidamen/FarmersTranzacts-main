@@ -25,10 +25,7 @@ class SaveProductRequest extends FormRequest
      */
     public function rules()
     {
-        $validationRules = Product::validationRules();
-
-        $validationRules['picture'] = 'sometimes|nullable|mimes:png,jpg|max:1024';
-        return $validationRules;
+        return Product::validationRules();
     }
 
     /**

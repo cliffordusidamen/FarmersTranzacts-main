@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class Product extends Model
 {
@@ -160,11 +161,12 @@ class Product extends Model
     /**
      * Validation rules
      * 
-     * @param  int|null  $id
+     * @param  bool  $withDeliveryCosts
      * @return array
      */
-    public static function validationRules(?int $id = null): array
-    {
+    public static function validationRules(
+        bool $withDeliveryCosts = true
+    ): array {
         $rules = [
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|min:25|max:1000',
@@ -175,12 +177,22 @@ class Product extends Model
             'category_id' => 'required|exists:product_categories,id',
             'subcategory_id' => 'sometimes|nullable|exists:product_subcategories,id',
             'maximum_order_quantity' => 'required|numeric|min:1|max:20',
+
+            'is_perishable' => 'nullable',
+            'shelf_life_days' => [
+                Rule::requiredIf(fn() => request()->input('is_perishable', false)),
+                'min:1',
+                'max:365',
+            ],
+
+            'picture' => 'sometimes|nullable|mimes:png,jpg|max:1024',
         ];
 
-        
-        collect(ProductDeliveryCost::getValidationRules("product_delivery_costs.*."))->map(function ($fieldRules, $fieldName) use (&$rules) {
-            $rules["{$fieldName}"] = $fieldRules;
-        });
+        if ($withDeliveryCosts) {
+            collect(ProductDeliveryCost::getValidationRules("product_delivery_costs.*."))->map(function ($fieldRules, $fieldName) use (&$rules) {
+                $rules["{$fieldName}"] = $fieldRules;
+            });
+        }
 
         return $rules;
     }

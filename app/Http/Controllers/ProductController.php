@@ -74,17 +74,10 @@ class ProductController extends Controller
     public function store(SaveProductRequest $request)
     {
 
-        $data = $request->only([
-            'name',
-            'category_id',
-            'subcategory_id',
-            'description',
-            'price',
-            'packaging_id',
-            'maximum_order_quantity',
-        ]);
+        $data = $request->only(array_keys(Product::validationRules(false)));
 
         $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
+        $data['shelf_life_days'] = empty($data['is_perishable']) ? '' : $data['shelf_life_days'];
         $product = null;
 
         DB::transaction(function() use (&$product, $request, $data) {
@@ -156,15 +149,9 @@ class ProductController extends Controller
         $saved = false;
         
         DB::transaction(function() use ($product, $request, &$saved) {
-            $data = $request->only([
-                'name',
-                'category_id',
-                'subcategory_id',
-                'description',
-                'price',
-                'packaging_id',
-                'maximum_order_quantity',
-            ]);
+            $data = $request->only(array_keys(Product::validationRules(false)));
+
+            $data['shelf_life_days'] = empty($data['is_perishable']) ? '' : $data['shelf_life_days'];
     
             $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
             $data['approval_status'] = $request->is_draft ? $product->approval_status : Product::STATUS_PENDING;

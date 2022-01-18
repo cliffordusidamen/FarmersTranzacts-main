@@ -30,24 +30,28 @@ class HelpPageSeeder extends Seeder
                 'title' => 'Place and track orders',
                 'description' => 'Track your order status and see your order history',
                 'content' => 'Place and track orders!',
+                'published' => true,
             ],
             [
                 'slug' => 'returns-and-refunds',
                 'title' => 'Returns and refunds',
                 'description' => 'Return and refund policy',
                 'content' => 'Place and track orders!',
+                'published' => true,
             ],
             [
                 'slug' => 'order-cancellation',
                 'title' => 'Order cancellation',
                 'description' => 'Cancellation policy',
                 'content' => 'How to cancel your order!',
+                'published' => true,
             ],
             [
                 'slug' => 'how-to-pay',
                 'title' => 'Payment methods',
                 'description' => 'How to pay items',
                 'content' => '<h4>How to pay for items</h4><img src="https://farmerstranzacts.com/molla-template/images/payments.png" />',
+                    'published' => true,
             ],
         ];
     }

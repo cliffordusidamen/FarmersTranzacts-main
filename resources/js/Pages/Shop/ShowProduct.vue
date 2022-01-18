@@ -44,6 +44,11 @@
                                 <div class="product-price text-success">
                                     &#8358;{{ Number(product.price).toLocaleString() }} per {{product.packaging.name}}
                                 </div><!-- End .product-price -->
+                                <h6 v-if="product.is_perishable">
+                                    Shelf life:
+                                    {{ Number(product?.shelf_life_days).toLocaleString() }}
+                                    {{ Number(product?.shelf_life_days) == 1 ? 'day' : 'days' }}
+                                </h6>
 
                                 <div class="product-content" v-html="product.description"></div>
                                 <div class="product-content">

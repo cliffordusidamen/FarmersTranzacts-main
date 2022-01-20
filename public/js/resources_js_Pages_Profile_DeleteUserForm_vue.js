@@ -463,7 +463,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-labelledby": $props.id,
     "aria-hidden": "true"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["modal-dialog", $options.maxWidthClass])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("modal-dialog ".concat($options.maxWidthClass))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 2
   /* CLASS */
   )], 8

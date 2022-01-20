@@ -42,7 +42,12 @@ class RegistrationController extends Controller
      */
     public function showShopperForm()
     {
-        return Inertia::render('Registration/Shopper');
+        $termsPage = Page::bySlug(Page::TERMS)->first();
+        $privacyPage = Page::bySlug(Page::PRIVACY_POLICY)->first();
+
+        return Inertia::render('Registration/Shopper', compact(
+            'termsPage', 'privacyPage'
+        ));
     }
 
     /**

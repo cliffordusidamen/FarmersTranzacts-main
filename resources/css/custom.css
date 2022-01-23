@@ -53,6 +53,12 @@ ol {
 .text-shadow {
     text-shadow: 1px 1px 5px rgb(0 0 0 / 89%);
 }
+
+.menu li>a {
+    color: #000000;
+    font-size: 1.35rem;
+}
+
 /*
  |------------------------------------------------------------------------
  | Intl Phone plugin css

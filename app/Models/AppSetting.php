@@ -78,7 +78,6 @@ class AppSetting extends Model
      */
     public static function getDefaultValidation(): array
     {
-        Log::info(request()->all());
         $rules = [
             'hotline' => [
                 'string',
@@ -96,6 +95,7 @@ class AppSetting extends Model
             'cancel_order_hours' => 'required|numeric|min:1|max:72',
             'vendor_storage_limit' => 'required|numeric|min:1|max:100',
             'reference_number_prefix' => 'required|string|min:2|max:3',
+            'pay_on_delivery_allowed' => 'sometimes|nullable|bool',
         ];
 
         return $rules;

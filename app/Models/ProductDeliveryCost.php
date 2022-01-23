@@ -21,16 +21,22 @@ class ProductDeliveryCost extends Model
         'maximum_quantity',
         'north_central_cost',
         'north_central_delivery_days',
+        'north_central_pay_on_delivery',
         'north_east_cost',
         'north_east_delivery_days',
+        'north_east_pay_on_delivery',
         'north_west_cost',
         'north_west_delivery_days',
+        'north_west_pay_on_delivery',
         'south_east_cost',
         'south_east_delivery_days',
+        'south_east_pay_on_delivery',
         'south_west_cost',
         'south_west_delivery_days',
+        'south_west_pay_on_delivery',
         'south_south_cost',
         'south_south_delivery_days',
+        'south_south_pay_on_delivery',
     ];
 
     /**

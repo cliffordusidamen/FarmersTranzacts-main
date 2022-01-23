@@ -180,6 +180,7 @@ class Product extends Model
 
             'is_perishable' => 'nullable',
             'shelf_life_days' => [
+                'nullable',
                 Rule::requiredIf(fn() => request()->input('is_perishable', false)),
                 'min:1',
                 'max:365',

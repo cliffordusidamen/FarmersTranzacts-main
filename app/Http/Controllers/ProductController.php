@@ -15,6 +15,7 @@ use App\Models\VendorPackaging;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -81,11 +82,12 @@ class ProductController extends Controller
         $product = null;
 
         DB::transaction(function() use (&$product, $request, $data) {
-
+            unset($data['picture']);
             $product = $request->user()->vendorData->products()->create($data);
             if ($request->picture) {
                 $product->addPicture($request->picture);
             }
+
             collect($request->product_delivery_costs)->each(
                 fn($deliveryCost) => $product->deliveryCosts()->create($deliveryCost)
             );
@@ -150,6 +152,7 @@ class ProductController extends Controller
         
         DB::transaction(function() use ($product, $request, &$saved) {
             $data = $request->only(array_keys(Product::validationRules(false)));
+            unset($data['picture']);
 
             $data['shelf_life_days'] = empty($data['is_perishable']) ? '' : $data['shelf_life_days'];
     

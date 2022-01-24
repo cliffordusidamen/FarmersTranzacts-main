@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -22,31 +23,11 @@ class Product extends Model
     const STATUS_DISAPPROVED = 'disapproved';
     
     /**
-     * Mass assignable fields
+     * Guarded fields
      * 
      * @var array
      */
-    protected $fillable = [
-        'vendor_id',
-        'category_id',
-        'subcategory_id',
-        'packaging_id',
-        'name',
-        'slug',
-        'description',
-        'specifications',
-        'key_features',
-        'maximum_order_quantity',
-        'price',
-        'old_price',
-        'in_stock',
-        'disapproval_reason',
-        'approval_status',
-        'submitted_at',
-        'approved_at',
-        'is_perishable',
-        'shelf_life_days',
-    ];
+    protected $guarded = [];
 
     /**
      * Auto appended attributes
@@ -167,6 +148,8 @@ class Product extends Model
     public static function validationRules(
         bool $withDeliveryCosts = true
     ): array {
+
+        // Log::info(request()->all());
         $rules = [
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|min:25|max:1000',
@@ -179,12 +162,7 @@ class Product extends Model
             'maximum_order_quantity' => 'required|numeric|min:1|max:20',
 
             'is_perishable' => 'nullable',
-            'shelf_life_days' => [
-                'nullable',
-                Rule::requiredIf(fn() => request()->input('is_perishable', false)),
-                'min:1',
-                'max:365',
-            ],
+            'shelf_life_days' => 'sometimes|nullable|numeric',
 
             'picture' => 'sometimes|nullable|mimes:png,jpg|max:1024',
         ];

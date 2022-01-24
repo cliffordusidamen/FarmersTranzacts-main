@@ -7,6 +7,7 @@ use App\Http\Requests\AddProductPictureRequest;
 use App\Http\Requests\SaveProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
+use App\Models\AppSetting;
 use App\Models\GeopoliticalZone;
 use App\Models\Product;
 use App\Models\ProductDeliveryCost;
@@ -375,10 +376,11 @@ class ProductController extends Controller
             ->get();
         $packagingList = $vendorData->packagings()->pluck('name', 'id');
         $zones = GeopoliticalZone::with('states')->get();
+        $payOnDeliverySettings = AppSetting::getPayOnDeliverySettings();
 
         return compact(
             'productCategoryList', 'productSubcategories', 'packagingList',
-            'zones',
+            'zones', 'payOnDeliverySettings',
         );
     }
 

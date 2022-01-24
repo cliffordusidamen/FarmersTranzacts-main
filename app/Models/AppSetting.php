@@ -34,6 +34,32 @@ class AppSetting extends Model
     ];
 
     /**
+     * Get multiple settings
+     * 
+     * @param  array  $keys
+     * @return array
+     */
+    public static function getSettings(array $keys): array
+    {
+        $appSettings = AppSetting::first();
+
+        if (!$appSettings) {
+            return [];
+        }
+        $appSettingsArray = $appSettings->toArray();
+
+        $settings = [];
+
+        foreach($keys as $key) {
+            $settings[$key] = isset($appSettingsArray[$key])
+                ? $appSettingsArray[$key] : null;
+        }
+
+
+        return $settings;
+    }
+
+    /**
      * Get specific setting
      * 
      * @param  string  $key
@@ -53,6 +79,27 @@ class AppSetting extends Model
         return isset($appSettingsArray[$key])
             ? $appSettingsArray[$key]
             : $default;
+    }
+
+    /**
+     * Get the settings for pay on delivery
+     * 
+     * @return array
+     */
+    public static function getPayOnDeliverySettings(): array
+    {
+        $appSettings = self::first();
+
+        if (!$appSettings) {
+            return [];
+        }
+        $settings = [
+            'pay_on_delivery_allowed' => $appSettings->pay_on_delivery_allowed,
+            'pay_on_delivery_minimum' => $appSettings->pay_on_delivery_minimum,
+            'pay_on_delivery_maximum' => $appSettings->pay_on_delivery_maximum,
+        ];
+
+        return $settings;
     }
 
     /**

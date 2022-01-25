@@ -116,6 +116,16 @@ class Vendor extends Model
     }
 
     /**
+     * Has many vendor bank accounts
+     * 
+     * @return  \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bankAccounts(): HasMany
+    {
+        return $this->hasMany(VendorBankAccount::class, 'vendor_id');
+    }
+
+    /**
      * Set name attribute handler
      * 
      * @param  string  $value
@@ -458,5 +468,45 @@ class Vendor extends Model
         return $this->cover_picture_path
                     ? Storage::disk()->url($this->cover_picture_path)
                     : null;
+    }
+
+    /**
+     * Update the default bank account
+     * 
+     * @param  \App\Models\VendorBankAccount  $bankAccount
+     * @return void
+     */
+    public function updateDefaultBankAccount(
+        VendorBankAccount $bankAccount
+    ): void {
+        if ($bankAccount->is_default) {
+            $this->bankAccounts()
+                ->where('id', '!=', $bankAccount->id)
+                ->update(['is_default' => false]);
+        }
+    }
+
+    /**
+     * Check if data given is a duplicate bank account
+     * 
+     * @param  int  $bankId
+     * @param  string  $accountNumber
+     * @param  int|null  $id
+     * @return bool
+     */
+    public function isDuplicateBankAccount(
+        int $bankId,
+        string $accountNumber,
+        int $id = null
+    ): bool {
+        $bankAccountQuery = $this->bankAccounts()
+            ->where('bank_id', $bankId)
+            ->where('account_number', $accountNumber);
+
+        if (!is_null($id)) {
+            $bankAccountQuery->where('id', '!=', $id);
+        }
+
+        return $bankAccountQuery->exists();
     }
 }

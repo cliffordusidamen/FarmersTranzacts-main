@@ -280,3 +280,11 @@ Route::prefix('profile')->group(function() {
  |-----------------------------------------------------------------------------
  */
 Route::get('page/{slug}', [\App\Http\Controllers\SetupController::class, 'showPage']);
+
+
+/*
+ |-----------------------------------------------------------------------------
+ | Vendor bank account routes
+ |-----------------------------------------------------------------------------
+ */
+Route::resource('vendor_bank_accounts', \App\Http\Controllers\VendorBankAccountController::class);

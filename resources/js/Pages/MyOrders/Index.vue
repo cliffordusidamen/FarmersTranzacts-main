@@ -27,6 +27,7 @@
                                     <tr class="d-none d-sm-table-row">
                                         <th class="d-none text-uppercase d-sm-table-cell">Date</th>
                                         <th class="text-uppercase">Order</th>
+                                        <th class="text-uppercase">Payment</th>
                                         <th class="d-none text-uppercase d-sm-table-cell">Delivery</th>
                                         <th class="d-none text-uppercase d-sm-table-cell">Amount(&#8358;)</th>
                                         <th class="d-none text-uppercase d-sm-table-cell">Items</th>
@@ -58,6 +59,11 @@
                                                 </p>
 
                                                 <p>
+                                                    <strong class="text-uppercase">Payment: </strong>
+                                                    {{ Number(order.pay_on_delivery) ? 'On-delivery' : 'Online'}}
+                                                </p>
+
+                                                <p>
                                                     <strong class="text-uppercase">Status: </strong>
                                                     {{ order.delivery_status.name }}
                                                 </p>
@@ -69,6 +75,10 @@
                                                     View
                                                 </inertia-link>
                                             </div>
+                                        </td>
+
+                                        <td class="d-none d-sm-table-cell">
+                                            {{ Number(order.pay_on_delivery) ? 'On-delivery' : 'Online'}}
                                         </td>
 
                                         <td class="d-none d-sm-table-cell">{{ Number(order.delivery_days) }} days</td>

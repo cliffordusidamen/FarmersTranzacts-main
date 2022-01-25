@@ -6,6 +6,14 @@
         New order received!
     </x-email.h1>
 
+    @if ($order->pay_on_delivery)
+    <x-email.p>
+        <span style="text-align: right; padding-right: 10px; color: #F00000;">
+            <strong>Payment on delivery!</strong>
+        </span>
+    </x-email.p>
+    @endif
+
     <x-email.p>
         <strong>Reference:</strong> {{ $order->reference_number }}<br />
         <strong>Shopper name:</strong> {{ $order->user->full_name }}<br />

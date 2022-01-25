@@ -24,7 +24,6 @@ class NotifyVendorOrder
             ->get();
 
         if (!$orders->count()) {
-            Log::info('All done');
             return;
         }
 

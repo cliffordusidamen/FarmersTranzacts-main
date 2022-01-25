@@ -7,7 +7,15 @@
     </x-email.h1>
 
     <x-email.p>
-        <h4>Here is your receipt:</h4>
+        @if ($order->pay_on_delivery)
+            <h4>
+                Your order was successful and will be delivered to you soon.
+                You are expected to make means of payment available before the delivery.
+            </h4>
+            
+        @else
+            <h4>Here is your receipt:</h4>
+        @endif
         <strong>Reference:</strong> {{ $order->reference_number }}<br />
         <strong>Your name:</strong> {{ $order->user->full_name }}<br />
         <strong>Email:</strong> {{ $order->user->email }}<br />
@@ -63,6 +71,12 @@
                 </tr>
             </tbody>
         </table>
+
+        @if ($order->pay_on_delivery)
+            <p style="text-align: right; padding-right: 10px; color: #F00000;">
+                <strong>Payment on delivery!</strong>
+            </p>
+        @endif
     </x-email.p>
 
     <br />

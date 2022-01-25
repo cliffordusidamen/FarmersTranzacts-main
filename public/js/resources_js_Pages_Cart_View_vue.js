@@ -1023,7 +1023,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     var updateProductQuantity = function updateProductQuantity(product, quantity) {
       cartItemsRx.value[product.id].quantity = quantity;
-      console.log('New quantity for "' + product.name + '"', quantity);
       itemTotalPricesRx[product.id] = Number(quantity) * Number(product.price);
       updateGrandTotal();
     };
@@ -1031,16 +1030,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       breadcrumbLinks: breadcrumbLinks,
       cart: cart,
+      cartHasItems: cartHasItems,
       cartItems: cartItems,
       cartItemsCount: cartItemsCount,
-      cartHasItems: cartHasItems,
-      updatingCart: updatingCart,
+      grandTotal: grandTotal,
+      itemTotalPricesRx: itemTotalPricesRx,
       processing: processing,
       removeItem: removeItem,
-      updateProductQuantity: updateProductQuantity,
       updateCart: updateCart,
-      itemTotalPricesRx: itemTotalPricesRx,
-      grandTotal: grandTotal
+      updatingCart: updatingCart,
+      updateProductQuantity: updateProductQuantity
     };
   }
 });
@@ -3621,7 +3620,7 @@ var _hoisted_22 = {
 var _hoisted_23 = {
   "class": "cart-product-quantity"
 };
-var _hoisted_24 = ["onChange", "value"];
+var _hoisted_24 = ["onChange", "value", "max"];
 var _hoisted_25 = {
   key: 0,
   "class": "d-block text-sm"
@@ -3826,7 +3825,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           },
           value: quantity,
           min: "1",
-          max: "10",
+          max: product.maximum_order_quantity,
           step: "1",
           "data-decimals": "0",
           required: "",

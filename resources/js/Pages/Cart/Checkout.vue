@@ -196,13 +196,30 @@
 
                                 <button
                                     type="submit"
-                                    class="btn btn-primary btn-order btn-block"
-                                    :disabled="processing"
+                                    @click="() => form.checkout_to = 'pay_on_delivery'"
+                                    class="btn btn-primary btn-order btn-block mb-3 text-uppercase"
+                                    v-if="cart.can_pay_on_delivery && !processing"
                                 >
                                     <span v-if="!processing">
-                                        <span class="btn-text">Place Order</span>
+                                        <span class="btn-text">Pay on delivery</span>
                                         <span class="btn-hover-text">
-                                            Proceed to Checkout
+                                            Pay on delivery
+                                        </span>
+                                    </span>
+                                    <span v-else>Please wait...</span>
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-order btn-block text-uppercase"
+                                    :disabled="processing"
+                                    name="pay_online"
+                                    @click="() => form.checkout_to = 'pay_online'"
+                                >
+                                    <span v-if="!processing">
+                                        <span class="btn-text">Pay Now</span>
+                                        <span class="btn-hover-text">
+                                            Proceed to payment
                                         </span>
                                     </span>
                                     <span v-else>Please wait...</span>
@@ -262,6 +279,7 @@ export default {
             city: "",
             postal_code: "",
             order_notes: "",
+            checkout_to: '',
         });
 
         const submit = () => {

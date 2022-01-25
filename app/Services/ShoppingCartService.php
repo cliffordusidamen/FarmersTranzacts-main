@@ -5,9 +5,16 @@ namespace App\Services;
 use App\Models\Product;
 use App\Models\ProductDeliveryCost;
 use App\Models\State;
+use Illuminate\Support\Facades\Log;
 
 class ShoppingCartService
 {
+    /**
+     * Indicate if cash on delivery is possible for this order
+     * 
+     * @var bool
+     */
+    private bool $canPayOnDelivery = true;
     /**
      * Indicate if the order can be delivered
      * 
@@ -86,6 +93,7 @@ class ShoppingCartService
         $this->items = request()->session()->get('cart.items', []);
         $this->state = request()->session()->get('cart.state', []);
         $this->canBeDelivered = request()->session()->get('cart.can_be_delivered', false);
+        $this->canPayOnDelivery = request()->session()->get('cart.can_pay_on_delivery', false);
         $this->totalDeliveryDays = request()->session()->get('cart.total_delivery_days', 0);
         $this->totalDeliveryAmount = request()->session()->get('cart.total_delivery_amount', 0);
         $this->grandTotal = request()->session()->get('cart.grand_total', 0);
@@ -108,6 +116,7 @@ class ShoppingCartService
             'state' => $this->state,
             'items' => $this->items,
             'can_be_delivered' => $this->canBeDelivered,
+            'can_pay_on_delivery' => $this->canPayOnDelivery,
             'total_delivery_days' => $this->totalDeliveryDays,
             'total_delivery_amount' => $this->totalDeliveryAmount,
             'grand_total' => $this->grandTotal,
@@ -268,17 +277,21 @@ class ShoppingCartService
         $deliveryZoneKey = str_replace('-', '_', $this->state['zone']['name']);
         $deliveryCostKey = strtolower("{$deliveryZoneKey}_cost");
         $deliveryDaysKey = strtolower("{$deliveryZoneKey}_delivery_days");
+        $payOnDeliveryKey = strtolower("{$deliveryZoneKey}_pay_on_delivery");
         $this->vendorOrders = [];
         $this->canBeDelivered = true;
+        $this->canPayOnDelivery = true;
         foreach ($this->items as $key => $item) {
             $productDeliveryCost = ProductDeliveryCost::where('product_id', $item['product']['id'])
                 ->where('minimum_quantity', '<=', $item['quantity'])
                 ->where('maximum_quantity', '>=', $item['quantity'])
                 ->first();
-
+                
             $canBeDelivered = $productDeliveryCost && !empty($productDeliveryCost->$deliveryCostKey);
+            $canPayOnDelivery = $productDeliveryCost && !empty($productDeliveryCost->$payOnDeliveryKey);
 
             $this->items[$key]['can_be_delivered'] = $canBeDelivered;
+            $this->items[$key]['can_pay_on_delivery'] = $canPayOnDelivery;
 
             $this->items[$key]['delivery_amount'] = $canBeDelivered
                 ? (float) $productDeliveryCost->$deliveryCostKey
@@ -292,6 +305,7 @@ class ShoppingCartService
                 $this->items[$key]['delivery_amount'] + $this->items[$key]['total'];
 
             $this->canBeDelivered = !$canBeDelivered ? false : $this->canBeDelivered;
+            $this->canPayOnDelivery = !$canPayOnDelivery ? false : $this->canPayOnDelivery;
             $this->totalDeliveryAmount += $this->items[$key]['delivery_amount'];
             $this->grandTotalWithDelivery += $this->items[$key]['delivery_amount'];
             $this->totalDeliveryDays = max(
@@ -373,6 +387,16 @@ class ShoppingCartService
     public function canBeDelivered()
     {
         return $this->canBeDelivered;
+    }
+
+    /**
+     * Determine if payment on delivery is available for the set state
+     * 
+     * @return  bool
+     */
+    public function canPayOnDelivery()
+    {
+        return $this->canPayOnDelivery;
     }
 
     /**

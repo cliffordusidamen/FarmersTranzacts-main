@@ -79,7 +79,6 @@
                                         </div>
 
                                         <div class="d-block">
-                                            SHARE:
                                             <facebook-share :link="route('shop.show_product', { slug: product.slug })" />
                                         </div>
                                     </div>

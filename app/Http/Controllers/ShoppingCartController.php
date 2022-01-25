@@ -182,11 +182,20 @@ class ShoppingCartController extends Controller
             return redirect()->route('shopping_cart.view');
         }
 
-        $order = Order::initCartOrder($this->cart, $request->all());
+        $payOnDelivery = $request->input('checkout_to') == 'pay_on_delivery';
+
+        $order = Order::initCartOrder($this->cart, $request->all(), $payOnDelivery);
 
         if (!$order) {
             flashMessage('danger', 'Payment initialization failed! Please, try again.');
             return back()->withInput();
+        }
+
+        if ($payOnDelivery) {
+            event(new OrderCompletedEvent($order));
+            flashMessage('success', 'Order successful! Order will be delivered in due time. Please, ensure you have cash for payment on delivery.');
+            $this->cart->clear();
+            return redirect()->route('shopping_cart.view');
         }
 
         try {

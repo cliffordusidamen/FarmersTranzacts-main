@@ -22,7 +22,13 @@
                                                 <p class="text-uppercase text-muted">
                                                     status:
                                                     <strong class="text-dark">{{ vendorOrder.delivery_status.name }}</strong>
-                                                    
+                                                </p>
+
+                                                <p class="text-uppercase text-muted">
+                                                    payment:
+                                                    <strong class="text-dark">
+                                                        {{ Number(vendorOrder.pay_on_delivery) ? 'On-delivery' : 'Online'}}
+                                                    </strong>
                                                 </p>
                                             </div>
 

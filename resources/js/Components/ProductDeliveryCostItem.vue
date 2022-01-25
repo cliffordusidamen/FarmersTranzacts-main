@@ -12,9 +12,17 @@
             >
                 <span>North-central</span>
 
-                <span class="text-end">
+                <span class="text-right">
                     &#8358;{{ Number(item.north_central_cost).toLocaleString() }}
                     ({{ `${Number(item.north_central_delivery_days).toLocaleString()} days` }})
+
+                    <div
+                        v-if="Number(item.north_central_pay_on_delivery)"
+                        class="d-block text-primary small text-right"
+                    >
+                        <span class="la la-check"></span>
+                        Accept cash on delivery
+                    </div>
                 </span>
             </div>
 
@@ -27,6 +35,14 @@
                 <span class="text-right">
                     &#8358;{{ Number(item.north_east_cost).toLocaleString() }}
                     ({{ `${Number(item.north_east_delivery_days).toLocaleString()} days` }})
+
+                    <div
+                        v-if="Number(item.north_east_pay_on_delivery)"
+                        class="d-block text-primary small text-right"
+                    >
+                        <span class="la la-check"></span>
+                        Accept cash on delivery
+                    </div>
                 </span>
             </div>
 
@@ -36,9 +52,18 @@
             >
                 <span>North-west</span>
 
+                
                 <span class="text-right">
                     &#8358;{{ Number(item.north_west_cost).toLocaleString() }}
                     ({{ `${Number(item.north_west_delivery_days).toLocaleString()} days` }})
+
+                    <div
+                        v-if="Number(item.north_west_pay_on_delivery)"
+                        class="d-block text-primary small text-right"
+                    >
+                        <span class="la la-check"></span>
+                        Accept cash on delivery
+                    </div>
                 </span>
             </div>
 
@@ -51,6 +76,14 @@
                 <span class="text-right">
                     &#8358;{{ Number(item.south_east_cost).toLocaleString() }}
                     ({{ `${Number(item.south_east_delivery_days).toLocaleString()} days` }})
+
+                    <div
+                        v-if="Number(item.south_east_pay_on_delivery)"
+                        class="d-block text-primary small text-right"
+                    >
+                        <span class="la la-check"></span>
+                        Accept cash on delivery
+                    </div>
                 </span>
             </div>
 
@@ -63,20 +96,30 @@
                 <span class="text-right">
                     &#8358;{{ Number(item.south_west_cost).toLocaleString() }}
                     ({{ `${Number(item.south_west_delivery_days).toLocaleString()} days` }})
+
+                    <div
+                        v-if="Number(item.south_west_pay_on_delivery)"
+                        class="d-block text-primary small text-right"
+                    >
+                        <span class="la la-check"></span>
+                        Accept cash on delivery
+                    </div>
                 </span>
             </div>
 
-            <div
-                v-if="item.south_south_cost && item.south_south_delivery_days"
-                class="border-bottom border-gray-300 px-3 pb-3 d-flex align-items-center justify-content-between"
-            >
-                <span>south-south</span>
-
+            
                 <span class="text-right">
                     &#8358;{{ Number(item.south_south_cost).toLocaleString() }}
                     ({{ `${Number(item.south_south_delivery_days).toLocaleString()} days` }})
+
+                    <div
+                        v-if="Number(item.south_south_pay_on_delivery)"
+                        class="d-block text-primary small text-right"
+                    >
+                        <span class="la la-check"></span>
+                        Accept cash on delivery
+                    </div>
                 </span>
-            </div>
         </div>
     </div>
 

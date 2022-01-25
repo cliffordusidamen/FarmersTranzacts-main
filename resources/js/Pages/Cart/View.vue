@@ -62,7 +62,18 @@
                                             </td>
                                             <td class="quantity-col">
                                                 <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" @change="$event => updateProductQuantity(product, $event.target.value)" :value="quantity" min="1" max="10" step="1" data-decimals="0" required="" style="display: none;">
+                                                    <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        @change="$event => updateProductQuantity(product, $event.target.value)"
+                                                        :value="quantity"
+                                                        min="1"
+                                                        :max="product.maximum_order_quantity"
+                                                        step="1"
+                                                        data-decimals="0"
+                                                        required=""
+                                                        style="display: none;"
+                                                    />
                                                 </div>
                                                 <span v-if="delivery_days" class="d-block text-sm">
                                                     Delivery in {{ Number(delivery_days).toLocaleString() }} days
@@ -230,23 +241,23 @@ export default {
         
         const updateProductQuantity = (product, quantity) => {
             cartItemsRx.value[product.id].quantity = quantity
-            console.log('New quantity for "' + product.name + '"', quantity)
             itemTotalPricesRx[product.id] = Number(quantity) * Number(product.price)
             updateGrandTotal()
         }
+
         return {
             breadcrumbLinks,
             cart,
+            cartHasItems,
             cartItems,
             cartItemsCount,
-            cartHasItems,
-            updatingCart,
+            grandTotal,
+            itemTotalPricesRx,
             processing,
             removeItem,
-            updateProductQuantity,
             updateCart,
-            itemTotalPricesRx,
-            grandTotal,
+            updatingCart,
+            updateProductQuantity,
         }
     }
 }

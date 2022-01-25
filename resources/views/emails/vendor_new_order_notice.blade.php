@@ -9,6 +9,14 @@
         New order received!
     </x-email.h1>
 
+    @if ($vendorOrder->pay_on_delivery)
+    <x-email.p>
+        <span style="text-align: right; padding-right: 10px; color: #F00000;">
+            <strong>Payment on delivery!</strong>
+        </span>
+    </x-email.p>
+    @endif
+
     <x-email.p>
         Hello, {{$user->first_name}}!<br />
         You have a new order for some item(s) on your shop:<br />

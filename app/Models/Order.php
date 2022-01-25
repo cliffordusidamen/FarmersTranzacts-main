@@ -32,6 +32,7 @@ class Order extends Model
         'total_amount',
         'delivery_status_id',
         'order_notes',
+        'pay_on_delivery',
     ];
 
     /**
@@ -140,16 +141,18 @@ class Order extends Model
      * 
      * @param  \App\Services\ShoppingCartService  $cart
      * @param  array  $data
+     * @param  bool  $payOnDelivery
      * @return bool|self
      */
     public static function initCartOrder(
         \App\Services\ShoppingCartService $cart,
-        array $data
+        array $data,
+        bool $payOnDelivery = false
     ) {
 
         $saved = false;
         $order = new Order();
-        DB::transaction(function () use ($data, $cart, &$saved, &$order) {
+        DB::transaction(function () use ($data, $cart, $payOnDelivery, &$saved, &$order) {
             $orderItems = [];
             $vendorOrders = [];
             $vendorProducts = [];
@@ -189,9 +192,10 @@ class Order extends Model
                 'delivery_days'      => $cart->getTotalDeliveryDays(),
                 'total_amount'      => $cart->getGrandTotalWithDelivery(),
                 'order_notes' => $data['order_notes'] ?? null,
+                'pay_on_delivery' => $payOnDelivery,
             ])->save();
 
-            collect($cart->getVendorOrders())->map(function ($vendorOrder, $i) use (&$vendorOrders, $address, $order) {
+            collect($cart->getVendorOrders())->map(function ($vendorOrder, $i) use (&$vendorOrders, $address, $order, $payOnDelivery) {
                 $vendorOrders[] = new VendorOrder([
                     'reference_number' => "{$order->reference_number}-{$vendorOrder['vendor']['id']}",
                     'user_id'     => auth()->user()->id,
@@ -201,6 +205,7 @@ class Order extends Model
                     'delivery_amount'      => $vendorOrder['delivery_amount'],
                     'delivery_days'      => $vendorOrder['delivery_days'],
                     'total_amount'      => $vendorOrder['grand_total_amount'],
+                    'pay_on_delivery' => $payOnDelivery,
                 ]);
             });
 

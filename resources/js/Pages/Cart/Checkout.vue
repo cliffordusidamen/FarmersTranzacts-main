@@ -198,7 +198,7 @@
                                     type="submit"
                                     @click="() => form.checkout_to = 'pay_on_delivery'"
                                     class="btn btn-primary btn-order btn-block mb-3 text-uppercase"
-                                    v-if="cart.can_pay_on_delivery && !processing"
+                                    v-if="cart.can_pay_on_delivery && !processing && pay_on_delivery_enabled"
                                 >
                                     <span v-if="!processing">
                                         <span class="btn-text">Pay on delivery</span>
@@ -269,7 +269,8 @@ export default {
 
         const { cart, cartItems } = useCartManager();
 
-        const { app_states } = usePage().props.value;
+        const { app_states, app_settings } = usePage().props.value;
+        const pay_on_delivery_enabled = Number(app_settings?.pay_on_delivery_allowed) ? true : false;
         const jqueryValidator = ref(null);
         const checkoutForm = ref(null);
         const processing = ref(false);
@@ -335,13 +336,14 @@ export default {
         });
 
         return {
+            app_states,
             breadcrumbLinks,
-            form,
             cart,
             cartItems,
             checkoutForm,
+            form,
+            pay_on_delivery_enabled,
             processing,
-            app_states,
         };
     },
 };

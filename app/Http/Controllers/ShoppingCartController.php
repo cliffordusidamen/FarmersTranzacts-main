@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\OrderCompletedEvent;
 use App\Http\Requests\OrderRequest;
 use App\Models\Address;
+use App\Models\AppSetting;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -192,6 +193,12 @@ class ShoppingCartController extends Controller
         }
 
         if ($payOnDelivery) {
+            $payOnDeliveryEnabled = (bool) AppSetting::getSetting('pay_on_delivery_allowed', false);
+
+            if (!$payOnDeliveryEnabled) {
+                flashMessage('danger', 'Pay-on-delivery order failed! Please, try again.');
+                return back()->withInput();
+            }
             event(new OrderCompletedEvent($order));
             flashMessage('success', 'Order successful! Order will be delivered in due time. Please, ensure you have cash for payment on delivery.');
             $this->cart->clear();

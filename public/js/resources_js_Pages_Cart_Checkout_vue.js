@@ -978,7 +978,10 @@ __webpack_require__.r(__webpack_exports__);
         cart = _useCartManager.cart,
         cartItems = _useCartManager.cartItems;
 
-    var app_states = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.usePage)().props.value.app_states;
+    var _usePage$props$value = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.usePage)().props.value,
+        app_states = _usePage$props$value.app_states,
+        app_settings = _usePage$props$value.app_settings;
+    var pay_on_delivery_enabled = Number(app_settings === null || app_settings === void 0 ? void 0 : app_settings.pay_on_delivery_allowed) ? true : false;
     var jqueryValidator = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(null);
     var checkoutForm = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(null);
     var processing = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_7__.ref)(false);
@@ -1041,13 +1044,14 @@ __webpack_require__.r(__webpack_exports__);
       jqueryValidator.value = $(checkoutForm.value).validate(validationConfig());
     });
     return {
+      app_states: app_states,
       breadcrumbLinks: breadcrumbLinks,
-      form: form,
       cart: cart,
       cartItems: cartItems,
       checkoutForm: checkoutForm,
-      processing: processing,
-      app_states: app_states
+      form: form,
+      pay_on_delivery_enabled: pay_on_delivery_enabled,
+      processing: processing
     };
   }
 });
@@ -3899,7 +3903,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, " ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number(((_$setup$cart2 = $setup.cart) === null || _$setup$cart2 === void 0 ? void 0 : _$setup$cart2.grand_total_with_delivery) || 0).toLocaleString()), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .summary-total ")])]), $setup.cart.can_pay_on_delivery && !$setup.processing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End .summary-total ")])]), $setup.cart.can_pay_on_delivery && !$setup.processing && $setup.pay_on_delivery_enabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
         key: 0,
         type: "submit",
         onClick: _cache[5] || (_cache[5] = function () {

@@ -15,6 +15,15 @@
     <x-email.p>
         <h4>Your order has been delivered:</h4>
         <strong>Reference:</strong> {{ $vendorOrder->reference_number }}<br />
+
+        
+        @if ($vendorOrder->pay_on_delivery)
+            <strong>Payment method:</strong>
+            <span style="text-transform: uppercase; display: block">
+                Payment on delivery
+                ({{ $vendorOrder->pay_on_delivery_method }})
+            </span>
+        @endif
         <strong>Address:</strong><br />
         {{ $vendorOrder->order->address->line_1 }}
         {!! $vendorOrder->order->address->line_2 ? "<br />{$vendorOrder->order->address->line_2},<br />" : '<br />' !!}

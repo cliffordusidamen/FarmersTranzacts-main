@@ -21,13 +21,21 @@
                                                 {{ vendorOrder.vendor.shop_name }}
                                                 <p class="text-uppercase text-muted">
                                                     status:
-                                                    <strong class="text-dark">{{ vendorOrder.delivery_status.name }}</strong>
+                                                    <strong class="text-dark">
+                                                        {{ vendorOrder.delivery_status.name }}
+                                                        {{
+                                                            vendorOrder?.delivery_date
+                                                                ? `, (${formatDate(vendorOrder.delivery_date, 'MMM DD, YYYY')})`
+                                                                : ''
+                                                        }}
+                                                    </strong>
                                                 </p>
 
                                                 <p class="text-uppercase text-muted">
                                                     payment:
                                                     <strong class="text-dark">
                                                         {{ Number(vendorOrder.pay_on_delivery) ? 'On-delivery' : 'Online'}}
+                                                        {{ vendorOrder?.pay_on_delivery_method ? ' (' + vendorOrder.pay_on_delivery_method + ')' : '' }}
                                                     </strong>
                                                 </p>
                                             </div>

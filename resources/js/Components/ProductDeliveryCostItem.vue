@@ -21,7 +21,7 @@
                         class="d-block text-primary small text-right"
                     >
                         <span class="la la-check"></span>
-                        Accept cash on delivery
+                        Accept payment on delivery
                     </div>
                 </span>
             </div>
@@ -41,7 +41,7 @@
                         class="d-block text-primary small text-right"
                     >
                         <span class="la la-check"></span>
-                        Accept cash on delivery
+                        Accept payment on delivery
                     </div>
                 </span>
             </div>
@@ -62,7 +62,7 @@
                         class="d-block text-primary small text-right"
                     >
                         <span class="la la-check"></span>
-                        Accept cash on delivery
+                        Accept payment on delivery
                     </div>
                 </span>
             </div>
@@ -82,7 +82,7 @@
                         class="d-block text-primary small text-right"
                     >
                         <span class="la la-check"></span>
-                        Accept cash on delivery
+                        Accept payment on delivery
                     </div>
                 </span>
             </div>
@@ -102,7 +102,7 @@
                         class="d-block text-primary small text-right"
                     >
                         <span class="la la-check"></span>
-                        Accept cash on delivery
+                        Accept payment on delivery
                     </div>
                 </span>
             </div>
@@ -117,7 +117,7 @@
                         class="d-block text-primary small text-right"
                     >
                         <span class="la la-check"></span>
-                        Accept cash on delivery
+                        Accept payment on delivery
                     </div>
                 </span>
         </div>

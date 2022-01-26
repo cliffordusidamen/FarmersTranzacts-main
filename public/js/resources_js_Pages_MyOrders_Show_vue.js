@@ -4438,9 +4438,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: vendorOrder.id
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(vendorOrder.vendor.shop_name) + " ", 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(vendorOrder.delivery_status.name), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(vendorOrder.delivery_status.name) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(vendorOrder !== null && vendorOrder !== void 0 && vendorOrder.delivery_date ? ", (".concat($setup.formatDate(vendorOrder.delivery_date, 'MMM DD, YYYY'), ")") : ''), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number(vendorOrder.pay_on_delivery) ? 'On-delivery' : 'Online'), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number(vendorOrder.pay_on_delivery) ? 'On-delivery' : 'Online') + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(vendorOrder !== null && vendorOrder !== void 0 && vendorOrder.pay_on_delivery_method ? ' (' + vendorOrder.pay_on_delivery_method + ')' : ''), 1
         /* TEXT */
         )])]), vendorOrder.cancellable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
           href: _ctx.route('my_orders.show_cancel_vendor_order', {
@@ -26664,11 +26664,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 // runtime helper for setting properties on components
 // in a tree-shakable way
 exports["default"] = (sfc, props) => {
-    const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
-        target[key] = val;
+        sfc[key] = val;
     }
-    return target;
+    return sfc;
 };
 
 

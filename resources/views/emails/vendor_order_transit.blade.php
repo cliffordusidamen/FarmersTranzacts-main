@@ -14,6 +14,12 @@
 
     <x-email.p>
         <h4>Your order is on its way:</h4>
+
+        @if ($vendorOrder->pay_on_delivery)
+            <h4>
+                You are expected to make means of payment available before the delivery.
+            </h4>
+        @endif
         <strong>Reference:</strong> {{ $vendorOrder->reference_number }}<br />
         <strong>Address:</strong><br />
         {{ $vendorOrder->order->address->line_1 }}

@@ -7,6 +7,7 @@ use App\Events\VendorOrderTransitEvent;
 use App\Http\Resources\VendorOrderCollection;
 use App\Http\Resources\VendorOrderResource;
 use App\Models\DeliveryStatus;
+use App\Models\Order;
 use App\Models\VendorOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,7 @@ class VendorOrderController extends Controller
             ->with([
                 'order', 'user', 'items'
             ])
+            ->orderByDesc('id')
             ->paginate(10);
         
         if ($vendorOrders->total()) {
@@ -61,12 +63,17 @@ class VendorOrderController extends Controller
     {
         $vendor = request()->user()
             ->vendors()
+            ->with('bankAccounts')
             ->first();
 
         $vendorOrder = $vendor->orders()
             ->with([
-                'order', 'user', 'items',
+                'order',
+                'user',
+                'items',
                 'items.product',
+                'payOnDeliveryBankAccount',
+                'payOnDeliveryBankAccount.bank',
             ])
             ->findOrFail((int) $id);
 
@@ -77,6 +84,7 @@ class VendorOrderController extends Controller
 
         return response()->json([
             'vendorOrder' => new VendorOrderResource($vendorOrder),
+            'vendor' => $vendor,
         ]); 
     }
 
@@ -182,25 +190,24 @@ class VendorOrderController extends Controller
             ->orders()
             ->findOrFail((int) $id);
 
-        $this->validate($request, [
-            'delivery_note' => 'sometimes|nullable|string|max:1000',
-            'delivery_date' => 'required|date|after_or_equal:'
-                    . carbon_ng($vendorOrder->created_at)->format('d-m-Y'),
-        ]);
+        $this->validate($request, VendorOrder::deliveryValidationRules($vendorOrder));
 
         if (!$vendorOrder->deliverable) {
-            if (DeliveryStatus::IN_TRANSIT_ID == $vendorOrder->delivery_status_id) {
+            if (DeliveryStatus::DELIVERED_ID == $vendorOrder->delivery_status_id) {
                 return response()->json([
                     'message' => 'Order has been set as delivered',
                 ]);
             }
-            throw new \Exception('Order status cannot be set as delivered.');
 
+            throw new \Exception('Order status cannot be set as delivered.');
         }
 
         $saved = false;
         DB::transaction(function() use ($request, $vendorOrder, &$saved) {
             $vendorOrder->forceFill([
+                'pay_on_delivery_method' => $request->pay_on_delivery_method,
+                'pay_on_delivery_bank_account_id' => $request->pay_on_delivery_bank_account_id,
+                'pay_on_delivery_reference_number' => $request->pay_on_delivery_reference_number,
                 'delivery_status_id' => DeliveryStatus::DELIVERED_ID,
                 'delivery_note' => $request->delivery_note,
                 'delivery_date' => formatDateValue($request->delivery_date, 'Y-m-d'),
@@ -221,5 +228,38 @@ class VendorOrderController extends Controller
         }
 
         throw new \Exception('Failed to set order as delivered. Please, try again.');
+    }
+
+    /**
+     * Display the specified vendor order for setting delivery.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showForDelivery($id)
+    {
+        $vendor = request()->user()
+            ->vendors()
+            ->with('bankAccounts')
+            ->first();
+
+        $vendorOrder = $vendor->orders()->findOrFail((int) $id);
+
+        $vendorOrder->append([
+            'transitable',
+            'deliverable',
+        ]);
+
+        $paymentMethods = Order::getPayOnDeliveryMethods(true);
+
+        if ($vendor->bankAccounts->count()) {
+            $vendor->bankAccounts->load('bank');
+        }
+
+        return response()->json([
+            'vendorOrder' => new VendorOrderResource($vendorOrder),
+            'bankAccounts' => $vendor->bankAccounts,
+            'paymentMethods' => $paymentMethods,
+        ]); 
     }
 }

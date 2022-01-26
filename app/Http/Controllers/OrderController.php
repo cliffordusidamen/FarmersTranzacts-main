@@ -35,6 +35,8 @@ class OrderController extends Controller
             'vendorOrders.items',
             'vendorOrders.items.product',
             'vendorOrders.items.product.packaging',
+            'vendorOrders.payOnDeliveryBankAccount',
+            'vendorOrders.payOnDeliveryBankAccount.bank',
         ])
         ->withCount(['cancelledVendorOrder']);
 
@@ -42,7 +44,7 @@ class OrderController extends Controller
             $ordersQuery->where('reference_number', 'like', "%{$q}%");
         }
 
-        $orders = $ordersQuery->paginate(10);
+        $orders = $ordersQuery->orderByDesc('id')->paginate(10);
 
         return new OrderCollection($orders);
     }
@@ -68,6 +70,8 @@ class OrderController extends Controller
             'vendorOrders.items.product.packaging',
             'vendorOrders.items.product.category',
             'vendorOrders.items.product.subcategory',
+            'vendorOrders.payOnDeliveryBankAccount',
+            'vendorOrders.payOnDeliveryBankAccount.bank',
         ])
         ->findOrFail($id);
 

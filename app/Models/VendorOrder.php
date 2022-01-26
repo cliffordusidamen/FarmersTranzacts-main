@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class VendorOrder extends Model
 {
@@ -62,6 +63,16 @@ class VendorOrder extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'vendor_order_id');
+    }
+
+    /**
+     * Belongs to vendor bank account
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function payOnDeliveryBankAccount(): BelongsTo
+    {
+        return $this->belongsTo(VendorBankAccount::class, 'pay_on_delivery_bank_account_id');
     }
 
     /**
@@ -244,6 +255,41 @@ class VendorOrder extends Model
 
         return $rating == 0 || !isset($appRemarks[$rating])
             ? null : $appRemarks[$rating];
+    }
+
+    /**
+     * Validation rules for vendor order delivery
+     * 
+     * @param  \App\Models\VendorOrder  $vendorOrder
+     * @return array
+     */
+    public static function deliveryValidationRules(
+        VendorOrder  $vendorOrder
+    ): array {
+        $rules = [
+            'pay_on_delivery_method' => [
+                'required',
+                Rule::in(Order::getPayOnDeliveryMethods()),
+            ],
+            'pay_on_delivery_bank_account_id' => [
+                'sometimes',
+                'nullable',
+                Rule::requiredIf(fn() => (
+                    request()->input('pay_on_delivery_method') == Order::PAY_ON_DELIVERY_CASH
+                )),
+                'exists:banks,id',
+            ],
+            'pay_on_delivery_reference_number' => 'sometimes|nullable|string|max:50',
+            'delivery_note' => 'sometimes|nullable|string|max:1000',
+            'delivery_date' => [
+                'required',
+                'date',
+                'after_or_equal:'. carbon_ng($vendorOrder->created_at)->format('Y-m-d'),
+                'before_or_equal:'. carbon_ng()->format('Y-m-d'),
+            ],
+        ];
+
+        return $rules;
     }
 
 }

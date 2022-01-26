@@ -322,9 +322,9 @@ class Order extends Model
     public static function getPayOnDeliveryMethods(bool $asKeys = false): array
     {
         $types = [
-            self::PAY_ON_DELIVERY_CASH => ucwords(self::PAY_ON_DELIVERY_CASH),
-            self::PAY_ON_DELIVERY_POS => ucwords(self::PAY_ON_DELIVERY_POS),
-            self::PAY_ON_DELIVERY_BANK_TRANSFER => ucwords(self::PAY_ON_DELIVERY_BANK_TRANSFER),
+            self::PAY_ON_DELIVERY_CASH => strtoupper(self::PAY_ON_DELIVERY_CASH),
+            self::PAY_ON_DELIVERY_POS => strtoupper(self::PAY_ON_DELIVERY_POS),
+            self::PAY_ON_DELIVERY_BANK_TRANSFER => strtoupper(self::PAY_ON_DELIVERY_BANK_TRANSFER),
         ];
 
         return $asKeys ? $types : array_keys($types);

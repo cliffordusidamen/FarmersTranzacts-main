@@ -192,6 +192,7 @@ Route::resource('packagings', \App\Http\Controllers\VendorPackagingController::c
 */
 Route::prefix('vendor_orders')->group(function() {
     Route::put('{id}/transit', [\App\Http\Controllers\VendorOrderController::class, 'transit']);
+    Route::get('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'showForDelivery']);
     Route::put('{id}/delivery', [\App\Http\Controllers\VendorOrderController::class, 'delivery']);
 });
 Route::resource('vendor_orders', \App\Http\Controllers\VendorOrderController::class);

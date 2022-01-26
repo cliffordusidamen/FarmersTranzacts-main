@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\DeliveryStatus;
+use App\Models\VendorBankAccount;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VendorOrderResource extends JsonResource
@@ -24,6 +25,7 @@ class VendorOrderResource extends JsonResource
             'items_amount'            => (float) $this->items_amount,
             'delivery_amount'         => (float) $this->delivery_amount,
             'delivery_days'           => $this->delivery_days,
+            'delivery_date'           => $this->delivery_date,
             'transit_note'            => $this->transit_note,
             'total_amount'            => (float) $this->total_amount,
             'delivery_status_id'      => $this->delivery_status_id,
@@ -37,7 +39,15 @@ class VendorOrderResource extends JsonResource
             'customer_review_rating'  => $this->customer_review_rating,
             'customer_review_comment' => $this->customer_review_comment,
             'customer_review_remark' => $this->customer_review_remark,
+            'pay_on_delivery' => $this->pay_on_delivery,
+            'pay_on_delivery_method' => $this->pay_on_delivery_method,
+            'pay_on_delivery_reference_number' => $this->pay_on_delivery_reference_number,
         ];
+
+        if ($this->whenLoaded('payOnDeliveryBankAccount')) {
+            $vendorOrder['pay_on_delivery_bank_account']
+                = new VendorBankAccountResource($this->payOnDeliveryBankAccount);
+        }
 
         if ($this->whenAppended('deliverable')) {
             $vendorOrder['deliverable'] = $this->deliverable;

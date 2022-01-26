@@ -61,12 +61,28 @@ __webpack_require__.r(__webpack_exports__);
       "default": function _default() {
         return {};
       }
+    },
+    showPlaceholder: {
+      type: Boolean,
+      "default": true
     }
   },
   emits: ['update:modelValue'],
   computed: {
     modelValueEmpty: function modelValueEmpty() {
       return this.modelValue === null;
+    },
+    firstOptionKey: function firstOptionKey() {
+      return Object.keys(this.options)[0];
+    }
+  },
+  methods: {
+    isSelected: function isSelected(key) {
+      if (!this.showPlaceholder && this.modelValue == '') {
+        return this.firstOptionKey === key;
+      }
+
+      return !this.modelValueEmpty && this.modelValue == this.options[key];
     }
   }
 });
@@ -1286,16 +1302,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_objectSpread({
       'form-control': true
     }, $props.classes))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [$props.showPlaceholder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+    key: 0,
     selected: $options.modelValueEmpty,
     value: ""
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.placeholder), 9
   /* TEXT, PROPS */
-  , _hoisted_1), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(Object.keys($props.options), function (key) {
+  , _hoisted_1)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(Object.keys($props.options), function (key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: key,
       key: key,
-      selected: !$options.modelValueEmpty && $props.modelValue == $props.options[key]
+      selected: $options.isSelected(key)
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.options[key]), 9
     /* TEXT, PROPS */
     , _hoisted_2);

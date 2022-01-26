@@ -5,10 +5,27 @@
             :product="product"
             v-slot="slotProps"
         >
+            <div
+                v-if="showQuantityInput && !isInCart"
+                class="cart-product-quantity"
+            >
+                <input
+                    type="number"
+                    class="form-control qty-spinner"
+                    v-model="quantity"
+                    min="1"
+                    :max="product.maximum_order_quantity"
+                    step="1"
+                    data-decimals="0"
+                    required=""
+                    style="display: none;"
+                />
+            </div>
             <button
                 type="button"
                 :class="{
-                    'btn-block text-uppercase': true,
+                    'btn-block': !showQuantityInput,
+                    'text-uppercase': true,
                     'btn-product': !isInCart && !processing,
                     'bg-danger border-danger text-white': isInCart && !processing,
                     'btn-product-processing': processing,
@@ -34,16 +51,20 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import { usePage } from '@inertiajs/inertia-vue3'
 import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-vue3'
+
 import Button from '../../Jetstream/Button.vue'
 import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
-import { Inertia } from '@inertiajs/inertia'
+import CustomSelect from "@/Components/CustomSelect"
+import { onMounted } from '@vue/runtime-core'
 
 
 export default {
     components: {
         Button,
+        CustomSelect,
         TogglesDeliveryStateModal,
     },
     props: {
@@ -51,11 +72,17 @@ export default {
             required: true,
             type: Object,
         },
+
+        showQuantityInput: {
+            type: Boolean,
+            default: false,
+        },
     },
 
     setup({product}) {
 
         const processing = ref(false)
+        const quantity = ref(1)
         const { cart } = usePage().props.value
 
         console.log('cart', cart)
@@ -68,8 +95,11 @@ export default {
 
         const updateCart = () => {
             processing.value = true
-
-            Inertia.post(targetRoute, { 'product_id': product.id }, {
+            const data = {
+                product_id: product.id,
+                quantity: quantity.value,
+            }
+            Inertia.post(targetRoute, data, {
                 onFinish: () => window.location.reload(),
                 onError: errors => {
                     console.log(`Error while ${isInCart ? 'removing' : 'adding'} item`, {
@@ -82,11 +112,33 @@ export default {
 
         }
 
+        const getProductQuantityOptions = () => {
+            const options = {}
+
+            for (let i = 1; i <= product.maximum_order_quantity; i++) {
+                options[i] = i
+            }
+
+            return options;
+        }
+
+        onMounted(() => {
+            $("input.qty-spinner").inputSpinner({
+                decrementButton: '<i class="icon-minus"></i>',
+                incrementButton: '<i class="icon-plus"></i>',
+                groupClass: 'input-spinner',
+                buttonsClass: 'btn-spinner',
+                buttonsWidth: '26px'
+            });
+        })
+
         return  {
             cart,
+            getProductQuantityOptions,
             isInCart,
-            updateCart,
             processing,
+            quantity,
+            updateCart,
         }
     },
 }

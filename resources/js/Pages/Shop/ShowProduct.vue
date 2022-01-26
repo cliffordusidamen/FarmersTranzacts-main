@@ -59,7 +59,7 @@
                                     <div class="row mt-2">
                                         <div class="col-sm-6 col-md-5">
                                             <p>
-                                                <cart-update-button :product="product" />
+                                                <cart-update-button :product="product" :show-quantity-input="true" />
                                             </p>
 
                                        </div>

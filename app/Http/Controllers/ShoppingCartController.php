@@ -83,7 +83,7 @@ class ShoppingCartController extends Controller
             return back();
         }
         $this->initCart();
-        $this->cart->addProduct($product);
+        $this->cart->addProduct($product, $data['quantity'] ?? 1);
         flashMessage('success', "<strong>{$product->name}</strong> has been added to your cart!");
         return back();
     }

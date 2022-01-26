@@ -42,13 +42,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Jetstream/Button.vue */ "./resources/js/Jetstream/Button.vue");
-/* harmony import */ var _Components_TogglesDeliveryStateModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/TogglesDeliveryStateModal.vue */ "./resources/js/Components/TogglesDeliveryStateModal.vue");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Jetstream/Button.vue */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Components_TogglesDeliveryStateModal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/TogglesDeliveryStateModal.vue */ "./resources/js/Components/TogglesDeliveryStateModal.vue");
+/* harmony import */ var _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Components/CustomSelect */ "./resources/js/Components/CustomSelect.vue");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
+
+
 
 
 
@@ -57,28 +61,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Button: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TogglesDeliveryStateModal: _Components_TogglesDeliveryStateModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    Button: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    CustomSelect: _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_5__["default"],
+    TogglesDeliveryStateModal: _Components_TogglesDeliveryStateModal_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     product: {
       required: true,
       type: Object
+    },
+    showQuantityInput: {
+      type: Boolean,
+      "default": false
     }
   },
   setup: function setup(_ref) {
     var product = _ref.product;
-    var processing = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_5__.ref)(false);
-    var cart = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props.value.cart;
+    var processing = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
+    var quantity = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(1);
+    var cart = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.value.cart;
     console.log('cart', cart);
     var isInCart = (cart === null || cart === void 0 ? void 0 : cart.items) && undefined != (cart === null || cart === void 0 ? void 0 : cart.items[product.id]);
     var targetRoute = isInCart ? route('shopping_cart.remove_item') : route('shopping_cart.add_item');
 
     var updateCart = function updateCart() {
       processing.value = true;
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.post(targetRoute, {
-        'product_id': product.id
-      }, {
+      var data = {
+        product_id: product.id,
+        quantity: quantity.value
+      };
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.post(targetRoute, data, {
         onFinish: function onFinish() {
           return window.location.reload();
         },
@@ -92,11 +104,32 @@ __webpack_require__.r(__webpack_exports__);
       });
     };
 
+    var getProductQuantityOptions = function getProductQuantityOptions() {
+      var options = {};
+
+      for (var i = 1; i <= product.maximum_order_quantity; i++) {
+        options[i] = i;
+      }
+
+      return options;
+    };
+
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_7__.onMounted)(function () {
+      $("input.qty-spinner").inputSpinner({
+        decrementButton: '<i class="icon-minus"></i>',
+        incrementButton: '<i class="icon-plus"></i>',
+        groupClass: 'input-spinner',
+        buttonsClass: 'btn-spinner',
+        buttonsWidth: '26px'
+      });
+    });
     return {
       cart: cart,
+      getProductQuantityOptions: getProductQuantityOptions,
       isInCart: isInCart,
-      updateCart: updateCart,
-      processing: processing
+      processing: processing,
+      quantity: quantity,
+      updateCart: updateCart
     };
   }
 });
@@ -132,12 +165,28 @@ __webpack_require__.r(__webpack_exports__);
       "default": function _default() {
         return {};
       }
+    },
+    showPlaceholder: {
+      type: Boolean,
+      "default": true
     }
   },
   emits: ['update:modelValue'],
   computed: {
     modelValueEmpty: function modelValueEmpty() {
       return this.modelValue === null;
+    },
+    firstOptionKey: function firstOptionKey() {
+      return Object.keys(this.options)[0];
+    }
+  },
+  methods: {
+    isSelected: function isSelected(key) {
+      if (!this.showPlaceholder && this.modelValue == '') {
+        return this.firstOptionKey === key;
+      }
+
+      return !this.modelValueEmpty && this.modelValue == this.options[key];
     }
   }
 });
@@ -1437,39 +1486,44 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "d-block w-100"
 };
-var _hoisted_2 = ["onClick", "disabled"];
-var _hoisted_3 = {
+var _hoisted_2 = {
+  key: 0,
+  "class": "cart-product-quantity"
+};
+var _hoisted_3 = ["max"];
+var _hoisted_4 = ["onClick", "disabled"];
+var _hoisted_5 = {
   key: 0,
   "class": "text-white"
 };
-var _hoisted_4 = {
+var _hoisted_6 = {
   key: 1,
   "class": "text-white"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" remove ");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" remove ");
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-none d-sm-inline text-white"
 }, "from cart", -1
 /* HOISTED */
 );
 
-var _hoisted_7 = [_hoisted_5, _hoisted_6];
-var _hoisted_8 = {
+var _hoisted_9 = [_hoisted_7, _hoisted_8];
+var _hoisted_10 = {
   key: 2,
   "class": "text-white"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" add ");
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" add ");
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-none d-sm-inline text-white"
 }, "to cart", -1
 /* HOISTED */
 );
 
-var _hoisted_11 = [_hoisted_9, _hoisted_10];
+var _hoisted_13 = [_hoisted_11, _hoisted_12];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_toggles_delivery_state_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("toggles-delivery-state-modal");
 
@@ -1478,10 +1532,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     product: $props.product
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$props.showQuantityInput && !$setup.isInCart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "number",
+        "class": "form-control qty-spinner",
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return $setup.quantity = $event;
+        }),
+        min: "1",
+        max: $props.product.maximum_order_quantity,
+        step: "1",
+        "data-decimals": "0",
+        required: "",
+        style: {
+          "display": "none"
+        }
+      }, null, 8
+      /* PROPS */
+      , _hoisted_3), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.quantity]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-          'btn-block text-uppercase': true,
+          'btn-block': !$props.showQuantityInput,
+          'text-uppercase': true,
           'btn-product': !$setup.isInCart && !$setup.processing,
           'bg-danger border-danger text-white': $setup.isInCart && !$setup.processing,
           'btn-product-processing': $setup.processing
@@ -1492,9 +1563,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return !((_$setup$cart = $setup.cart) !== null && _$setup$cart !== void 0 && (_$setup$cart$state = _$setup$cart.state) !== null && _$setup$cart$state !== void 0 && _$setup$cart$state.id) ? slotProps.showModal() : $setup.updateCart();
         },
         disabled: $setup.processing
-      }, [$setup.processing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, "processing")) : $setup.isInCart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, _hoisted_11))], 10
+      }, [$setup.processing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, "processing")) : $setup.isInCart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, _hoisted_9)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, _hoisted_13))], 10
       /* CLASS, PROPS */
-      , _hoisted_2)];
+      , _hoisted_4)];
     }),
     _: 1
     /* STABLE */
@@ -1538,16 +1609,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_objectSpread({
       'form-control': true
     }, $props.classes))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [$props.showPlaceholder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+    key: 0,
     selected: $options.modelValueEmpty,
     value: ""
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.placeholder), 9
   /* TEXT, PROPS */
-  , _hoisted_1), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(Object.keys($props.options), function (key) {
+  , _hoisted_1)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(Object.keys($props.options), function (key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: key,
       key: key,
-      selected: !$options.modelValueEmpty && $props.modelValue == $props.options[key]
+      selected: $options.isSelected(key)
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.options[key]), 9
     /* TEXT, PROPS */
     , _hoisted_2);

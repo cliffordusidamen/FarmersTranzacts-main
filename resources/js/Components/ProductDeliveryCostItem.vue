@@ -108,6 +108,12 @@
             </div>
 
             
+            <div
+                v-if="item.south_south_cost && item.south_south_delivery_days"
+                class="border-bottom border-gray-300 px-3 pb-3 d-flex align-items-center justify-content-between"
+            >
+                <span>south-south</span>
+
                 <span class="text-right">
                     &#8358;{{ Number(item.south_south_cost).toLocaleString() }}
                     ({{ `${Number(item.south_south_delivery_days).toLocaleString()} days` }})
@@ -120,6 +126,7 @@
                         Accept payment on delivery
                     </div>
                 </span>
+            </div>
         </div>
     </div>
 

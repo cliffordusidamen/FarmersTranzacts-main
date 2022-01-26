@@ -131,15 +131,18 @@ class ShoppingCartService
      * Add a product to the cart
      * 
      * @param  \App\Models\Product  $product
+     * @param  int  $quantity
      * @return void
      */
-    public function addProduct(Product $product)
+    public function addProduct(Product $product, int $quantity = 1)
     {
         if (!isset($this->items[$product->id])) {
             $product->load('vendor');
             $this->items[$product->id] = [
                 'product' => $product->toArray(),
-                'quantity' => 1,
+                'quantity' => $quantity > $product->maximum_order_quantity
+                    ? $product->maximum_order_quantity
+                    : $quantity,
                 'total' => (double) $product->price,
                 'unit_amount' => (double) $product->price,
             ];

@@ -5,10 +5,10 @@
             <div class="checkout">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-10 px-3">
+                        <div class="col-md-12 px-3">
                             <h2 class="text-center my-4">How it works</h2>
                             <div class="row">
-                                <div class="col-md-4 my-4">
+                                <div class="col-sm-6 col-md-3 my-4">
                                     <div class="icon-box icon-box-circle text-center">
                                         <span class="icon-box-icon bg-success">
                                             <span>1</span>
@@ -23,7 +23,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 my-4">
+                                <div class="col-sm-6 col-md-3 my-4">
                                     <div class="icon-box icon-box-circle text-center">
                                         <span class="icon-box-icon bg-success">
                                             <span>2</span>
@@ -38,15 +38,30 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 my-4">
+                                <div class="col-sm-6 col-md-3 my-4">
                                     <div class="icon-box icon-box-circle text-center">
                                         <span class="icon-box-icon bg-success">
                                             <span>3</span>
                                         </span>
                                         <div class="icon-box-content">
+                                            <h3 class="icon-box-title">Refer farmers</h3><!-- End .icon-box-title -->
+                                            <p>
+                                                Login to your account and start referring farmers.
+                                                The farmers' details will be verified and you will be notified.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-3 my-4">
+                                    <div class="icon-box icon-box-circle text-center">
+                                        <span class="icon-box-icon bg-success">
+                                            <span>4</span>
+                                        </span>
+                                        <div class="icon-box-content">
                                             <h3 class="icon-box-title">Shop &amp; Earn</h3><!-- End .icon-box-title -->
                                             <p>
-                                                Start buying volume items and earn commission.
+                                                Start buying volume items on behalf of the farmers you referred and earn regulary commissions on bulk purchases.
                                             </p>
                                         </div>
                                     </div>
@@ -56,13 +71,15 @@
                             <div class="my-4 text-center">
                                 <inertia-link
                                     :href="route('registration.agent')"
-                                    class="btn btn-primary btn-lg mr-2">
-                                    GET STARTED NOW
+                                    class="btn btn-success btn-lg mr-md-4">
+                                    REGISTER NOW
                                 </inertia-link>
+
+                                <div class="d-md-none my-4 text-center">OR</div>
 
                                 <inertia-link
                                     :href="route('login')"
-                                    class="btn btn-secondary btn-lg">
+                                    class="btn btn-success btn-lg">
                                     LOGIN NOW
                                 </inertia-link>
                             </div>

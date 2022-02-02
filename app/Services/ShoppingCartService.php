@@ -143,13 +143,12 @@ class ShoppingCartService
                 'quantity' => $quantity > $product->maximum_order_quantity
                     ? $product->maximum_order_quantity
                     : $quantity,
-                'total' => (double) $product->price,
+                'total' => (double) $product->price * $quantity,
                 'unit_amount' => (double) $product->price,
             ];
 
         } else {
-            $this->items[$product->id]['total'] = $this->items[$product->id]['quantity']
-                * $product->price;
+            $this->items[$product->id]['total'] = (double) $product->price * $quantity;
         }
         $this->getData();
     }

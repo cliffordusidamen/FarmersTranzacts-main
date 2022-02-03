@@ -28,7 +28,7 @@
                             </div><!-- End .select-custom -->
                             <label for="q" class="sr-only">Search</label>
                             <input type="search" class="form-control" name="q" id="q" v-model="form.q" placeholder="Search product ..." />
-                            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                            <button class="btn btn-success" type="submit"><i class="icon-search"></i></button>
                         </div><!-- End .header-search-wrapper -->
                     </form>
                 </div><!-- End .header-search -->
@@ -40,7 +40,7 @@
                     <div class="dropdown cart-dropdown">
                         <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                             <i class="icon-shopping-cart"></i>
-                            <span v-show="cartHasItems" class="cart-count">{{ cartItemsCount > 10 ? '*' : cartItemsCount }}</span>
+                            <span v-show="cartHasItems" class="cart-count bg-dark">{{ cartItemsCount > 10 ? '*' : cartItemsCount }}</span>
                             <span class="cart-txt">Cart</span>
                         </a>
 
@@ -57,7 +57,7 @@
                                                 :id="`addToCart_general`"
                                                 v-slot="slotProps"
                                             >
-                                                <a href="#" @click.prevent="slotProps.showModal()" class="btn btn-link">
+                                                <a href="#" @click.prevent="slotProps.showModal()" class="btn btn-link text-success border-success">
                                                     CHANGE
                                                 </a>
                                             </toggles-delivery-state-modal>
@@ -118,8 +118,8 @@
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div v-show="!processing" class="dropdown-cart-action">
-                                    <inertia-link :href="route('shopping_cart.view')" class="btn btn-primary">View Cart</inertia-link>
-                                    <inertia-link v-show="cart?.can_be_delivered" :href="route('shopping_cart.checkout')" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
+                                    <inertia-link :href="route('shopping_cart.view')" class="btn btn-success">View Cart</inertia-link>
+                                    <inertia-link v-show="cart?.can_be_delivered" :href="route('shopping_cart.checkout')" class="btn btn-outline-success"><span>Checkout</span><i class="icon-long-arrow-right"></i></inertia-link>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
                             <div v-else class="text-muted m-1 p-1 rounded-sm">

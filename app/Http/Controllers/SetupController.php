@@ -245,8 +245,9 @@ class SetupController extends Controller
         abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
 
         $spendingVolumes = AgentSpendingVolume::withCount('agents')->get();
+        $commissionPerReferral = AppSetting::getSetting(AppSetting::COMMISSION_PER_REFERRAL);
 
-        return response()->json(compact('spendingVolumes'));
+        return response()->json(compact('spendingVolumes', 'commissionPerReferral'));
     }
 
     /**
@@ -648,5 +649,27 @@ class SetupController extends Controller
 
         throw new \Exception('FAQ not deleted! Please, try again.');
 
+    }
+
+    /**
+     * Update agent referral commission
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAgentReferralCommission(Request $request)
+    {
+        abort_if(!userIsSuperAdmin() && !userIsAdminDesignation(), 404);
+        $this->validate($request, [
+            'commission_per_referral' => 'required|numeric|min:0|max:9999999',
+        ]);
+
+        $settings = AppSetting::first();
+        $settings->commission_per_referral = $request->commission_per_referral;
+
+        if (!$settings->save()) {
+            throw new \Exception('Settings not updated! Please, try again.');
+        }
+        return response()->json();
     }
 }

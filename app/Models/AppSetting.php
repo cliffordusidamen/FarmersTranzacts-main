@@ -13,6 +13,7 @@ class AppSetting extends Model
     const VENDOR_STORAGE_LIMIT = 'vendor_storage_limit';
     const CANCEL_ORDER_HOURS = 'cancel_order_hours';
     const REFERENCE_NUMBER_PREFIX = 'reference_number_prefix';
+    const COMMISSION_PER_REFERRAL = 'commission_per_referral';
 
     /**
      * Mass assignable fields

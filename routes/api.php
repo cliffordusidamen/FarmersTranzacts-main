@@ -221,6 +221,7 @@ Route::prefix('setup')->middleware(['auth:sanctum', 'frontend'])->group(function
     Route::get('edit-agent-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'editAgentCommissions']);
     Route::put('update-agent-commissions/{id}', [\App\Http\Controllers\SetupController::class, 'updateAgentCommissions']);
     Route::delete('delete-agent-commission/{id}', [\App\Http\Controllers\SetupController::class, 'deleteAgentCommission']);
+    Route::post('store-agent-referral-commission', [\App\Http\Controllers\SetupController::class, 'storeAgentReferralCommission']);
 
     Route::get('sales-commissions', [\App\Http\Controllers\SetupController::class, 'salesCommissions']);
     Route::post('sales-commissions', [\App\Http\Controllers\SetupController::class, 'storeSalesCommissions']);

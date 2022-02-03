@@ -165,6 +165,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Belong to referrer
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function referrer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'referred_by');
+    }
+
+    /**
      * Setter for "password" field
      * 
      * @param  string  $value

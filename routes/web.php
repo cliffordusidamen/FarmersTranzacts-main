@@ -169,3 +169,12 @@ Route::prefix('help')->name('help.')->group(function() {
     Route::get('/faq', [\App\Http\Controllers\HelpController::class, 'faq'])->name('faq');
     Route::get('{slug}', [\App\Http\Controllers\HelpController::class, 'page'])->name('page');
 });
+
+/*
+|-----------------------------------------------------------------------------
+| Referrals routes
+|-----------------------------------------------------------------------------
+*/
+Route::prefix('referrals')->name('referrals.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\ReferralController::class, 'index'])->name('index');
+});

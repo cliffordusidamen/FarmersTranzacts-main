@@ -101,6 +101,16 @@ class Order extends Model
     }
 
     /**
+     * Belong to user as agent
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    /**
      * Generate reference number for the order
      * 
      * @return string

@@ -66,6 +66,16 @@ class VendorOrder extends Model
     }
 
     /**
+     * Belong to user as agent
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    /**
      * Belongs to vendor bank account
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -4379,7 +4379,7 @@ function stringifyDynamicPropNames(props) {
     return propsNamesString + `]`;
 }
 function isComponentTag(tag) {
-    return tag[0].toLowerCase() + tag.slice(1) === 'component';
+    return tag === 'component' || tag === 'Component';
 }
 
 ( true)
@@ -5819,7 +5819,7 @@ const targetMap = new WeakMap();
 let effectTrackDepth = 0;
 let trackOpBit = 1;
 /**
- * The bitwise track markers support at most 30 levels op recursion.
+ * The bitwise track markers support at most 30 levels of recursion.
  * This value is chosen to enable modern JS engines to use a SMI on all platforms.
  * When recursion depth is greater, fall back to using a full cleanup.
  */
@@ -6144,7 +6144,7 @@ const shallowSet = /*#__PURE__*/ createSetter(true);
 function createSetter(shallow = false) {
     return function set(target, key, value, receiver) {
         let oldValue = target[key];
-        if (!shallow) {
+        if (!shallow && !isReadonly(value)) {
             value = toRaw(value);
             oldValue = toRaw(oldValue);
             if (!(0,_vue_shared__WEBPACK_IMPORTED_MODULE_0__.isArray)(target) && isRef(oldValue) && !isRef(value)) {
@@ -7174,6 +7174,7 @@ function emit(event, ...args) {
     }
 }
 function setDevtoolsHook(hook, target) {
+    var _a, _b;
     devtools = hook;
     if (devtools) {
         devtools.enabled = true;
@@ -7186,7 +7187,10 @@ function setDevtoolsHook(hook, target) {
     // (#4815)
     // eslint-disable-next-line no-restricted-globals
     typeof window !== 'undefined' &&
-        !navigator.userAgent.includes('jsdom')) {
+        // some envs mock window but not fully
+        window.HTMLElement &&
+        // also exclude jsdom
+        !((_b = (_a = window.navigator) === null || _a === void 0 ? void 0 : _a.userAgent) === null || _b === void 0 ? void 0 : _b.includes('jsdom'))) {
         const replay = (target.__VUE_DEVTOOLS_HOOK_REPLAY__ =
             target.__VUE_DEVTOOLS_HOOK_REPLAY__ || []);
         replay.push((newHook) => {
@@ -8281,7 +8285,9 @@ const BaseTransitionImpl = {
             const rawProps = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_0__.toRaw)(props);
             const { mode } = rawProps;
             // check mode
-            if (( true) && mode && !['in-out', 'out-in', 'default'].includes(mode)) {
+            if (( true) &&
+                mode &&
+                mode !== 'in-out' && mode !== 'out-in' && mode !== 'default') {
                 warn(`invalid <transition> mode: ${mode}`);
             }
             // at this point children has a guaranteed length of 1.
@@ -8921,7 +8927,7 @@ function registerKeepAliveHook(hook, type, target = currentInstance) {
                 }
                 current = current.parent;
             }
-            hook();
+            return hook();
         });
     injectHook(type, wrappedHook, target);
     // In addition to registering it on the target instance, we walk up the parent
@@ -11949,8 +11955,8 @@ function invokeVNodeHook(hook, instance, vnode, prevVNode = null) {
  *
  * #2080
  * Inside keyed `template` fragment static children, if a fragment is moved,
- * the children will always moved so that need inherit el form previous nodes
- * to ensure correct moved position.
+ * the children will always be moved. Therefore, in order to ensure correct move
+ * position, el should be inherited from previous nodes.
  */
 function traverseStaticChildren(n1, n2, shallow = false) {
     const ch1 = n1.children;
@@ -12735,7 +12741,8 @@ function mergeProps(...args) {
             else if ((0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.isOn)(key)) {
                 const existing = ret[key];
                 const incoming = toMerge[key];
-                if (existing !== incoming) {
+                if (existing !== incoming &&
+                    !((0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.isArray)(existing) && existing.includes(incoming))) {
                     ret[key] = existing
                         ? [].concat(existing, incoming)
                         : incoming;
@@ -12939,23 +12946,23 @@ const PublicInstanceProxyHandlers = {
             const n = accessCache[key];
             if (n !== undefined) {
                 switch (n) {
-                    case 0 /* SETUP */:
+                    case 1 /* SETUP */:
                         return setupState[key];
-                    case 1 /* DATA */:
+                    case 2 /* DATA */:
                         return data[key];
-                    case 3 /* CONTEXT */:
+                    case 4 /* CONTEXT */:
                         return ctx[key];
-                    case 2 /* PROPS */:
+                    case 3 /* PROPS */:
                         return props[key];
                     // default: just fallthrough
                 }
             }
             else if (setupState !== _vue_shared__WEBPACK_IMPORTED_MODULE_1__.EMPTY_OBJ && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(setupState, key)) {
-                accessCache[key] = 0 /* SETUP */;
+                accessCache[key] = 1 /* SETUP */;
                 return setupState[key];
             }
             else if (data !== _vue_shared__WEBPACK_IMPORTED_MODULE_1__.EMPTY_OBJ && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(data, key)) {
-                accessCache[key] = 1 /* DATA */;
+                accessCache[key] = 2 /* DATA */;
                 return data[key];
             }
             else if (
@@ -12963,15 +12970,15 @@ const PublicInstanceProxyHandlers = {
             // props
             (normalizedProps = instance.propsOptions[0]) &&
                 (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(normalizedProps, key)) {
-                accessCache[key] = 2 /* PROPS */;
+                accessCache[key] = 3 /* PROPS */;
                 return props[key];
             }
             else if (ctx !== _vue_shared__WEBPACK_IMPORTED_MODULE_1__.EMPTY_OBJ && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(ctx, key)) {
-                accessCache[key] = 3 /* CONTEXT */;
+                accessCache[key] = 4 /* CONTEXT */;
                 return ctx[key];
             }
             else if ( false || shouldCacheAccess) {
-                accessCache[key] = 4 /* OTHER */;
+                accessCache[key] = 0 /* OTHER */;
             }
         }
         const publicGetter = publicPropertiesMap[key];
@@ -12992,7 +12999,7 @@ const PublicInstanceProxyHandlers = {
         }
         else if (ctx !== _vue_shared__WEBPACK_IMPORTED_MODULE_1__.EMPTY_OBJ && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(ctx, key)) {
             // user may set custom properties to `this` that start with `$`
-            accessCache[key] = 3 /* CONTEXT */;
+            accessCache[key] = 4 /* CONTEXT */;
             return ctx[key];
         }
         else if (
@@ -13056,7 +13063,7 @@ const PublicInstanceProxyHandlers = {
     },
     has({ _: { data, setupState, accessCache, ctx, appContext, propsOptions } }, key) {
         let normalizedProps;
-        return (accessCache[key] !== undefined ||
+        return (!!accessCache[key] ||
             (data !== _vue_shared__WEBPACK_IMPORTED_MODULE_1__.EMPTY_OBJ && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(data, key)) ||
             (setupState !== _vue_shared__WEBPACK_IMPORTED_MODULE_1__.EMPTY_OBJ && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(setupState, key)) ||
             ((normalizedProps = propsOptions[0]) && (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.hasOwn)(normalizedProps, key)) ||
@@ -14634,7 +14641,7 @@ function isMemoSame(cached, memo) {
 }
 
 // Core API ------------------------------------------------------------------
-const version = "3.2.21";
+const version = "3.2.23";
 const _ssrUtils = {
     createComponentInstance,
     setupComponent,
@@ -15040,12 +15047,19 @@ prevChildren, parentComponent, parentSuspense, unmountChildren) {
         el[key] = value == null ? '' : value;
         return;
     }
-    if (key === 'value' && el.tagName !== 'PROGRESS') {
+    if (key === 'value' &&
+        el.tagName !== 'PROGRESS' &&
+        // custom elements may use _value internally
+        !el.tagName.includes('-')) {
         // store value as _value as well since
         // non-string values will be stringified.
         el._value = value;
         const newValue = value == null ? '' : value;
-        if (el.value !== newValue) {
+        if (el.value !== newValue ||
+            // #4956: always set for OPTION elements because its value falls back to
+            // textContent if no value attribute is present. And setting .value for
+            // OPTION has no side effect
+            el.tagName === 'OPTION') {
             el.value = newValue;
         }
         if (value == null) {
@@ -18127,7 +18141,7 @@ module.exports = function transformData(data, headers, fns) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
@@ -19571,7 +19585,7 @@ if ('serviceWorker' in navigator) {
   \**************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 if ("serviceWorker" in navigator) {
   var initServiceWorker = function initServiceWorker() {
     if (!("showNotification" in ServiceWorkerRegistration.prototype)) {
@@ -35981,7 +35995,7 @@ var gPO = (typeof Reflect === 'function' ? Reflect.getPrototypeOf : Object.getPr
         : null
 );
 
-var inspectCustom = __webpack_require__(/*! ./util.inspect */ "?2128").custom;
+var inspectCustom = (__webpack_require__(/*! ./util.inspect */ "?2128").custom);
 var inspectSymbol = inspectCustom && isSymbol(inspectCustom) ? inspectCustom : null;
 var toStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag !== 'undefined' ? Symbol.toStringTag : null;
 
@@ -38183,6 +38197,22 @@ var map = {
 		"./resources/js/Pages/Profile/UpdateProfileInformationForm.vue",
 		"resources_js_Pages_Profile_UpdateProfileInformationForm_vue"
 	],
+	"./Referral/Create": [
+		"./resources/js/Pages/Referral/Create.vue",
+		"resources_js_Pages_Referral_Create_vue"
+	],
+	"./Referral/Create.vue": [
+		"./resources/js/Pages/Referral/Create.vue",
+		"resources_js_Pages_Referral_Create_vue"
+	],
+	"./Referral/Index": [
+		"./resources/js/Pages/Referral/Index.vue",
+		"resources_js_Pages_Referral_Index_vue"
+	],
+	"./Referral/Index.vue": [
+		"./resources/js/Pages/Referral/Index.vue",
+		"resources_js_Pages_Referral_Index_vue"
+	],
 	"./Registration/Agent": [
 		"./resources/js/Pages/Registration/Agent.vue",
 		"resources_js_Pages_Registration_Agent_vue"
@@ -38372,7 +38402,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"694b5a9145d94ba4","resources_js_Pages_API_Index_vue":"e015b5e33982e4c3","resources_js_Pages_Admin_CategoriesList_vue":"e3d17e793112a5d3","resources_js_Pages_Admin_CreateCategory_vue":"1e5eb8ace6a55e90","resources_js_Pages_Admin_CreateSubcategory_vue":"21ca2b72d171bea3","resources_js_Pages_Admin_ShowCategory_vue":"fae907a70405b328","resources_js_Pages_Auth_ConfirmPassword_vue":"ef53ed247fd8fa7a","resources_js_Pages_Auth_ForgotPassword_vue":"620ab4ce6f2322b0","resources_js_Pages_Auth_Login_vue":"8659216aeeb6adb5","resources_js_Pages_Auth_Register_vue":"d98eeb3aebc2768f","resources_js_Pages_Auth_ResetPassword_vue":"ccc37abba78a4ff1","resources_js_Pages_Auth_TwoFactorChallenge_vue":"978453e13e2a005a","resources_js_Pages_Auth_VerifyEmail_vue":"d5acccdeedc4a2cc","resources_js_Pages_BecomeAnAgent_vue":"f24d37b8312a0a68","resources_js_Pages_Cart_Checkout_vue":"ac252e2d62475995","resources_js_Pages_Cart_View_vue":"a0bed593c3b1f746","resources_js_Pages_ContactUs_vue":"7780c1e6e7e5d06b","resources_js_Pages_Dashboards_AdminDashboard_vue":"1960f4a8c74cf7ba","resources_js_Pages_Dashboards_AgentDashboard_vue":"190ef16a1cc243b2","resources_js_Pages_Dashboards_VendorDashboard_vue":"4c6609b6acd18589","resources_js_Pages_Help_Faq_vue":"4f82aaf5ee3edca2","resources_js_Pages_Help_Index_vue":"d4f71d7d5bdd7ce6","resources_js_Pages_Help_ShowPage_vue":"07eaf07ababc1796","resources_js_Pages_Home_vue":"060ef85acd0ea958","resources_js_Pages_ManagedPage_vue":"e49641ec08a14489","resources_js_Pages_MyOrders_CancelVendorOrder_vue":"b320256c83074a36","resources_js_Pages_MyOrders_Index_vue":"fec2a826d969161a","resources_js_Pages_MyOrders_Show_vue":"d8c387d4e740ef61","resources_js_Pages_PrivacyPolicy_vue":"3dfabea1398203ca","resources_js_Pages_Profile_DeleteUserForm_vue":"918acc2f23c55b2f","resources_js_Pages_Profile_EditDisapprovedAgent_vue":"7de2fabe8833ee9c","resources_js_Pages_Profile_EditVendorForm_vue":"bf2379d333d37ad8","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"0b17927357f0614d","resources_js_Pages_Profile_Show_vue":"9cc39730fd503ebc","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"95de8d5c8e96c7bf","resources_js_Pages_Profile_UnverifiedProfile_vue":"0db1f138c1019e23","resources_js_Pages_Profile_UpdatePasswordForm_vue":"8b8e479c90513e08","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"116dbded0a4a9690","resources_js_Pages_Registration_Agent_vue":"e8906b8e00ac4c78","resources_js_Pages_Registration_Shopper_vue":"0f7748e369a86083","resources_js_Pages_Shop_ProductsList_vue":"0ce7af9e853fc007","resources_js_Pages_Shop_ShowProduct_vue":"980ca1b69dc72fe3","resources_js_Pages_TermsOfService_vue":"bfd95303c32f7397","resources_js_Pages_VendorPage_vue":"a88e4fc40525003e","resources_js_Pages_Vendors_Index_vue":"0f9f191abc66cdf9","resources_js_Pages_Vendors_Show_vue":"13a2ab2ec67cdbfa","resources_js_Pages_Welcome_vue":"4de5fee425fa22f6"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"4239500cf6f26f0b","resources_js_Pages_API_Index_vue":"5c1d4fe1428fca52","resources_js_Pages_Admin_CategoriesList_vue":"617ac190b0694c95","resources_js_Pages_Admin_CreateCategory_vue":"af174bcb4f5f2c67","resources_js_Pages_Admin_CreateSubcategory_vue":"04951ceb633c46bc","resources_js_Pages_Admin_ShowCategory_vue":"204e3d683382c230","resources_js_Pages_Auth_ConfirmPassword_vue":"be2f259162ab79f9","resources_js_Pages_Auth_ForgotPassword_vue":"65b27a6779034368","resources_js_Pages_Auth_Login_vue":"a8744d6339822ae1","resources_js_Pages_Auth_Register_vue":"f3446b37d86b0a40","resources_js_Pages_Auth_ResetPassword_vue":"5414ddd9a600f536","resources_js_Pages_Auth_TwoFactorChallenge_vue":"986483a3f29f2035","resources_js_Pages_Auth_VerifyEmail_vue":"1cc06c5ab337ad62","resources_js_Pages_BecomeAnAgent_vue":"8ba510e093bf4487","resources_js_Pages_Cart_Checkout_vue":"13016ba2ce4f5089","resources_js_Pages_Cart_View_vue":"8b7ce149d24958b2","resources_js_Pages_ContactUs_vue":"a13c7e3385857a02","resources_js_Pages_Dashboards_AdminDashboard_vue":"4b88d56f44ff9d43","resources_js_Pages_Dashboards_AgentDashboard_vue":"dc048e819b2d36df","resources_js_Pages_Dashboards_VendorDashboard_vue":"b6efc7bc492eda2c","resources_js_Pages_Help_Faq_vue":"186b8b6b3a7ad7c6","resources_js_Pages_Help_Index_vue":"b23718f79de971d6","resources_js_Pages_Help_ShowPage_vue":"fddabee41050eec5","resources_js_Pages_Home_vue":"56999fa3591fe1e2","resources_js_Pages_ManagedPage_vue":"383a6db22a31cc95","resources_js_Pages_MyOrders_CancelVendorOrder_vue":"a82539c6cdbf456f","resources_js_Pages_MyOrders_Index_vue":"4e39f08b2627ce80","resources_js_Pages_MyOrders_Show_vue":"b79009c9dd85971d","resources_js_Pages_PrivacyPolicy_vue":"14c2124eec9bb4db","resources_js_Pages_Profile_DeleteUserForm_vue":"5f36aea7d176f43f","resources_js_Pages_Profile_EditDisapprovedAgent_vue":"c2e1f3c2ef5365fd","resources_js_Pages_Profile_EditVendorForm_vue":"b62f94c440b52812","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"28e5128e3a906ee6","resources_js_Pages_Profile_Show_vue":"89477945fd63fd93","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"d6314654badb5ae7","resources_js_Pages_Profile_UnverifiedProfile_vue":"d0ead57704950b42","resources_js_Pages_Profile_UpdatePasswordForm_vue":"a342db707d29748a","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"d16799e1756ca020","resources_js_Pages_Referral_Create_vue":"411ee9ae1faf9769","resources_js_Pages_Referral_Index_vue":"e888b7ed0e6a9955","resources_js_Pages_Registration_Agent_vue":"c89057807e516608","resources_js_Pages_Registration_Shopper_vue":"8d6d62f5887cfee7","resources_js_Pages_Shop_ProductsList_vue":"739cf47e875b951c","resources_js_Pages_Shop_ShowProduct_vue":"35cc0f68a576fc5b","resources_js_Pages_TermsOfService_vue":"1ad82e8e561e84b2","resources_js_Pages_VendorPage_vue":"1127e8033814db7a","resources_js_Pages_Vendors_Index_vue":"365d92368e10e98c","resources_js_Pages_Vendors_Show_vue":"a8de9eb280c0e9be","resources_js_Pages_Welcome_vue":"5106b0f41bcacf9f"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

@@ -177,4 +177,6 @@ Route::prefix('help')->name('help.')->group(function() {
 */
 Route::prefix('referrals')->name('referrals.')->group(function() {
     Route::get('/', [\App\Http\Controllers\ReferralController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\ReferralController::class, 'showRequestForm'])->name('create');
+    Route::post('/store', [\App\Http\Controllers\ReferralController::class, 'storeRequest'])->name('store');
 });

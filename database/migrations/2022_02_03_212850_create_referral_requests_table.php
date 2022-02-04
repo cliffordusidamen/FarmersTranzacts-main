@@ -31,11 +31,11 @@ class CreateReferralRequestsTable extends Migration
             $table->string('crops_grown', 1000)->nullable();
             $table->string('animals_reared', 1000)->nullable();
             $table->string('farm_size', 20)->nullable();
-            $table->unsignedSmallInteger('monthly_input_seeds_kg')->nullable();
-            $table->unsignedSmallInteger('monthly_input_fertilizer_kg')->nullable();
-            $table->unsignedSmallInteger('monthly_input_pesticide_kg')->nullable();
-            $table->unsignedSmallInteger('monthly_input_feed_kg')->nullable();
-            $table->unsignedSmallInteger('monthly_input_labour_people')->nullable();
+            $table->string('seed_demand', 500)->nullable();
+            $table->string('fertilizer_demand', 500)->nullable();
+            $table->string('agro_chemical_demand', 500)->nullable();
+            $table->string('animal_feed_demand', 500)->nullable();
+            $table->unsignedSmallInteger('number_of_workers')->nullable();
             $table->enum('approval_status', ReferralRequest::getStatuses())
                 ->default(ReferralRequest::STATUS_PENDING);
             $table->string('disapproval_reason', 1000)->nullable();

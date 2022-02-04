@@ -175,6 +175,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Has many referral request
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function referralRequests(): HasMany
+    {
+        return $this->hasMany(ReferralRequest::class, 'user_id');
+    }
+
+    /**
      * Setter for "password" field
      * 
      * @param  string  $value

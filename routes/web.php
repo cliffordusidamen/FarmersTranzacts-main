@@ -179,4 +179,8 @@ Route::prefix('referrals')->name('referrals.')->group(function() {
     Route::get('/', [\App\Http\Controllers\ReferralController::class, 'index'])->name('index');
     Route::get('/create', [\App\Http\Controllers\ReferralController::class, 'showRequestForm'])->name('create');
     Route::post('/store', [\App\Http\Controllers\ReferralController::class, 'storeRequest'])->name('store');
+    Route::get('/request/{id}', [\App\Http\Controllers\ReferralController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [\App\Http\Controllers\ReferralController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update', [\App\Http\Controllers\ReferralController::class, 'update'])->name('update');
+    Route::delete('/{id}/delete', [\App\Http\Controllers\ReferralController::class, 'destroy'])->name('destroy');
 });

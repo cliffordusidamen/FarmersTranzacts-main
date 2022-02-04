@@ -66,7 +66,30 @@
                                         </td>
                                         <td class="text-uppercase">{{ refRequest.approval_status }}</td>
 
-                                        <td class="d-none d-sm-table-cell text-right">
+                                        <td>
+                                            <span class="d-flex justify-content-END">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-link text-uppercase dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        actions
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <inertia-link
+                                                            :href="route('referrals.show', { id: refRequest.id })"
+                                                            class="dropdown-item font-size-normal"
+                                                        >
+                                                            View
+                                                        </inertia-link>
+                                                        <inertia-link
+                                                            v-if="refRequest?.can_edit"
+                                                            :href="route('referrals.edit', { id: refRequest.id })"
+                                                            class="dropdown-item font-size-normal"
+                                                        >
+                                                            Edit
+                                                        </inertia-link>
+                                                        <button class="dropdown-item font-size-normal" type="button">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>

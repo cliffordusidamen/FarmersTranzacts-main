@@ -57,9 +57,12 @@ class ReferralController extends Controller
     public function storeRequest(StoreReferralRequest $request)
     {
         $expectedFields = array_keys(ReferralRequest::defaultValidationRules());
-        $referralRequest = $request->user()->referralRequests()->create($request->only(
-            $expectedFields
-        ));
+        $referralRequest = $request->user()
+            ->referralRequests()
+            ->withAppend(['can_edit'])
+            ->create($request->only(
+                $expectedFields
+            ));
 
         if ($referralRequest) {
             flashMessage('success', 'New farmer referral submitted!');

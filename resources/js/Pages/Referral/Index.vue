@@ -22,7 +22,7 @@
                                 <i class="la la-plus"></i>
                                 <span>ADD FARMER</span>
                             </inertia-link>
-                            <inertia-link :href="route('referrals.create')" class="btn btn-link text-success border-success btn-minwidth-lg">
+                            <inertia-link :href="route('referrals.search')" class="btn btn-link text-success border-success btn-minwidth-lg">
                                 <i class="la la-search"></i>
                                 <span>SEARCH ALL FARMERS</span>
                             </inertia-link>

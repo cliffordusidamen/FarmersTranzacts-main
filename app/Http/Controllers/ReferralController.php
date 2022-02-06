@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\ReferralRequest;
 use App\Models\State;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ReferralController extends Controller
@@ -174,5 +176,44 @@ class ReferralController extends Controller
 
         flashMessage('danger', 'Farmer referral request was not deleted! Please, try again.');
         return back();
+    }
+
+    /**
+     * Search farmer referrals
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $queryName = trim($request->input('name', ''));
+        $queryState = trim($request->input('state', ''));
+        $app_states = State::pluck('state_name', 'id');
+
+        $referrals = [];
+        $isSearch = false;
+        
+        if (!empty($queryName) || is_numeric($queryState)) {
+            $isSearch = true;
+            $referrals = ReferralRequest::with('state')
+                ->where(function(Builder $query) use ($queryName, $queryState) {
+                    if (!empty($queryName)) {
+                        $query->where(DB::raw('CONCAT(last_name, " ", first_name, " ", middle_name)'), 'LIKE', "%{$queryName}%")
+                            ->orWhere(DB::raw('CONCAT(last_name, " ", middle_name, " ", first_name)'), 'LIKE', "%{$queryName}%")
+                            ->orWhere(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$queryName}%")
+                            ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$queryName}%");
+                    }
+
+                    if (!empty($queryState)) {
+                        $query->where('state_id', (int) $queryState);
+                    }
+                })
+                ->latest()
+                ->paginate(15);
+        }
+
+        return Inertia::render('Referral/Search', compact(
+            'referrals', 'isSearch', 'queryName', 'queryState', 'app_states'
+        ));
     }
 }

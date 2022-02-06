@@ -45,10 +45,14 @@
                                         :key="refRequest.id"
                                     >
                                         <td class="text-uppercase">
-                                            <strong>{{ `${refRequest.first_name} ${refRequest.last_name}` }}</strong>
-                                            <span v-if="refRequest?.business_name" class="text-muted d-block">
-                                                {{ refRequest.business_name }}
-                                            </span>
+                                            <inertia-link
+                                                :href="route('referrals.show', { id: refRequest.id })"
+                                            >
+                                                <strong>{{ `${refRequest.first_name} ${refRequest.last_name}` }}</strong>
+                                                <span v-if="refRequest?.business_name" class="text-muted d-block">
+                                                    {{ refRequest.business_name }}
+                                                </span>
+                                            </inertia-link>
                                         </td>
 
                                         <td class="text-center">{{ refRequest.state.state_name }}</td>

@@ -59,10 +59,11 @@ class ReferralController extends Controller
         $expectedFields = array_keys(ReferralRequest::defaultValidationRules());
         $referralRequest = $request->user()
             ->referralRequests()
-            ->withAppend(['can_edit'])
             ->create($request->only(
                 $expectedFields
             ));
+            
+        $referralRequest->append(['is_editable']);
 
         if ($referralRequest) {
             flashMessage('success', 'New farmer referral submitted!');
@@ -71,5 +72,19 @@ class ReferralController extends Controller
 
         flashMessage('danger', "Farmer referral information not saved.Please, try again.");
         return back()->withInput();
+    }
+
+    /**
+     * View primary details of a referral
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showOverview($id)
+    {
+        $referralRequest = ReferralRequest::with('state')->findOrFail($id);
+        $referralRequest->append(['full_name', 'is_editable', 'status_number']);
+
+        return Inertia::render('Referral/ShowOverview', compact('referralRequest'));
     }
 }

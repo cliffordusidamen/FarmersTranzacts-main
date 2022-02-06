@@ -61,6 +61,23 @@ class ReferralRequest extends Model
 
         return $asKeys ? $statuses : array_keys($statuses);
     }
+    
+    /**
+     * Get number associated to a status
+     *
+     * @param  string  $status
+     * @return int|null
+     */
+    public static function getStatusNumber(string $status): ?int
+    {
+        $statuses = [
+            self::STATUS_PENDING => 0,
+            self::STATUS_APPORVED => 1,
+            self::STATUS_DISAPPROVED => -1,
+        ];
+
+        return $statuses[$status] ?? null;
+    }
 
     /**
      * Default validation rules
@@ -97,5 +114,35 @@ class ReferralRequest extends Model
         ];
 
         return $rules;
+    }
+
+    /**
+     * Get full name
+     * 
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return ucwords(strtolower($this->first_name . ' ' . $this->last_name));
+    }
+
+    /**
+     * Determine if the referral is editable to the user
+     * 
+     * @return bool
+     */
+    public function getIsEditableAttribute(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    /**
+     * Get status number attribute
+     * 
+     * @return int
+     */
+    public function getStatusNumberAttribute(): int
+    {
+        return self::getStatusNumber($this->approval_status);
     }
 }

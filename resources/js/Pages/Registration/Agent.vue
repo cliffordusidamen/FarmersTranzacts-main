@@ -422,7 +422,7 @@ export default {
                     },
                     store_city: {
                         required: false,
-                        minlength: 5,
+                        minlength: 3,
                     },
                     store_state: 'required',
                     terms: 'required',

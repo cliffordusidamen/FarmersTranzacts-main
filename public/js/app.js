@@ -38191,6 +38191,14 @@ var map = {
 		"./resources/js/Pages/Referral/Create.vue",
 		"resources_js_Pages_Referral_Create_vue"
 	],
+	"./Referral/Edit": [
+		"./resources/js/Pages/Referral/Edit.vue",
+		"resources_js_Pages_Referral_Edit_vue"
+	],
+	"./Referral/Edit.vue": [
+		"./resources/js/Pages/Referral/Edit.vue",
+		"resources_js_Pages_Referral_Edit_vue"
+	],
 	"./Referral/Index": [
 		"./resources/js/Pages/Referral/Index.vue",
 		"resources_js_Pages_Referral_Index_vue"
@@ -38199,13 +38207,13 @@ var map = {
 		"./resources/js/Pages/Referral/Index.vue",
 		"resources_js_Pages_Referral_Index_vue"
 	],
-	"./Referral/ShowOverview": [
-		"./resources/js/Pages/Referral/ShowOverview.vue",
-		"resources_js_Pages_Referral_ShowOverview_vue"
+	"./Referral/Show": [
+		"./resources/js/Pages/Referral/Show.vue",
+		"resources_js_Pages_Referral_Show_vue"
 	],
-	"./Referral/ShowOverview.vue": [
-		"./resources/js/Pages/Referral/ShowOverview.vue",
-		"resources_js_Pages_Referral_ShowOverview_vue"
+	"./Referral/Show.vue": [
+		"./resources/js/Pages/Referral/Show.vue",
+		"resources_js_Pages_Referral_Show_vue"
 	],
 	"./Registration/Agent": [
 		"./resources/js/Pages/Registration/Agent.vue",
@@ -38396,7 +38404,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"694b5a9145d94ba4","resources_js_Pages_API_Index_vue":"e015b5e33982e4c3","resources_js_Pages_Admin_CategoriesList_vue":"e3d17e793112a5d3","resources_js_Pages_Admin_CreateCategory_vue":"1e5eb8ace6a55e90","resources_js_Pages_Admin_CreateSubcategory_vue":"21ca2b72d171bea3","resources_js_Pages_Admin_ShowCategory_vue":"fae907a70405b328","resources_js_Pages_Auth_ConfirmPassword_vue":"ef53ed247fd8fa7a","resources_js_Pages_Auth_ForgotPassword_vue":"620ab4ce6f2322b0","resources_js_Pages_Auth_Login_vue":"8659216aeeb6adb5","resources_js_Pages_Auth_Register_vue":"d98eeb3aebc2768f","resources_js_Pages_Auth_ResetPassword_vue":"ccc37abba78a4ff1","resources_js_Pages_Auth_TwoFactorChallenge_vue":"978453e13e2a005a","resources_js_Pages_Auth_VerifyEmail_vue":"d5acccdeedc4a2cc","resources_js_Pages_BecomeAnAgent_vue":"f24d37b8312a0a68","resources_js_Pages_Cart_Checkout_vue":"ac252e2d62475995","resources_js_Pages_Cart_View_vue":"a0bed593c3b1f746","resources_js_Pages_ContactUs_vue":"7780c1e6e7e5d06b","resources_js_Pages_Dashboards_AdminDashboard_vue":"1960f4a8c74cf7ba","resources_js_Pages_Dashboards_AgentDashboard_vue":"190ef16a1cc243b2","resources_js_Pages_Dashboards_VendorDashboard_vue":"4c6609b6acd18589","resources_js_Pages_Help_Faq_vue":"4f82aaf5ee3edca2","resources_js_Pages_Help_Index_vue":"d4f71d7d5bdd7ce6","resources_js_Pages_Help_ShowPage_vue":"07eaf07ababc1796","resources_js_Pages_Home_vue":"060ef85acd0ea958","resources_js_Pages_ManagedPage_vue":"e49641ec08a14489","resources_js_Pages_MyOrders_CancelVendorOrder_vue":"b320256c83074a36","resources_js_Pages_MyOrders_Index_vue":"fec2a826d969161a","resources_js_Pages_MyOrders_Show_vue":"d8c387d4e740ef61","resources_js_Pages_PrivacyPolicy_vue":"3dfabea1398203ca","resources_js_Pages_Profile_DeleteUserForm_vue":"918acc2f23c55b2f","resources_js_Pages_Profile_EditDisapprovedAgent_vue":"7de2fabe8833ee9c","resources_js_Pages_Profile_EditVendorForm_vue":"bf2379d333d37ad8","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"0b17927357f0614d","resources_js_Pages_Profile_Show_vue":"9cc39730fd503ebc","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"95de8d5c8e96c7bf","resources_js_Pages_Profile_UnverifiedProfile_vue":"0db1f138c1019e23","resources_js_Pages_Profile_UpdatePasswordForm_vue":"8b8e479c90513e08","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"116dbded0a4a9690","resources_js_Pages_Referral_Create_vue":"e60bba61b5772f70","resources_js_Pages_Referral_Index_vue":"89c02ae1caeaf41b","resources_js_Pages_Referral_ShowOverview_vue":"16af21e85c83a940","resources_js_Pages_Registration_Agent_vue":"0b856a9123dbbd58","resources_js_Pages_Registration_Shopper_vue":"0f7748e369a86083","resources_js_Pages_Shop_ProductsList_vue":"0ce7af9e853fc007","resources_js_Pages_Shop_ShowProduct_vue":"980ca1b69dc72fe3","resources_js_Pages_TermsOfService_vue":"bfd95303c32f7397","resources_js_Pages_VendorPage_vue":"a88e4fc40525003e","resources_js_Pages_Vendors_Index_vue":"0f9f191abc66cdf9","resources_js_Pages_Vendors_Show_vue":"13a2ab2ec67cdbfa","resources_js_Pages_Welcome_vue":"4de5fee425fa22f6"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_API_ApiTokenManager_vue":"4340b8b624f371d4","resources_js_Pages_API_Index_vue":"fc6817737af2c0ef","resources_js_Pages_Admin_CategoriesList_vue":"e3d17e793112a5d3","resources_js_Pages_Admin_CreateCategory_vue":"b60d226aeda1957b","resources_js_Pages_Admin_CreateSubcategory_vue":"cad539e29af15efc","resources_js_Pages_Admin_ShowCategory_vue":"fae907a70405b328","resources_js_Pages_Auth_ConfirmPassword_vue":"ef53ed247fd8fa7a","resources_js_Pages_Auth_ForgotPassword_vue":"620ab4ce6f2322b0","resources_js_Pages_Auth_Login_vue":"8659216aeeb6adb5","resources_js_Pages_Auth_Register_vue":"9c27c1d6b73815f2","resources_js_Pages_Auth_ResetPassword_vue":"ccc37abba78a4ff1","resources_js_Pages_Auth_TwoFactorChallenge_vue":"978453e13e2a005a","resources_js_Pages_Auth_VerifyEmail_vue":"d5acccdeedc4a2cc","resources_js_Pages_BecomeAnAgent_vue":"f24d37b8312a0a68","resources_js_Pages_Cart_Checkout_vue":"c5c3ca73dc28f8c5","resources_js_Pages_Cart_View_vue":"a0bed593c3b1f746","resources_js_Pages_ContactUs_vue":"8c89085305de44b3","resources_js_Pages_Dashboards_AdminDashboard_vue":"1960f4a8c74cf7ba","resources_js_Pages_Dashboards_AgentDashboard_vue":"190ef16a1cc243b2","resources_js_Pages_Dashboards_VendorDashboard_vue":"4c6609b6acd18589","resources_js_Pages_Help_Faq_vue":"4f82aaf5ee3edca2","resources_js_Pages_Help_Index_vue":"d4f71d7d5bdd7ce6","resources_js_Pages_Help_ShowPage_vue":"07eaf07ababc1796","resources_js_Pages_Home_vue":"060ef85acd0ea958","resources_js_Pages_ManagedPage_vue":"e49641ec08a14489","resources_js_Pages_MyOrders_CancelVendorOrder_vue":"ac8b4d148bd1d3ca","resources_js_Pages_MyOrders_Index_vue":"fec2a826d969161a","resources_js_Pages_MyOrders_Show_vue":"9bcf4529658b58a6","resources_js_Pages_PrivacyPolicy_vue":"3dfabea1398203ca","resources_js_Pages_Profile_DeleteUserForm_vue":"b1c2ed1b617727ab","resources_js_Pages_Profile_EditDisapprovedAgent_vue":"18e56f003ac216e5","resources_js_Pages_Profile_EditVendorForm_vue":"6035fe7749ae3d00","resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":"79f6ac15ca5e0a98","resources_js_Pages_Profile_Show_vue":"5d9d14035c6c45be","resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":"dbf4858350652e60","resources_js_Pages_Profile_UnverifiedProfile_vue":"9796fe1967cddfbf","resources_js_Pages_Profile_UpdatePasswordForm_vue":"7936cd7eb8031754","resources_js_Pages_Profile_UpdateProfileInformationForm_vue":"8966fa4b164d2a48","resources_js_Pages_Referral_Create_vue":"e52730c3b36a136e","resources_js_Pages_Referral_Edit_vue":"02f81c55f325b1c1","resources_js_Pages_Referral_Index_vue":"a6e7be9747529027","resources_js_Pages_Referral_Show_vue":"ff7cd76e93bfce18","resources_js_Pages_Registration_Agent_vue":"03382a6254f0f599","resources_js_Pages_Registration_Shopper_vue":"759a5b28077428fa","resources_js_Pages_Shop_ProductsList_vue":"0ce7af9e853fc007","resources_js_Pages_Shop_ShowProduct_vue":"980ca1b69dc72fe3","resources_js_Pages_TermsOfService_vue":"bfd95303c32f7397","resources_js_Pages_VendorPage_vue":"a88e4fc40525003e","resources_js_Pages_Vendors_Index_vue":"0f9f191abc66cdf9","resources_js_Pages_Vendors_Show_vue":"13a2ab2ec67cdbfa","resources_js_Pages_Welcome_vue":"4de5fee425fa22f6"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

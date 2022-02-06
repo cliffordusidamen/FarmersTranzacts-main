@@ -20,8 +20,8 @@ class CreateReferralRequestsTable extends Migration
             $table->string('first_name', 25);
             $table->string('last_name', 25);
             $table->string('middle_name', 25)->nullable();
-            $table->string('email', 100)->nullable();
-            $table->string('phone', 15);
+            $table->string('email', 100)->unique()->nullable();
+            $table->string('phone', 15)->unique();
             $table->string('age', 2)->nullable();
             $table->string('address_line_1', 100);
             $table->string('address_line_2', 100)->nullable();

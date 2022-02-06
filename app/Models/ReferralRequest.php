@@ -82,15 +82,24 @@ class ReferralRequest extends Model
     /**
      * Default validation rules
      * 
+     * @param  int|null  $id
      * @return array
      */
-    public static function defaultValidationRules(): array
+    public static function defaultValidationRules(?int $id = null): array
     {
+        $uniqueEmailRule = Rule::unique('referral_requests', 'email');
+        $uniquePhoneRule = Rule::unique('referral_requests', 'phone');
+
+        if ($id) {
+            $uniqueEmailRule->ignore($id);
+            $uniquePhoneRule->ignore($id);
+        }
+
         $rules = [
             'first_name' => "required|min:3|max:25",
             'last_name' => "required|min:3|max:25",
-            'email' => "sometimes|nullable|email",
-            'phone' => "required|min:10|max:16",
+            'email' => ["sometimes", "nullable", "email", $uniqueEmailRule],
+            'phone' => ["required", "min:10", "max:16", $uniquePhoneRule],
             'age' => "sometimes|nullable|numeric|min:25|max:120",
             'business_name' => 'sometimes|nullable|min:3',
             'address_line_1' => 'required|min:3|max:255',
@@ -133,7 +142,7 @@ class ReferralRequest extends Model
      */
     public function getIsEditableAttribute(): bool
     {
-        return $this->status === self::STATUS_PENDING;
+        return $this->approval_status === self::STATUS_PENDING;
     }
 
     /**
@@ -144,5 +153,15 @@ class ReferralRequest extends Model
     public function getStatusNumberAttribute(): int
     {
         return self::getStatusNumber($this->approval_status);
+    }
+
+    /**
+     * Filter by editable only
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     */
+    public function scopeEditable($query)
+    {
+        $query->where('approval_status', self::STATUS_PENDING);
     }
 }

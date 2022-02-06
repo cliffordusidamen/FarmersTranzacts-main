@@ -65,7 +65,10 @@
                             type="text"
                             v-model="form.phoneInput"
                         />
-                        <jet-input-error :message="form.errors.phone" />
+
+                        <div v-if="!!form?.errors?.phone" class="span d-block mt-2">
+                            <jet-input-error :message="form.errors.phone" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,6 +354,11 @@ export default {
             type: Object,
             required: true,
         },
+
+        referralRequest: {
+            type: Object,
+            default: (() => ({})),
+        },
     },
 
     components: {
@@ -364,7 +372,7 @@ export default {
     },
 
     setup(props) {
-        const { appStates } = props;
+        const { appStates, referralRequest } = props;
 
         const jqueryValidator = ref(null)
         const referralForm = ref(null)
@@ -374,30 +382,34 @@ export default {
         const { initIntlPhone } = useInitIntlPhone()
 
         const form = useForm({
-            first_name: "",
-            last_name: "",
-            email: "",
-            phone: "",
-            age: "",
-            phoneInput: "",
-            business_name: '',
-            address_line_1: '',
-            address_line_2: '',
-            city: '',
-            state_id: '',
-            crops_grown: '',
-            animals_reared: '',
-            farm_size: '',
-            seed_demand: '',
-            animal_feed_demand: '',
-            fertilizer_demand: '',
-            agro_chemical_demand: '',
-            number_of_workers: '',
+            first_name: referralRequest?.first_name || "",
+            last_name: referralRequest?.last_name || "",
+            email: referralRequest?.email || "",
+            phone: referralRequest?.phone || "",
+            age: referralRequest?.age || "",
+            phoneInput: referralRequest?.phone || "",
+            business_name: referralRequest?.business_name || '',
+            address_line_1: referralRequest?.address_line_1 || '',
+            address_line_2: referralRequest?.address_line_2 || '',
+            city: referralRequest?.city || '',
+            state_id: referralRequest?.state_id || '',
+            crops_grown: referralRequest?.crops_grown || '',
+            animals_reared: referralRequest?.animals_reared || '',
+            farm_size: referralRequest?.farm_size || '',
+            seed_demand: referralRequest?.seed_demand || '',
+            animal_feed_demand: referralRequest?.animal_feed_demand || '',
+            fertilizer_demand: referralRequest?.fertilizer_demand || '',
+            agro_chemical_demand: referralRequest?.agro_chemical_demand || '',
+            number_of_workers: referralRequest?.number_of_workers || '',
         })
 
         const submit = () => {
             form.phone = telInput.value.getNumber()
-            form.post(route("referrals.store"), {
+            const tartgetRoute = !referralRequest?.id
+                ? route("referrals.store")
+                : route("referrals.update", {id: referralRequest.id})
+
+            form.put(tartgetRoute, {
                 preserveState: true,
                 onFinish: () => {
                     form.processing = false;

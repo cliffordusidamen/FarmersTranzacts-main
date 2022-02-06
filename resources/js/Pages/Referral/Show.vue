@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
+import ReferralActions from "@/Components/Controls/ReferralActions.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
 import { usePage } from '@inertiajs/inertia-vue3';
 import useDate from '@/composables/useDate'
@@ -40,12 +41,22 @@ const getStatusClass = status_number => {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        <h4 class="text-uppercase">
-                            status:
-                            <span :class="['badge rounded ml-2', getStatusClass(referralRequest.status_number)]">
-                                {{ referralRequest.approval_status }}
-                            </span>
-                        </h4>
+                        <div class="d-flex flex-col flex-md-row justify-content-md-between">
+
+                            <h4 class="text-uppercase">
+                                status:
+                                <span :class="['badge rounded ml-2', getStatusClass(referralRequest.status_number)]">
+                                    {{ referralRequest.approval_status }}
+                                </span>
+                            </h4>
+
+                            <div
+                                v-if="!!referralRequest?.is_editable"
+                                class="d-flex justify-content-end"
+                            >
+                                <referral-actions :referral-request="referralRequest" />
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">Name:</strong>

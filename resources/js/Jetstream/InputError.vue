@@ -1,5 +1,5 @@
 <template>
-    <div v-show="message" class="invalid-feedback d-block" role="alert">
+    <div v-show="message" class="text-danger d-block" role="alert">
         <strong>{{ message }}</strong>
     </div>
 </template>

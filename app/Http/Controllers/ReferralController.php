@@ -32,7 +32,10 @@ class ReferralController extends Controller
             ->user()
             ->referralRequests()
             ->with(['state'])
+            ->latest()
             ->paginate(15);
+
+        $referralRequests->each(fn ($referralRequest) => $referralRequest->append('is_editable'));
 
         return Inertia::render('Referral/Index', compact('referralRequests'));
     }
@@ -80,11 +83,71 @@ class ReferralController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showOverview($id)
+    public function show($id)
     {
-        $referralRequest = ReferralRequest::with('state')->findOrFail($id);
+        $referralRequest = auth()
+            ->user()
+            ->referralRequests()
+            ->with('state')
+            ->findOrFail($id);
+
         $referralRequest->append(['full_name', 'is_editable', 'status_number']);
 
-        return Inertia::render('Referral/ShowOverview', compact('referralRequest'));
+        return Inertia::render('Referral/Show', compact('referralRequest'));
+    }
+
+    /**
+     * Display form for editing a referral
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $referralRequest = auth()
+            ->user()
+            ->referralRequests()
+            ->with('state')
+            ->editable()
+            ->findOrFail($id);
+
+        $app_states = State::pluck('state_name', 'id');
+
+        $referralRequest->append(['full_name', 'status_number']);
+
+        return Inertia::render('Referral/Edit', compact(
+            'referralRequest', 'app_states'
+        ));
+    }
+
+    /**
+     * Update the referral request
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id, Request  $request)
+    {
+        $referralRequest = auth()
+            ->user()
+            ->referralRequests()
+            ->with('state')
+            ->editable()
+            ->findOrFail($id);
+
+        $rules = ReferralRequest::defaultValidationRules($id);
+
+        $this->validate($request, $rules);
+
+        $referralRequest->forceFill($request->only(array_keys($rules)));
+
+        if ($referralRequest->save()) {
+            flashMessage('success', 'Farmer information updated!');
+            return redirect(route('referrals.index'));
+        }
+
+        flashMessage('danger', 'Farmer information was not updated! Please, try again.');
+        return back();
     }
 }

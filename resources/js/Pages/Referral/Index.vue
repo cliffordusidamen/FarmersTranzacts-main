@@ -71,28 +71,8 @@
                                         <td class="text-uppercase">{{ refRequest.approval_status }}</td>
 
                                         <td>
-                                            <span class="d-flex justify-content-END">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-link text-uppercase dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        actions
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <inertia-link
-                                                            :href="route('referrals.show', { id: refRequest.id })"
-                                                            class="dropdown-item font-size-normal"
-                                                        >
-                                                            View
-                                                        </inertia-link>
-                                                        <inertia-link
-                                                            v-if="refRequest?.can_edit"
-                                                            :href="route('referrals.edit', { id: refRequest.id })"
-                                                            class="dropdown-item font-size-normal"
-                                                        >
-                                                            Edit
-                                                        </inertia-link>
-                                                        <button class="dropdown-item font-size-normal" type="button">Delete</button>
-                                                    </div>
-                                                </div>
+                                            <span class="d-flex justify-content-end">
+                                                <referral-actions :referral-request="refRequest" />
                                             </span>
                                         </td>
                                     </tr>
@@ -111,11 +91,13 @@
 
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
+
+import useDate from '@/composables/useDate'
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
+import ReferralActions from "@/Components/Controls/ReferralActions.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
-import { usePage } from '@inertiajs/inertia-vue3';
-import useDate from '@/composables/useDate'
 import Pagination from '@/Components/Pagination.vue'
 
 export default {
@@ -124,6 +106,7 @@ export default {
         BreadcrumbDefault,
         PageHeader,
         Pagination,
+        ReferralActions,
     },
     setup() {
         const breadcrumbLinks = [

@@ -5,6 +5,20 @@ const props = defineProps({
         required: true,
     },
 });
+
+const fireDeleteEvent = event => {
+    event.preventDefault()
+
+    const confirmDeleteEvent = new CustomEvent('confirm-action', {
+        detail: {
+            message: 'Are you sure you want to delete this farmer record?',
+            url: event.target.getAttribute('data-href'),
+            method: 'DELETE',
+        },
+    })
+
+    document.dispatchEvent(confirmDeleteEvent)
+}
 </script>
 
 <template>
@@ -36,7 +50,11 @@ const props = defineProps({
 
             <button
                 v-if="!!referralRequest?.is_editable"
-                class="dropdown-item font-size-normal" type="button">
+                class="dropdown-item font-size-normal"
+                type="button"
+                :data-href="route('referrals.destroy', { id: referralRequest.id })"
+                @click="fireDeleteEvent"
+            >
                 Delete
             </button>
         </div>

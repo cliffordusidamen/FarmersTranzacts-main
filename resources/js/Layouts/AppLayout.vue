@@ -10,8 +10,8 @@
 
     <app-footer />
   </div>
-  <!-- End .page-wrapper -->
   <nav-mobile />
+  <confirmation-modal />
 </template>
 
 <script>
@@ -22,13 +22,15 @@ import JetDropdown from "@/Jetstream/Dropdown";
 import JetDropdownLink from "@/Jetstream/DropdownLink";
 import JetNavLink from "@/Jetstream/NavLink";
 import NavigationTop from "@/Components/NavigationTop.vue";
+import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import NavMobile from "@/Components/NavMobile";
 import AppFooter from "@/Components/AppFooter";
 import PendingAgentBanner from "@/Components/PendingAgentBanner.vue";
 
 export default {
   components: {
-    NavigationTop,
+    AppFooter,
+    ConfirmationModal,
     JetApplicationLogo,
     JetBanner,
     JetApplicationMark,
@@ -37,7 +39,6 @@ export default {
     JetNavLink,
     NavigationTop,
     NavMobile,
-    AppFooter,
     PendingAgentBanner,
   },
 

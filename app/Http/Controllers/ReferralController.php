@@ -123,8 +123,8 @@ class ReferralController extends Controller
     /**
      * Update the referral request
      * 
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function update($id, Request  $request)
@@ -148,6 +148,31 @@ class ReferralController extends Controller
         }
 
         flashMessage('danger', 'Farmer information was not updated! Please, try again.');
+        return back();
+    }
+
+    
+
+    /**
+     * Update the referral request
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $referralRequest = auth()
+            ->user()
+            ->referralRequests()
+            ->editable()
+            ->findOrFail($id);
+
+        if ($referralRequest->delete()) {
+            flashMessage('success', 'Farmer referral request deleted!');
+            return redirect(route('referrals.index'));
+        }
+
+        flashMessage('danger', 'Farmer referral request was not deleted! Please, try again.');
         return back();
     }
 }

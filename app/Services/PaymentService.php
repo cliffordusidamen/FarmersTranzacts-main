@@ -10,22 +10,27 @@ class PaymentService
     /**
      * Initialize transaction
      * 
+     * @param  \App\Models\User  $user
      * @param  array  $data
+     * @param   float  $totalAmount
      * @return array
      */
-    public function intializeTransaction(User $user, Order $order): array
-    {
+    public function intializeTransaction(
+        User $user,
+        array $data,
+        float $totalAmount
+    ): array {
         $url = "https://api.paystack.co/transaction/initialize";
         $data = [
             'email' => $user->email,
-            'amount' => $order->total_amount * 100,
+            'amount' => $totalAmount * 100,
             'callback_url' => route('shopping_cart.payment_callback'),
             'metadata' => [
-                'cancel_action' => route('shopping_cart.cancel_payment', compact('order')),
-                'order_id' => $order->id,
+                'cancel_action' => route('shopping_cart.checkout'),
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'phone' => $user->phone ?? null,
+                'request_data' => $data,
             ],
         ];
         $data_string = http_build_query($data);

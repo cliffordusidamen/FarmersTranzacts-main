@@ -193,9 +193,11 @@ class ShoppingCartController extends Controller
 
         $payOnDelivery = $request->input('checkout_to') == 'pay_on_delivery';
 
-        $order = Order::initCartOrder($this->cart, $request->all(), $payOnDelivery);
+        $order = $payOnDelivery 
+            ? Order::initCartOrder($this->cart, $request->all(), $payOnDelivery)
+            : null;
 
-        if (!$order) {
+        if ($payOnDelivery && !isset($order->id)) {
             flashMessage('danger', 'Order was not successful! Please, try again.');
             return back()->withInput();
         }
@@ -214,9 +216,13 @@ class ShoppingCartController extends Controller
         }
 
         try {
-            $result = (new PaymentService)->intializeTransaction(auth()->user(), $order);
+            $result = (new PaymentService)->intializeTransaction(
+                auth()->user(),
+                $request->all(),
+                $this->cart->getGrandTotalWithDelivery()
+            );
         } catch (Exception $e) {
-            return $e->get;
+            return $e->getMessage();
         }
 
         if (!isset($result['authorization_url'])) {
@@ -257,8 +263,12 @@ class ShoppingCartController extends Controller
 
         $transactionDetails = (new PaymentService)->verify($reference);
 
+        Log::info($transactionDetails);
+        $data = $transactionDetails['data']['metadata']['request_data'];
+        $payOnDelivery = $data['checkout_to'] == 'pay_on_delivery';
+
+        $order = Order::initCartOrder($this->cart, $data, $payOnDelivery);
         if (isset($transactionDetails['status'])) {
-            $order = Order::findOrFail($transactionDetails['data']['metadata']['order_id']);
 
             $payment = Payment::create([
                 'order_id' => $order->id,

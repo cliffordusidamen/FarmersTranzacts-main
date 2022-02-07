@@ -263,7 +263,6 @@ class ShoppingCartController extends Controller
 
         $transactionDetails = (new PaymentService)->verify($reference);
 
-        Log::info($transactionDetails);
         $data = $transactionDetails['data']['metadata']['request_data'];
         $payOnDelivery = $data['checkout_to'] == 'pay_on_delivery';
 

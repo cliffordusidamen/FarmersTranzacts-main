@@ -32,9 +32,15 @@ class OrderCompletedListener
      */
     public function handle(OrderCompletedEvent $event)
     {
-        $event->order->user->notify(new OrderReceiptNotification(
-            $event->order
-        ));
+        if ($event->order->agent_id) {
+            $event->order->agent->notify(new OrderReceiptNotification(
+                $event->order
+            ));
+        } else {
+            $event->order->user->notify(new OrderReceiptNotification(
+                $event->order
+            ));
+        }
 
         $adminOrderMail = new NewOrderNotifyAdminMail($event->order);
         Mail::to(config('mail.from.address'))->send($adminOrderMail);

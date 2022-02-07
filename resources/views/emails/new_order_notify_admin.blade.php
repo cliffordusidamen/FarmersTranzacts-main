@@ -16,7 +16,12 @@
 
     <x-email.p>
         <strong>Reference:</strong> {{ $order->reference_number }}<br />
-        <strong>Shopper name:</strong> {{ $order->user->full_name }}<br />
+        @if ($order->agent_id)
+            <strong>Agent:</strong> {{ $order->agent->full_name }}<br />
+            <strong>On behalf of:</strong> {{ $order->user->full_name }}<br />
+        @else
+            <strong>Shopper name:</strong> {{ $order->user->full_name }}<br />
+        @endif
         <strong>Email:</strong> {{ $order->user->email }}<br />
         <strong>Phone:</strong> {{ $order->user->phone ?? 'N/A' }}<br />
         <strong>Address:</strong><br />

@@ -28,6 +28,12 @@
     </x-email.p>
 
     <x-email.p>
+        @if ($order->agent_id)
+            <strong>Agent:</strong> {{ $order->agent->full_name }}<br />
+            <strong>On behalf of:</strong> {{ $order->user->full_name }}<br />
+        @else
+            <strong>Shopper name:</strong> {{ $order->user->full_name }}<br />
+        @endif
         <strong>Address:</strong><br />
         {{ $order->address->line_1 }}
         {!! $order->address->line_2 ? "<br />{$order->address->line_2},<br />" : '<br />' !!}

@@ -46,7 +46,26 @@
                                             <inertia-link
                                                 :href="route('my_orders.show', order)"
                                             >
-                                                <h4>{{ order.reference_number }}</h4>
+                                                <span class="font-weight-bold text-primary text-uppercase text-dark">
+                                                    {{ order.reference_number }}
+                                                </span>
+
+                                                <span
+                                                    v-if="!userIsAgent && order?.agent?.id"
+                                                    class="text-muted mt-n2 d-block"
+                                                >
+                                                    <strong class="mr-1">ORDERED BY:</strong>
+                                                    {{ order.agent.full_name }}
+                                                </span>
+
+                                                <span
+                                                    v-if="!!userIsAgent && order?.agent?.id"
+                                                    class="text-muted mt-n2 d-block"
+                                                >
+                                                    <strong class="mr-1">FOR:</strong>
+                                                    {{ order.user.full_name }}
+                                                </span>
+
                                             </inertia-link>
 
                                             <div class=" mx-3 mb-3 d-sm-none lead">
@@ -140,13 +159,14 @@ export default {
             },
         ];
 
-        const { orders } = usePage().props.value
+        const { orders, userIsAgent } = usePage().props.value
         const { formatDate } = useDate()
 
         return {
             breadcrumbLinks,
             orders,
             formatDate,
+            userIsAgent,
         };
     },
 };

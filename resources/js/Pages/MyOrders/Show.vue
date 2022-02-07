@@ -12,6 +12,22 @@
                                 {{ order.delivery_status.name }}
                             </p>
 
+                                <span
+                                    v-if="!userIsAgent && order?.agent?.id"
+                                    class="text-muted mt-n2 d-block"
+                                >
+                                    <strong class="mr-1">ORDERED BY:</strong>
+                                    {{ order.agent.full_name }}
+                                </span>
+
+                                <span
+                                    v-if="!!userIsAgent && order?.agent?.id"
+                                    class="text-muted mt-n2 d-block"
+                                >
+                                    <strong class="mr-1">ORDER FOR:</strong>
+                                    {{ order.user.full_name }}
+                                </span>
+
                             <div v-for="vendorOrder in order.vendor_orders" :key="vendorOrder.id">
                                 <div class="card border rounded-sm shadow mb-3">
                                     <div class="card-header px-3 py-4 border-bottom">
@@ -164,7 +180,7 @@ export default {
     },
     setup() {
 
-        const { order, ratingOptions } = usePage().props.value
+        const { order, ratingOptions, userIsAgent } = usePage().props.value
         const { formatDate } = useDate()
         const breadcrumbLinks = [
             {
@@ -181,6 +197,7 @@ export default {
             formatDate,
             order,
             ratingOptions,
+            userIsAgent,
         };
     },
 };

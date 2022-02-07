@@ -34,13 +34,19 @@ class MyOrderController extends Controller
     {
         $orders = Order::byUser(auth()->user()->id)
             ->withCount(['items'])
-            ->with(['deliveryStatus'])
+            ->with(['deliveryStatus', 'agent', 'user'])
             ->orderByDesc('id')
             ->paginate(10);
             
         if ($orders->total()) {
             $orders->each(function ($order) {
                 $order->append('cancellable');
+
+                if ($order->agent_id) {
+                    $order->agent->append('full_name');
+                }
+
+                $order->user->append('full_name');
             });
         }
 
@@ -56,11 +62,16 @@ class MyOrderController extends Controller
      */
     public function show(Request $request, Order $order)
     {
-        abort_if($order->user_id != $request->user()->id, 404, 'Page not found!');
+        $isMyOrder = $order->user_id == auth()->user()->id
+            || $order->agent_id == auth()->user()->id;
+
+        abort_if(!$isMyOrder, 404, 'Page not found!');
 
         $order->load([
-            'payments',
+            'agent',
             'deliveryStatus',
+            'payments',
+            'user',
             'vendorOrders',
             'vendorOrders.vendor',
             'vendorOrders.items',
@@ -68,13 +79,19 @@ class MyOrderController extends Controller
             'vendorOrders.deliveryStatus',
         ]);
 
-        $order->vendorOrders->each(fn($vendorOrder) => (
+        $order->vendorOrders->each(function ($vendorOrder) {
             $vendorOrder->append([
                 'cancellable',
                 'can_submit_review',
                 'rating_remark',
-            ])
-        ));
+            ]);
+        });
+
+        if ($order->agent_id) {
+            $order->agent->append('full_name');
+        }
+
+        $order->user->append('full_name');
 
         $ratingOptions = AppSetting::getReviewRatingOptions();
 

@@ -261,7 +261,10 @@ class Order extends Model
      */
     public function scopeByUser(Builder $query, int $user_id): Builder
     {
-        return $query->where('user_id', $user_id);
+        return $query->where(fn (Builder $q) => (
+            $q->where('user_id', $user_id)
+                ->orWhere('agent_id', $user_id)
+        ));
     }
 
     /**

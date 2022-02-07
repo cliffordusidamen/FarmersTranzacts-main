@@ -30,6 +30,7 @@ class Order extends Model
     protected $fillable = [
         'reference_number',
         'user_id',
+        'agent_id',
         'items_amount',
         'delivery_amount',
         'delivery_days',
@@ -197,9 +198,18 @@ class Order extends Model
                 $vendorProducts[$item['product']['vendor_id']][] = $item['product']['id'];
             });
 
+            $shopperId = !authUserIsAgent() || !empty($data['order_for_self'])
+                    ? auth()->user()->id
+                    : $data['referral'];
+
+            $agentId = !authUserIsAgent() || !empty($data['order_for_self'])
+                    ? null
+                    : auth()->user()->id;
+
             $order->forceFill([
                 'reference_number' => self::generateReferenceNumber(),
-                'user_id'     => auth()->user()->id,
+                'user_id'     => $shopperId,
+                'agent_id'     => $agentId,
                 'address_id'  => $address->id,
                 'items_amount'      => $cart->getGrandTotal(),
                 'delivery_amount'      => $cart->getTotalDeliveryAmount(),
@@ -209,19 +219,24 @@ class Order extends Model
                 'pay_on_delivery' => $payOnDelivery,
             ])->save();
 
-            collect($cart->getVendorOrders())->map(function ($vendorOrder, $i) use (&$vendorOrders, $address, $order, $payOnDelivery) {
-                $vendorOrders[] = new VendorOrder([
-                    'reference_number' => "{$order->reference_number}-{$vendorOrder['vendor']['id']}",
-                    'user_id'     => auth()->user()->id,
-                    'address_id'  => $address->id,
-                    'vendor_id'      => $vendorOrder['vendor']['id'],
-                    'items_amount'      => $vendorOrder['amount'],
-                    'delivery_amount'      => $vendorOrder['delivery_amount'],
-                    'delivery_days'      => $vendorOrder['delivery_days'],
-                    'total_amount'      => $vendorOrder['grand_total_amount'],
-                    'pay_on_delivery' => $payOnDelivery,
-                ]);
-            });
+            collect($cart->getVendorOrders())->map(
+                function ($vendorOrder, $i)
+                    use (&$vendorOrders, $address, $order, $payOnDelivery, $shopperId, $agentId)
+                {
+                    $vendorOrders[] = new VendorOrder([
+                        'reference_number' => "{$order->reference_number}-{$vendorOrder['vendor']['id']}",
+                        'user_id'     => $shopperId,
+                        'agent_id'     => $agentId,
+                        'address_id'  => $address->id,
+                        'vendor_id'      => $vendorOrder['vendor']['id'],
+                        'items_amount'      => $vendorOrder['amount'],
+                        'delivery_amount'      => $vendorOrder['delivery_amount'],
+                        'delivery_days'      => $vendorOrder['delivery_days'],
+                        'total_amount'      => $vendorOrder['grand_total_amount'],
+                        'pay_on_delivery' => $payOnDelivery,
+                    ]);
+                }
+            );
 
 
             $order->items()->saveMany($orderItems);

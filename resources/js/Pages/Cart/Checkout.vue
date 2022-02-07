@@ -5,7 +5,47 @@
             <div class="checkout">
                 <div class="container">
                     <form ref="checkoutForm" class="row">
+
                         <div class="col-lg-9">
+
+                            <!-- AGENT ORDER -->
+                            <div class="row">
+                                <div
+                                    v-if="userIsAgent"
+                                    class="col-sm-6 col-lg-4 mb-1"
+                                >
+                                    <h2 class="checkout-title">Who is this order for?</h2>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <jet-checkbox
+                                                name="order_for_self"
+                                                id="order_for_self"
+                                                v-model:checked="form.order_for_self"
+                                            />
+
+                                            <label class="custom-control-label" for="order_for_self">
+                                                This order is for myself
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        v-if="!form.order_for_self"
+                                        class="form-group"
+                                    >
+                                        <custom-select
+                                            id="type"
+                                            name="referral"
+                                            v-model="form.referral"
+                                            :options="referralList"
+                                            required
+                                        />
+                                        <jet-input-error :message="form.errors.referral" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [END] AGENT ORDER -->
                             <h2 class="checkout-title">Shipping Details</h2>
                             <div class="row">
                                 <div class="col-sm-6 mb-2">
@@ -242,6 +282,7 @@ import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import CustomSelect from "@/Components/CustomSelect";
 import JetInputError from "@/Jetstream/InputError";
+import JetCheckbox from "@/Jetstream/Checkbox";
 import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
 
 export default {
@@ -249,6 +290,7 @@ export default {
         AppLayout,
         BreadcrumbDefault,
         CustomSelect,
+        JetCheckbox,
         JetInputError,
         TogglesDeliveryStateModal,
     },
@@ -269,19 +311,25 @@ export default {
 
         const { cart, cartItems } = useCartManager();
 
-        const { app_states, app_settings } = usePage().props.value;
+        const { app_states, app_settings, userIsAgent, referralList } = usePage().props.value;
         const pay_on_delivery_enabled = Number(app_settings?.pay_on_delivery_allowed) ? true : false;
         const jqueryValidator = ref(null);
         const checkoutForm = ref(null);
         const processing = ref(false);
-        const form = useForm({
+        const initialValue = {
             line_1: "",
             line_2: "",
             city: "",
             postal_code: "",
             order_notes: "",
             checkout_to: '',
-        });
+        }
+
+        if (!!userIsAgent) {
+            initialValue.order_for_self = false;
+            initialValue.referral = ''
+        }
+        const form = useForm(initialValue);
 
         const submit = () => {
             processing.value = true;
@@ -299,33 +347,57 @@ export default {
             });
         };
 
+        const getValidatonRules = () =>{
+            const rules =  {
+                line_1: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 150,
+                },
+                line_2: {
+                    required: false,
+                    minlength: 3,
+                    maxlength: 150,
+                },
+                city: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 25,
+                },
+                order_notes: {
+                    require: false,
+                    maxlength: 200,
+                },
+            };
+
+            if (userIsAgent) {
+                rules.referral = {
+                    required: () => {
+                        return $('#order_for_self').is(':checked') ? false : true
+                    },
+                }
+            }
+
+            return rules;
+        }
+
         const validationConfig = () => {
+
+            const messages = {}
+
+            if (!!userIsAgent) {
+                messages.referral = {
+                    required: 'Select a referral or indicate that this order is for you',
+                }
+            }
+
             return {
                 submitHandler() {
                     checkoutForm.value.classList.add("was-validated");
                     submit();
                 },
-                rules: {
-                    line_1: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 150,
-                    },
-                    line_2: {
-                        required: false,
-                        minlength: 3,
-                        maxlength: 150,
-                    },
-                    city: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 25,
-                    },
-                    order_notes: {
-                        require: false,
-                        maxlength: 200,
-                    },
-                },
+                rules: getValidatonRules(),
+                messages: {...messages},
             };
         };
 
@@ -344,6 +416,8 @@ export default {
             form,
             pay_on_delivery_enabled,
             processing,
+            userIsAgent,
+            referralList,
         };
     },
 };

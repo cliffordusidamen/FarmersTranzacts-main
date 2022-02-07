@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Validation\Rule;
 
 class Address extends Model
 {
@@ -91,6 +92,18 @@ class Address extends Model
             'postal_code' => ['sometimes', 'string', 'nullable', 'min:3', 'max:10'],
             'state_id' => ['required', 'exists:states,id'],
             'country_id' => ['sometimes', 'nullable', 'exists:countries,id'],
+            'order_for_self' => 'sometimes|nullable|boolean',
+            'referral' => [
+                'sometimes',
+                'nullable',
+                'exists:users,id',
+                Rule::requiredIf(function () {
+                    return 
+                        authUserIsAgent()
+                        && empty(request('referral'))
+                        && empty(request('order_for_self'));
+                }),
+            ],
         ];
 
         return $rules;

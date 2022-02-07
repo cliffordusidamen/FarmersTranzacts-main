@@ -166,8 +166,16 @@ class ShoppingCartController extends Controller
         $app_states = State::pluck('state_name', 'id');
         $showMenu = false;
 
+        $referralList = [];
+
+        if (authUserIsAgent()) {
+            $referralList = $request->user()->referrals()->get()->mapWithKeys(fn ($referral) => (
+                [$referral->id => $referral->full_name]
+            ));
+        }
+
         return Inertia::render('Cart/Checkout.vue', compact(
-            'cart', 'app_states', 'showMenu'
+            'cart', 'app_states', 'showMenu', 'referralList'
         ));
     }
 
@@ -188,7 +196,7 @@ class ShoppingCartController extends Controller
         $order = Order::initCartOrder($this->cart, $request->all(), $payOnDelivery);
 
         if (!$order) {
-            flashMessage('danger', 'Payment initialization failed! Please, try again.');
+            flashMessage('danger', 'Order was not successful! Please, try again.');
             return back()->withInput();
         }
 

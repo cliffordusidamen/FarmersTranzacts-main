@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
             'product_categories' => \App\Models\ProductCategory::with('subcategories')->get(),
             'permissions' => \App\Models\Designation::getUserPermissions(),
             'userIsVendor' => authUserIsVendor(),
+            'userIsAgent' => authUserIsAgent(),
             'config_app' => config('app'),
             'userAgent' => !$userAgent ? null : new AgentResource($userAgent),
             'cart' => $request->session()->get('cart'),

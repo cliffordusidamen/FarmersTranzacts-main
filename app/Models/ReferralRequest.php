@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ReferralRequest extends Model
@@ -163,5 +165,46 @@ class ReferralRequest extends Model
     public function scopeEditable($query)
     {
         $query->where('approval_status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Scope/Search filter by state_id
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int|null  $stateId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByState(
+        Builder $query,
+        ?int $stateId = null
+    ): Builder {
+        if ($stateId) {
+            $query->where('state_id', $stateId);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scope/Search filter by namespace
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $searchString
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchName(
+        Builder $query,
+        ?string $searchString = null
+    ): Builder {
+        if (!empty($searchString)) {
+            $query->where(function(Builder $q) use ($searchString) {
+                $q->where(DB::raw('CONCAT(last_name, " ", first_name, " ", middle_name)'), 'LIKE', "%{$searchString}%")
+                    ->orWhere(DB::raw('CONCAT(last_name, " ", middle_name, " ", first_name)'), 'LIKE', "%{$searchString}%")
+                    ->orWhere(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$searchString}%")
+                    ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$searchString}%");
+            });
+        }
+
+        return $query;
     }
 }

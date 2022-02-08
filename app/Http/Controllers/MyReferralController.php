@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\ReferralRequest;
 use App\Models\State;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class MyReferralController extends Controller
@@ -196,18 +194,8 @@ class MyReferralController extends Controller
         if (!empty($queryName) || is_numeric($queryState)) {
             $isSearch = true;
             $referrals = ReferralRequest::with('state')
-                ->where(function(Builder $query) use ($queryName, $queryState) {
-                    if (!empty($queryName)) {
-                        $query->where(DB::raw('CONCAT(last_name, " ", first_name, " ", middle_name)'), 'LIKE', "%{$queryName}%")
-                            ->orWhere(DB::raw('CONCAT(last_name, " ", middle_name, " ", first_name)'), 'LIKE', "%{$queryName}%")
-                            ->orWhere(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$queryName}%")
-                            ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$queryName}%");
-                    }
-
-                    if (!empty($queryState)) {
-                        $query->where('state_id', (int) $queryState);
-                    }
-                })
+                ->searchName($queryName)
+                ->byState($queryState)
                 ->latest()
                 ->paginate(15);
         }

@@ -290,3 +290,14 @@ Route::get('page/{slug}', [\App\Http\Controllers\SetupController::class, 'showPa
  |-----------------------------------------------------------------------------
  */
 Route::resource('vendor_bank_accounts', \App\Http\Controllers\VendorBankAccountController::class);
+
+
+/*
+|-----------------------------------------------------------------------------
+| Referrals routes
+|-----------------------------------------------------------------------------
+*/
+Route::prefix('referral-requests')->name('referral-requests.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\ReferralRequestController::class, 'index']);
+    Route::get('{id}', [\App\Http\Controllers\ReferralRequestController::class, 'show']);
+});

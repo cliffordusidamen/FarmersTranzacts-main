@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class ReferralController extends Controller
+class MyReferralController extends Controller
 {
     
     /**

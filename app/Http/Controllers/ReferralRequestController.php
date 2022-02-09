@@ -101,4 +101,35 @@ class ReferralRequestController extends Controller
             'failed' => true,
         ]);
     }
+
+    
+    /**
+     * Disapprove a referral request
+     * 
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function disapprove(int $id, Request $request)
+    {
+        $referral = ReferralRequest::pendingApproval()->findOrFail($id);
+        $disapproved = false;
+
+        DB::transaction(function() use ($referral, &$disapproved) {
+            $referral->approval_status = ReferralRequest::STATUS_DISAPPROVED;
+
+            if ($referral->save()) {
+                event(new ReferralDisapprovedEvent($referral));
+            }
+            $disapproved = true;
+        });
+
+        if ($disapproved) {
+            return response()->json(compact('referral'));
+        }
+
+        return response()->json([
+            'failed' => true,
+        ]);
+    }
 }

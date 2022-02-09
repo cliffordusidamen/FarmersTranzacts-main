@@ -48,7 +48,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'department_id',
         'department_section_id',
         'is_admin',
+        'is_farmer',
+        'date_of_birth',
         'require_password_change',
+        'referred_by',
     ];
 
     /**
@@ -192,6 +195,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function referrals(): HasMany
     {
         return $this->hasMany(User::class, 'referred_by');
+    }
+
+    /**
+     * Has one farm
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function farm(): HasOne
+    {
+        return $this->hasOne(Farm::class);
     }
 
     /**

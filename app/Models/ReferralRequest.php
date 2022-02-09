@@ -14,7 +14,7 @@ class ReferralRequest extends Model
     use HasFactory;
 
     const STATUS_PENDING = 'pending';
-    const STATUS_APPORVED = 'approved';
+    const STATUS_APPR0VED = 'approved';
     const STATUS_DISAPPROVED = 'disapproved';
 
     /**
@@ -57,7 +57,7 @@ class ReferralRequest extends Model
     {
         $statuses = [
             self::STATUS_PENDING => ucwords(self::STATUS_PENDING),
-            self::STATUS_APPORVED => ucwords(self::STATUS_APPORVED),
+            self::STATUS_APPR0VED => ucwords(self::STATUS_APPR0VED),
             self::STATUS_DISAPPROVED => ucwords(self::STATUS_DISAPPROVED),
         ];
 
@@ -74,7 +74,7 @@ class ReferralRequest extends Model
     {
         $statuses = [
             self::STATUS_PENDING => 0,
-            self::STATUS_APPORVED => 1,
+            self::STATUS_APPR0VED => 1,
             self::STATUS_DISAPPROVED => -1,
         ];
 
@@ -206,5 +206,16 @@ class ReferralRequest extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * Filter only referrals pending approval
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePendingApproval(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_PENDING);
     }
 }

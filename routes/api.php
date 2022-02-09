@@ -300,4 +300,6 @@ Route::resource('vendor_bank_accounts', \App\Http\Controllers\VendorBankAccountC
 Route::prefix('referral-requests')->name('referral-requests.')->group(function() {
     Route::get('/', [\App\Http\Controllers\ReferralRequestController::class, 'index']);
     Route::get('{id}', [\App\Http\Controllers\ReferralRequestController::class, 'show']);
+    Route::post('/approve/{id}', [\App\Http\Controllers\ReferralRequestController::class, 'approve']);
+    Route::post('/disapprove/{id}', [\App\Http\Controllers\ReferralRequestController::class, 'disapprove']);
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ReferralApprovedEvent;
+use App\Events\ReferralDisapprovedEvent;
 use App\Models\ReferralRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
@@ -117,6 +118,7 @@ class ReferralRequestController extends Controller
 
         DB::transaction(function() use ($referral, &$disapproved) {
             $referral->approval_status = ReferralRequest::STATUS_DISAPPROVED;
+            $referral->disapproval_reason = request('disapproval_reason');
 
             if ($referral->save()) {
                 event(new ReferralDisapprovedEvent($referral));

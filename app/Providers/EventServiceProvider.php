@@ -54,6 +54,10 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ReferralDisapprovedEvent::class => [
             \App\Listeners\ReferralDisapprovedListener::class,
         ],
+
+        \App\Events\VendorOrderCancelledEvent::class => [
+            \App\Listeners\VendorOrderCancelledListener::class,
+        ],
     ];
 
     /**

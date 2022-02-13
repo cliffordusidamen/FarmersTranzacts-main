@@ -7,7 +7,13 @@
     </x-email.h1>
 
     <x-email.p>
-        The folowing seller order has been cancelled<br />
+        The following seller order has been cancelled<br />
+
+        @if (!$vendorOrder->pay_on_delivery)
+            <small>This order is  pay-on-delivery.</small>
+        @else
+            <small>The customer/shopper will be expecting a refund.</small>
+        @endif
         <strong>Reference:</strong> {{ $vendorOrder->order->reference_number }}<br />
         <strong>Shop name:</strong> {{ $vendorOrder->vendor->shop_name }}<br />
         <strong>Customer name:</strong> {{ $vendorOrder->user->full_name }}<br />

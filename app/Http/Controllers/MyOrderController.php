@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VendorOrderCancelledEvent;
 use App\Events\VendorOrderReviewedEvent;
-use App\Mail\VendorOrderCanceledNotifyAdminMail;
 use App\Models\AppSetting;
 use App\Models\DeliveryStatus;
 use App\Models\Order;
@@ -165,8 +165,7 @@ class MyOrderController extends Controller
 
             if ($saved) {
                 $vendorOrder->order->updateDeliveryStatus();
-                $adminOrderMail = new VendorOrderCanceledNotifyAdminMail($vendorOrder);
-                Mail::to(config('mail.from.address'))->send($adminOrderMail);
+                event(new VendorOrderCancelledEvent($vendorOrder));
             }
         });
 

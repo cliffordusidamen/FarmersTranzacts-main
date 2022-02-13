@@ -93,6 +93,7 @@
                                                 {{ Number(itemTotalPricesRx[product.id]).toLocaleString() }}
                                                 <span v-if="delivery_days" class="d-block text-sm mt-1">
                                                     <span class="d-md-none mr-2">Delivery cost:</span>
+                                                    +
                                                     <span class="d-md-none">&#8358;</span>
                                                     {{ Number(delivery_amount).toLocaleString() }}
                                                 </span>

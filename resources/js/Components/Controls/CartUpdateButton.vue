@@ -25,7 +25,7 @@
                 v-if="!processing && showQuantityInput && isInCart"
                 class="mr-2 text-uppercase"
             >
-                {{Number(quantity).toLocaleString()}} in cart
+                {{Number(quantityInCart).toLocaleString()}} in cart
             </span>
             <button
                 type="button"
@@ -92,6 +92,7 @@ export default {
         console.log('cart', cart)
 
         const isInCart = cart?.items && undefined != cart?.items[product.id]
+        const quantityInCart = !isInCart ? 0 : cart?.items[product.id].quantity
 
         const targetRoute = isInCart
             ? route('shopping_cart.remove_item')
@@ -146,6 +147,7 @@ export default {
             isInCart,
             processing,
             quantity,
+            quantityInCart,
             updateCart,
         }
     },

@@ -147,6 +147,7 @@ __webpack_require__.r(__webpack_exports__);
     var cart = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.value.cart;
     console.log('cart', cart);
     var isInCart = (cart === null || cart === void 0 ? void 0 : cart.items) && undefined != (cart === null || cart === void 0 ? void 0 : cart.items[product.id]);
+    var quantityInCart = !isInCart ? 0 : cart === null || cart === void 0 ? void 0 : cart.items[product.id].quantity;
     var targetRoute = isInCart ? route('shopping_cart.remove_item') : route('shopping_cart.add_item');
 
     var updateCart = function updateCart() {
@@ -197,6 +198,7 @@ __webpack_require__.r(__webpack_exports__);
       isInCart: isInCart,
       processing: processing,
       quantity: quantity,
+      quantityInCart: quantityInCart,
       updateCart: updateCart
     };
   }
@@ -1791,7 +1793,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }
       }, null, 8
       /* PROPS */
-      , _hoisted_3), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.quantity]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.processing && $props.showQuantityInput && $setup.isInCart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number($setup.quantity).toLocaleString()) + " in cart ", 1
+      , _hoisted_3), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.quantity]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.processing && $props.showQuantityInput && $setup.isInCart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number($setup.quantityInCart).toLocaleString()) + " in cart ", 1
       /* TEXT */
       )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",

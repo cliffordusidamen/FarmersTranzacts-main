@@ -201,10 +201,15 @@ class DashboardController extends Controller
             )
             ->first();
 
+        $referrals = request()->user()->referrals()->count();
+        $pendingReferralRequests = request()->user()->referralRequests()->pendingApproval()->count();
+
         $viewData = array_merge($spendingTrendData, compact(
             'spendingTrend',
             'mostOrderedProduct',
             'preferredVendor',
+            'referrals',
+            'pendingReferralRequests'
         ));
 
         return Inertia::render('Dashboards/AgentDashboard', $viewData);

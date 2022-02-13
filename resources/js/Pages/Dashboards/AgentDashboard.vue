@@ -35,6 +35,25 @@
                 </div>
                 <div v-else>
                     <div class="row justify-content-center">
+                        <!-- No referral alert -->
+                        <div class="col-11">
+                            <div
+                                v-if="!Number(pendingReferralRequests) && !Number(referrals)"
+                                class="border rounded bg-light p-3 my-3"
+                            >
+                                <h4>Start referring!</h4>
+                                <p class="lead mt-n3">
+                                    To be able to make orders and earn commission, you have to refer farmers.
+                                </p>
+
+                                <inertia-link :href="route('referrals.create')" class="btn btn-success btn-minwidth-lg">
+                                    <i class="la la-plus"></i>
+                                    <span>ADD FARMER NOW</span>
+                                </inertia-link>
+                            </div>
+                        </div>
+                        <!-- [END] No referral alert -->
+
                         <div class="col-11">                            
                             <!-- Sales trend chart -->
                             <div>
@@ -121,6 +140,8 @@ export default {
             spendingTrend,
             mostOrderedProduct,
             preferredVendor,
+            pendingReferralRequests,
+            referrals,
         } = usePage().props.value
 
         const {
@@ -166,6 +187,8 @@ export default {
             spendingTrend,
             mostOrderedProduct,
             preferredVendor,
+            pendingReferralRequests,
+            referrals,
         }
     }
 }

@@ -1113,7 +1113,9 @@ __webpack_require__.r(__webpack_exports__);
         spendingDifference = _usePage$props$value.spendingDifference,
         spendingTrend = _usePage$props$value.spendingTrend,
         mostOrderedProduct = _usePage$props$value.mostOrderedProduct,
-        preferredVendor = _usePage$props$value.preferredVendor;
+        preferredVendor = _usePage$props$value.preferredVendor,
+        pendingReferralRequests = _usePage$props$value.pendingReferralRequests,
+        referrals = _usePage$props$value.referrals;
 
     var _useShortenNumber = (0,_composables_useShortenNumber__WEBPACK_IMPORTED_MODULE_3__["default"])(),
         shortenNumber = _useShortenNumber.shortenNumber;
@@ -1152,7 +1154,9 @@ __webpack_require__.r(__webpack_exports__);
       shortenNumber: shortenNumber,
       spendingTrend: spendingTrend,
       mostOrderedProduct: mostOrderedProduct,
-      preferredVendor: preferredVendor
+      preferredVendor: preferredVendor,
+      pendingReferralRequests: pendingReferralRequests,
+      referrals: referrals
     };
   }
 });
@@ -3769,83 +3773,111 @@ var _hoisted_17 = {
   "class": "col-11"
 };
 var _hoisted_18 = {
+  key: 0,
+  "class": "border rounded bg-light p-3 my-3"
+};
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Start referring!", -1
+/* HOISTED */
+);
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "lead mt-n3"
+}, " To be able to make orders and earn commission, you have to refer farmers. ", -1
+/* HOISTED */
+);
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "la la-plus"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "ADD FARMER NOW", -1
+/* HOISTED */
+);
+
+var _hoisted_23 = {
+  "class": "col-11"
+};
+var _hoisted_24 = {
   "class": "d-block"
 };
-var _hoisted_19 = {
+var _hoisted_25 = {
   "class": "row justify-content-between mb-2"
 };
-var _hoisted_20 = {
+var _hoisted_26 = {
   "class": "col-md-6 col-lg-3 text-center text-md-left my-3"
 };
-var _hoisted_21 = {
+var _hoisted_27 = {
   "class": "text-xl"
 };
-var _hoisted_22 = {
+var _hoisted_28 = {
   "class": "text-dark font-weight-bolder"
 };
 
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Purchases ");
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Purchases ");
 
-var _hoisted_24 = {
+var _hoisted_30 = {
   "class": "d-block text-success"
 };
-var _hoisted_25 = {
+var _hoisted_31 = {
   key: 0,
   "class": "col-md-6 col-lg-3 text-center text-md-left my-3"
 };
-var _hoisted_26 = {
+var _hoisted_32 = {
   "class": "display-4 text-dark"
 };
-var _hoisted_27 = {
+var _hoisted_33 = {
   key: 0,
   "class": "icon-arrow-up text-success"
 };
-var _hoisted_28 = {
+var _hoisted_34 = {
   key: 1,
   "class": "icon-arrow-up text-danger"
 };
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-success font-weight-bold"
 }, " SPENT THIS MONTH ", -1
 /* HOISTED */
 );
 
-var _hoisted_30 = {
+var _hoisted_36 = {
   key: 1,
   "class": "col-md-6 col-lg-3 text-center text-md-left my-3"
 };
-var _hoisted_31 = {
+var _hoisted_37 = {
   "class": "h6 text-dark mb-0"
 };
-var _hoisted_32 = {
+var _hoisted_38 = {
   "class": "d-block text-muted pt-1"
 };
 
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-success font-weight-bold"
 }, " MOST ORDERED PRODUCT ", -1
 /* HOISTED */
 );
 
-var _hoisted_34 = {
+var _hoisted_40 = {
   key: 2,
   "class": "col-md-6 col-lg-3 text-center text-md-left my-3"
 };
-var _hoisted_35 = {
+var _hoisted_41 = {
   "class": "h6 text-dark mb-0"
 };
-var _hoisted_36 = {
+var _hoisted_42 = {
   "class": "d-block text-muted"
 };
 
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-success font-weight-bold"
 }, " PREFERED SELLER ", -1
 /* HOISTED */
 );
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   id: "sales-trend",
   "class": "w-full"
 }, null, -1
@@ -3883,19 +3915,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* PROPS */
       , ["href"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_icon_alert_circle, {
         classes: "alert-icon"
-      }), _hoisted_13]), _hoisted_14]))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sales trend chart "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_24, " Last " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Object.keys($setup.spendingTrend).length) + " months ", 1
+      }), _hoisted_13]), _hoisted_14]))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No referral alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [!Number($setup.pendingReferralRequests) && !Number($setup.referrals) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_hoisted_19, _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
+        href: _ctx.route('referrals.create'),
+        "class": "btn btn-success btn-minwidth-lg"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_21, _hoisted_22];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] No referral alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sales trend chart "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, " Last " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Object.keys($setup.spendingTrend).length) + " months ", 1
       /* TEXT */
-      )])])]), Number($setup.currMonthSpending.month_total_amount) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.shortenNumber(Number($setup.currMonthSpending.month_total_amount))) + " ", 1
+      )])])]), Number($setup.currMonthSpending.month_total_amount) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.shortenNumber(Number($setup.currMonthSpending.month_total_amount))) + " ", 1
       /* TEXT */
-      ), $setup.spendingDifference > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.spendingDifference < 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_29])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_$setup$mostOrderedPr = $setup.mostOrderedProduct) !== null && _$setup$mostOrderedPr !== void 0 && (_$setup$mostOrderedPr2 = _$setup$mostOrderedPr.product) !== null && _$setup$mostOrderedPr2 !== void 0 && _$setup$mostOrderedPr2.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.mostOrderedProduct.product.name) + " ", 1
+      ), $setup.spendingDifference > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.spendingDifference < 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_35])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_$setup$mostOrderedPr = $setup.mostOrderedProduct) !== null && _$setup$mostOrderedPr !== void 0 && (_$setup$mostOrderedPr2 = _$setup$mostOrderedPr.product) !== null && _$setup$mostOrderedPr2 !== void 0 && _$setup$mostOrderedPr2.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.mostOrderedProduct.product.name) + " ", 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_32, " Ordered " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number($setup.mostOrderedProduct.total_orders).toLocaleString()) + " time(s) ", 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_38, " Ordered " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number($setup.mostOrderedProduct.total_orders).toLocaleString()) + " time(s) ", 1
       /* TEXT */
-      )]), _hoisted_33])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_$setup$preferredVend = $setup.preferredVendor) !== null && _$setup$preferredVend !== void 0 && (_$setup$preferredVend2 = _$setup$preferredVend.vendor) !== null && _$setup$preferredVend2 !== void 0 && _$setup$preferredVend2.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.preferredVendor.vendor.shop_name) + " ", 1
+      )]), _hoisted_39])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_$setup$preferredVend = $setup.preferredVendor) !== null && _$setup$preferredVend !== void 0 && (_$setup$preferredVend2 = _$setup$preferredVend.vendor) !== null && _$setup$preferredVend2 !== void 0 && _$setup$preferredVend2.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.preferredVendor.vendor.shop_name) + " ", 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number($setup.preferredVendor.total_orders).toLocaleString()) + " Orders(s) ", 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number($setup.preferredVendor.total_orders).toLocaleString()) + " Orders(s) ", 1
       /* TEXT */
-      )]), _hoisted_37])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_38]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" / Sales trend chart ")])])]))])])];
+      )]), _hoisted_43])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_44]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" / Sales trend chart ")])])]))])])];
     }),
     _: 1
     /* STABLE */

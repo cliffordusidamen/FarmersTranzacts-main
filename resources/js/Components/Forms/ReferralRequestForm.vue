@@ -1,5 +1,22 @@
 <template>
 
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="border rounded bg-light p-3 my-3">
+                <strong>NOTE:</strong> 
+                <ol>
+                    <li>
+                        Ensure that you have
+                        <inertia-link class="text-primary" :href="route('referrals.search')">searched in the list</inertia-link>
+                        already registered farmers of already existing farmers
+                        before submitting this form.
+                    </li>
+
+                    <li>You will receive commissions for only farmer details that have been verified and approved</li>
+                </ol>
+            </div>
+        </div>
+    </div>
     <form ref="referralForm" id="referralForm">
         <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
             Personal Information
@@ -309,18 +326,6 @@
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-11">
-                <div class="border rounded bg-light p-3 my-3">
-                    <strong>NOTE:</strong> 
-                    <ol>
-                        <li>Ensure that you have searched in the list of already existing farmers before submitting this form.</li>
-
-                        <li>You will receive commissions for only farmer details that have been verified and approved</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
         <div class="mb-0 text-center">
             <jet-button
                 class="ml-4 text-uppercase"

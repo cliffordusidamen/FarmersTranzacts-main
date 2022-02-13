@@ -1,10 +1,11 @@
 <script setup>
+import { usePage } from '@inertiajs/inertia-vue3';
+
+import { getReferralApprovalCssClass } from '../../util/functions'
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import ReferralActions from "@/Components/Controls/ReferralActions.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
-import { usePage } from '@inertiajs/inertia-vue3';
-import useDate from '@/composables/useDate'
 
 const {referralRequest} = usePage().props.value
 const breadcrumbLinks = [
@@ -18,18 +19,6 @@ const breadcrumbLinks = [
     },
 ]
 
-const getStatusClass = status_number => {
-    switch (status_number) {
-        case 0:
-            return 'bg-light'
-        case 1:
-            return 'bg-success'
-        case -1:
-            return 'bg-danger'
-        default:
-            return ''
-    }
-}
 
 </script>
 
@@ -45,7 +34,12 @@ const getStatusClass = status_number => {
 
                             <h4 class="text-uppercase">
                                 status:
-                                <span :class="['badge rounded ml-2', getStatusClass(referralRequest.status_number)]">
+                                <span
+                                    :class="[
+                                        'badge rounded ml-2',
+                                        getReferralApprovalCssClass(referralRequest.status_number),
+                                    ]"
+                                >
                                     {{ referralRequest.approval_status }}
                                 </span>
                             </h4>

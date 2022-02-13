@@ -35,7 +35,13 @@ class MyReferralController extends Controller
             ->latest()
             ->paginate(15);
 
-        $referralRequests->each(fn ($referralRequest) => $referralRequest->append('is_editable'));
+        $referralRequests->each(fn ($referralRequest) => (
+            $referralRequest->append([
+                'is_editable',
+                'is_deletable',
+                'status_number'
+            ])
+        ));
 
         return Inertia::render('Referral/Index', compact('referralRequests'));
     }
@@ -66,7 +72,7 @@ class MyReferralController extends Controller
                 $expectedFields
             ));
             
-        $referralRequest->append(['is_editable']);
+        $referralRequest->append(['is_editable', 'is_deletable']);
 
         if ($referralRequest) {
             flashMessage('success', 'New farmer referral submitted!');
@@ -91,7 +97,12 @@ class MyReferralController extends Controller
             ->with('state')
             ->findOrFail($id);
 
-        $referralRequest->append(['full_name', 'is_editable', 'status_number']);
+        $referralRequest->append([
+            'full_name',
+            'is_editable',
+            'is_deletable',
+            'status_number',
+        ]);
 
         return Inertia::render('Referral/Show', compact('referralRequest'));
     }
@@ -141,6 +152,7 @@ class MyReferralController extends Controller
         $this->validate($request, $rules);
 
         $referralRequest->forceFill($request->only(array_keys($rules)));
+        $referralRequest->approval_status = ReferralRequest::STATUS_PENDING;
 
         if ($referralRequest->save()) {
             flashMessage('success', 'Farmer information updated!');

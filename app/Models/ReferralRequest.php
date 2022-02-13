@@ -144,6 +144,16 @@ class ReferralRequest extends Model
      */
     public function getIsEditableAttribute(): bool
     {
+        return $this->approval_status != self::STATUS_APPR0VED;
+    }
+
+    /**
+     * Determine if the referral is deletable to the user
+     * 
+     * @return bool
+     */
+    public function getIsDeletableAttribute(): bool
+    {
         return $this->approval_status === self::STATUS_PENDING;
     }
 
@@ -164,7 +174,7 @@ class ReferralRequest extends Model
      */
     public function scopeEditable($query)
     {
-        $query->where('approval_status', self::STATUS_PENDING);
+        $query->where('approval_status', '!=', self::STATUS_APPR0VED);
     }
 
     /**

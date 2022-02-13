@@ -110,16 +110,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
 /* harmony import */ var _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Jetstream/Button.vue */ "./resources/js/Jetstream/Button.vue");
 /* harmony import */ var _Components_TogglesDeliveryStateModal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/TogglesDeliveryStateModal.vue */ "./resources/js/Components/TogglesDeliveryStateModal.vue");
-/* harmony import */ var _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Components/CustomSelect */ "./resources/js/Components/CustomSelect.vue");
-/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
-
 
 
 
@@ -130,7 +128,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Button: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    CustomSelect: _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_5__["default"],
     TogglesDeliveryStateModal: _Components_TogglesDeliveryStateModal_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
@@ -145,8 +142,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup(_ref) {
     var product = _ref.product;
-    var processing = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
-    var quantity = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)(1);
+    var processing = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_5__.ref)(false);
+    var quantity = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_5__.ref)(1);
     var cart = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.value.cart;
     console.log('cart', cart);
     var isInCart = (cart === null || cart === void 0 ? void 0 : cart.items) && undefined != (cart === null || cart === void 0 ? void 0 : cart.items[product.id]);
@@ -182,7 +179,7 @@ __webpack_require__.r(__webpack_exports__);
       return options;
     };
 
-    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_7__.onMounted)(function () {
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__.onMounted)(function () {
       $("input.qty-spinner").inputSpinner({
         decrementButton: '<i class="icon-minus"></i>',
         incrementButton: '<i class="icon-plus"></i>',
@@ -191,7 +188,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsWidth: '26px'
       });
     });
-    onUnmounted(function () {
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_6__.onUnmounted)(function () {
       $("input.qty-spinner").inputSpinner("destroy");
     });
     return {

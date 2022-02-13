@@ -60,17 +60,15 @@ import { ref } from '@vue/reactivity'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-vue3'
+import { onMounted, onUnmounted } from '@vue/runtime-core'
 
 import Button from '../../Jetstream/Button.vue'
 import TogglesDeliveryStateModal from '@/Components/TogglesDeliveryStateModal.vue'
-import CustomSelect from "@/Components/CustomSelect"
-import { onMounted } from '@vue/runtime-core'
 
 
 export default {
     components: {
         Button,
-        CustomSelect,
         TogglesDeliveryStateModal,
     },
     props: {

@@ -51,6 +51,7 @@ class UserController extends Controller
         $searchDesignation = Str::singular($designation);
         $relations = [
             'roles', 'designation', 'department', 'departmentSection',
+            'referrer',
         ];
 
         if (strtolower($searchDesignation) == Designation::SELLER_NAME) {

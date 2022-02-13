@@ -1124,6 +1124,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         removeItem = _useCartManager.removeItem;
 
     var updatingCart = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_4__.ref)(false);
+    var inputSpinner = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_4__.ref)(null);
     var cartItemsRx = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_4__.ref)(_objectSpread({}, cart.items));
 
     var updateCart = function updateCart(event) {
@@ -1154,13 +1155,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
 
     (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__.onMounted)(function () {
-      window.$('input[type="number"]').inputSpinner({
+      inputSpinner.value = window.$('input[type="number"]').inputSpinner({
         decrementButton: '<i class="icon-minus"></i>',
         incrementButton: '<i class="icon-plus"></i>',
         groupClass: 'input-spinner',
         buttonsClass: 'btn-spinner',
         buttonsWidth: '26px'
       });
+    });
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_5__.onUnmounted)(function () {
+      window.$('input[type="number"]').inputSpinner("destroy");
     });
     var itemTotalPrices = {};
 

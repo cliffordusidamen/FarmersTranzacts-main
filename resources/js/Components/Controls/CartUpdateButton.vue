@@ -21,6 +21,12 @@
                     style="display: none;"
                 />
             </div>
+            <span
+                v-if="!processing && showQuantityInput && isInCart"
+                class="mr-2 text-uppercase"
+            >
+                {{Number(quantity).toLocaleString()}} in cart
+            </span>
             <button
                 type="button"
                 :class="{
@@ -37,7 +43,7 @@
                 "
                 :disabled="processing"
             >
-                <span class="text-white" v-if="processing">processing</span>
+                <span v-if="processing">processing</span>
                 <span v-else-if="isInCart" class="text-white">
                     remove <span class="d-none d-sm-inline text-white">from cart</span>
                 </span>
@@ -130,6 +136,10 @@ export default {
                 buttonsClass: 'btn-spinner',
                 buttonsWidth: '26px'
             });
+        })
+
+        onUnmounted(() => {
+            $("input.qty-spinner").inputSpinner("destroy")
         })
 
         return  {

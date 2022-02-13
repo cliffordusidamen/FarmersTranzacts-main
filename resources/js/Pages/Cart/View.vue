@@ -152,7 +152,7 @@
 import AppLayout from '@/Layouts/AppLayout'
 import BreadcrumbDefault from '@/Components/Utils/BreadcrumbDefault.vue'
 import useCartManager from '@/composables/useCartManager'
-import { onMounted, reactive, ref } from '@vue/runtime-core'
+import { onMounted, onUnmounted, reactive, ref } from '@vue/runtime-core'
 import { Inertia } from '@inertiajs/inertia'
 
 export default {
@@ -180,6 +180,7 @@ export default {
         } =  useCartManager()
 
         const updatingCart = ref(false)
+        const inputSpinner = ref(null)
 
         const cartItemsRx = ref({...cart.items});
 
@@ -210,13 +211,17 @@ export default {
         }
 
         onMounted(() => {
-            window.$('input[type="number"]').inputSpinner({
+            inputSpinner.value = window.$('input[type="number"]').inputSpinner({
                 decrementButton: '<i class="icon-minus"></i>',
                 incrementButton: '<i class="icon-plus"></i>',
                 groupClass: 'input-spinner',
                 buttonsClass: 'btn-spinner',
                 buttonsWidth: '26px'
             })
+        })
+
+        onUnmounted(() => {
+            window.$('input[type="number"]').inputSpinner("destroy")
         })
 
         let itemTotalPrices = {}

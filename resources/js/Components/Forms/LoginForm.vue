@@ -36,10 +36,9 @@
             </div>
         </div>
 
-        <div class="mb-0">
+        <div class="mb-0 border-top pt-1">
             <div class="d-flex justify-content-center align-items-baseline">
                 <inertia-link
-                    v-if="canResetPassword"
                     :href="route('password.request')"
                     class="flex-fill text-primary text-muted mr-3"
                 >
@@ -84,8 +83,7 @@ export default {
     },
 
     setup() {
-        const {canResetPassword, status} = usePage().props;
-        console.log('Can reset pass', {canResetPassword, status})
+        const {status} = usePage().props;
         const form = useForm({
             email: "",
             password: "",
@@ -105,7 +103,6 @@ export default {
         return {
             form,
             submit,
-            canResetPassword,
             status,
         };
     },

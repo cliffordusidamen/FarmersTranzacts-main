@@ -50,6 +50,7 @@ Route::middleware(['auth:sanctum', 'frontend'])->get('/user', function (Request 
 });
 Route::middleware(['frontend'])->post('/login', [\App\Http\Controllers\AuthFrontendController::class, 'login']);
 Route::middleware(['auth:sanctum'])->post('/logout', [\App\Http\Controllers\AuthFrontendController::class, 'logout']);
+Route::middleware(['frontend'])->post('/forgot-password', [\App\Http\Controllers\AuthFrontendController::class, 'sendResetLinkEmail']);
 
 /*
 |-------------------------------------------------------------------------
@@ -303,3 +304,4 @@ Route::prefix('referral-requests')->name('referral-requests.')->group(function()
     Route::post('approve/{id}', [\App\Http\Controllers\ReferralRequestController::class, 'approve']);
     Route::post('disapprove/{id}', [\App\Http\Controllers\ReferralRequestController::class, 'disapprove']);
 });
+

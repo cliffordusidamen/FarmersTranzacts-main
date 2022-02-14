@@ -34,8 +34,6 @@
                 >
                     <login-form />
                 </div>
-                <div class="tab-pane fade" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-                </div>
             </div>
         </div>
     </jet-authentication-card>

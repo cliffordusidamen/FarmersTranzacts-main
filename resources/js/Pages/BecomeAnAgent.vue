@@ -70,6 +70,7 @@
 
                             <div class="my-4 text-center">
                                 <inertia-link
+                                    v-if="!isLoggedIn"
                                     :href="route('registration.agent')"
                                     class="btn btn-success btn-lg mr-md-4">
                                     REGISTER NOW
@@ -78,6 +79,7 @@
                                 <div class="d-md-none my-4 text-center">OR</div>
 
                                 <inertia-link
+                                    v-if="!isLoggedIn"
                                     :href="route('login')"
                                     class="btn btn-success btn-lg">
                                     LOGIN NOW
@@ -92,19 +94,13 @@
 </template>
 
 
-<script>
+<script setup>
+import { usePage } from '@inertiajs/inertia-vue3';
+
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
-import { usePage } from '@inertiajs/inertia-vue3';
 import AgentBanner from '@/Components/AgentBanner.vue'
 
-export default {
-    components: {
-        AppLayout,
-        PageHeader,
-        AgentBanner,
-    },
-    setup() {
-    },
-};
+const pageProps = usePage().props.value
+const isLoggedIn = !!Number(pageProps?.user?.id)
 </script>

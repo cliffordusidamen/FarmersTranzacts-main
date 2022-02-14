@@ -27,7 +27,7 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr v-for="{product, quantity, can_be_delivered, delivery_amount, delivery_days } in cartItems" :key="product.id">
+                                        <tr v-for="{product, quantity, can_be_delivered, delivery_amount, delivery_days, can_pay_on_delivery } in cartItems" :key="product.id">
                                             <td class="product-col">
                                                 <div class="product">
                                                     <figure class="product-media">
@@ -48,10 +48,18 @@
                                                         >
                                                             {{ product.name }}
                                                         </inertia-link>
-                                                        <small v-if="!can_be_delivered" class="d-block text-danger text-sm">
-                                                            <span class="fa fa-warning mr-2"></span>
-                                                            Not deliverable to {{ cart.state.state_name }}
-                                                        </small>
+
+                                                        <span v-if="!!app_settings.pay_on_delivery_allowed">
+                                                            <small v-if="!can_be_delivered" class="d-block text-danger text-sm">
+                                                                <span class="fa fa-warning mr-2"></span>
+                                                                Not deliverable to {{ cart.state.state_name }}
+                                                            </small>
+
+                                                            <small v-else-if="!can_pay_on_delivery" class="d-block text-muted text-sm">
+                                                                <span class="fa fa-warning mr-2"></span>
+                                                                Pay-on-delivery not available
+                                                            </small>
+                                                        </span>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>
@@ -85,12 +93,13 @@
                                                 {{ Number(itemTotalPricesRx[product.id]).toLocaleString() }}
                                                 <span v-if="delivery_days" class="d-block text-sm mt-1">
                                                     <span class="d-md-none mr-2">Delivery cost:</span>
+                                                    +
                                                     <span class="d-md-none">&#8358;</span>
                                                     {{ Number(delivery_amount).toLocaleString() }}
                                                 </span>
                                             </td>
                                             <td class="remove-col">
-                                                <button type="button" class="btn-remove" @click="removeItem(product)"><i class="icon-close"></i></button>
+                                                <button type="button" class="btn-remove p-1 bg-danger text-white" @click="removeItem(product)"><i class="icon-close"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -152,8 +161,9 @@
 import AppLayout from '@/Layouts/AppLayout'
 import BreadcrumbDefault from '@/Components/Utils/BreadcrumbDefault.vue'
 import useCartManager from '@/composables/useCartManager'
-import { onMounted, reactive, ref } from '@vue/runtime-core'
+import { onMounted, onUnmounted, reactive, ref } from '@vue/runtime-core'
 import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-vue3'
 
 export default {
     components: {
@@ -179,7 +189,10 @@ export default {
             removeItem,
         } =  useCartManager()
 
+        const {app_settings} = usePage().props.value
+
         const updatingCart = ref(false)
+        const inputSpinner = ref(null)
 
         const cartItemsRx = ref({...cart.items});
 
@@ -210,13 +223,17 @@ export default {
         }
 
         onMounted(() => {
-            window.$('input[type="number"]').inputSpinner({
+            inputSpinner.value = window.$('input[type="number"]').inputSpinner({
                 decrementButton: '<i class="icon-minus"></i>',
                 incrementButton: '<i class="icon-plus"></i>',
                 groupClass: 'input-spinner',
                 buttonsClass: 'btn-spinner',
                 buttonsWidth: '26px'
             })
+        })
+
+        onUnmounted(() => {
+            window.$('input[type="number"]').inputSpinner("destroy")
         })
 
         let itemTotalPrices = {}
@@ -246,6 +263,7 @@ export default {
         }
 
         return {
+            app_settings,
             breadcrumbLinks,
             cart,
             cartHasItems,

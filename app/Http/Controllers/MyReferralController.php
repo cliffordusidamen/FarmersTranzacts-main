@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\ReferralRequest;
 use App\Models\State;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class ReferralController extends Controller
+class MyReferralController extends Controller
 {
     
     /**
@@ -37,7 +35,13 @@ class ReferralController extends Controller
             ->latest()
             ->paginate(15);
 
-        $referralRequests->each(fn ($referralRequest) => $referralRequest->append('is_editable'));
+        $referralRequests->each(fn ($referralRequest) => (
+            $referralRequest->append([
+                'is_editable',
+                'is_deletable',
+                'status_number'
+            ])
+        ));
 
         return Inertia::render('Referral/Index', compact('referralRequests'));
     }
@@ -68,7 +72,7 @@ class ReferralController extends Controller
                 $expectedFields
             ));
             
-        $referralRequest->append(['is_editable']);
+        $referralRequest->append(['is_editable', 'is_deletable']);
 
         if ($referralRequest) {
             flashMessage('success', 'New farmer referral submitted!');
@@ -93,7 +97,12 @@ class ReferralController extends Controller
             ->with('state')
             ->findOrFail($id);
 
-        $referralRequest->append(['full_name', 'is_editable', 'status_number']);
+        $referralRequest->append([
+            'full_name',
+            'is_editable',
+            'is_deletable',
+            'status_number',
+        ]);
 
         return Inertia::render('Referral/Show', compact('referralRequest'));
     }
@@ -143,6 +152,7 @@ class ReferralController extends Controller
         $this->validate($request, $rules);
 
         $referralRequest->forceFill($request->only(array_keys($rules)));
+        $referralRequest->approval_status = ReferralRequest::STATUS_PENDING;
 
         if ($referralRequest->save()) {
             flashMessage('success', 'Farmer information updated!');
@@ -196,18 +206,8 @@ class ReferralController extends Controller
         if (!empty($queryName) || is_numeric($queryState)) {
             $isSearch = true;
             $referrals = ReferralRequest::with('state')
-                ->where(function(Builder $query) use ($queryName, $queryState) {
-                    if (!empty($queryName)) {
-                        $query->where(DB::raw('CONCAT(last_name, " ", first_name, " ", middle_name)'), 'LIKE', "%{$queryName}%")
-                            ->orWhere(DB::raw('CONCAT(last_name, " ", middle_name, " ", first_name)'), 'LIKE', "%{$queryName}%")
-                            ->orWhere(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$queryName}%")
-                            ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$queryName}%");
-                    }
-
-                    if (!empty($queryState)) {
-                        $query->where('state_id', (int) $queryState);
-                    }
-                })
+                ->searchName($queryName)
+                ->byState($queryState)
                 ->latest()
                 ->paginate(15);
         }

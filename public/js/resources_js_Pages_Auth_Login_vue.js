@@ -345,13 +345,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   setup: function setup() {
-    var _usePage$props = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.usePage)().props,
-        canResetPassword = _usePage$props.canResetPassword,
-        status = _usePage$props.status;
-    console.log('Can reset pass', {
-      canResetPassword: canResetPassword,
-      status: status
-    });
+    var status = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.usePage)().props.status;
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.useForm)({
       email: "",
       password: "",
@@ -374,7 +368,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       form: form,
       submit: submit,
-      canResetPassword: canResetPassword,
       status: status
     };
   }
@@ -1878,7 +1871,7 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_6 = {
-  "class": "mb-0"
+  "class": "mb-0 border-top pt-1"
 };
 var _hoisted_7 = {
   "class": "d-flex justify-content-center align-items-baseline"
@@ -1947,8 +1940,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8
   /* PROPS */
-  , ["checked"]), _hoisted_5])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$setup.canResetPassword ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_inertia_link, {
-    key: 0,
+  , ["checked"]), _hoisted_5])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
     href: _ctx.route('password.request'),
     "class": "flex-fill text-primary text-muted mr-3"
   }, {
@@ -1960,7 +1952,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+  , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4", {
       'text-white-50': $setup.form.processing
     }]),
@@ -4214,16 +4206,6 @@ var _hoisted_7 = {
   role: "tabpanel",
   "aria-labelledby": "signin-tab-2"
 };
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "tab-pane fade",
-  id: "register-2",
-  role: "tabpanel",
-  "aria-labelledby": "register-tab-2"
-}, null, -1
-/* HOISTED */
-);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_validation_errors = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-validation-errors");
 
@@ -4241,7 +4223,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         href: _ctx.route('register')
       }, "Register", 8
       /* PROPS */
-      , _hoisted_5)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_login_form)]), _hoisted_8])])];
+      , _hoisted_5)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_login_form)])])])];
     }),
     _: 1
     /* STABLE */

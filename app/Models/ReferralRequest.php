@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ReferralRequest extends Model
@@ -12,7 +14,7 @@ class ReferralRequest extends Model
     use HasFactory;
 
     const STATUS_PENDING = 'pending';
-    const STATUS_APPORVED = 'approved';
+    const STATUS_APPR0VED = 'approved';
     const STATUS_DISAPPROVED = 'disapproved';
 
     /**
@@ -55,7 +57,7 @@ class ReferralRequest extends Model
     {
         $statuses = [
             self::STATUS_PENDING => ucwords(self::STATUS_PENDING),
-            self::STATUS_APPORVED => ucwords(self::STATUS_APPORVED),
+            self::STATUS_APPR0VED => ucwords(self::STATUS_APPR0VED),
             self::STATUS_DISAPPROVED => ucwords(self::STATUS_DISAPPROVED),
         ];
 
@@ -72,7 +74,7 @@ class ReferralRequest extends Model
     {
         $statuses = [
             self::STATUS_PENDING => 0,
-            self::STATUS_APPORVED => 1,
+            self::STATUS_APPR0VED => 1,
             self::STATUS_DISAPPROVED => -1,
         ];
 
@@ -142,6 +144,16 @@ class ReferralRequest extends Model
      */
     public function getIsEditableAttribute(): bool
     {
+        return $this->approval_status != self::STATUS_APPR0VED;
+    }
+
+    /**
+     * Determine if the referral is deletable to the user
+     * 
+     * @return bool
+     */
+    public function getIsDeletableAttribute(): bool
+    {
         return $this->approval_status === self::STATUS_PENDING;
     }
 
@@ -162,6 +174,58 @@ class ReferralRequest extends Model
      */
     public function scopeEditable($query)
     {
-        $query->where('approval_status', self::STATUS_PENDING);
+        $query->where('approval_status', '!=', self::STATUS_APPR0VED);
+    }
+
+    /**
+     * Scope/Search filter by state_id
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int|null  $stateId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByState(
+        Builder $query,
+        ?int $stateId = null
+    ): Builder {
+        if ($stateId) {
+            $query->where('state_id', $stateId);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scope/Search filter by namespace
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $searchString
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearchName(
+        Builder $query,
+        ?string $searchString = null
+    ): Builder {
+        if (!empty($searchString)) {
+            $query->where(function(Builder $q) use ($searchString) {
+                $q->where(DB::raw('CONCAT(last_name, " ", first_name, " ", middle_name)'), 'LIKE', "%{$searchString}%")
+                    ->orWhere(DB::raw('CONCAT(last_name, " ", middle_name, " ", first_name)'), 'LIKE', "%{$searchString}%")
+                    ->orWhere(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$searchString}%")
+                    ->orWhere(DB::raw('CONCAT(first_name, " ", last_name)'), 'LIKE', "%{$searchString}%");
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * Filter only referrals pending approval
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePendingApproval(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_PENDING);
     }
 }

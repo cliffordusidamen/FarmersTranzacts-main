@@ -68,7 +68,16 @@
                                                 {{ refRequest.animals_reared }}
                                             </span>
                                         </td>
-                                        <td class="text-uppercase">{{ refRequest.approval_status }}</td>
+                                        <td class="text-uppercase">
+                                            <span
+                                                :class="[
+                                                    'badge text-uppercase',
+                                                    getReferralApprovalCssClass(refRequest?.status_number ?? 0)
+                                                ]"
+                                            >
+                                                {{ refRequest.approval_status }}
+                                            </span>
+                                        </td>
 
                                         <td>
                                             <span class="d-flex justify-content-end">
@@ -94,6 +103,7 @@
 import { usePage } from '@inertiajs/inertia-vue3';
 
 import useDate from '@/composables/useDate'
+import { getReferralApprovalCssClass } from '../../util/functions'
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import ReferralActions from "@/Components/Controls/ReferralActions.vue";
@@ -120,8 +130,9 @@ export default {
 
         return {
             breadcrumbLinks,
-            referralRequests,
             formatDate,
+            getReferralApprovalCssClass,
+            referralRequests,
         };
     },
 };

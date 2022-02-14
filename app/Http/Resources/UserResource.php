@@ -33,6 +33,7 @@ class UserResource extends JsonResource
             'designation' => $this->designation_id
                 ? $this->designation->name : null,
             'department_id' => $this->department_id,
+            'is_farmer' => !empty($this->is_farmer),
             'department' => $this->department_id
                 ? $this->department->name : null,
             'department_section_id' => $this->department_section_id,
@@ -49,6 +50,14 @@ class UserResource extends JsonResource
 
         if ($this->relationLoaded('agent')) {
             $data['agent'] = new AgentResource($this->agent);
+        }
+
+        if ($this->relationLoaded('referrer')) {
+            $data['referrer'] = new UserResource($this->referrer);
+        }
+
+        if ($this->relationLoaded('designation')) {
+            $data['designation'] = $this->designation->name;
         }
 
         return $data;

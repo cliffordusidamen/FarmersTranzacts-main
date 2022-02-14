@@ -158,7 +158,10 @@ class ProductController extends Controller
             $data['shelf_life_days'] = empty($data['is_perishable']) ? '' : $data['shelf_life_days'];
     
             $data['submitted_at'] = $request->is_draft ? null : carbon('Y-m-d H:i:s');
-            $data['approval_status'] = $request->is_draft ? $product->approval_status : Product::STATUS_PENDING;
+
+            if ($product->approval_status !== Product::STATUS_APPROVED) {
+                $data['approval_status'] = $request->is_draft ? $product->approval_status : Product::STATUS_PENDING;
+            }
             if ($product->forceFill($data)->save()) {
                 collect($request->input('product_delivery_costs'))
                     ->each(function($deliveryCost, $i) use ($product) {

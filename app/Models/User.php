@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use App\Notifications\StaffRegistrationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -345,5 +346,27 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
 
         return $rules;
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $urlPath = "/reset-password/{$token}?email={$this->email}";
+        $url = url($urlPath);
+
+        if ($this->designation_id !== Designation::SHOPPER_ID) {
+            $url = $this->designation_id == Designation::SELLER_ID
+                ? config('app.seller_app_url')
+                : config('app.admin_app_url');
+
+            $url .= $urlPath;
+        }
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 }

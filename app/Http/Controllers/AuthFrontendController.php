@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Auth\AuthenticateLogin;
 use App\Models\Designation;
 use App\Models\User;
+use App\Notifications\PasswordResetNotification;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -96,6 +97,7 @@ class AuthFrontendController extends Controller
                 $user->save();
     
                 event(new PasswordReset($user));
+                $user->notify(new PasswordResetNotification());
             }
         );
 

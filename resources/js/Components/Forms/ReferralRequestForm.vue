@@ -414,7 +414,9 @@ export default {
                 ? route("referrals.store")
                 : route("referrals.update", {id: referralRequest.id})
 
-            form.put(tartgetRoute, {
+            const tartgetMethod = !referralRequest?.id ? 'post' : 'put'
+
+            form[tartgetMethod](tartgetRoute, {
                 preserveState: true,
                 onFinish: () => {
                     form.processing = false;

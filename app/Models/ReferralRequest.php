@@ -89,19 +89,23 @@ class ReferralRequest extends Model
      */
     public static function defaultValidationRules(?int $id = null): array
     {
-        $uniqueEmailRule = Rule::unique('referral_requests', 'email');
-        $uniquePhoneRule = Rule::unique('referral_requests', 'phone');
+        $uniqueReferralEmailRule = Rule::unique('referral_requests', 'email');
+        $uniqueReferralPhoneRule = Rule::unique('referral_requests', 'phone');
+        $uniqueUserEmailRule = Rule::unique('users', 'email');
+        $uniqueUserPhoneRule = Rule::unique('users', 'phone');
 
         if ($id) {
-            $uniqueEmailRule->ignore($id);
-            $uniquePhoneRule->ignore($id);
+            $uniqueReferralEmailRule->ignore($id);
+            $uniqueReferralPhoneRule->ignore($id);
+            $uniqueUserEmailRule->ignore($id);
+            $uniqueUserPhoneRule->ignore($id);
         }
 
         $rules = [
             'first_name' => "required|min:3|max:25",
             'last_name' => "required|min:3|max:25",
-            'email' => ["sometimes", "nullable", "email", $uniqueEmailRule],
-            'phone' => ["required", "min:10", "max:16", $uniquePhoneRule],
+            'email' => ["sometimes", "nullable", "email", $uniqueReferralEmailRule, $uniqueUserEmailRule],
+            'phone' => ["required", "min:10", "max:16", $uniqueReferralPhoneRule, $uniqueUserPhoneRule],
             'age' => "sometimes|nullable|numeric|min:25|max:120",
             'business_name' => 'sometimes|nullable|min:3',
             'address_line_1' => 'required|min:3|max:255',

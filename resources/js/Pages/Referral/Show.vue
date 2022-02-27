@@ -67,52 +67,6 @@ const breadcrumbLinks = [
                                 <span>{{ referralRequest.email ?? 'N/A' }}</span>
                             </div>
 
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">business name:</strong>
-                                <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
-                            </div>
-
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">farm size:</strong>
-                                <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
-                            </div>
-                            
-
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">number of workers:</strong>
-                                <span>{{ referralRequest.number_of_workers ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">crops grown:</strong>
-                                <span>{{ referralRequest.crops_grown ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animals reared:</strong>
-                                <span>{{ referralRequest.animals_reared ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">seed demand:</strong>
-                                <span>{{ referralRequest.seed_demand ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animal feed demand:</strong>
-                                <span>{{ referralRequest.animal_feed_demand ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">fertilizer demand:</strong>
-                                <span>{{ referralRequest.fertilizer_demand ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">agro_chemical demand:</strong>
-                                <span>{{ referralRequest.agro_chemical_demand ?? 'N/A' }}</span>
-                            </div>
 
                             <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">address:</strong>
@@ -135,6 +89,63 @@ const breadcrumbLinks = [
                                 >
                                     {{ referralRequest?.state?.name }}
                                 </span>
+                            </div>
+
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">business name:</strong>
+                                <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
+                            </div>
+
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">farm size:</strong>
+                                <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
+                            </div>
+                            
+
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">number of workers:</strong>
+                                <span>{{ referralRequest.number_of_workers ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">seed(s) used:</strong>
+                                <span>{{ referralRequest.seed_input ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">animal feed used:</strong>
+                                <span>{{ referralRequest.animal_feed_input ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">fertilizer used:</strong>
+                                <span>{{ referralRequest.fertilizer_bags ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">agro_chemical used:</strong>
+                                <span>{{ referralRequest.agro_chemical_input ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">crops harvest:</strong>
+                                <span>{{ referralRequest.crops_harvest ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">animals harvest:</strong>
+                                <span>{{ referralRequest.animals_harvest ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">crops sale:</strong>
+                                <span>{{ referralRequest.crops_sale ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">animals sale:</strong>
+                                <span>{{ referralRequest.animals_sale ?? 'N/A' }}</span>
                             </div>
 
                         </div>

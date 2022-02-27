@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReferralRequest;
+use App\Models\FarmSeason;
 use App\Models\ReferralRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
@@ -54,8 +55,18 @@ class MyReferralController extends Controller
     public function showRequestForm()
     {
         $app_states = State::pluck('state_name', 'id');
+        $prevYear = date('Y') - 1;
+        $curYear = date('Y');
+        $years = [
+            $prevYear => $prevYear,
+            $curYear => $curYear
+        ];
 
-        return Inertia::render('Referral/Create', compact('app_states'));
+        $seasons = FarmSeason::getSeasons(true);
+
+        return Inertia::render('Referral/Create', compact(
+            'app_states', 'years', 'seasons'
+        ));
     }
 
     /**
@@ -123,11 +134,19 @@ class MyReferralController extends Controller
             ->findOrFail($id);
 
         $app_states = State::pluck('state_name', 'id');
+        $prevYear = date('Y') - 1;
+        $curYear = date('Y');
+        $years = [
+            $prevYear => $prevYear,
+            $curYear => $curYear
+        ];
+
+        $seasons = FarmSeason::getSeasons(true);
 
         $referralRequest->append(['full_name', 'status_number']);
 
         return Inertia::render('Referral/Edit', compact(
-            'referralRequest', 'app_states'
+            'referralRequest', 'app_states', 'years', 'seasons'
         ));
     }
 

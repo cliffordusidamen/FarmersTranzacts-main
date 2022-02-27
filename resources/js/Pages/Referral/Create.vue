@@ -5,7 +5,11 @@
         <div class="page-content">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <referral-request-form :app-states="app_states" />
+                    <referral-request-form
+                        :app-states="app_states"
+                        :years="years"
+                        :seasons="seasons"
+                    />
                 </div>
             </div>
         </div>
@@ -21,7 +25,7 @@ import PageHeader from "@/Components/Utils/PageHeader.vue";
 import ReferralRequestForm from '@/Components/Forms/ReferralRequestForm.vue'
 
 
-const {app_states} = usePage().props.value
+const {app_states, years, seasons} = usePage().props.value
 const breadcrumbLinks = [
     {
         text: "My Farmers",

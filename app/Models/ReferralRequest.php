@@ -112,20 +112,40 @@ class ReferralRequest extends Model
             'address_line_2' => 'sometimes|nullable|max:255',
             'city' => 'sometimes|nullable|max:50',
             'state_id' => 'required|exists:states,id',
-            'crops_grown' => [
+            'crops_harvest' => [
                 'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_reared')))
+                Rule::requiredIf(fn() => empty(request('animals_harvest')))
             ],
-            'animals_reared' => [
+            'animals_harvest' => [
                 'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_grown')))
+                Rule::requiredIf(fn() => empty(request('crops_harvest')))
+            ],
+            'crops_sale' => [
+                'nullable',
+                Rule::requiredIf(fn() => empty(request('animals_sale')))
+            ],
+            'animals_sale' => [
+                'nullable',
+                Rule::requiredIf(fn() => empty(request('crops_sale')))
             ],
             'farm_size' => 'required|min:3|max:25',
-            'seed_demand' => 'sometimes|nullable|max:500',
-            'animal_feed_demand' => 'sometimes|nullable|max:500',
-            'fertilizer_demand' => 'sometimes|nullable|max:500',
-            'agro_chemical_demand' => 'sometimes|nullable|max:500',
+            'seed_input' => 'sometimes|nullable|max:500',
+            'animal_feed_input' => 'sometimes|nullable|max:500',
+            'fertilizer_bags' => 'sometimes|nullable|integer|max:500',
+            'agro_chemical_input' => 'sometimes|nullable|max:500',
             'number_of_workers' => 'required|min:1|max:9999999',
+            'season_year' => [
+                'required',
+                Rule::in([
+                    date('Y') - 1,
+                    date('Y')
+                ]),
+            ],
+
+            'season' => [
+                'required',
+                Rule::in(FarmSeason::getSeasons()),
+            ],
         ];
 
         return $rules;

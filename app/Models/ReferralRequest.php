@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -46,7 +47,16 @@ class ReferralRequest extends Model
         return $this->belongsTo(State::class);
     }
 
-    
+    /**
+     * Relationship: Has many farm seasons
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function seasons(): HasMany
+    {
+        return $this->hasMany(FarmSeason::class);
+    }
+
     /**
      * Get list of statuses
      *

@@ -14,8 +14,8 @@ class AddSalesColumnsToReferralRequestsTable extends Migration
     public function up()
     {
         Schema::table('referral_requests', function (Blueprint $table) {
-            $table->string('crops_sale', 1000)->nullable();
-            $table->string('animals_sale', 1000)->nullable();
+            $table->string('crops_sale', 1000)->nullable()->after('disapproval_reason');
+            $table->string('animals_sale', 1000)->nullable()->after('disapproval_reason');
         });
     }
 

@@ -30,6 +30,12 @@ class CreateFarmSeasonsTable extends Migration
             $table->string('crops_sale', 1000)->nullable();
             $table->string('animals_sale', 1000)->nullable();
             $table->timestamps();
+
+            $table->foreign('farm_id')
+                ->references('id')
+                ->on('farms')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

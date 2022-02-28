@@ -34,7 +34,7 @@ class Farm extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function farmSeasons(): HasMany
+    public function seasons(): HasMany
     {
         return $this->hasMany(FarmSeason::class);
     }

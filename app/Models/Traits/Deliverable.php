@@ -166,4 +166,14 @@ trait Deliverable
         $rawDateCheck = "? {$comparisonSymbol} DATE_ADD(created_at, INTERVAL {$maxCancellationHours} HOUR)";
         return $query->whereRaw($rawDateCheck, [$now]);
     }
+
+    /**
+     * Get status class attribute
+     * 
+     * @param  string  $status
+     */
+    public function getStatusClassAttribute(): string
+    {
+        return DeliveryStatus::getStatusClass($this->delivery_status_id);
+    }
 }

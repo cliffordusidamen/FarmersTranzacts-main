@@ -49,6 +49,14 @@
                                                 <span v-if="refRequest?.business_name" class="text-muted d-block">
                                                     {{ refRequest.business_name }}
                                                 </span>
+                                                <span
+                                                    :class="[
+                                                        'badge text-uppercase d-inline d-md-none',
+                                                        getReferralApprovalCssClass(refRequest?.status_number ?? 0)
+                                                    ]"
+                                                >
+                                                    {{ refRequest.approval_status }}
+                                                </span>
                                             </inertia-link>
                                         </td>
 

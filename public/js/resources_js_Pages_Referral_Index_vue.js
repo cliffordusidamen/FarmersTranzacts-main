@@ -4446,7 +4446,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8
       /* PROPS */
       , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.referralRequests.data, function (refRequest) {
-        var _refRequest$status_nu;
+        var _refRequest$status_nu2;
 
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
           key: refRequest.id
@@ -4456,11 +4456,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           })
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+            var _refRequest$status_nu;
+
             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(refRequest.first_name, " ").concat(refRequest.last_name)), 1
             /* TEXT */
             ), refRequest !== null && refRequest !== void 0 && refRequest.business_name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(refRequest.business_name), 1
             /* TEXT */
-            )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+            )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+              "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['badge text-uppercase d-inline d-md-none', $setup.getReferralApprovalCssClass((_refRequest$status_nu = refRequest === null || refRequest === void 0 ? void 0 : refRequest.status_number) !== null && _refRequest$status_nu !== void 0 ? _refRequest$status_nu : 0)])
+            }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(refRequest.approval_status), 3
+            /* TEXT, CLASS */
+            )];
           }),
           _: 2
           /* DYNAMIC */
@@ -4474,7 +4480,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !!(refRequest !== null && refRequest !== void 0 && refRequest.animals_harvest) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(refRequest.animals_harvest), 1
         /* TEXT */
         )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['badge text-uppercase', $setup.getReferralApprovalCssClass((_refRequest$status_nu = refRequest === null || refRequest === void 0 ? void 0 : refRequest.status_number) !== null && _refRequest$status_nu !== void 0 ? _refRequest$status_nu : 0)])
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['badge text-uppercase', $setup.getReferralApprovalCssClass((_refRequest$status_nu2 = refRequest === null || refRequest === void 0 ? void 0 : refRequest.status_number) !== null && _refRequest$status_nu2 !== void 0 ? _refRequest$status_nu2 : 0)])
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(refRequest.approval_status), 3
         /* TEXT, CLASS */
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_referral_actions, {

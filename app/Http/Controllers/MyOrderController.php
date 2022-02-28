@@ -40,7 +40,7 @@ class MyOrderController extends Controller
             
         if ($orders->total()) {
             $orders->each(function ($order) {
-                $order->append('cancellable');
+                $order->append(['cancellable', 'status_class']);
 
                 if ($order->agent_id) {
                     $order->agent->append('full_name');
@@ -84,6 +84,7 @@ class MyOrderController extends Controller
                 'cancellable',
                 'can_submit_review',
                 'rating_remark',
+                'status_class',
             ]);
         });
 

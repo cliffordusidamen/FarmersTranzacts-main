@@ -17,6 +17,7 @@ class OrderResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['status']  = DeliveryStatus::getStatusName($this->delivery_status_id);
+        $data['status_class']  = $this->status_class;
 
         if ($this->whenLoaded('vendorOrders')) {
             $data['vendorOrders'] = new VendorOrderCollection($this->vendorOrders);

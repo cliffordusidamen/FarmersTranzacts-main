@@ -42,6 +42,7 @@ class VendorOrderResource extends JsonResource
             'pay_on_delivery' => $this->pay_on_delivery,
             'pay_on_delivery_method' => $this->pay_on_delivery_method,
             'pay_on_delivery_reference_number' => $this->pay_on_delivery_reference_number,
+            'status_class'  => $this->status_class,
         ];
 
         if ($this->whenLoaded('payOnDeliveryBankAccount')) {

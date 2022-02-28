@@ -58,6 +58,10 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\VendorOrderCancelledEvent::class => [
             \App\Listeners\VendorOrderCancelledListener::class,
         ],
+
+        \App\Events\FarmerReferralEvent::class => [
+            \App\Listeners\FarmerReferralListener::class,
+        ],
     ];
 
     /**

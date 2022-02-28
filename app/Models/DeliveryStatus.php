@@ -116,4 +116,24 @@ class DeliveryStatus extends Model
         return self::isDeliverable($deliveryStatusId)
             && $deliveryStatusId !== self::IN_TRANSIT_ID;
     }
+
+    /**
+     * Get status class
+     *
+     * @param  string  $status
+     * @return string
+     */
+    public static function getStatusClass(?string $status = null): string
+    {
+        $statusClasses = [
+            self::PENDING_ID => 'bg-gray-2 text-dark',
+            self::IN_TRANSIT_ID => 'bg-warning text-dark',
+            self::DELIVERED_ID => 'bg-primary text-white',
+            self::RETURNED_ID => 'bg-danger text-white',
+            self::CANCELED_ID => 'bg-danger text-white',
+            self::COMPLETED_ID => 'bg-success text-white',
+        ];
+
+        return $statusClasses[$status] ?? 'bg-gray-2 text-dark';
+    }
 }

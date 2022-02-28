@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FarmerReferralEvent;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\FarmSeason;
 use App\Models\ReferralRequest;
@@ -86,6 +87,7 @@ class MyReferralController extends Controller
         $referralRequest->append(['is_editable', 'is_deletable']);
 
         if ($referralRequest) {
+            event(new FarmerReferralEvent($referralRequest));
             flashMessage('success', 'New farmer referral submitted!');
             return redirect(route('referrals.index'));
         }

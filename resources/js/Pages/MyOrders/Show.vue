@@ -9,7 +9,9 @@
                         <div class="col-md-9">
                             <p class="text-right text-uppercase" v-if="order.cancellable">
                                 <strong class="text-dark">Status: </strong>
-                                {{ order.delivery_status.name }}
+                                <span :class="['badge text-uppercase', order?.status_class ?? '']" >
+                                    {{ order.delivery_status.name }}
+                                </span>
                             </p>
 
                                 <span
@@ -38,7 +40,9 @@
                                                 <p class="text-uppercase text-muted">
                                                     status:
                                                     <strong class="text-dark">
-                                                        {{ vendorOrder.delivery_status.name }}
+                                                        <span :class="['badge text-uppercase', vendorOrder?.status_class ?? '']" >
+                                                            {{ vendorOrder.delivery_status.name }}
+                                                        </span>
                                                         {{
                                                             vendorOrder?.delivery_date
                                                                 ? `, (${formatDate(vendorOrder.delivery_date, 'MMM DD, YYYY')})`

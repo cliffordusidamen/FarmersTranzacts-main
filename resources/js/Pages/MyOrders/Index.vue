@@ -84,7 +84,9 @@
 
                                                 <p>
                                                     <strong class="text-uppercase">Status: </strong>
-                                                    {{ order.delivery_status.name }}
+                                                    <span :class="['badge text-uppercase', order?.status_class ?? '']" >
+                                                        {{ order.delivery_status.name }}
+                                                    </span>
                                                 </p>
 
                                                 <inertia-link
@@ -111,7 +113,9 @@
                                         </td>
 
                                         <td class="d-none text-capitalize d-sm-table-cell">
-                                            {{ order.delivery_status.name }}
+                                            <span :class="['badge text-uppercase', order?.status_class ?? '']" >
+                                                {{ order.delivery_status.name }}
+                                            </span>
                                         </td>
 
                                         <td class="d-none d-sm-table-cell text-right">

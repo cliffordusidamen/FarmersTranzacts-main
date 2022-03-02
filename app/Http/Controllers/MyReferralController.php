@@ -116,6 +116,7 @@ class MyReferralController extends Controller
             'is_editable',
             'is_deletable',
             'status_number',
+            'last_season',
         ]);
 
         $seasons = $referralRequest->farm_id

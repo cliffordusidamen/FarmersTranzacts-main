@@ -242,4 +242,14 @@ class ReferralRequest extends Model
         return $query->where('approval_status', self::STATUS_APPR0VED)
             ->whereNotNull('farm_id');
     }
+
+    /**
+     * Get the last farm season, of the related farm
+     * 
+     * @return \App\FarmSeason|null
+     */
+    public function getLastFarmSeasonAttribute()
+    {
+        return $this->farm_id ? $this->farm->last_season : null;
+    }
 }

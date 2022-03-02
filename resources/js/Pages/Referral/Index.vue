@@ -32,6 +32,7 @@
                                         <th class="d-none text-uppercase d-md-table-cell">Farmer name</th>
                                         <th class="text-uppercase">State</th>
                                         <th class="d-none d-md-table-cell text-uppercase">Product</th>
+                                        <th class="d-none d-md-table-cell text-uppercase">Last season</th>
                                         <th class="d-none text-uppercase d-md-table-cell">Approval</th>
                                         <th class="d-none text-uppercase d-md-table-cell text-right">Actions</th>
                                     </tr>
@@ -57,6 +58,16 @@
                                                 >
                                                     {{ refRequest.approval_status }}
                                                 </span>
+
+                                                <span class="text-uppercase d-block d-md-none">
+                                                    Last season:
+                                                    <span v-if="!!refRequest?.last_season?.id" class="ml-2">
+                                                        {{ `${refRequest.last_season.year}, ${refRequest.last_season.season} season` }}
+                                                    </span>
+                                                    <span v-else class="ml-2">
+                                                        {{ refRequest.season_year }}, {{ refRequest.season }} season
+                                                    </span>
+                                                </span>
                                             </inertia-link>
                                         </td>
 
@@ -73,6 +84,16 @@
                                                 {{ refRequest.animals_harvest }}
                                             </span>
                                         </td>
+
+                                        <td class="d-none d-md-table-cell text-uppercase">
+                                            <span v-if="!!refRequest?.last_season?.id" class="d-block">
+                                                {{ `${refRequest.last_season.year}, ${refRequest.last_season.season} season` }}
+                                            </span>
+                                            <span v-else>
+                                                {{ refRequest.season_year }}, {{ refRequest.season }} season
+                                            </span>
+                                        </td>
+
                                         <td class="d-none d-md-table-cell text-uppercase">
                                             <span
                                                 :class="[

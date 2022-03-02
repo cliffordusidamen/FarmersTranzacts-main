@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <form ref="referralForm" id="referralForm">
+    <form ref="referralForm" id="referralForm" class="px-4">
         <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
             Personal Information
         </h4>
@@ -186,6 +186,40 @@
                     <jet-input-error :message="form.errors.state_id" />
                 </div>
             </div>
+        </div>
+
+        <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
+            Last season record
+        </h4>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required" for="season" value="Year" />
+                    <custom-select
+                        id="type"
+                        name="year"
+                        v-model="form.year"
+                        :options="years"
+                        required
+                    />
+                    <jet-input-error :message="form.errors.year" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required" for="season" value="Season" />
+                    <custom-select
+                        id="type"
+                        name="season"
+                        v-model="form.season"
+                        :options="seasons"
+                        required
+                    />
+                    <jet-input-error :message="form.errors.season" />
+                </div>
+            </div>
 
             <div class="col-md-6">
                 <div class="form-group">
@@ -206,88 +240,54 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <jet-label for="crops_grown" class="mb-0" value="Crops grown" />
-                    <div class="text-muted small">
-                        Example: casava, maize, potato, cocoa...
-                    </div>
-                    <jet-input
-                        name="crops_grown"
-                        max-length="50"
-                        id="crops_grown"
-                        type="text"
-                        v-model="form.crops_grown"
-                    />
-                    <jet-input-error :message="form.errors.crops_grown" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="animals_reared" class="mb-0" value="Animals reared" />
-                    <div class="text-muted small">
-                        Example: goat, sheep, poultry...
-                    </div>
-                    <jet-input
-                        name="animals_reared"
-                        max-length="50"
-                        id="animals_reared"
-                        type="text"
-                        v-model="form.animals_reared"
-                    />
-                    <jet-input-error :message="form.errors.animals_reared" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="seed_demand" class="mb-0" value="Seed demand" />
+                    <jet-label for="seed_input" class="mb-0" value="Seeds used" />
                     <span class="d-block small">
-                        Quantity of seed required during planting season
+                        Quantity of seeds used for the season
+                        <br />
                         e.g. Maize-3kg, Beans-4kg...
                     </span>
                     <jet-input
-                        name="seed_demand"
+                        name="seed_input"
                         max-length="50"
-                        id="seed_demand"
+                        id="seed_input"
                         type="text"
-                        v-model="form.seed_demand"
+                        v-model="form.seed_input"
                     />
-                    <jet-input-error :message="form.errors.seed_demand" />
+                    <jet-input-error :message="form.errors.seed_input" />
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <jet-label for="animal_feed_demand" class="mb-0" value="Animal-feed demand" />
+                    <jet-label for="animal_feed_input" class="mb-0" value="Animal-feed used" />
                     <span class="d-block small">
-                        Quantity of animal feed frequently purchased
-                        e.g. Fish feed-30kg per month, Poultry feed-20kg per week...
+                        Quantity of animal feed used for the season
+                        <br />
+                        e.g. Fish feed-30kg, Poultry feed-10 bags...
                     </span>
                     <jet-input
-                        name="animal_feed_demand"
+                        name="animal_feed_input"
                         max-length="50"
-                        id="animal_feed_demand"
+                        id="animal_feed_input"
                         type="text"
-                        v-model="form.animal_feed_demand"
+                        v-model="form.animal_feed_input"
                     />
-                    <jet-input-error :message="form.errors.animal_feed_demand" />
+                    <jet-input-error :message="form.errors.animal_feed_input" />
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <jet-label for="fertilizer_demand" class="mb-0" value="Fertilizer demand" />
-                    <span class="d-block small">
-                        E.g. 4kg
-                    </span>
+                    <jet-label for="fertilizer_bags" class="mb-0" value="Fertilizer used(Bags)" />
+
                     <jet-input
-                        name="fertilizer_demand"
+                        name="fertilizer_bags"
                         max-length="50"
-                        id="fertilizer_demand"
-                        type="text"
-                        v-model="form.fertilizer_demand"
+                        id="fertilizer_bags"
+                        type="number"
+                        v-model="form.fertilizer_bags"
                     />
-                    <jet-input-error :message="form.errors.fertilizer_demand" />
+                    <jet-input-error :message="form.errors.fertilizer_bags" />
                 </div>
             </div>
             <div class="col-md-6">
@@ -310,18 +310,83 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <jet-label for="agro_chemical_demand" class="mb-0" value="Agro-chemical demand" />
+                    <jet-label for="agro_chemical_input" class="mb-0" value="Agro-chemical used" />
                     <span class="d-block small">
-                        E.g. Pesticide- 4 Litres weekly, Herbicide - 50ml per season...
+                        E.g. Pesticide- 4 Litres, Herbicide - 50litres
                     </span>
                     <jet-input
-                        name="agro_chemical_demand"
+                        name="agro_chemical_input"
                         max-length="50"
-                        id="agro_chemical_demand"
+                        id="agro_chemical_input"
                         type="text"
-                        v-model="form.agro_chemical_demand"
+                        v-model="form.agro_chemical_input"
                     />
-                    <jet-input-error :message="form.errors.agro_chemical_demand" />
+                    <jet-input-error :message="form.errors.agro_chemical_input" />
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="crops_harvest" class="mb-0" value="Crops harvest" />
+                    <div class="text-muted small">
+                        Example: casava - 4bags, maize - 400tons, potato - 303kg...
+                    </div>
+                    <jet-textarea
+                        name="crops_harvest"
+                        max-length="500"
+                        id="crops_harvest"
+                        v-model="form.crops_harvest"
+                    />
+                    <jet-input-error :message="form.errors.crops_harvest" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="animals_harvest" class="mb-0" value="Animals harvest" />
+                    <div class="text-muted small">
+                        Example: goat - 190, sheep - 67, poultry-1100...
+                    </div>
+                    <jet-textarea
+                        name="animals_harvest"
+                        max-length="500"
+                        id="animals_harvest"
+                        v-model="form.animals_harvest"
+                    />
+                    <jet-input-error :message="form.errors.animals_harvest" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="crops_sale" class="mb-0" value="Crops sale" />
+                    <div class="text-muted small">
+                        Example: casava - N4,000 per bag, maize - N2,000 per ton, potato - N100 per kg...
+                    </div>
+                    <jet-textarea
+                        name="crops_sale"
+                        max-length="500"
+                        id="crops_sale"
+                        v-model="form.crops_sale"
+                    />
+                    <jet-input-error :message="form.errors.crops_sale" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="animals_sale" class="mb-0" value="Animals sale" />
+                    <div class="text-muted small">
+                        Example: N5000 per goat, N100 per sheep, N200 per poultry...
+                    </div>
+                    <jet-textarea
+                        name="animals_sale"
+                        max-length="500"
+                        id="animals_sale"
+                        v-model="form.animals_sale"
+                    />
+                    <jet-input-error :message="form.errors.animals_sale" />
                 </div>
             </div>
         </div>
@@ -349,6 +414,7 @@ import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
+import JetTextarea from "@/Jetstream/Textarea";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
 import useInitIntlPhone from "@/composables/useInitIntlPhone"
@@ -364,6 +430,16 @@ export default {
             type: Object,
             default: (() => ({})),
         },
+
+        seasons: {
+            type: Object,
+            default: (() => ({})),
+        },
+
+        years: {
+            type: Object,
+            default: (() => ({})),
+        },
     },
 
     components: {
@@ -373,11 +449,12 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
+        JetTextarea,
         JetValidationErrors,
     },
 
     setup(props) {
-        const { appStates, referralRequest } = props;
+        const { appStates, referralRequest, seasons, years } = props;
 
         const jqueryValidator = ref(null)
         const referralForm = ref(null)
@@ -398,14 +475,18 @@ export default {
             address_line_2: referralRequest?.address_line_2 || '',
             city: referralRequest?.city || '',
             state_id: referralRequest?.state_id || '',
-            crops_grown: referralRequest?.crops_grown || '',
-            animals_reared: referralRequest?.animals_reared || '',
+            crops_harvest: referralRequest?.crops_harvest || '',
+            animals_harvest: referralRequest?.animals_harvest || '',
             farm_size: referralRequest?.farm_size || '',
-            seed_demand: referralRequest?.seed_demand || '',
-            animal_feed_demand: referralRequest?.animal_feed_demand || '',
-            fertilizer_demand: referralRequest?.fertilizer_demand || '',
-            agro_chemical_demand: referralRequest?.agro_chemical_demand || '',
+            seed_input: referralRequest?.seed_input || '',
+            animal_feed_input: referralRequest?.animal_feed_input || '',
+            fertilizer_bags: referralRequest?.fertilizer_bags || '',
+            agro_chemical_input: referralRequest?.agro_chemical_input || '',
             number_of_workers: referralRequest?.number_of_workers || '',
+            crops_sale: referralRequest?.crops_sale || '',
+            animals_sale: referralRequest?.animals_sale || '',
+            season: referralRequest?.season || '',
+            year: referralRequest?.year || '',
         })
 
         const submit = () => {
@@ -483,16 +564,18 @@ export default {
                         minlength: 3,
                     },
                     state_id: 'required',
+                    season: 'required',
+                    year: 'required',
 
-                    crops_grown: {
+                    crops_harvest: {
                         required: () => {
-                            return $('#animals_reared').val().trim().length == 0
+                            return $('#animals_harvest').val().trim().length == 0
                         },
                         minlength: 3,
                     },
-                    animals_reared: {
+                    animals_harvest: {
                         required:  () => {
-                            return $('#crops_grown').val().trim().length == 0
+                            return $('#crops_harvest').val().trim().length == 0
                         },
                         minlength: 3,
                     },
@@ -501,22 +584,35 @@ export default {
                         minlength: 3,
                     },
 
-                    seed_demand: {
+                    seed_input: {
                         minlength: 3,
                     },
-                    animal_feed_demand: {
+                    animal_feed_input: {
                         minlength: 3,
                     },
-                    fertilizer_demand: {
-                        minlength: 3,
+                    fertilizer_bags: {
+                        max: 9999999,
                     },
-                    agro_chemical_demand: {
+                    agro_chemical_input: {
                         minlength: 3,
                     },
                     number_of_workers: {
                         required: true,
                         digits: true,
                         min: 1,
+                    },
+
+                    crops_sale: {
+                        required: () => {
+                            return $('#animals_sale').val().trim().length == 0
+                        },
+                        minlength: 3,
+                    },
+                    animals_sale: {
+                        required:  () => {
+                            return $('#crops_sale').val().trim().length == 0
+                        },
+                        minlength: 3,
                     },
                 },
             };

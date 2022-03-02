@@ -57,6 +57,14 @@ const fireDeleteEvent = event => {
             >
                 Delete
             </button>
+
+            <inertia-link
+                v-if="!!referralRequest?.farm_id"
+                :href="route('referrals.create_season', { id: referralRequest.id })"
+                class="dropdown-item font-size-normal"
+            >
+                New season
+            </inertia-link>
         </div>
     </div>
 </template>

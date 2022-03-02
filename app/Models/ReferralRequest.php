@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -46,7 +47,16 @@ class ReferralRequest extends Model
         return $this->belongsTo(State::class);
     }
 
-    
+    /**
+     * Relationship: belongs to farm
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function farm(): BelongsTo
+    {
+        return $this->belongsTo(Farm::class);
+    }
+
     /**
      * Get list of statuses
      *
@@ -89,42 +99,34 @@ class ReferralRequest extends Model
      */
     public static function defaultValidationRules(?int $id = null): array
     {
-        $uniqueEmailRule = Rule::unique('referral_requests', 'email');
-        $uniquePhoneRule = Rule::unique('referral_requests', 'phone');
+        $uniqueReferralEmailRule = Rule::unique('referral_requests', 'email');
+        $uniqueReferralPhoneRule = Rule::unique('referral_requests', 'phone');
+        $uniqueUserEmailRule = Rule::unique('users', 'email');
+        $uniqueUserPhoneRule = Rule::unique('users', 'phone');
 
         if ($id) {
-            $uniqueEmailRule->ignore($id);
-            $uniquePhoneRule->ignore($id);
+            $uniqueReferralEmailRule->ignore($id);
+            $uniqueReferralPhoneRule->ignore($id);
+            $uniqueUserEmailRule->ignore($id);
+            $uniqueUserPhoneRule->ignore($id);
         }
+
+        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
 
         $rules = [
             'first_name' => "required|min:3|max:25",
             'last_name' => "required|min:3|max:25",
-            'email' => ["sometimes", "nullable", "email", $uniqueEmailRule],
-            'phone' => ["required", "min:10", "max:16", $uniquePhoneRule],
+            'email' => ["sometimes", "nullable", "email", $uniqueReferralEmailRule, $uniqueUserEmailRule],
+            'phone' => ["required", "min:10", "max:16", $uniqueReferralPhoneRule, $uniqueUserPhoneRule],
             'age' => "sometimes|nullable|numeric|min:25|max:120",
             'business_name' => 'sometimes|nullable|min:3',
             'address_line_1' => 'required|min:3|max:255',
             'address_line_2' => 'sometimes|nullable|max:255',
             'city' => 'sometimes|nullable|max:50',
             'state_id' => 'required|exists:states,id',
-            'crops_grown' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_reared')))
-            ],
-            'animals_reared' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_grown')))
-            ],
-            'farm_size' => 'required|min:3|max:25',
-            'seed_demand' => 'sometimes|nullable|max:500',
-            'animal_feed_demand' => 'sometimes|nullable|max:500',
-            'fertilizer_demand' => 'sometimes|nullable|max:500',
-            'agro_chemical_demand' => 'sometimes|nullable|max:500',
-            'number_of_workers' => 'required|min:1|max:9999999',
         ];
 
-        return $rules;
+        return array_merge($rules, $farmSeasonValidationRules);
     }
 
     /**
@@ -227,5 +229,27 @@ class ReferralRequest extends Model
     public function scopePendingApproval(Builder $query): Builder
     {
         return $query->where('approval_status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Filter only approved and has farm_id
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_APPR0VED)
+            ->whereNotNull('farm_id');
+    }
+
+    /**
+     * Get the last farm season, of the related farm
+     * 
+     * @return \App\FarmSeason|null
+     */
+    public function getLastFarmSeasonAttribute()
+    {
+        return $this->farm_id ? $this->farm->last_season : null;
     }
 }

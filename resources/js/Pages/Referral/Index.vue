@@ -14,15 +14,12 @@
                     </div>
 
                     <div v-else>
-
-
-
-                        <div class="d-flex flex-col flex-md-row justify-content-md-between mb-3">
-                            <inertia-link :href="route('referrals.create')" class="btn btn-success btn-minwidth-lg md-mr-4">
+                        <div class="d-flex flex-row justify-content-between mb-3">
+                            <inertia-link :href="route('referrals.create')" class="btn btn-success md-mr-4">
                                 <i class="la la-plus"></i>
                                 <span>ADD FARMER</span>
                             </inertia-link>
-                            <inertia-link :href="route('referrals.search')" class="btn btn-link text-success border-success btn-minwidth-lg">
+                            <inertia-link :href="route('referrals.search')" class="btn btn-link text-success border-success flex-grow-1">
                                 <i class="la la-search"></i>
                                 <span>SEARCH ALL FARMERS</span>
                             </inertia-link>
@@ -31,12 +28,13 @@
                         <div class="card shadow">
                             <table class="table table-sm mb-0 table-bordered">
                                 <thead>
-                                    <tr class="d-none d-sm-table-row">
-                                        <th class="d-none text-uppercase d-sm-table-cell">Farmer name</th>
+                                    <tr class="d-none d-md-table-row">
+                                        <th class="d-none text-uppercase d-md-table-cell">Farmer name</th>
                                         <th class="text-uppercase">State</th>
-                                        <th class="text-uppercase">Product</th>
-                                        <th class="d-none text-uppercase d-sm-table-cell">Approval</th>
-                                        <th class="d-none text-uppercase d-sm-table-cell text-right">Actions</th>
+                                        <th class="d-none d-md-table-cell text-uppercase">Product</th>
+                                        <th class="d-none d-md-table-cell text-uppercase">Last season</th>
+                                        <th class="d-none text-uppercase d-md-table-cell">Approval</th>
+                                        <th class="d-none text-uppercase d-md-table-cell text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,23 +50,51 @@
                                                 <span v-if="refRequest?.business_name" class="text-muted d-block">
                                                     {{ refRequest.business_name }}
                                                 </span>
+                                                <span
+                                                    :class="[
+                                                        'badge text-uppercase d-inline d-md-none',
+                                                        getReferralApprovalCssClass(refRequest?.status_number ?? 0)
+                                                    ]"
+                                                >
+                                                    {{ refRequest.approval_status }}
+                                                </span>
+
+                                                <span class="text-uppercase d-block d-md-none">
+                                                    Last season:
+                                                    <span v-if="!!refRequest?.last_season?.id" class="ml-2">
+                                                        {{ `${refRequest.last_season.year}, ${refRequest.last_season.season} season` }}
+                                                    </span>
+                                                    <span v-else class="ml-2">
+                                                        {{ refRequest.season_year }}, {{ refRequest.season }} season
+                                                    </span>
+                                                </span>
                                             </inertia-link>
                                         </td>
 
                                         <td class="text-center">{{ refRequest.state.state_name }}</td>
 
-                                        <td>
-                                            <span v-if="!!refRequest?.crops_grown" class="d-block">
+                                        <td class="d-none d-md-table-cell ">
+                                            <span v-if="!!refRequest?.crops_harvest" class="d-block">
                                                 <span class="text-muted">CROPS:</span>
-                                                {{ refRequest.crops_grown }}
+                                                {{ refRequest.crops_harvest }}
                                             </span>
 
-                                            <span v-if="!!refRequest?.animals_reared" class="d-block">
+                                            <span v-if="!!refRequest?.animals_harvest" class="d-block">
                                                 <span class="text-muted">ANIMALS:</span>
-                                                {{ refRequest.animals_reared }}
+                                                {{ refRequest.animals_harvest }}
                                             </span>
                                         </td>
-                                        <td class="text-uppercase">
+
+                                        <td class="d-none d-md-table-cell text-uppercase">
+                                            <span v-if="!!refRequest?.last_season?.id" class="d-block">
+                                                {{ `${refRequest.last_season.year}, ${refRequest.last_season.season} season` }}
+                                            </span>
+                                            <span v-else>
+                                                {{ refRequest.season_year }}, {{ refRequest.season }} season
+                                            </span>
+                                        </td>
+
+                                        <td class="d-none d-md-table-cell text-uppercase">
                                             <span
                                                 :class="[
                                                     'badge text-uppercase',
@@ -79,7 +105,7 @@
                                             </span>
                                         </td>
 
-                                        <td>
+                                        <td class="">
                                             <span class="d-flex justify-content-end">
                                                 <referral-actions :referral-request="refRequest" />
                                             </span>

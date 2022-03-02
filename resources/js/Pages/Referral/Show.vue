@@ -7,7 +7,7 @@ import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import ReferralActions from "@/Components/Controls/ReferralActions.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
 
-const {referralRequest} = usePage().props.value
+const { referralRequest, seasons } = usePage().props.value
 const breadcrumbLinks = [
     {
         text: "My Farmers",
@@ -67,52 +67,6 @@ const breadcrumbLinks = [
                                 <span>{{ referralRequest.email ?? 'N/A' }}</span>
                             </div>
 
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">business name:</strong>
-                                <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
-                            </div>
-
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">farm size:</strong>
-                                <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
-                            </div>
-                            
-
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">number of workers:</strong>
-                                <span>{{ referralRequest.number_of_workers ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">crops grown:</strong>
-                                <span>{{ referralRequest.crops_grown ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animals reared:</strong>
-                                <span>{{ referralRequest.animals_reared ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">seed demand:</strong>
-                                <span>{{ referralRequest.seed_demand ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animal feed demand:</strong>
-                                <span>{{ referralRequest.animal_feed_demand ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">fertilizer demand:</strong>
-                                <span>{{ referralRequest.fertilizer_demand ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">agro_chemical demand:</strong>
-                                <span>{{ referralRequest.agro_chemical_demand ?? 'N/A' }}</span>
-                            </div>
 
                             <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">address:</strong>
@@ -137,6 +91,91 @@ const breadcrumbLinks = [
                                 </span>
                             </div>
 
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">business name:</strong>
+                                <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
+                            </div>
+                        </div>
+
+                        <h4 v-if="!referralRequest.farm_id" class="text-uppercase">Last season record</h4>
+                        <div v-if="!referralRequest.farm_id" class="row">
+
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">farm size:</strong>
+                                <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
+                            </div>
+                            
+
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">number of workers:</strong>
+                                <span>{{ referralRequest.number_of_workers ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">seed(s) used:</strong>
+                                <span>{{ referralRequest.seed_input ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">animal feed used:</strong>
+                                <span>{{ referralRequest.animal_feed_input ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">fertilizer used:</strong>
+                                <span>{{ referralRequest.fertilizer_bags ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">agro_chemical used:</strong>
+                                <span>{{ referralRequest.agro_chemical_input ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">crops harvest:</strong>
+                                <span>{{ referralRequest.crops_harvest ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">animals harvest:</strong>
+                                <span>{{ referralRequest.animals_harvest ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">crops sale:</strong>
+                                <span>{{ referralRequest.crops_sale ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">animals sale:</strong>
+                                <span>{{ referralRequest.animals_sale ?? 'N/A' }}</span>
+                            </div>
+
+                        </div>
+
+                        <div v-if="!!referralRequest.farm_id">
+                            <h4 class="text-uppercase">season records</h4>
+
+                            <div class="card shadow table-responsive">
+                                <table class="table table-sm m-0 p-0">
+                                    <thead>
+                                        <tr class="small bg-light text-uppercase">
+                                            <th>Year</th>
+                                            <th>Season</th>
+                                            <th>Crops harvest</th>
+                                            <th>Animals harvest</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="season in seasons" :key="season.id">
+                                            <td>{{ season.year }}</td>
+                                            <td class="text-uppercase">{{ season.season }}</td>
+                                            <td>{{ season.crops_harvest }}</td>
+                                            <td>{{ season.animals_harvest }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

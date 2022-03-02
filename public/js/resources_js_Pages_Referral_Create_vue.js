@@ -253,9 +253,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_CustomSelect_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/CustomSelect.vue */ "./resources/js/Components/CustomSelect.vue");
 /* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -327,21 +327,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
-/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
+/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
 /* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
 /* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
 /* harmony import */ var _Jetstream_Checkbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/Checkbox */ "./resources/js/Jetstream/Checkbox.vue");
 /* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
-/* harmony import */ var _Jetstream_ValidationErrors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/ValidationErrors */ "./resources/js/Jetstream/ValidationErrors.vue");
-/* harmony import */ var _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Components/CustomSelect */ "./resources/js/Components/CustomSelect.vue");
-/* harmony import */ var _composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/composables/useInitIntlPhone */ "./resources/js/composables/useInitIntlPhone.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+/* harmony import */ var _Jetstream_Textarea__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/Textarea */ "./resources/js/Jetstream/Textarea.vue");
+/* harmony import */ var _Jetstream_ValidationErrors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Jetstream/ValidationErrors */ "./resources/js/Jetstream/ValidationErrors.vue");
+/* harmony import */ var _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Components/CustomSelect */ "./resources/js/Components/CustomSelect.vue");
+/* harmony import */ var _composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/composables/useInitIntlPhone */ "./resources/js/composables/useInitIntlPhone.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -365,26 +367,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       "default": function _default() {
         return {};
       }
+    },
+    seasons: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    },
+    years: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
     }
   },
   components: {
-    CustomSelect: _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_7__["default"],
+    CustomSelect: _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_8__["default"],
     JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__["default"],
     JetCheckbox: _Jetstream_Checkbox__WEBPACK_IMPORTED_MODULE_4__["default"],
     JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__["default"],
     JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_3__["default"],
     JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_5__["default"],
-    JetValidationErrors: _Jetstream_ValidationErrors__WEBPACK_IMPORTED_MODULE_6__["default"]
+    JetTextarea: _Jetstream_Textarea__WEBPACK_IMPORTED_MODULE_6__["default"],
+    JetValidationErrors: _Jetstream_ValidationErrors__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   setup: function setup(props) {
     var appStates = props.appStates,
-        referralRequest = props.referralRequest;
-    var jqueryValidator = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_9__.ref)(null);
-    var referralForm = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_9__.ref)(null);
-    var phoneInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_9__.ref)(null);
-    var telInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_9__.ref)(null);
+        referralRequest = props.referralRequest,
+        seasons = props.seasons,
+        years = props.years;
+    var jqueryValidator = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_10__.ref)(null);
+    var referralForm = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_10__.ref)(null);
+    var phoneInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_10__.ref)(null);
+    var telInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_10__.ref)(null);
 
-    var _useInitIntlPhone = (0,_composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_8__["default"])(),
+    var _useInitIntlPhone = (0,_composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_9__["default"])(),
         initIntlPhone = _useInitIntlPhone.initIntlPhone;
 
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
@@ -399,14 +416,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       address_line_2: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.address_line_2) || '',
       city: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.city) || '',
       state_id: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.state_id) || '',
-      crops_grown: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.crops_grown) || '',
-      animals_reared: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animals_reared) || '',
+      crops_harvest: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.crops_harvest) || '',
+      animals_harvest: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animals_harvest) || '',
       farm_size: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.farm_size) || '',
-      seed_demand: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.seed_demand) || '',
-      animal_feed_demand: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animal_feed_demand) || '',
-      fertilizer_demand: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.fertilizer_demand) || '',
-      agro_chemical_demand: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.agro_chemical_demand) || '',
-      number_of_workers: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.number_of_workers) || ''
+      seed_input: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.seed_input) || '',
+      animal_feed_input: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animal_feed_input) || '',
+      fertilizer_bags: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.fertilizer_bags) || '',
+      agro_chemical_input: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.agro_chemical_input) || '',
+      number_of_workers: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.number_of_workers) || '',
+      crops_sale: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.crops_sale) || '',
+      animals_sale: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animals_sale) || '',
+      season: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.season) || '',
+      year: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.year) || ''
     });
 
     var submit = function submit() {
@@ -478,15 +499,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             minlength: 3
           },
           state_id: 'required',
-          crops_grown: {
+          season: 'required',
+          year: 'required',
+          crops_harvest: {
             required: function required() {
-              return $('#animals_reared').val().trim().length == 0;
+              return $('#animals_harvest').val().trim().length == 0;
             },
             minlength: 3
           },
-          animals_reared: {
+          animals_harvest: {
             required: function required() {
-              return $('#crops_grown').val().trim().length == 0;
+              return $('#crops_harvest').val().trim().length == 0;
             },
             minlength: 3
           },
@@ -494,28 +517,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             required: true,
             minlength: 3
           },
-          seed_demand: {
+          seed_input: {
             minlength: 3
           },
-          animal_feed_demand: {
+          animal_feed_input: {
             minlength: 3
           },
-          fertilizer_demand: {
-            minlength: 3
+          fertilizer_bags: {
+            max: 9999999
           },
-          agro_chemical_demand: {
+          agro_chemical_input: {
             minlength: 3
           },
           number_of_workers: {
             required: true,
             digits: true,
             min: 1
+          },
+          crops_sale: {
+            required: function required() {
+              return $('#animals_sale').val().trim().length == 0;
+            },
+            minlength: 3
+          },
+          animals_sale: {
+            required: function required() {
+              return $('#crops_sale').val().trim().length == 0;
+            },
+            minlength: 3
           }
         }
       };
     };
 
-    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_10__.onMounted)(function () {
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_11__.onMounted)(function () {
       initIntlPhone(phoneInput, telInput, 'phone');
       jqueryValidator.value = $(referralForm.value).validate(validationConfig());
     });
@@ -1360,6 +1395,33 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/Textarea.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/Textarea.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    modelValue: {
+      required: true
+    }
+  },
+  emits: ['update:modelValue'],
+  methods: {
+    focus: function focus() {
+      this.$refs.textarea.focus();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/ValidationErrors.vue?vue&type=script&lang=js":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/ValidationErrors.vue?vue&type=script&lang=js ***!
@@ -1501,7 +1563,10 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var app_states = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props.value.app_states;
+    var _usePage$props$value = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props.value,
+        app_states = _usePage$props$value.app_states,
+        years = _usePage$props$value.years,
+        seasons = _usePage$props$value.seasons;
     var breadcrumbLinks = [{
       text: "My Farmers",
       link: route('referrals.index')
@@ -1511,6 +1576,8 @@ __webpack_require__.r(__webpack_exports__);
     console.log('app_states', app_states);
     var __returned__ = {
       app_states: app_states,
+      years: years,
+      seasons: seasons,
       breadcrumbLinks: breadcrumbLinks,
       usePage: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage,
       AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -1881,9 +1948,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2100,7 +2167,8 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_9 = {
   ref: "referralForm",
-  id: "referralForm"
+  id: "referralForm",
+  "class": "px-4"
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
@@ -2192,32 +2260,28 @@ var _hoisted_35 = {
 var _hoisted_36 = {
   "class": "form-group"
 };
-var _hoisted_37 = {
-  "class": "col-md-6"
-};
-var _hoisted_38 = {
-  "class": "form-group"
-};
 
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, " Example: 3 Acres, 10 Plots, 300ft x 400ft ", -1
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  "class": "text-center text-success border-bottom mb-3 pb-2 text-uppercase"
+}, " Last season record ", -1
 /* HOISTED */
 );
 
-var _hoisted_40 = {
+var _hoisted_38 = {
+  "class": "row"
+};
+var _hoisted_39 = {
   "class": "col-md-6"
+};
+var _hoisted_40 = {
+  "class": "form-group"
 };
 var _hoisted_41 = {
+  "class": "col-md-6"
+};
+var _hoisted_42 = {
   "class": "form-group"
 };
-
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: casava, maize, potato, cocoa... ", -1
-/* HOISTED */
-);
-
 var _hoisted_43 = {
   "class": "col-md-6"
 };
@@ -2225,9 +2289,9 @@ var _hoisted_44 = {
   "class": "form-group"
 };
 
-var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: goat, sheep, poultry... ", -1
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "d-block small"
+}, " Example: 3 Acres, 10 Plots, 300ft x 400ft ", -1
 /* HOISTED */
 );
 
@@ -2240,7 +2304,7 @@ var _hoisted_47 = {
 
 var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-block small"
-}, " Quantity of seed required during planting season e.g. Maize-3kg, Beans-4kg... ", -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quantity of seeds used for the season "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" e.g. Maize-3kg, Beans-4kg... ")], -1
 /* HOISTED */
 );
 
@@ -2253,7 +2317,7 @@ var _hoisted_50 = {
 
 var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-block small"
-}, " Quantity of animal feed frequently purchased e.g. Fish feed-30kg per month, Poultry feed-20kg per week... ", -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quantity of animal feed used for the season "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" e.g. Fish feed-30kg, Poultry feed-10 bags... ")], -1
 /* HOISTED */
 );
 
@@ -2263,44 +2327,89 @@ var _hoisted_52 = {
 var _hoisted_53 = {
   "class": "form-group"
 };
-
-var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, " E.g. 4kg ", -1
-/* HOISTED */
-);
-
-var _hoisted_55 = {
+var _hoisted_54 = {
   "class": "col-md-6"
 };
-var _hoisted_56 = {
+var _hoisted_55 = {
   "class": "form-group"
 };
 
-var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-block small"
 }, " That work directly on the farm ", -1
 /* HOISTED */
 );
 
-var _hoisted_58 = {
+var _hoisted_57 = {
   "class": "col-md-6"
 };
-var _hoisted_59 = {
+var _hoisted_58 = {
   "class": "form-group"
 };
 
-var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-block small"
-}, " E.g. Pesticide- 4 Litres weekly, Herbicide - 50ml per season... ", -1
+}, " E.g. Pesticide- 4 Litres, Herbicide - 50litres ", -1
 /* HOISTED */
 );
 
+var _hoisted_60 = {
+  "class": "col-md-6"
+};
 var _hoisted_61 = {
+  "class": "form-group"
+};
+
+var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-muted small"
+}, " Example: casava - 4bags, maize - 400tons, potato - 303kg... ", -1
+/* HOISTED */
+);
+
+var _hoisted_63 = {
+  "class": "col-md-6"
+};
+var _hoisted_64 = {
+  "class": "form-group"
+};
+
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-muted small"
+}, " Example: goat - 190, sheep - 67, poultry-1100... ", -1
+/* HOISTED */
+);
+
+var _hoisted_66 = {
+  "class": "col-md-6"
+};
+var _hoisted_67 = {
+  "class": "form-group"
+};
+
+var _hoisted_68 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-muted small"
+}, " Example: casava - N4,000 per bag, maize - N2,000 per ton, potato - N100 per kg... ", -1
+/* HOISTED */
+);
+
+var _hoisted_69 = {
+  "class": "col-md-6"
+};
+var _hoisted_70 = {
+  "class": "form-group"
+};
+
+var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-muted small"
+}, " Example: N5000 per goat, N100 per sheep, N200 per poultry... ", -1
+/* HOISTED */
+);
+
+var _hoisted_72 = {
   "class": "mb-0 text-center"
 };
 
-var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
+var _hoisted_73 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$setup$form, _$setup$form$errors;
@@ -2314,6 +2423,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
 
   var _component_custom_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("custom-select");
+
+  var _component_jet_textarea = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-textarea");
 
   var _component_jet_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-button");
 
@@ -2524,17 +2635,55 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.state_id
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])])]), _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "class": "required",
+    "for": "season",
+    value: "Year"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_select, {
+    id: "type",
+    name: "year",
+    modelValue: $setup.form.year,
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+      return $setup.form.year = $event;
+    }),
+    options: $props.years,
+    required: ""
+  }, null, 8
+  /* PROPS */
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+    message: $setup.form.errors.year
+  }, null, 8
+  /* PROPS */
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "class": "required",
+    "for": "season",
+    value: "Season"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_select, {
+    id: "type",
+    name: "season",
+    modelValue: $setup.form.season,
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+      return $setup.form.season = $event;
+    }),
+    options: $props.seasons,
+    required: ""
+  }, null, 8
+  /* PROPS */
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+    message: $setup.form.errors.season
+  }, null, 8
+  /* PROPS */
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required mb-0",
     "for": "farm_size",
     value: "Farm size"
-  }), _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+  }), _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
     name: "farm_size",
     "max-length": "50",
     id: "farm_size",
     type: "text",
     modelValue: $setup.form.farm_size,
-    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $setup.form.farm_size = $event;
     })
   }, null, 8
@@ -2543,106 +2692,68 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.farm_size
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "crops_grown",
-    "class": "mb-0",
-    value: "Crops grown"
-  }), _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "crops_grown",
-    "max-length": "50",
-    id: "crops_grown",
-    type: "text",
-    modelValue: $setup.form.crops_grown,
-    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
-      return $setup.form.crops_grown = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.crops_grown
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "animals_reared",
-    "class": "mb-0",
-    value: "Animals reared"
-  }), _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "animals_reared",
-    "max-length": "50",
-    id: "animals_reared",
-    type: "text",
-    modelValue: $setup.form.animals_reared,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-      return $setup.form.animals_reared = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.animals_reared
-  }, null, 8
-  /* PROPS */
   , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "seed_demand",
+    "for": "seed_input",
     "class": "mb-0",
-    value: "Seed demand"
+    value: "Seeds used"
   }), _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "seed_demand",
+    name: "seed_input",
     "max-length": "50",
-    id: "seed_demand",
+    id: "seed_input",
     type: "text",
-    modelValue: $setup.form.seed_demand,
+    modelValue: $setup.form.seed_input,
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-      return $setup.form.seed_demand = $event;
+      return $setup.form.seed_input = $event;
     })
   }, null, 8
   /* PROPS */
   , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.seed_demand
+    message: $setup.form.errors.seed_input
   }, null, 8
   /* PROPS */
   , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "animal_feed_demand",
+    "for": "animal_feed_input",
     "class": "mb-0",
-    value: "Animal-feed demand"
+    value: "Animal-feed used"
   }), _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "animal_feed_demand",
+    name: "animal_feed_input",
     "max-length": "50",
-    id: "animal_feed_demand",
+    id: "animal_feed_input",
     type: "text",
-    modelValue: $setup.form.animal_feed_demand,
+    modelValue: $setup.form.animal_feed_input,
     "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-      return $setup.form.animal_feed_demand = $event;
+      return $setup.form.animal_feed_input = $event;
     })
   }, null, 8
   /* PROPS */
   , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.animal_feed_demand
+    message: $setup.form.errors.animal_feed_input
   }, null, 8
   /* PROPS */
   , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "fertilizer_demand",
+    "for": "fertilizer_bags",
     "class": "mb-0",
-    value: "Fertilizer demand"
-  }), _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "fertilizer_demand",
+    value: "Fertilizer used(Bags)"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+    name: "fertilizer_bags",
     "max-length": "50",
-    id: "fertilizer_demand",
-    type: "text",
-    modelValue: $setup.form.fertilizer_demand,
+    id: "fertilizer_bags",
+    type: "number",
+    modelValue: $setup.form.fertilizer_bags,
     "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-      return $setup.form.fertilizer_demand = $event;
+      return $setup.form.fertilizer_bags = $event;
     })
   }, null, 8
   /* PROPS */
   , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.fertilizer_demand
+    message: $setup.form.errors.fertilizer_bags
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "number_of_workers",
     "class": "mb-0 required",
     value: "Number of workers"
-  }), _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+  }), _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
     name: "number_of_workers",
     "max-length": "50",
     id: "number_of_workers",
@@ -2658,33 +2769,105 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.number_of_workers
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "agro_chemical_demand",
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "for": "agro_chemical_input",
     "class": "mb-0",
-    value: "Agro-chemical demand"
-  }), _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "agro_chemical_demand",
+    value: "Agro-chemical used"
+  }), _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+    name: "agro_chemical_input",
     "max-length": "50",
-    id: "agro_chemical_demand",
+    id: "agro_chemical_input",
     type: "text",
-    modelValue: $setup.form.agro_chemical_demand,
+    modelValue: $setup.form.agro_chemical_input,
     "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-      return $setup.form.agro_chemical_demand = $event;
+      return $setup.form.agro_chemical_input = $event;
     })
   }, null, 8
   /* PROPS */
   , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.agro_chemical_demand
+    message: $setup.form.errors.agro_chemical_input
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "for": "crops_harvest",
+    "class": "mb-0",
+    value: "Crops harvest"
+  }), _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
+    name: "crops_harvest",
+    "max-length": "500",
+    id: "crops_harvest",
+    modelValue: $setup.form.crops_harvest,
+    "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+      return $setup.form.crops_harvest = $event;
+    })
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+    message: $setup.form.errors.crops_harvest
+  }, null, 8
+  /* PROPS */
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "for": "animals_harvest",
+    "class": "mb-0",
+    value: "Animals harvest"
+  }), _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
+    name: "animals_harvest",
+    "max-length": "500",
+    id: "animals_harvest",
+    modelValue: $setup.form.animals_harvest,
+    "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+      return $setup.form.animals_harvest = $event;
+    })
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+    message: $setup.form.errors.animals_harvest
+  }, null, 8
+  /* PROPS */
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "for": "crops_sale",
+    "class": "mb-0",
+    value: "Crops sale"
+  }), _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
+    name: "crops_sale",
+    "max-length": "500",
+    id: "crops_sale",
+    modelValue: $setup.form.crops_sale,
+    "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+      return $setup.form.crops_sale = $event;
+    })
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+    message: $setup.form.errors.crops_sale
+  }, null, 8
+  /* PROPS */
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+    "for": "animals_sale",
+    "class": "mb-0",
+    value: "Animals sale"
+  }), _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
+    name: "animals_sale",
+    "max-length": "500",
+    id: "animals_sale",
+    modelValue: $setup.form.animals_sale,
+    "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+      return $setup.form.animals_sale = $event;
+    })
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+    message: $setup.form.errors.animals_sale
+  }, null, 8
+  /* PROPS */
+  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4 text-uppercase", {
       'text-white-50': $setup.form.processing
     }]),
     disabled: $setup.form.processing
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_62];
+      return [_hoisted_73];
     }),
     _: 1
     /* STABLE */
@@ -4922,6 +5105,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/Textarea.vue?vue&type=template&id=88071724":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/Textarea.vue?vue&type=template&id=88071724 ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = ["value"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("textarea", {
+    "class": "form-control",
+    value: $props.modelValue,
+    onInput: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.$emit('update:modelValue', $event.target.value);
+    }),
+    ref: "textarea"
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_1);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/ValidationErrors.vue?vue&type=template&id=0118f178":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/ValidationErrors.vue?vue&type=template&id=0118f178 ***!
@@ -5043,10 +5255,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["BreadcrumbDefault"], {
         breadcrumbs: $setup.breadcrumbLinks
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ReferralRequestForm"], {
-        "app-states": $setup.app_states
+        "app-states": $setup.app_states,
+        years: $setup.years,
+        seasons: $setup.seasons
       }, null, 8
       /* PROPS */
-      , ["app-states"])])])])];
+      , ["app-states", "years", "seasons"])])])])];
     }),
     _: 1
     /* STABLE */
@@ -7992,6 +8206,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/Jetstream/Textarea.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/Jetstream/Textarea.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Textarea_vue_vue_type_template_id_88071724__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Textarea.vue?vue&type=template&id=88071724 */ "./resources/js/Jetstream/Textarea.vue?vue&type=template&id=88071724");
+/* harmony import */ var _Textarea_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Textarea.vue?vue&type=script&lang=js */ "./resources/js/Jetstream/Textarea.vue?vue&type=script&lang=js");
+/* harmony import */ var C_laragon_www_farmer_xpress_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_laragon_www_farmer_xpress_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Textarea_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Textarea_vue_vue_type_template_id_88071724__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/Jetstream/Textarea.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/Jetstream/ValidationErrors.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/Jetstream/ValidationErrors.vue ***!
@@ -8536,6 +8778,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavLink_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavLink_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NavLink.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/NavLink.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Jetstream/Textarea.vue?vue&type=script&lang=js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/Jetstream/Textarea.vue?vue&type=script&lang=js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Textarea_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Textarea_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Textarea.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/Textarea.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -9096,6 +9354,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavLink_vue_vue_type_template_id_1719168e__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavLink_vue_vue_type_template_id_1719168e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NavLink.vue?vue&type=template&id=1719168e */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/NavLink.vue?vue&type=template&id=1719168e");
+
+
+/***/ }),
+
+/***/ "./resources/js/Jetstream/Textarea.vue?vue&type=template&id=88071724":
+/*!***************************************************************************!*\
+  !*** ./resources/js/Jetstream/Textarea.vue?vue&type=template&id=88071724 ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Textarea_vue_vue_type_template_id_88071724__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Textarea_vue_vue_type_template_id_88071724__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Textarea.vue?vue&type=template&id=88071724 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/Textarea.vue?vue&type=template&id=88071724");
 
 
 /***/ }),

@@ -41,7 +41,7 @@ class ReferralRequestController extends Controller
             ->paginate(15);
 
         $referrals->each(fn($referral) => $referral->append([
-            'full_name', 'status_number',
+            'full_name', 'status_number', 'last_season'
         ]));
 
         return response()->json(compact(
@@ -66,10 +66,16 @@ class ReferralRequestController extends Controller
 
         $referral->append([
             'full_name',
-            'status_number'
+            'status_number',
         ]);
 
-        return response()->json(compact('referral'));
+        $seasons = [];
+
+        if (!empty($referral->farm_id)) {
+            $seasons = $referral->farm->seasons;
+        }
+
+        return response()->json(compact('referral', 'seasons'));
     }
 
     
@@ -133,5 +139,34 @@ class ReferralRequestController extends Controller
         return response()->json([
             'failed' => true,
         ]);
+    }
+    
+    /**
+     * Get details of a referral farm season
+     * 
+     * @param  int  $id
+     * @param  int  $seasonId
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showSeason(
+        int $id,
+        int $seasonId,
+        Request $request
+    ) {
+        $referral = ReferralRequest::with([
+                'state',
+                'user'
+            ])
+            ->findOrFail($id);
+
+        $referral->append([
+            'full_name',
+            'status_number',
+        ]);
+
+        $season = $referral->farm->seasons()->findOrFail($seasonId);
+
+        return response()->json(compact('referral', 'season'));
     }
 }

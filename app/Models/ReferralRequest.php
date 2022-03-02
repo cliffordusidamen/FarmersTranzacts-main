@@ -248,7 +248,7 @@ class ReferralRequest extends Model
      * 
      * @return \App\FarmSeason|null
      */
-    public function getLastFarmSeasonAttribute()
+    public function getLastSeasonAttribute()
     {
         return $this->farm_id ? $this->farm->last_season : null;
     }

@@ -92,6 +92,8 @@ class FarmSeason extends Model
                 'required',
                 Rule::in(FarmSeason::getSeasons()),
             ],
+
+            'season_notes' => 'sometimes|nullable|max:5000',
         ];
 
         return $rules;

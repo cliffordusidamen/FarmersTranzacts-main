@@ -203,6 +203,22 @@
                     <jet-input-error :message="form.errors.animals_sale" />
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="season_notes" class="mb-0" value="Season notes" />
+                    <div class="text-muted small">
+                        What are the challenges, opportunities, successes, and notable experiences of the season?
+                    </div>
+                    <jet-textarea
+                        name="season_notes"
+                        max-length="5000"
+                        id="season_notes"
+                        v-model="form.season_notes"
+                    />
+                    <jet-input-error :message="form.errors.season_notes" />
+                </div>
+            </div>
         </div>
 
         <div class="mb-0 text-center">
@@ -282,6 +298,7 @@ export default {
             number_of_workers: '',
             crops_sale: '',
             animals_sale: '',
+            season_notes: '',
         })
 
         const submit = () => {

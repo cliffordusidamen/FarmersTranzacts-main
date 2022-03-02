@@ -304,5 +304,6 @@ Route::prefix('referral-requests')->name('referral-requests.')->group(function()
     Route::get('{id}', [\App\Http\Controllers\ReferralRequestController::class, 'show']);
     Route::post('approve/{id}', [\App\Http\Controllers\ReferralRequestController::class, 'approve']);
     Route::post('disapprove/{id}', [\App\Http\Controllers\ReferralRequestController::class, 'disapprove']);
+    Route::get('{id}/season/{season_id}', [\App\Http\Controllers\ReferralRequestController::class, 'showSeason']);
 });
 

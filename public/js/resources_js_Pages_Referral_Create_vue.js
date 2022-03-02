@@ -427,7 +427,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       crops_sale: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.crops_sale) || '',
       animals_sale: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animals_sale) || '',
       season: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.season) || '',
-      season_year: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.season_year) || ''
+      year: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.year) || ''
     });
 
     var submit = function submit() {
@@ -500,7 +500,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           },
           state_id: 'required',
           season: 'required',
-          season_year: 'required',
+          year: 'required',
           crops_harvest: {
             required: function required() {
               return $('#animals_harvest').val().trim().length == 0;
@@ -2263,7 +2263,7 @@ var _hoisted_36 = {
 
 var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-center text-success border-bottom mb-3 pb-2 text-uppercase"
-}, " Last season information ", -1
+}, " Last season record ", -1
 /* HOISTED */
 );
 
@@ -2641,17 +2641,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "Year"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_select, {
     id: "type",
-    name: "season_year",
-    modelValue: $setup.form.season_year,
+    name: "year",
+    modelValue: $setup.form.year,
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-      return $setup.form.season_year = $event;
+      return $setup.form.year = $event;
     }),
     options: $props.years,
     required: ""
   }, null, 8
   /* PROPS */
   , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.season_year
+    message: $setup.form.errors.year
   }, null, 8
   /* PROPS */
   , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {

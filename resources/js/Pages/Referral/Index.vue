@@ -14,12 +14,12 @@
                     </div>
 
                     <div v-else>
-                        <div class="d-flex flex--row justify-content-between mb-3">
-                            <inertia-link :href="route('referrals.create')" class="btn btn-success btn-minwidth-lg md-mr-4">
+                        <div class="d-flex flex-row justify-content-between mb-3">
+                            <inertia-link :href="route('referrals.create')" class="btn btn-success md-mr-4">
                                 <i class="la la-plus"></i>
                                 <span>ADD FARMER</span>
                             </inertia-link>
-                            <inertia-link :href="route('referrals.search')" class="btn btn-link text-success border-success btn-minwidth-lg">
+                            <inertia-link :href="route('referrals.search')" class="btn btn-link text-success border-success flex-grow-1">
                                 <i class="la la-search"></i>
                                 <span>SEARCH ALL FARMERS</span>
                             </inertia-link>
@@ -84,7 +84,7 @@
                                             </span>
                                         </td>
 
-                                        <td class="d-none d-md-table-cell ">
+                                        <td class="">
                                             <span class="d-flex justify-content-end">
                                                 <referral-actions :referral-request="refRequest" />
                                             </span>

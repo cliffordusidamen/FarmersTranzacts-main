@@ -7,7 +7,7 @@ import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import ReferralActions from "@/Components/Controls/ReferralActions.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
 
-const {referralRequest} = usePage().props.value
+const { referralRequest, seasons } = usePage().props.value
 const breadcrumbLinks = [
     {
         text: "My Farmers",
@@ -95,8 +95,11 @@ const breadcrumbLinks = [
                                 <strong class="d-block text-uppercase">business name:</strong>
                                 <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
                             </div>
+                        </div>
 
-                            
+                        <h4 v-if="!referralRequest.farm_id" class="text-uppercase">Last season record</h4>
+                        <div v-if="!referralRequest.farm_id" class="row">
+
                             <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">farm size:</strong>
                                 <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
@@ -148,6 +151,31 @@ const breadcrumbLinks = [
                                 <span>{{ referralRequest.animals_sale ?? 'N/A' }}</span>
                             </div>
 
+                        </div>
+
+                        <div v-if="!!referralRequest.farm_id">
+                            <h4 class="text-uppercase">season records</h4>
+
+                            <div class="card shadow table-responsive">
+                                <table class="table table-sm m-0 p-0">
+                                    <thead>
+                                        <tr class="small bg-light text-uppercase">
+                                            <th>Year</th>
+                                            <th>Season</th>
+                                            <th>Crops harvest</th>
+                                            <th>Animals harvest</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="season in seasons" :key="season.id">
+                                            <td>{{ season.year }}</td>
+                                            <td class="text-uppercase">{{ season.season }}</td>
+                                            <td>{{ season.crops_harvest }}</td>
+                                            <td>{{ season.animals_harvest }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -184,4 +184,6 @@ Route::prefix('referrals')->name('referrals.')->group(function() {
     Route::get('/{id}/edit', [\App\Http\Controllers\MyReferralController::class, 'edit'])->name('edit');
     Route::put('/{id}/update', [\App\Http\Controllers\MyReferralController::class, 'update'])->name('update');
     Route::delete('/{id}/delete', [\App\Http\Controllers\MyReferralController::class, 'destroy'])->name('destroy');
+    Route::get('/{id}/new-season', [\App\Http\Controllers\MyReferralController::class, 'createSeason'])->name('create_season');
+    Route::post('/{id}/store-season', [\App\Http\Controllers\MyReferralController::class, 'storeSeason'])->name('store_season');
 });

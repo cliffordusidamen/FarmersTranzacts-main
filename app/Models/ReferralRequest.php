@@ -48,13 +48,13 @@ class ReferralRequest extends Model
     }
 
     /**
-     * Relationship: Has many farm seasons
+     * Relationship: belongs to farm
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function seasons(): HasMany
+    public function farm(): BelongsTo
     {
-        return $this->hasMany(FarmSeason::class);
+        return $this->belongsTo(Farm::class);
     }
 
     /**
@@ -111,6 +111,8 @@ class ReferralRequest extends Model
             $uniqueUserPhoneRule->ignore($id);
         }
 
+        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
+
         $rules = [
             'first_name' => "required|min:3|max:25",
             'last_name' => "required|min:3|max:25",
@@ -122,43 +124,9 @@ class ReferralRequest extends Model
             'address_line_2' => 'sometimes|nullable|max:255',
             'city' => 'sometimes|nullable|max:50',
             'state_id' => 'required|exists:states,id',
-            'crops_harvest' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_harvest')))
-            ],
-            'animals_harvest' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_harvest')))
-            ],
-            'crops_sale' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_sale')))
-            ],
-            'animals_sale' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_sale')))
-            ],
-            'farm_size' => 'required|min:3|max:25',
-            'seed_input' => 'sometimes|nullable|max:500',
-            'animal_feed_input' => 'sometimes|nullable|max:500',
-            'fertilizer_bags' => 'sometimes|nullable|integer|max:500',
-            'agro_chemical_input' => 'sometimes|nullable|max:500',
-            'number_of_workers' => 'required|min:1|max:9999999',
-            'season_year' => [
-                'required',
-                Rule::in([
-                    date('Y') - 1,
-                    date('Y')
-                ]),
-            ],
-
-            'season' => [
-                'required',
-                Rule::in(FarmSeason::getSeasons()),
-            ],
         ];
 
-        return $rules;
+        return array_merge($rules, $farmSeasonValidationRules);
     }
 
     /**
@@ -261,5 +229,17 @@ class ReferralRequest extends Model
     public function scopePendingApproval(Builder $query): Builder
     {
         return $query->where('approval_status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Filter only approved and has farm_id
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('approval_status', self::STATUS_APPR0VED)
+            ->whereNotNull('farm_id');
     }
 }

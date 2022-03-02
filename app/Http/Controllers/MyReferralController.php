@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\FarmerReferralEvent;
+use App\Http\Requests\StoreFarmSeasonRequest;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\FarmSeason;
 use App\Models\ReferralRequest;
@@ -117,7 +118,13 @@ class MyReferralController extends Controller
             'status_number',
         ]);
 
-        return Inertia::render('Referral/Show', compact('referralRequest'));
+        $seasons = $referralRequest->farm_id
+            ? $referralRequest->farm->seasons
+            : [];
+
+        return Inertia::render('Referral/Show', compact(
+            'referralRequest', 'seasons'
+        ));
     }
 
     /**
@@ -236,5 +243,74 @@ class MyReferralController extends Controller
         return Inertia::render('Referral/Search', compact(
             'referrals', 'isSearch', 'queryName', 'queryState', 'app_states'
         ));
+    }
+
+    /**
+     * Create new farm season record for the farm
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createSeason(int $id)
+    {
+        $referralRequest = auth()
+            ->user()
+            ->referralRequests()
+            ->approved()
+            ->findOrFail($id);
+
+        $referralRequest->load('farm');
+        $referralRequest->farm->append(['last_season']);
+
+        $referralRequest->append(['full_name']);
+        $prevYear = date('Y') - 1;
+        $curYear = date('Y');
+        $years = [
+            $prevYear => $prevYear,
+            $curYear => $curYear
+        ];
+
+        $seasons = FarmSeason::getSeasons(true);
+
+        return Inertia::render('Referral/NewSeason', compact(
+            'referralRequest', 'years', 'seasons'
+        ));
+    }
+
+    /**
+     * Store new farm season record for the farm
+     * 
+     * @param  \App\Http\Requests\StoreFarmSeasonRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeSeason(int $id, StoreFarmSeasonRequest $request)
+    {
+        $referralRequest = auth()
+            ->user()
+            ->referralRequests()
+            ->approved()
+            ->findOrFail($id);
+
+        $rules = FarmSeason::defaultValidationRules();
+
+        $this->validate($request, $rules);
+        $alreadyHasSeason = $referralRequest->farm->alreadyHasSeason($request->year, $request->season);
+
+        if ($alreadyHasSeason) {
+            flashMessage('danger', 'Season record for the selected year and season already exists!');
+            return back();
+        }
+
+        $farmSeason = $referralRequest->farm->seasons()->create($request->only(array_keys($rules)));
+
+        if ($farmSeason->id) {
+            flashMessage('success', 'Farm season created!');
+            return redirect(route('referrals.show', $referralRequest->id));
+        }
+
+        flashMessage('danger', 'Farm season was not created! Please, try again.');
+        return back();
     }
 }

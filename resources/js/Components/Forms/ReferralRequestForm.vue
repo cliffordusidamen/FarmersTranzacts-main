@@ -189,7 +189,7 @@
         </div>
 
         <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
-            Last season information
+            Last season record
         </h4>
         <div class="row">
 
@@ -198,12 +198,12 @@
                     <jet-label class="required" for="season" value="Year" />
                     <custom-select
                         id="type"
-                        name="season_year"
-                        v-model="form.season_year"
+                        name="year"
+                        v-model="form.year"
                         :options="years"
                         required
                     />
-                    <jet-input-error :message="form.errors.season_year" />
+                    <jet-input-error :message="form.errors.year" />
                 </div>
             </div>
 
@@ -486,7 +486,7 @@ export default {
             crops_sale: referralRequest?.crops_sale || '',
             animals_sale: referralRequest?.animals_sale || '',
             season: referralRequest?.season || '',
-            season_year: referralRequest?.season_year || '',
+            year: referralRequest?.year || '',
         })
 
         const submit = () => {
@@ -565,7 +565,7 @@ export default {
                     },
                     state_id: 'required',
                     season: 'required',
-                    season_year: 'required',
+                    year: 'required',
 
                     crops_harvest: {
                         required: () => {

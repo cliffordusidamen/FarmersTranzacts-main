@@ -38,4 +38,27 @@ class Farm extends Model
     {
         return $this->hasMany(FarmSeason::class);
     }
+
+    /**
+     * Custom attribute: last_season
+     * 
+     * @return \App\Models\FarmSeason|null
+     */
+    public function getLastSeasonAttribute(): ?FarmSeason
+    {
+        return $this->seasons()->orderByDesc('year')->first();
+    }
+
+    /**
+     * Check if farm has season for the indicated year and season
+     * 
+     * @param  int  $year
+     * @param  string  $season
+     * @return bool
+     */
+    public function alreadyHasSeason(int $year, string $season): bool
+    {
+        return $this->seasons()->where('year', $year)->where('season', $season)->exists();
+    }
+
 }

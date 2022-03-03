@@ -14,7 +14,6 @@ class DropHarvestDataFieldsFromFarmsTable extends Migration
     public function up()
     {
         Schema::table('farms', function (Blueprint $table) {
-            $table->dropColumn('number_of_farmers');
             $table->dropColumn('farm_size');
             $table->dropColumn('crops');
             $table->dropColumn('animals');

@@ -14,7 +14,6 @@ class DropHarvestDataFieldsFromFarmsTable extends Migration
     public function up()
     {
         Schema::table('farms', function (Blueprint $table) {
-            $table->dropColumn('seed_demand');
             $table->dropColumn('fertilizer_demand');
             $table->dropColumn('agro_chemical_demand');
             $table->dropColumn('animal_feed_demand');
@@ -29,8 +28,6 @@ class DropHarvestDataFieldsFromFarmsTable extends Migration
     public function down()
     {
         Schema::table('farms', function (Blueprint $table) {
-            $table->unsignedInteger('number_of_farmers')->nullable();
-            $table->string('seed_demand', 500)->nullable();
             $table->string('fertilizer_demand', 500)->nullable();
             $table->string('agro_chemical_demand', 500)->nullable();
             $table->string('animal_feed_demand', 500)->nullable();

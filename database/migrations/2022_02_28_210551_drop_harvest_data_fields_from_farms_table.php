@@ -19,7 +19,7 @@ class DropHarvestDataFieldsFromFarmsTable extends Migration
             $table->dropColumn('crops');
             $table->dropColumn('animals');
             $table->dropColumn('seed_demand');
-            $table->dropColumn('fertilizer_bags');
+            $table->dropColumn('fertilizer_demand');
             $table->dropColumn('agro_chemical_demand');
             $table->dropColumn('animal_feed_demand');
         });

@@ -79,6 +79,8 @@ class FarmSeason extends Model
             'animal_feed_input' => 'sometimes|nullable|max:500',
             'fertilizer_bags' => 'sometimes|nullable|integer|max:500',
             'agro_chemical_input' => 'sometimes|nullable|max:500',
+            'input_supply_prices' => 'sometimes|nullable|max:500',
+            'workers_pay' => 'sometimes|nullable|max:500',
             'number_of_workers' => 'required|min:1|max:9999999',
             'year' => [
                 'required',

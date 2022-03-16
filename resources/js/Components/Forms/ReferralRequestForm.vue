@@ -389,6 +389,56 @@
                     <jet-input-error :message="form.errors.animals_sale" />
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="workers_pay" class="mb-0" value="Workers pay" />
+                    <div class="text-muted small">
+                        Example: N500 per day, 3 people N100 per week
+                    </div>
+                    <jet-textarea
+                        name="workers_pay"
+                        max-length="500"
+                        id="workers_pay"
+                        v-model="form.workers_pay"
+                    />
+                    <jet-input-error :message="form.errors.workers_pay" />
+                </div>
+            </div>
+
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="input_supply_prices" class="mb-0" value="Input supplies prices" />
+                    <span class="d-block small">
+                        E.g. Pesticide- N4000 per Litres, Fertilizer - N500 per bag, Maize - N500 per bag
+                    </span>
+                    <jet-textarea
+                        name="input_supply_prices"
+                        max-length="500"
+                        id="input_supply_prices"
+                        v-model="form.input_supply_prices"
+                    />
+                    <jet-input-error :message="form.errors.input_supply_prices" />
+                </div>
+            </div>
+
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="season_notes" class="mb-0" value="Season notes" />
+                    <div class="text-muted small">
+                        What are the challenges, opportunities, successes, and notable experiences of the season?
+                    </div>
+                    <jet-textarea
+                        name="season_notes"
+                        max-length="5000"
+                        id="season_notes"
+                        v-model="form.season_notes"
+                    />
+                    <jet-input-error :message="form.errors.season_notes" />
+                </div>
+            </div>
         </div>
 
         <div class="mb-0 text-center">
@@ -487,6 +537,9 @@ export default {
             animals_sale: referralRequest?.animals_sale || '',
             season: referralRequest?.season || '',
             year: referralRequest?.year || '',
+            workers_pay: referralRequest?.workers_pay || '',
+            input_supply_prices: referralRequest?.input_supply_prices || '',
+            season_notes: referralRequest?.season_notes || '',
         })
 
         const submit = () => {
@@ -588,6 +641,12 @@ export default {
                         minlength: 3,
                     },
                     animal_feed_input: {
+                        minlength: 3,
+                    },
+                    workers_pay: {
+                        minlength: 3,
+                    },
+                    input_supply_prices: {
                         minlength: 3,
                     },
                     fertilizer_bags: {

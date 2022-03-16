@@ -9,6 +9,7 @@ use App\Models\FarmSeason;
 use App\Models\ReferralRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class MyReferralController extends Controller
@@ -79,6 +80,7 @@ class MyReferralController extends Controller
     public function storeRequest(StoreReferralRequest $request)
     {
         $expectedFields = array_keys(ReferralRequest::defaultValidationRules());
+
         $referralRequest = $request->user()
             ->referralRequests()
             ->create($request->only(

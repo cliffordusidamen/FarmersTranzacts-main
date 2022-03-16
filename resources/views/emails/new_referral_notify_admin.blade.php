@@ -11,8 +11,8 @@
         <strong>Farmer name:</strong> {{ $referralRequest->full_name }}<br />
         <strong>Business name:</strong> {{ $referralRequest->business_name ?? 'N/A' }}<br />
         <strong>State:</strong> {{ $referralRequest->state->state_name }}<br />
-        <strong>Phone:</strong> {{ $vendorOrder->phone ?? 'N/A' }}<br />
-        <strong>email:</strong> {{ $vendorOrder->email ?? 'N/A' }}<br />
+        <strong>Phone:</strong> {{ $referralRequest->phone ?? 'N/A' }}<br />
+        <strong>email:</strong> {{ $referralRequest->email ?? 'N/A' }}<br />
     </x-email.p>
 
     <x-email.p>

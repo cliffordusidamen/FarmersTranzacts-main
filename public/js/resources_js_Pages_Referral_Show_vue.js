@@ -4080,130 +4080,163 @@ var _hoisted_25 = {
 
 var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
-}, "farm size:", -1
+}, "season:", -1
 /* HOISTED */
 );
 
 var _hoisted_27 = {
+  "class": "text-uppercase"
+};
+var _hoisted_28 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  "class": "d-block text-uppercase"
+}, "farm size:", -1
+/* HOISTED */
+);
+
+var _hoisted_30 = {
+  "class": "col-md-4 border-bottom mb-3"
+};
+
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "number of workers:", -1
 /* HOISTED */
 );
 
-var _hoisted_29 = {
+var _hoisted_32 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "seed(s) used:", -1
 /* HOISTED */
 );
 
-var _hoisted_31 = {
+var _hoisted_34 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "animal feed used:", -1
 /* HOISTED */
 );
 
-var _hoisted_33 = {
+var _hoisted_36 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "fertilizer used:", -1
 /* HOISTED */
 );
 
-var _hoisted_35 = {
+var _hoisted_38 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "agro_chemical used:", -1
 /* HOISTED */
 );
 
-var _hoisted_37 = {
+var _hoisted_40 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "crops harvest:", -1
 /* HOISTED */
 );
 
-var _hoisted_39 = {
+var _hoisted_42 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "animals harvest:", -1
 /* HOISTED */
 );
 
-var _hoisted_41 = {
+var _hoisted_44 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "crops sale:", -1
 /* HOISTED */
 );
 
-var _hoisted_43 = {
+var _hoisted_46 = {
   "class": "col-md-4 border-bottom mb-3"
 };
 
-var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
   "class": "d-block text-uppercase"
 }, "animals sale:", -1
 /* HOISTED */
 );
 
-var _hoisted_45 = {
+var _hoisted_48 = {
+  "class": "col-md-4 border-bottom mb-3"
+};
+
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  "class": "d-block text-uppercase"
+}, "input supply prices:", -1
+/* HOISTED */
+);
+
+var _hoisted_50 = {
+  "class": "col-md-4 border-bottom mb-3"
+};
+
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  "class": "d-block text-uppercase"
+}, "workers pay:", -1
+/* HOISTED */
+);
+
+var _hoisted_52 = {
   key: 2
 };
 
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-uppercase"
 }, "season records", -1
 /* HOISTED */
 );
 
-var _hoisted_47 = {
+var _hoisted_54 = {
   "class": "card shadow table-responsive"
 };
-var _hoisted_48 = {
+var _hoisted_55 = {
   "class": "table table-sm m-0 p-0"
 };
 
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   "class": "small bg-light text-uppercase"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Year"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Season"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Crops harvest"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Animals harvest")])], -1
 /* HOISTED */
 );
 
-var _hoisted_50 = {
+var _hoisted_57 = {
   "class": "text-uppercase"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["AppLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      var _$setup$referralReque, _$setup$referralReque2, _$setup$referralReque3, _$setup$referralReque4, _$setup$referralReque5, _$setup$referralReque6, _$setup$referralReque7, _$setup$referralReque8, _$setup$referralReque9, _$setup$referralReque10, _$setup$referralReque11, _$setup$referralReque12, _$setup$referralReque13, _$setup$referralReque14, _$setup$referralReque15, _$setup$referralReque16, _$setup$referralReque17;
+      var _$setup$referralReque, _$setup$referralReque2, _$setup$referralReque3, _$setup$referralReque4, _$setup$referralReque5, _$setup$referralReque6, _$setup$referralReque7, _$setup$referralReque8, _$setup$referralReque9, _$setup$referralReque10, _$setup$referralReque11, _$setup$referralReque12, _$setup$referralReque13, _$setup$referralReque14, _$setup$referralReque15, _$setup$referralReque16, _$setup$referralReque17, _$setup$referralReque18, _$setup$referralReque19;
 
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["PageHeader"], {
         title: "My Farmers"
@@ -4233,32 +4266,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
       )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque7 = $setup.referralRequest.business_name) !== null && _$setup$referralReque7 !== void 0 ? _$setup$referralReque7 : 'N/A'), 1
       /* TEXT */
-      )])]), !$setup.referralRequest.farm_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_23, "Last season record")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.referralRequest.farm_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque8 = $setup.referralRequest.farm_size) !== null && _$setup$referralReque8 !== void 0 ? _$setup$referralReque8 : 'N/A'), 1
+      )])]), !$setup.referralRequest.farm_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_23, "Last season record")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.referralRequest.farm_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!!$setup.referralRequest.season ? "".concat($setup.referralRequest.season, " season") : '') + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!!$setup.referralRequest.year ? ", ".concat($setup.referralRequest.year) : ''), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque9 = $setup.referralRequest.number_of_workers) !== null && _$setup$referralReque9 !== void 0 ? _$setup$referralReque9 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque8 = $setup.referralRequest.farm_size) !== null && _$setup$referralReque8 !== void 0 ? _$setup$referralReque8 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque10 = $setup.referralRequest.seed_input) !== null && _$setup$referralReque10 !== void 0 ? _$setup$referralReque10 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque9 = $setup.referralRequest.number_of_workers) !== null && _$setup$referralReque9 !== void 0 ? _$setup$referralReque9 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque11 = $setup.referralRequest.animal_feed_input) !== null && _$setup$referralReque11 !== void 0 ? _$setup$referralReque11 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque10 = $setup.referralRequest.seed_input) !== null && _$setup$referralReque10 !== void 0 ? _$setup$referralReque10 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque12 = $setup.referralRequest.fertilizer_bags) !== null && _$setup$referralReque12 !== void 0 ? _$setup$referralReque12 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque11 = $setup.referralRequest.animal_feed_input) !== null && _$setup$referralReque11 !== void 0 ? _$setup$referralReque11 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque13 = $setup.referralRequest.agro_chemical_input) !== null && _$setup$referralReque13 !== void 0 ? _$setup$referralReque13 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque12 = $setup.referralRequest.fertilizer_bags) !== null && _$setup$referralReque12 !== void 0 ? _$setup$referralReque12 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque14 = $setup.referralRequest.crops_harvest) !== null && _$setup$referralReque14 !== void 0 ? _$setup$referralReque14 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque13 = $setup.referralRequest.agro_chemical_input) !== null && _$setup$referralReque13 !== void 0 ? _$setup$referralReque13 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque15 = $setup.referralRequest.animals_harvest) !== null && _$setup$referralReque15 !== void 0 ? _$setup$referralReque15 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque14 = $setup.referralRequest.crops_harvest) !== null && _$setup$referralReque14 !== void 0 ? _$setup$referralReque14 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque16 = $setup.referralRequest.crops_sale) !== null && _$setup$referralReque16 !== void 0 ? _$setup$referralReque16 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque15 = $setup.referralRequest.animals_harvest) !== null && _$setup$referralReque15 !== void 0 ? _$setup$referralReque15 : 'N/A'), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque17 = $setup.referralRequest.animals_sale) !== null && _$setup$referralReque17 !== void 0 ? _$setup$referralReque17 : 'N/A'), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque16 = $setup.referralRequest.crops_sale) !== null && _$setup$referralReque16 !== void 0 ? _$setup$referralReque16 : 'N/A'), 1
       /* TEXT */
-      )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !!$setup.referralRequest.farm_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasons, function (season) {
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [_hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque17 = $setup.referralRequest.animals_sale) !== null && _$setup$referralReque17 !== void 0 ? _$setup$referralReque17 : 'N/A'), 1
+      /* TEXT */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque18 = $setup.referralRequest.input_supply_prices) !== null && _$setup$referralReque18 !== void 0 ? _$setup$referralReque18 : 'N/A'), 1
+      /* TEXT */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$referralReque19 = $setup.referralRequest.workers_pay) !== null && _$setup$referralReque19 !== void 0 ? _$setup$referralReque19 : 'N/A'), 1
+      /* TEXT */
+      )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !!$setup.referralRequest.farm_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_55, [_hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasons, function (season) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
           key: season.id
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(season.year), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(season.season), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(season.season), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(season.crops_harvest), 1
         /* TEXT */

@@ -101,6 +101,14 @@ const breadcrumbLinks = [
                         <div v-if="!referralRequest.farm_id" class="row">
 
                             <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">season:</strong>
+                                <span class="text-uppercase">
+                                    {{ !!referralRequest.season ? `${referralRequest.season} season` : '' }}
+                                    {{ !!referralRequest.year ? `, ${referralRequest.year}` : '' }}
+                                </span>
+                            </div>
+
+                            <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">farm size:</strong>
                                 <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
                             </div>
@@ -149,6 +157,16 @@ const breadcrumbLinks = [
                             <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">animals sale:</strong>
                                 <span>{{ referralRequest.animals_sale ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">input supply prices:</strong>
+                                <span>{{ referralRequest.input_supply_prices ?? 'N/A' }}</span>
+                            </div>
+                            
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">workers pay:</strong>
+                                <span>{{ referralRequest.workers_pay ?? 'N/A' }}</span>
                             </div>
 
                         </div>

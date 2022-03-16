@@ -122,6 +122,22 @@
                 </div>
             </div>
 
+           <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="workers_pay" class="mb-0" value="Workers pay" />
+                    <div class="text-muted small">
+                        Example: N500 per day, 3 people N100 per week
+                    </div>
+                    <jet-textarea
+                        name="workers_pay"
+                        max-length="500"
+                        id="workers_pay"
+                        v-model="form.workers_pay"
+                    />
+                    <jet-input-error :message="form.errors.workers_pay" />
+                </div>
+            </div>
+
             <div class="col-md-6">
                 <div class="form-group">
                     <jet-label for="agro_chemical_input" class="mb-0" value="Agro-chemical used" />
@@ -201,6 +217,23 @@
                         v-model="form.animals_sale"
                     />
                     <jet-input-error :message="form.errors.animals_sale" />
+                </div>
+            </div>
+
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="input_supply_prices" class="mb-0" value="Input supplies prices" />
+                    <span class="d-block small">
+                        E.g. Pesticide- N4000 per Litres, Fertilizer - N500 per bag, Maize - N500 per bag
+                    </span>
+                    <jet-textarea
+                        name="input_supply_prices"
+                        max-length="500"
+                        id="input_supply_prices"
+                        v-model="form.input_supply_prices"
+                    />
+                    <jet-input-error :message="form.errors.input_supply_prices" />
                 </div>
             </div>
 
@@ -298,6 +331,8 @@ export default {
             number_of_workers: '',
             crops_sale: '',
             animals_sale: '',
+            workers_pay: '',
+            input_supply_prices: '',
             season_notes: '',
         })
 

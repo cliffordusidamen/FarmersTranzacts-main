@@ -53,7 +53,7 @@ class ReferralApprovedListener
         $event->referral->save();
 
         $farm->seasons()->create([
-            'year' => $event->referral->season_year,
+            'year' => $event->referral->year,
             'season' => $event->referral->season,
             'farm_size' => $event->referral->farm_size,
             'number_of_workers' => $event->referral->number_of_workers,
@@ -65,6 +65,9 @@ class ReferralApprovedListener
             'animals_harvest' => $event->referral->animals_harvest,
             'crops_sale' => $event->referral->crops_sale,
             'animals_sale' => $event->referral->animals_sale,
+            'input_supply_prices' => $event->referral->input_supply_prices,
+            'season_notes' => $event->referral->season_notes,
+            'workers_pay' => $event->referral->workers_pay,
         ]);
 
         $event->referral->user->notify(new ReferralApprovedNotification($event->referral));

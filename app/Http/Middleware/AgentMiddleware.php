@@ -17,14 +17,15 @@ class AgentMiddleware
      */
     public function handle(Request $request, Closure $next, $approvalStatus = null)
     {
-        if (
-            !authUserIsAgent()
-            || (
-                !empty($approvalStatus)
-                && $request->user()->agent->approval_status != $approvalStatus
-            )
-        ) {
+        if (!authUserIsAgent()) {
             return redirect('/');
+        }
+
+        if (
+            !empty($approvalStatus)
+            && $request->user()->agent->approval_status != $approvalStatus
+        ) {
+            return redirect(route('dashboard'));
         }
         
         return $next($request);

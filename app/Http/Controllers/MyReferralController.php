@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\FarmerReferralEvent;
 use App\Http\Requests\StoreFarmSeasonRequest;
 use App\Http\Requests\StoreReferralRequest;
+use App\Models\Agent;
 use App\Models\FarmSeason;
 use App\Models\ReferralRequest;
 use App\Models\State;
@@ -22,7 +23,11 @@ class MyReferralController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:sanctum']);
+        $this->middleware([
+            'auth:sanctum',
+            'verified',
+            'agent:' . Agent::STATUS_APPROVED,
+        ]);
     }
 
     /**

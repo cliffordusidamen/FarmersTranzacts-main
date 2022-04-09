@@ -194,9 +194,24 @@
                                         name="store_state"
                                         v-model="form.store_state"
                                         :options="app_states"
+                                        @change="handleStateChange"
                                         required
                                     />
                                     <jet-input-error :message="form.errors.store_state" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <jet-label class="required" for="store_lga" value="Local Government Area" />
+                                    <custom-select
+                                        id="type"
+                                        name="store_lga"
+                                        v-model="form.store_lga"
+                                        :options="selectedStateLgas"
+                                        required
+                                    />
+                                    <jet-input-error :message="form.errors.store_lga" />
                                 </div>
                             </div>
 
@@ -303,7 +318,7 @@ import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from '@vue/reactivity';
 import { onMounted } from '@vue/runtime-core';
 import useInitIntlPhone from "@/composables/useInitIntlPhone"
@@ -326,6 +341,7 @@ export default {
 
     setup(props) {
         const {app_states, product_categories} = props;
+        const { stateLgas } = usePage().props.value;
         const jqueryValidator = ref(null)
         const registerForm = ref(null)
 
@@ -347,6 +363,7 @@ export default {
             store_address_line_2: '',
             store_city: '',
             store_state: '',
+            store_lga: '',
             product_categories: [],
             spending_volume_id: '',
         })
@@ -425,6 +442,7 @@ export default {
                         minlength: 3,
                     },
                     store_state: 'required',
+                    store_lga: 'required',
                     terms: 'required',
                     spending_volume_id: 'required',
                     'product_categories[]': {
@@ -446,12 +464,42 @@ export default {
             );
         })
 
+        const selectedStateLgas = ref({})
+        const updateSelectedStateLgas = (state_id, lga_id) => {
+            const newSelectedStateLgas = {};
+
+            if (
+                undefined === state_id
+                || !Number(state_id)
+                || undefined == stateLgas[state_id]
+            ) {
+                selectedStateLgas.value = {};
+                return;
+            }
+
+            Object.keys(stateLgas[state_id]).forEach((lga_id) => {
+                newSelectedStateLgas[lga_id] = stateLgas[state_id][lga_id];
+            });
+
+            selectedStateLgas.value = {
+                ...newSelectedStateLgas,
+            }
+
+            form.store_lga = lga_id ?? '';
+        }
+
+        const handleStateChange = (event) => {
+            updateSelectedStateLgas(event.target.value);
+        }
+
         return {
             form,
             registerForm,
             jqueryValidator,
             app_states,
             product_categories,
+            selectedStateLgas,
+            handleStateChange,
         }
     },
 };

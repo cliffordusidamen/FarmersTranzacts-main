@@ -10,6 +10,7 @@ use App\Models\Address;
 use App\Models\AgentSpendingVolume;
 use App\Models\Country;
 use App\Models\Designation;
+use App\Models\LocalGovernmentArea;
 use App\Models\Page;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -164,6 +165,8 @@ class RegistrationController extends Controller
     public function showAgentForm()
     {
         $app_states = State::pluck('state_name', 'id');
+        $stateLgas = LocalGovernmentArea::listGroupedByStateId();
+        
 
         $product_categories = ProductCategory::with('subcategories')->get();
         $countries = Country::pluck('name', 'id');
@@ -178,7 +181,7 @@ class RegistrationController extends Controller
 
         $viewData = compact(
             'app_states', 'product_categories', 'countries', 'spendingVolumes',
-            'agentTermsPage'
+            'agentTermsPage', 'stateLgas'
         );
 
         if (request()->wantsJson()) {
@@ -209,6 +212,7 @@ class RegistrationController extends Controller
                 'line_2' => $request->input('store_address_line_2'),
                 'city' => $request->input('store_city'),
                 'state_id' => $request->input('store_state'),
+                'local_government_area_id' => $request->input('store_lga'),
             ]);
 
             $agent = $user->agent()->create([

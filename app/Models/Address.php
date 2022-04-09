@@ -26,6 +26,7 @@ class Address extends Model
         'postal_code',
         'state_id',
         'country_id',
+        'local_government_area_id',
     ];
 
     /**

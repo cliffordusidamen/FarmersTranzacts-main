@@ -41,6 +41,7 @@ class StoreAgentRequest extends FormRequest
             'store_address_line_2' => ['nullable', 'min:5', 'max:50'],
             'store_city' => ['nullable', 'min:3', 'max:50'],
             'store_state' => ['required', 'exists:states,id'],
+            'store_lga' => ['required', 'exists:local_government_areas,id'],
 
             'product_categories' => ['array', 'min:1'],
         ];

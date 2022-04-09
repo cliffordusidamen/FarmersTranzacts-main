@@ -1,5 +1,17 @@
 <template>
     <div>
+        <div class="mt-n4 mb-3 border-bottom pt-2 text-center">
+            This page is for shopper registration.<br />
+            For details on how to become an agent to get great commissions on bulk purchases
+            <br />
+            <inertia-link
+                :href="route('become_an_agent')"
+                class="btn btn-link text-uppercase"
+            >
+                CLICK HERE
+            </inertia-link>
+        </div>
+        
         <form ref="registerForm">
             <div class="row">
                 <div class="col-md-6">
@@ -160,15 +172,6 @@
                 </div>
             </div>
 
-            <div class="mt-3 border-top pt-2">
-                Do you know you can become an agent and get great commissions on bulk purchases?
-                <a
-                    :href="route('become_an_agent')"
-                    class="btn btn-link text-uppercase"
-                >
-                    Learn more
-                </a>
-            </div>
 
             <div class="mt-3 border-top pt-2">
                 <div class="d-flex justify-content-center align-items-center">

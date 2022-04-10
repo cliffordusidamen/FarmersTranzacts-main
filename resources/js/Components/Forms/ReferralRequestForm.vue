@@ -181,9 +181,39 @@
                         name="state_id"
                         v-model="form.state_id"
                         :options="appStates"
+                        @change="handleStateChange"
                         required
                     />
                     <jet-input-error :message="form.errors.state_id" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required" for="local_government_area_id" value="Local Government Area" />
+                    <custom-select
+                        id="type"
+                        name="local_government_area_id"
+                        v-model="form.local_government_area_id"
+                        :options="selectedStateLgas"
+                        required
+                    />
+                    <jet-input-error :message="form.errors.local_government_area_id" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="ward" value="Ward" />
+                    <jet-input
+                        name="ward"
+                        max-length="50"
+                        id="ward"
+                        type="text"
+                        v-model="form.ward"
+                        autocomplete="ward"
+                    />
+                    <jet-input-error :message="form.errors.ward" />
                 </div>
             </div>
         </div>
@@ -468,10 +498,16 @@ import JetTextarea from "@/Jetstream/Textarea";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
 import useInitIntlPhone from "@/composables/useInitIntlPhone"
+import useStateLgaSelection from "@/composables/useStateLgaSelection"
 
 export default {
     props: {
         appStates: {
+            type: Object,
+            required: true,
+        },
+
+        stateLgas: {
             type: Object,
             required: true,
         },
@@ -504,7 +540,7 @@ export default {
     },
 
     setup(props) {
-        const { appStates, referralRequest, seasons, years } = props;
+        const { appStates, referralRequest, seasons, years, stateLgas } = props;
 
         const jqueryValidator = ref(null)
         const referralForm = ref(null)
@@ -525,6 +561,8 @@ export default {
             address_line_2: referralRequest?.address_line_2 || '',
             city: referralRequest?.city || '',
             state_id: referralRequest?.state_id || '',
+            local_government_area_id: referralRequest?.local_government_area_id || '',
+            ward: referralRequest?.ward || '',
             crops_harvest: referralRequest?.crops_harvest || '',
             animals_harvest: referralRequest?.animals_harvest || '',
             farm_size: referralRequest?.farm_size || '',
@@ -541,6 +579,16 @@ export default {
             input_supply_prices: referralRequest?.input_supply_prices || '',
             season_notes: referralRequest?.season_notes || '',
         })
+
+        const setLga = (lga_id) => {
+            form.local_government_area_id = lga_id ?? '';
+        }
+
+        const  {
+            selectedStateLgas,
+            updateSelectedStateLgas,
+            handleStateChange,
+        } = useStateLgaSelection(stateLgas, setLga)
 
         const submit = () => {
             form.phone = telInput.value.getNumber()
@@ -617,6 +665,10 @@ export default {
                         minlength: 3,
                     },
                     state_id: 'required',
+                    local_government_area_id: 'required',
+                    ward: {
+                        maxlength: 50,
+                    },
                     season: 'required',
                     year: 'required',
 
@@ -689,6 +741,9 @@ export default {
             referralForm,
             jqueryValidator,
             appStates,
+            selectedStateLgas,
+            updateSelectedStateLgas,
+            handleStateChange,
         }
     },
 };

@@ -76,7 +76,6 @@
                                     REGISTER NOW
                                 </inertia-link>
 
-                                <div class="d-md-none my-4 text-center">OR</div>
                             </div>
                         </div>
                     </div>

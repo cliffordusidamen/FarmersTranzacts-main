@@ -203,6 +203,20 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <jet-label class="required" for="store_lga" value="Local Government Area" />
+                                    <custom-select
+                                        id="type"
+                                        name="store_lga"
+                                        v-model="form.store_lga"
+                                        :options="selectedStateLgas"
+                                        required
+                                    />
+                                    <jet-input-error :message="form.errors.store_lga" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <jet-label for="store_ward" value="Ward" />
                                     <jet-input
                                         name="store_ward"
@@ -213,20 +227,6 @@
                                         autocomplete="store_ward"
                                     />
                                     <jet-input-error :message="form.errors.store_ward" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <jet-label class="required" for="store_lga" value="Local Government Area" />
-                                    <custom-select
-                                        id="type"
-                                        name="store_lga"
-                                        v-model="form.store_lga"
-                                        :options="selectedStateLgas"
-                                        required
-                                    />
-                                    <jet-input-error :message="form.errors.store_lga" />
                                 </div>
                             </div>
 

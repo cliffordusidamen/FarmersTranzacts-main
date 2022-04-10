@@ -61,6 +61,16 @@ class Address extends Model
     }
 
     /**
+     * Relationship: Belongs to local government area
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function localGovernmentArea(): BelongsTo
+    {
+        return $this->belongsTo(LocalGovernmentArea::class);
+    }
+
+    /**
      * Relationship: Belongs to country
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreFarmSeasonRequest;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\Agent;
 use App\Models\FarmSeason;
+use App\Models\LocalGovernmentArea;
 use App\Models\ReferralRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
@@ -71,9 +72,10 @@ class MyReferralController extends Controller
         ];
 
         $seasons = FarmSeason::getSeasons(true);
+        $stateLgas = LocalGovernmentArea::listGroupedByStateId();
 
         return Inertia::render('Referral/Create', compact(
-            'app_states', 'years', 'seasons'
+            'app_states', 'years', 'seasons', 'stateLgas'
         ));
     }
 

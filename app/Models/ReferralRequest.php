@@ -48,6 +48,16 @@ class ReferralRequest extends Model
     }
 
     /**
+     * Relationship: Belongs to local government area
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function localGovernmentArea(): BelongsTo
+    {
+        return $this->belongsTo(LocalGovernmentArea::class);
+    }
+
+    /**
      * Relationship: belongs to farm
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -124,6 +134,8 @@ class ReferralRequest extends Model
             'address_line_2' => 'sometimes|nullable|max:255',
             'city' => 'sometimes|nullable|max:50',
             'state_id' => 'required|exists:states,id',
+            'local_government_area_id' => ['sometimes', 'nullable', 'exists:local_government_areas,id'],
+            'ward' => ['sometimes', 'nullable', 'max:50'],
         ];
 
         return array_merge($rules, $farmSeasonValidationRules);

@@ -213,6 +213,7 @@ class RegistrationController extends Controller
                 'city' => $request->input('store_city'),
                 'state_id' => $request->input('store_state'),
                 'local_government_area_id' => $request->input('store_lga'),
+                'ward' => $request->input('store_ward'),
             ]);
 
             $agent = $user->agent()->create([

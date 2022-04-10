@@ -77,13 +77,6 @@
                                 </inertia-link>
 
                                 <div class="d-md-none my-4 text-center">OR</div>
-
-                                <inertia-link
-                                    v-if="!isLoggedIn"
-                                    :href="route('login')"
-                                    class="btn btn-success btn-lg">
-                                    LOGIN NOW
-                                </inertia-link>
                             </div>
                         </div>
                     </div>

@@ -203,6 +203,21 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <jet-label for="store_ward" value="Ward" />
+                                    <jet-input
+                                        name="store_ward"
+                                        max-length="50"
+                                        id="store_ward"
+                                        type="text"
+                                        v-model="form.store_ward"
+                                        autocomplete="store_ward"
+                                    />
+                                    <jet-input-error :message="form.errors.store_ward" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <jet-label class="required" for="store_lga" value="Local Government Area" />
                                     <custom-select
                                         id="type"
@@ -364,6 +379,7 @@ export default {
             store_city: '',
             store_state: '',
             store_lga: '',
+            store_ward: '',
             product_categories: [],
             spending_volume_id: '',
         })
@@ -443,6 +459,9 @@ export default {
                     },
                     store_state: 'required',
                     store_lga: 'required',
+                    store_ward: {
+                        maxlength: 50,
+                    },
                     terms: 'required',
                     spending_volume_id: 'required',
                     'product_categories[]': {

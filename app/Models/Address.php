@@ -27,6 +27,7 @@ class Address extends Model
         'state_id',
         'country_id',
         'local_government_area_id',
+        'ward',
     ];
 
     /**
@@ -92,6 +93,8 @@ class Address extends Model
             'city' => ['required', 'string', 'nullable', 'min:3', 'max:25'],
             'postal_code' => ['sometimes', 'string', 'nullable', 'min:3', 'max:10'],
             'state_id' => ['required', 'exists:states,id'],
+            'local_government_area_id' => ['sometimes', 'nullable', 'exists:local_government_areas,id'],
+            'ward' => ['sometimes', 'nullable', 'max:50'],
             'country_id' => ['sometimes', 'nullable', 'exists:countries,id'],
             'order_for_self' => 'sometimes|nullable|boolean',
             'referral' => [

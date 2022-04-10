@@ -35,6 +35,7 @@ class AddLocalGovtAreaAndWardToFarmsTable extends Migration
         Schema::table('farms', function (Blueprint $table) {
             $table->dropForeign(['local_government_area_id']);
             $table->dropColumn('local_government_area_id');
+            $table->dropColumn('ward');
         });
     }
 }

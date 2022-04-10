@@ -1625,7 +1625,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: $setup.fireDeleteEvent
   }, " Delete ", 8
   /* PROPS */
-  , _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !!((_$props$referralReque3 = $props.referralRequest) !== null && _$props$referralReque3 !== void 0 && _$props$referralReque3.farm_id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_inertia_link, {
+  , _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !((_$props$referralReque3 = $props.referralRequest) !== null && _$props$referralReque3 !== void 0 && _$props$referralReque3.is_deletable) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_inertia_link, {
     key: 2,
     href: _ctx.route('referrals.create_season', {
       id: $props.referralRequest.id

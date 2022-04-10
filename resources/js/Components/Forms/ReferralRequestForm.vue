@@ -224,6 +224,98 @@
             </div>
         </div>
 
+        
+        <h4 class="text-center text-success border-bottom text-uppercase">
+            last/recent season
+        </h4>
+        <div class="mx-4 text-center text-muted mt-n4 mb-3">
+            Information of the most recent season
+        </div>
+
+        <div class="row">
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required" for="season" value="Year" />
+                    <custom-select
+                        id="type"
+                        name="year"
+                        v-model="form.year"
+                        :options="years"
+                        required
+                    />
+                    <jet-input-error :message="form.errors.year" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required" for="season" value="Season" />
+                    <custom-select
+                        id="type"
+                        name="season"
+                        v-model="form.season"
+                        :options="seasons"
+                        required
+                    />
+                    <jet-input-error :message="form.errors.season" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required mb-0" for="farm_size" value="Farm size" />
+                    <span class="d-block small">
+                        Example: 3 Acres, 10 Plots, 300ft x 400ft
+                    </span>
+                    <jet-input
+                        name="farm_size"
+                        max-length="50"
+                        id="farm_size"
+                        type="text"
+                        v-model="form.farm_size"
+                    />
+                    <jet-input-error :message="form.errors.farm_size" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="number_of_workers" class="mb-0 required" value="Number of workers" />
+                    <span class="d-block small">
+                        That work directly on the farm
+                    </span>
+                    <jet-input
+                        name="number_of_workers"
+                        max-length="50"
+                        id="number_of_workers"
+                        type="number"
+                        min="1"
+                        v-model="form.number_of_workers"
+                    />
+                    <jet-input-error :message="form.errors.number_of_workers" />
+                </div>
+            </div>
+
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="workers_pay" class="mb-0" value="Workers pay" />
+                    <div class="text-muted small">
+                        Example: N500 per day, 3 people N100 per week
+                    </div>
+                    <jet-textarea
+                        name="workers_pay"
+                        max-length="500"
+                        id="workers_pay"
+                        v-model="form.workers_pay"
+                    />
+                    <jet-input-error :message="form.errors.workers_pay" />
+                </div>
+            </div>
+
+        </div>
+
         <div class="mb-0 text-center">
             <jet-button
                 class="ml-4 text-uppercase"
@@ -317,7 +409,6 @@ export default {
             local_government_area_id: referralRequest?.local_government_area_id || '',
             ward: referralRequest?.ward || '',
             farm_size: referralRequest?.farm_size || '',
-            agro_chemical_input: referralRequest?.agro_chemical_input || '',
             number_of_workers: referralRequest?.number_of_workers || '',
             season: referralRequest?.season || '',
             year: referralRequest?.year || '',

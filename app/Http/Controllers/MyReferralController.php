@@ -6,11 +6,13 @@ use App\Events\FarmerReferralEvent;
 use App\Http\Requests\StoreFarmSeasonRequest;
 use App\Http\Requests\StoreReferralRequest;
 use App\Models\Agent;
+use App\Models\Farm;
 use App\Models\FarmSeason;
 use App\Models\LocalGovernmentArea;
 use App\Models\ReferralRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -86,17 +88,27 @@ class MyReferralController extends Controller
      */
     public function storeRequest(StoreReferralRequest $request)
     {
-        $expectedFields = array_keys(ReferralRequest::defaultValidationRules());
+        
+        $referralRequest = null;
+        
+        DB::transaction(function() use ($request, &$referralRequest) {
 
-        Log::info($expectedFields);
+            $farmData = $request->only(array_keys(Farm::defaultValidationRules()));
+            $farm = Farm::create($farmData);
 
-        $referralRequest = $request->user()
-            ->referralRequests()
-            ->create($request->only(
-                $expectedFields
-            ));
-            
-        $referralRequest->append(['is_editable', 'is_deletable']);
+            $referralData = $request->only(array_keys(ReferralRequest::defaultValidationRules()));
+            $referralData['farm_id'] = $farm->id;
+            $referralRequest = $request->user()
+                ->referralRequests()
+                ->create($referralData);
+
+
+            $farmSeasonData = $request->only(array_keys(FarmSeason::defaultValidationRules()));
+            $farm->seasons()->create($farmSeasonData);
+                
+            $referralRequest->append(['is_editable', 'is_deletable']);
+        });
+
 
         if ($referralRequest) {
             event(new FarmerReferralEvent($referralRequest));

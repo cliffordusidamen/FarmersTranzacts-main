@@ -58,9 +58,6 @@ class FarmSeason extends Model
     {
 
         $rules = [
-            'farm_size' => 'required|min:3|max:25',
-            'workers_pay' => 'sometimes|nullable|max:500',
-            'number_of_workers' => 'required|min:1|max:9999999',
             'year' => [
                 'required',
                 Rule::in([
@@ -74,6 +71,9 @@ class FarmSeason extends Model
                 Rule::in(FarmSeason::getSeasons()),
             ],
 
+            'farm_size' => 'required|min:3|max:25',
+            'workers_pay' => 'sometimes|nullable|max:500',
+            'number_of_workers' => 'required|min:1|max:9999999',
             'season_notes' => 'sometimes|nullable|max:5000',
         ];
 

@@ -37,7 +37,7 @@ class AddLocalGovtAreaAndWardToReferralRequestsTable extends Migration
             $table->dropForeign(['local_government_area_id']);
             $table->dropColumn('local_government_area_id');
 
-            $table->dropColumn('ward_id');
+            $table->dropColumn('ward');
         });
     }
 }

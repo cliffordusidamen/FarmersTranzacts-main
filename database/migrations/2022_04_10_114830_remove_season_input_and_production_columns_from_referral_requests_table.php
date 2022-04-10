@@ -23,6 +23,9 @@ class RemoveSeasonInputAndProductionColumnsFromReferralRequestsTable extends Mig
             $table->dropColumn('crops_sale');
             $table->dropColumn('animals_sale');
             $table->dropColumn('input_supply_prices');
+            $table->dropColumn('farm_size');
+            $table->dropColumn('number_of_workers');
+            $table->dropColumn('workers_pay');
         });
     }
 
@@ -44,6 +47,9 @@ class RemoveSeasonInputAndProductionColumnsFromReferralRequestsTable extends Mig
             $table->string('crops_sale', 1000)->nullable()->after('disapproval_reason');
             $table->string('animals_sale', 1000)->nullable()->after('disapproval_reason');
             $table->string('input_supply_prices', 1000)->nullable()->after('animals_sale');
+            $table->string('workers_pay', 500)->nullable()->after('disapproval_reason');
+            $table->string('farm_size', 500)->nullable()->after('disapproval_reason');
+            $table->unsignedInteger('number_of_workers')->nullable()->after('disapproval_reason');
         });
     }
 }

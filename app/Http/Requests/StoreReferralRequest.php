@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\FarmSeason;
 use App\Models\ReferralRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,9 @@ class StoreReferralRequest extends FormRequest
      */
     public function rules()
     {
-        Log::info(request()->all());
-        return ReferralRequest::defaultValidationRules();
+        $referralRequestValidationRules = ReferralRequest::defaultValidationRules();
+
+        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
+        return array_merge($referralRequestValidationRules, $farmSeasonValidationRules);
     }
 }

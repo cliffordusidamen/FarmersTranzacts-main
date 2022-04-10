@@ -137,8 +137,7 @@ class ReferralRequest extends Model
         ];
 
 
-        $farmSeasonValidationRules = []; // FarmSeason::defaultValidationRules();
-        return array_merge($rules, $farmSeasonValidationRules);
+        return $rules;
     }
 
     /**

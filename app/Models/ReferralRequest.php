@@ -121,8 +121,6 @@ class ReferralRequest extends Model
             $uniqueUserPhoneRule->ignore($id);
         }
 
-        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
-
         $rules = [
             'first_name' => "required|min:3|max:25",
             'last_name' => "required|min:3|max:25",
@@ -138,6 +136,8 @@ class ReferralRequest extends Model
             'ward' => ['sometimes', 'nullable', 'max:50'],
         ];
 
+
+        $farmSeasonValidationRules = []; // FarmSeason::defaultValidationRules();
         return array_merge($rules, $farmSeasonValidationRules);
     }
 

@@ -88,6 +88,8 @@ class MyReferralController extends Controller
     {
         $expectedFields = array_keys(ReferralRequest::defaultValidationRules());
 
+        Log::info($expectedFields);
+
         $referralRequest = $request->user()
             ->referralRequests()
             ->create($request->only(

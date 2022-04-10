@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\ReferralRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class StoreReferralRequest extends FormRequest
@@ -25,6 +26,7 @@ class StoreReferralRequest extends FormRequest
      */
     public function rules()
     {
+        Log::info(request()->all());
         return ReferralRequest::defaultValidationRules();
     }
 }

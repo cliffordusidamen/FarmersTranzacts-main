@@ -58,28 +58,7 @@ class FarmSeason extends Model
     {
 
         $rules = [
-            'crops_harvest' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_harvest')))
-            ],
-            'animals_harvest' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_harvest')))
-            ],
-            'crops_sale' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_sale')))
-            ],
-            'animals_sale' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_sale')))
-            ],
             'farm_size' => 'required|min:3|max:25',
-            'seed_input' => 'sometimes|nullable|max:500',
-            'animal_feed_input' => 'sometimes|nullable|max:500',
-            'fertilizer_bags' => 'sometimes|nullable|integer|max:500',
-            'agro_chemical_input' => 'sometimes|nullable|max:500',
-            'input_supply_prices' => 'sometimes|nullable|max:500',
             'workers_pay' => 'sometimes|nullable|max:500',
             'number_of_workers' => 'required|min:1|max:9999999',
             'year' => [

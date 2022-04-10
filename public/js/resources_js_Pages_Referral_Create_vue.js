@@ -425,21 +425,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       state_id: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.state_id) || '',
       local_government_area_id: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id) || '',
       ward: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.ward) || '',
-      crops_harvest: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.crops_harvest) || '',
-      animals_harvest: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animals_harvest) || '',
       farm_size: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.farm_size) || '',
-      seed_input: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.seed_input) || '',
-      animal_feed_input: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animal_feed_input) || '',
-      fertilizer_bags: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.fertilizer_bags) || '',
       agro_chemical_input: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.agro_chemical_input) || '',
       number_of_workers: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.number_of_workers) || '',
-      crops_sale: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.crops_sale) || '',
-      animals_sale: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.animals_sale) || '',
       season: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.season) || '',
       year: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.year) || '',
-      workers_pay: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.workers_pay) || '',
-      input_supply_prices: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.input_supply_prices) || '',
-      season_notes: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.season_notes) || ''
+      workers_pay: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.workers_pay) || ''
     });
 
     var setLga = function setLga(lga_id) {
@@ -526,56 +517,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           },
           season: 'required',
           year: 'required',
-          crops_harvest: {
-            required: function required() {
-              return $('#animals_harvest').val().trim().length == 0;
-            },
-            minlength: 3
-          },
-          animals_harvest: {
-            required: function required() {
-              return $('#crops_harvest').val().trim().length == 0;
-            },
-            minlength: 3
-          },
           farm_size: {
             required: true,
             minlength: 3
           },
-          seed_input: {
-            minlength: 3
-          },
-          animal_feed_input: {
-            minlength: 3
-          },
           workers_pay: {
-            minlength: 3
-          },
-          input_supply_prices: {
-            minlength: 3
-          },
-          fertilizer_bags: {
-            max: 9999999
-          },
-          agro_chemical_input: {
             minlength: 3
           },
           number_of_workers: {
             required: true,
             digits: true,
             min: 1
-          },
-          crops_sale: {
-            required: function required() {
-              return $('#animals_sale').val().trim().length == 0;
-            },
-            minlength: 3
-          },
-          animals_sale: {
-            required: function required() {
-              return $('#crops_sale').val().trim().length == 0;
-            },
-            minlength: 3
           }
         }
       };
@@ -2207,63 +2159,69 @@ var _hoisted_9 = {
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "text-center text-success border-bottom mb-3 pb-2 text-uppercase"
-}, " Personal Information ", -1
+  "class": "text-center text-success border-bottom text-success text-uppercase"
+}, " Personal Details ", -1
 /* HOISTED */
 );
 
-var _hoisted_11 = {
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "mx-4 text-center text-muted mt-n4 mb-3"
+}, " Personal information of the farmer ", -1
+/* HOISTED */
+);
+
+var _hoisted_12 = {
   "class": "row"
 };
-var _hoisted_12 = {
-  "class": "col-md-6"
-};
 var _hoisted_13 = {
-  "class": "form-group"
+  "class": "col-md-6"
 };
 var _hoisted_14 = {
-  "class": "col-md-6"
+  "class": "form-group"
 };
 var _hoisted_15 = {
-  "class": "form-group"
+  "class": "col-md-6"
 };
 var _hoisted_16 = {
-  "class": "col-md-6"
+  "class": "form-group"
 };
 var _hoisted_17 = {
-  "class": "form-group"
-};
-var _hoisted_18 = {
   "class": "col-md-6"
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   "class": "form-group"
 };
+var _hoisted_19 = {
+  "class": "col-md-6"
+};
 var _hoisted_20 = {
+  "class": "form-group"
+};
+var _hoisted_21 = {
   key: 0,
   "class": "span d-block mt-2"
 };
-var _hoisted_21 = {
+var _hoisted_22 = {
   "class": "col-md-6"
 };
-var _hoisted_22 = {
+var _hoisted_23 = {
   "class": "form-group"
 };
 
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "text-center text-success border-bottom mb-3 pb-2 text-uppercase"
-}, " Business information ", -1
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  "class": "text-center text-success border-bottom text-uppercase"
+}, " Farm details ", -1
 /* HOISTED */
 );
 
-var _hoisted_24 = {
-  "class": "row"
-};
-var _hoisted_25 = {
-  "class": "col-md-6"
-};
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "mx-4 text-center text-muted mt-n4 mb-3"
+}, " Information of the farm as an organization/business ", -1
+/* HOISTED */
+);
+
 var _hoisted_26 = {
-  "class": "form-group"
+  "class": "row"
 };
 var _hoisted_27 = {
   "class": "col-md-6"
@@ -2272,13 +2230,13 @@ var _hoisted_28 = {
   "class": "form-group"
 };
 var _hoisted_29 = {
-  "class": "row"
-};
-var _hoisted_30 = {
   "class": "col-md-6"
 };
-var _hoisted_31 = {
+var _hoisted_30 = {
   "class": "form-group"
+};
+var _hoisted_31 = {
+  "class": "row"
 };
 var _hoisted_32 = {
   "class": "col-md-6"
@@ -2287,13 +2245,13 @@ var _hoisted_33 = {
   "class": "form-group"
 };
 var _hoisted_34 = {
-  "class": "row"
-};
-var _hoisted_35 = {
   "class": "col-md-6"
 };
-var _hoisted_36 = {
+var _hoisted_35 = {
   "class": "form-group"
+};
+var _hoisted_36 = {
+  "class": "row"
 };
 var _hoisted_37 = {
   "class": "col-md-6"
@@ -2307,195 +2265,17 @@ var _hoisted_39 = {
 var _hoisted_40 = {
   "class": "form-group"
 };
-
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "text-center text-success border-bottom mb-3 pb-2 text-uppercase"
-}, " Last season record ", -1
-/* HOISTED */
-);
-
+var _hoisted_41 = {
+  "class": "col-md-6"
+};
 var _hoisted_42 = {
-  "class": "row"
+  "class": "form-group"
 };
 var _hoisted_43 = {
-  "class": "col-md-6"
-};
-var _hoisted_44 = {
-  "class": "form-group"
-};
-var _hoisted_45 = {
-  "class": "col-md-6"
-};
-var _hoisted_46 = {
-  "class": "form-group"
-};
-var _hoisted_47 = {
-  "class": "col-md-6"
-};
-var _hoisted_48 = {
-  "class": "form-group"
-};
-
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, " Example: 3 Acres, 10 Plots, 300ft x 400ft ", -1
-/* HOISTED */
-);
-
-var _hoisted_50 = {
-  "class": "col-md-6"
-};
-var _hoisted_51 = {
-  "class": "form-group"
-};
-
-var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quantity of seeds used for the season "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" e.g. Maize-3kg, Beans-4kg... ")], -1
-/* HOISTED */
-);
-
-var _hoisted_53 = {
-  "class": "col-md-6"
-};
-var _hoisted_54 = {
-  "class": "form-group"
-};
-
-var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Quantity of animal feed used for the season "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" e.g. Fish feed-30kg, Poultry feed-10 bags... ")], -1
-/* HOISTED */
-);
-
-var _hoisted_56 = {
-  "class": "col-md-6"
-};
-var _hoisted_57 = {
-  "class": "form-group"
-};
-var _hoisted_58 = {
-  "class": "col-md-6"
-};
-var _hoisted_59 = {
-  "class": "form-group"
-};
-
-var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, " That work directly on the farm ", -1
-/* HOISTED */
-);
-
-var _hoisted_61 = {
-  "class": "col-md-6"
-};
-var _hoisted_62 = {
-  "class": "form-group"
-};
-
-var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, " E.g. Pesticide- 4 Litres, Herbicide - 50litres ", -1
-/* HOISTED */
-);
-
-var _hoisted_64 = {
-  "class": "col-md-6"
-};
-var _hoisted_65 = {
-  "class": "form-group"
-};
-
-var _hoisted_66 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: casava - 4bags, maize - 400tons, potato - 303kg... ", -1
-/* HOISTED */
-);
-
-var _hoisted_67 = {
-  "class": "col-md-6"
-};
-var _hoisted_68 = {
-  "class": "form-group"
-};
-
-var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: goat - 190, sheep - 67, poultry-1100... ", -1
-/* HOISTED */
-);
-
-var _hoisted_70 = {
-  "class": "col-md-6"
-};
-var _hoisted_71 = {
-  "class": "form-group"
-};
-
-var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: casava - N4,000 per bag, maize - N2,000 per ton, potato - N100 per kg... ", -1
-/* HOISTED */
-);
-
-var _hoisted_73 = {
-  "class": "col-md-6"
-};
-var _hoisted_74 = {
-  "class": "form-group"
-};
-
-var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: N5000 per goat, N100 per sheep, N200 per poultry... ", -1
-/* HOISTED */
-);
-
-var _hoisted_76 = {
-  "class": "col-md-6"
-};
-var _hoisted_77 = {
-  "class": "form-group"
-};
-
-var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " Example: N500 per day, 3 people N100 per week ", -1
-/* HOISTED */
-);
-
-var _hoisted_79 = {
-  "class": "col-md-6"
-};
-var _hoisted_80 = {
-  "class": "form-group"
-};
-
-var _hoisted_81 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "d-block small"
-}, " E.g. Pesticide- N4000 per Litres, Fertilizer - N500 per bag, Maize - N500 per bag ", -1
-/* HOISTED */
-);
-
-var _hoisted_82 = {
-  "class": "col-md-6"
-};
-var _hoisted_83 = {
-  "class": "form-group"
-};
-
-var _hoisted_84 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-muted small"
-}, " What are the challenges, opportunities, successes, and notable experiences of the season? ", -1
-/* HOISTED */
-);
-
-var _hoisted_85 = {
   "class": "mb-0 text-center"
 };
 
-var _hoisted_86 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$setup$form, _$setup$form$errors;
@@ -2509,8 +2289,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
 
   var _component_custom_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("custom-select");
-
-  var _component_jet_textarea = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-textarea");
 
   var _component_jet_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-button");
 
@@ -2526,7 +2304,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"]), _hoisted_7]), _hoisted_8])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["href"]), _hoisted_7]), _hoisted_8])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_9, [_hoisted_10, _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required",
     "for": "first_name",
     value: "First Name"
@@ -2548,7 +2326,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.first_name
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required",
     "for": "last_name",
     value: "Last Name"
@@ -2569,7 +2347,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.last_name
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "age",
     value: "Age"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2590,7 +2368,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.age
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required",
     "for": "phone",
     value: "Phone"
@@ -2605,11 +2383,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8
   /* PROPS */
-  , ["modelValue"]), !!((_$setup$form = $setup.form) !== null && _$setup$form !== void 0 && (_$setup$form$errors = _$setup$form.errors) !== null && _$setup$form$errors !== void 0 && _$setup$form$errors.phone) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+  , ["modelValue"]), !!((_$setup$form = $setup.form) !== null && _$setup$form !== void 0 && (_$setup$form$errors = _$setup$form.errors) !== null && _$setup$form$errors !== void 0 && _$setup$form$errors.phone) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
     message: $setup.form.errors.phone
   }, null, 8
   /* PROPS */
-  , ["message"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "email",
     value: "Email"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2628,7 +2406,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.email
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])])]), _hoisted_24, _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "business_name",
     value: "Business name(optional)"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2646,7 +2424,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.business_name
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required",
     "for": "address_line_1",
     value: "Address Line 1"
@@ -2666,7 +2444,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.address_line_1
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "address_line_2",
     value: "Address Line 2"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2684,7 +2462,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.address_line_2
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "city",
     value: "City"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2702,7 +2480,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.city
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required",
     "for": "state_id",
     value: "State"
@@ -2722,7 +2500,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.state_id
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "class": "required",
     "for": "local_government_area_id",
     value: "Local Government Area"
@@ -2741,7 +2519,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.local_government_area_id
   }, null, 8
   /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
     "for": "ward",
     value: "Ward"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
@@ -2760,293 +2538,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.ward
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "class": "required",
-    "for": "season",
-    value: "Year"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_select, {
-    id: "type",
-    name: "year",
-    modelValue: $setup.form.year,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-      return $setup.form.year = $event;
-    }),
-    options: $props.years,
-    required: ""
-  }, null, 8
-  /* PROPS */
-  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.year
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "class": "required",
-    "for": "season",
-    value: "Season"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_select, {
-    id: "type",
-    name: "season",
-    modelValue: $setup.form.season,
-    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-      return $setup.form.season = $event;
-    }),
-    options: $props.seasons,
-    required: ""
-  }, null, 8
-  /* PROPS */
-  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.season
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "class": "required mb-0",
-    "for": "farm_size",
-    value: "Farm size"
-  }), _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "farm_size",
-    "max-length": "50",
-    id: "farm_size",
-    type: "text",
-    modelValue: $setup.form.farm_size,
-    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-      return $setup.form.farm_size = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.farm_size
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "seed_input",
-    "class": "mb-0",
-    value: "Seeds used"
-  }), _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "seed_input",
-    "max-length": "50",
-    id: "seed_input",
-    type: "text",
-    modelValue: $setup.form.seed_input,
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-      return $setup.form.seed_input = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.seed_input
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "animal_feed_input",
-    "class": "mb-0",
-    value: "Animal-feed used"
-  }), _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "animal_feed_input",
-    "max-length": "50",
-    id: "animal_feed_input",
-    type: "text",
-    modelValue: $setup.form.animal_feed_input,
-    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-      return $setup.form.animal_feed_input = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.animal_feed_input
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "fertilizer_bags",
-    "class": "mb-0",
-    value: "Fertilizer used(Bags)"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "fertilizer_bags",
-    "max-length": "50",
-    id: "fertilizer_bags",
-    type: "number",
-    modelValue: $setup.form.fertilizer_bags,
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-      return $setup.form.fertilizer_bags = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.fertilizer_bags
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "number_of_workers",
-    "class": "mb-0 required",
-    value: "Number of workers"
-  }), _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "number_of_workers",
-    "max-length": "50",
-    id: "number_of_workers",
-    type: "number",
-    min: "1",
-    modelValue: $setup.form.number_of_workers,
-    "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
-      return $setup.form.number_of_workers = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.number_of_workers
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "agro_chemical_input",
-    "class": "mb-0",
-    value: "Agro-chemical used"
-  }), _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
-    name: "agro_chemical_input",
-    "max-length": "50",
-    id: "agro_chemical_input",
-    type: "text",
-    modelValue: $setup.form.agro_chemical_input,
-    "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
-      return $setup.form.agro_chemical_input = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.agro_chemical_input
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "crops_harvest",
-    "class": "mb-0",
-    value: "Crops harvest"
-  }), _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "crops_harvest",
-    "max-length": "500",
-    id: "crops_harvest",
-    modelValue: $setup.form.crops_harvest,
-    "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
-      return $setup.form.crops_harvest = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.crops_harvest
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "animals_harvest",
-    "class": "mb-0",
-    value: "Animals harvest"
-  }), _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "animals_harvest",
-    "max-length": "500",
-    id: "animals_harvest",
-    modelValue: $setup.form.animals_harvest,
-    "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
-      return $setup.form.animals_harvest = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.animals_harvest
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "crops_sale",
-    "class": "mb-0",
-    value: "Crops sale"
-  }), _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "crops_sale",
-    "max-length": "500",
-    id: "crops_sale",
-    modelValue: $setup.form.crops_sale,
-    "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
-      return $setup.form.crops_sale = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.crops_sale
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "animals_sale",
-    "class": "mb-0",
-    value: "Animals sale"
-  }), _hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "animals_sale",
-    "max-length": "500",
-    id: "animals_sale",
-    modelValue: $setup.form.animals_sale,
-    "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
-      return $setup.form.animals_sale = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.animals_sale
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "workers_pay",
-    "class": "mb-0",
-    value: "Workers pay"
-  }), _hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "workers_pay",
-    "max-length": "500",
-    id: "workers_pay",
-    modelValue: $setup.form.workers_pay,
-    "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
-      return $setup.form.workers_pay = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.workers_pay
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "input_supply_prices",
-    "class": "mb-0",
-    value: "Input supplies prices"
-  }), _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "input_supply_prices",
-    "max-length": "500",
-    id: "input_supply_prices",
-    modelValue: $setup.form.input_supply_prices,
-    "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
-      return $setup.form.input_supply_prices = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.input_supply_prices
-  }, null, 8
-  /* PROPS */
-  , ["message"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
-    "for": "season_notes",
-    "class": "mb-0",
-    value: "Season notes"
-  }), _hoisted_84, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_textarea, {
-    name: "season_notes",
-    "max-length": "5000",
-    id: "season_notes",
-    modelValue: $setup.form.season_notes,
-    "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
-      return $setup.form.season_notes = $event;
-    })
-  }, null, 8
-  /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.season_notes
-  }, null, 8
-  /* PROPS */
-  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4 text-uppercase", {
       'text-white-50': $setup.form.processing
     }]),
     disabled: $setup.form.processing
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_86];
+      return [_hoisted_44];
     }),
     _: 1
     /* STABLE */

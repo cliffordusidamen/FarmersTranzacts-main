@@ -14,6 +14,7 @@ class AddLocalGovernmentAreaIdToAddressesTable extends Migration
     public function up()
     {
         Schema::table('addresses', function (Blueprint $table) {
+            $table->string('ward', 100)->nullable()->after('state_id');
             $table->unsignedMediumInteger('local_government_area_id')->nullable()->after('state_id');
 
             $table->foreign('local_government_area_id')

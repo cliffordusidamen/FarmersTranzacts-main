@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "@vue/reactivity";
+import { ref, toRefs } from "@vue/reactivity";
 import * as Yup from "yup";
 
 import JetInput from "@/Jetstream/Input";
@@ -19,6 +19,8 @@ const props = defineProps({
     },
 })
 
+const { seasonInput } = toRefs(props)
+
 const requiredMessage = "This field is required";
 const rules = {
     name: Yup.string().required(requiredMessage).max(255, "This should not be more than 255 characters"),
@@ -35,10 +37,10 @@ const rules = {
 }
 
 const data = ref({
-    name: props.seasonInput?.name || '',
-    unit: props.seasonInput?.unit || '',
-    quantity: props.seasonInput?.quantity || '',
-    cost_per_unit: props.seasonInput?.cost_per_unit || '',
+    name: seasonInput.value?.name || '',
+    unit: seasonInput.value?.unit || '',
+    quantity: seasonInput.value?.quantity || '',
+    cost_per_unit: seasonInput.value?.cost_per_unit || '',
 });
 
 const resetForm = () => {
@@ -51,7 +53,7 @@ const resetForm = () => {
 }
 
 const onSubmit = (validatedData) => {
-    emits('onSubmit', validatedData)
+    emits('onSubmit', {...validatedData})
     resetForm()
 }
 

@@ -348,6 +348,13 @@
                     </div>
                     <button
                         type="button"
+                        class="btn btn-dark min-width-0"
+                        @click="() => setEditInput(inputIndex)"
+                    >
+                        <i class="icon-edit"></i>
+                    </button>
+                    <button
+                        type="button"
                         class="btn btn-danger min-width-0"
                         @click="() => removeInput(inputIndex)"
                     >
@@ -390,7 +397,12 @@
         </div>
         <div class="p-3">
 
-            <season-input-form @on-submit="handleSeasonInputSubmission" />
+            <season-input-form
+                :key="editSeasonInput"
+                :season-input="editSeasonInput"
+                :index="editInputIndex"
+                @on-submit="handleSeasonInputSubmission"
+            />
         </div>
     </default-modal>
 
@@ -460,6 +472,8 @@ export default {
         const { appStates, referralRequest, seasons, years, stateLgas } = props;
 
         const seasonInputs = ref([]);
+        const editSeasonInput = ref({});
+        const editInputIndex = ref(null)
         const seasonInputModalId = 'seasonInputModal';
         const seasonInputModelEventName = 'show-season-input-form';
         const showSeasonInputsModal = () => {
@@ -469,10 +483,19 @@ export default {
             document.dispatchEvent(seasonInputModalEvent);
         }
 
+        const resetEditInput = () => {
+            editSeasonInput.value = {}
+            editInputIndex.value = null
+        }
         const handleSeasonInputSubmission = (seasonInputData) => {
-            console.log('new season input:', seasonInputData)
-            seasonInputs.value.push(seasonInputData)
+
+            if (editInputIndex.value === null) {
+                seasonInputs.value.push({...seasonInputData})
+            } else {
+                seasonInputs.value[editInputIndex.value] = {...seasonInputData}
+            }
             $(`#${seasonInputModalId}`).modal('hide')
+            resetEditInput()
         }
         const showSeasonInputError = ref(false)
         const removeInput = (inputIndex) => {
@@ -483,6 +506,16 @@ export default {
 
             const newSeasonInputs = seasonInputs.value.filter((_input, _index) => inputIndex != _index)
             seasonInputs.value = [...newSeasonInputs];
+        }
+        const setEditInput = (inputIndex) => {
+            if (undefined === seasonInputs.value[inputIndex]) {
+                return;
+            }
+
+            editSeasonInput.value = seasonInputs.value[inputIndex]
+            editInputIndex.value = inputIndex
+
+            showSeasonInputsModal()
         }
 
 
@@ -642,6 +675,8 @@ export default {
 
         return {
             appStates,
+            editInputIndex,
+            editSeasonInput,
             form,
             handleSeasonInputSubmission,
             handleStateChange,
@@ -655,6 +690,7 @@ export default {
             showSeasonInputError,
             showSeasonInputsModal,
             updateSelectedStateLgas,
+            setEditInput,
         }
     },
 };

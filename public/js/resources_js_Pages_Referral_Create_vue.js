@@ -342,12 +342,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _composables_useStateLgaSelection__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/composables/useStateLgaSelection */ "./resources/js/composables/useStateLgaSelection.js");
 /* harmony import */ var _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/Components/DefaultModal */ "./resources/js/Components/DefaultModal.vue");
 /* harmony import */ var _composables_useScrollToError__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/composables/useScrollToError */ "./resources/js/composables/useScrollToError.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -359,6 +353,12 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -424,6 +424,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         years = props.years,
         stateLgas = props.stateLgas;
     var seasonInputs = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_14__.ref)([]);
+    var editSeasonInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_14__.ref)({});
+    var editInputIndex = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_14__.ref)(null);
     var seasonInputModalId = 'seasonInputModal';
     var seasonInputModelEventName = 'show-season-input-form';
 
@@ -434,10 +436,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       document.dispatchEvent(seasonInputModalEvent);
     };
 
+    var resetEditInput = function resetEditInput() {
+      editSeasonInput.value = {};
+      editInputIndex.value = null;
+    };
+
     var handleSeasonInputSubmission = function handleSeasonInputSubmission(seasonInputData) {
-      console.log('new season input:', seasonInputData);
-      seasonInputs.value.push(seasonInputData);
+      if (editInputIndex.value === null) {
+        seasonInputs.value.push(_objectSpread({}, seasonInputData));
+      } else {
+        seasonInputs.value[editInputIndex.value] = _objectSpread({}, seasonInputData);
+      }
+
       $("#".concat(seasonInputModalId)).modal('hide');
+      resetEditInput();
     };
 
     var showSeasonInputError = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_14__.ref)(false);
@@ -452,6 +464,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return inputIndex != _index;
       });
       seasonInputs.value = _toConsumableArray(newSeasonInputs);
+    };
+
+    var setEditInput = function setEditInput(inputIndex) {
+      if (undefined === seasonInputs.value[inputIndex]) {
+        return;
+      }
+
+      editSeasonInput.value = seasonInputs.value[inputIndex];
+      editInputIndex.value = inputIndex;
+      showSeasonInputsModal();
     };
 
     var _useScrollToError = (0,_composables_useScrollToError__WEBPACK_IMPORTED_MODULE_13__["default"])('#referralForm'),
@@ -602,6 +624,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     });
     return {
       appStates: appStates,
+      editInputIndex: editInputIndex,
+      editSeasonInput: editSeasonInput,
       form: form,
       handleSeasonInputSubmission: handleSeasonInputSubmission,
       handleStateChange: handleStateChange,
@@ -614,7 +638,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       selectedStateLgas: selectedStateLgas,
       showSeasonInputError: showSeasonInputError,
       showSeasonInputsModal: showSeasonInputsModal,
-      updateSelectedStateLgas: updateSelectedStateLgas
+      updateSelectedStateLgas: updateSelectedStateLgas,
+      setEditInput: setEditInput
     };
   }
 });
@@ -639,6 +664,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
 /* harmony import */ var _composables_useYupFormValidation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/composables/useYupFormValidation */ "./resources/js/composables/useYupFormValidation.js");
 /* harmony import */ var _util_yupNumberTest__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/util/yupNumberTest */ "./resources/js/util/yupNumberTest.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -657,12 +688,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   emits: ["onSubmit"],
   setup: function setup(__props, _ref) {
-    var _props$seasonInput, _props$seasonInput2, _props$seasonInput3, _props$seasonInput4;
+    var _seasonInput$value, _seasonInput$value2, _seasonInput$value3, _seasonInput$value4;
 
     var expose = _ref.expose,
         emits = _ref.emit;
     expose();
     var props = __props;
+
+    var _toRefs = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.toRefs)(props),
+        seasonInput = _toRefs.seasonInput;
+
     var requiredMessage = "This field is required";
     var rules = {
       name: yup__WEBPACK_IMPORTED_MODULE_0__.string().required(requiredMessage).max(255, "This should not be more than 255 characters"),
@@ -671,10 +706,10 @@ __webpack_require__.r(__webpack_exports__);
       cost_per_unit: yup__WEBPACK_IMPORTED_MODULE_0__.number().required(requiredMessage).typeError('Enter a numeric value').test((0,_util_yupNumberTest__WEBPACK_IMPORTED_MODULE_5__["default"])("Cost per unit should be a numeric value.")).max(999999999, "This should not be more than 999999999")
     };
     var data = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref)({
-      name: ((_props$seasonInput = props.seasonInput) === null || _props$seasonInput === void 0 ? void 0 : _props$seasonInput.name) || '',
-      unit: ((_props$seasonInput2 = props.seasonInput) === null || _props$seasonInput2 === void 0 ? void 0 : _props$seasonInput2.unit) || '',
-      quantity: ((_props$seasonInput3 = props.seasonInput) === null || _props$seasonInput3 === void 0 ? void 0 : _props$seasonInput3.quantity) || '',
-      cost_per_unit: ((_props$seasonInput4 = props.seasonInput) === null || _props$seasonInput4 === void 0 ? void 0 : _props$seasonInput4.cost_per_unit) || ''
+      name: ((_seasonInput$value = seasonInput.value) === null || _seasonInput$value === void 0 ? void 0 : _seasonInput$value.name) || '',
+      unit: ((_seasonInput$value2 = seasonInput.value) === null || _seasonInput$value2 === void 0 ? void 0 : _seasonInput$value2.unit) || '',
+      quantity: ((_seasonInput$value3 = seasonInput.value) === null || _seasonInput$value3 === void 0 ? void 0 : _seasonInput$value3.quantity) || '',
+      cost_per_unit: ((_seasonInput$value4 = seasonInput.value) === null || _seasonInput$value4 === void 0 ? void 0 : _seasonInput$value4.cost_per_unit) || ''
     });
 
     var resetForm = function resetForm() {
@@ -687,7 +722,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     var onSubmit = function onSubmit(validatedData) {
-      emits('onSubmit', validatedData);
+      emits('onSubmit', _objectSpread({}, validatedData));
       resetForm();
     };
 
@@ -707,6 +742,7 @@ __webpack_require__.r(__webpack_exports__);
     var __returned__ = {
       emits: emits,
       props: props,
+      seasonInput: seasonInput,
       requiredMessage: requiredMessage,
       rules: rules,
       data: data,
@@ -718,6 +754,7 @@ __webpack_require__.r(__webpack_exports__);
       validateForm: validateForm,
       submit: submit,
       ref: _vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.ref,
+      toRefs: _vue_reactivity__WEBPACK_IMPORTED_MODULE_6__.toRefs,
       Yup: yup__WEBPACK_IMPORTED_MODULE_0__,
       JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_1__["default"],
       JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -2567,32 +2604,41 @@ var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_70 = ["onClick"];
 
 var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "icon-close"
+  "class": "icon-edit"
 }, null, -1
 /* HOISTED */
 );
 
 var _hoisted_72 = [_hoisted_71];
-var _hoisted_73 = {
+var _hoisted_73 = ["onClick"];
+
+var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-close"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_75 = [_hoisted_74];
+var _hoisted_76 = {
   "class": "mt-2"
 };
 
-var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_77 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "icon-plus"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add input ");
+var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add input ");
 
-var _hoisted_76 = [_hoisted_74, _hoisted_75];
-var _hoisted_77 = {
+var _hoisted_79 = [_hoisted_77, _hoisted_78];
+var _hoisted_80 = {
   "class": "mb-0 text-center"
 };
 
-var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
+var _hoisted_81 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
 
-var _hoisted_79 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-right"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "button",
@@ -2604,7 +2650,7 @@ var _hoisted_79 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_80 = {
+var _hoisted_83 = {
   "class": "p-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2981,29 +3027,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
+      "class": "btn btn-dark min-width-0",
+      onClick: function onClick() {
+        return $setup.setEditInput(inputIndex);
+      }
+    }, _hoisted_72, 8
+    /* PROPS */
+    , _hoisted_70), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
       "class": "btn btn-danger min-width-0",
       onClick: function onClick() {
         return $setup.removeInput(inputIndex);
       }
-    }, _hoisted_72, 8
+    }, _hoisted_75, 8
     /* PROPS */
-    , _hoisted_70)]);
+    , _hoisted_73)]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-block btn-dark text-uppercase",
     onClick: _cache[17] || (_cache[17] = function () {
       return $setup.showSeasonInputsModal && $setup.showSeasonInputsModal.apply($setup, arguments);
     })
-  }, _hoisted_76)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+  }, _hoisted_79)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4 text-uppercase", {
       'text-white-50': $setup.form.processing
     }]),
     disabled: $setup.form.processing
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_78];
+      return [_hoisted_81];
     }),
     _: 1
     /* STABLE */
@@ -3017,11 +3071,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "show-event": $setup.seasonInputModelEventName
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_season_input_form, {
+      return [_hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_season_input_form, {
+        key: $setup.editSeasonInput,
+        "season-input": $setup.editSeasonInput,
+        index: $setup.editInputIndex,
         onOnSubmit: $setup.handleSeasonInputSubmission
       }, null, 8
       /* PROPS */
-      , ["onOnSubmit"])])];
+      , ["season-input", "index", "onOnSubmit"]))])];
     }),
     _: 1
     /* STABLE */

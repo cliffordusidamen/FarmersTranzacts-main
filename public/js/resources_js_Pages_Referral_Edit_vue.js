@@ -442,6 +442,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
     var showSeasonInputError = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_14__.ref)(false);
 
+    var removeInput = function removeInput(inputIndex) {
+      if (seasonInputs.value.length <= 1) {
+        seasonInputs.value = [];
+        return;
+      }
+
+      var newSeasonInputs = seasonInputs.value.filter(function (_input, _index) {
+        return inputIndex != _index;
+      });
+      seasonInputs.value = _toConsumableArray(newSeasonInputs);
+    };
+
     var _useScrollToError = (0,_composables_useScrollToError__WEBPACK_IMPORTED_MODULE_13__["default"])('#referralForm'),
         scrollToFieldError = _useScrollToError.scrollToFieldError;
 
@@ -595,13 +607,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       handleStateChange: handleStateChange,
       jqueryValidator: jqueryValidator,
       referralForm: referralForm,
+      removeInput: removeInput,
       seasonInputModelEventName: seasonInputModelEventName,
       seasonInputModalId: seasonInputModalId,
       seasonInputs: seasonInputs,
       selectedStateLgas: selectedStateLgas,
+      showSeasonInputError: showSeasonInputError,
       showSeasonInputsModal: showSeasonInputsModal,
-      updateSelectedStateLgas: updateSelectedStateLgas,
-      showSeasonInputError: showSeasonInputError
+      updateSelectedStateLgas: updateSelectedStateLgas
     };
   }
 });
@@ -2551,35 +2564,35 @@ var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_70 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  type: "button",
-  "class": "btn btn-danger min-width-0"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_70 = ["onClick"];
+
+var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "icon-close"
-})], -1
+}, null, -1
 /* HOISTED */
 );
 
-var _hoisted_71 = {
+var _hoisted_72 = [_hoisted_71];
+var _hoisted_73 = {
   "class": "mt-2"
 };
 
-var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "icon-plus"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_73 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add input ");
+var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add input ");
 
-var _hoisted_74 = [_hoisted_72, _hoisted_73];
-var _hoisted_75 = {
+var _hoisted_76 = [_hoisted_74, _hoisted_75];
+var _hoisted_77 = {
   "class": "mb-0 text-center"
 };
 
-var _hoisted_76 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
+var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
 
-var _hoisted_77 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_79 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-right"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "button",
@@ -2591,7 +2604,7 @@ var _hoisted_77 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_78 = {
+var _hoisted_80 = {
   "class": "p-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2958,7 +2971,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, " Add at least one(1) season input. ", 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonInputError]]), _hoisted_61, _hoisted_62, !$setup.seasonInputs.length && $setup.showSeasonInputError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, _hoisted_66)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasonInputs, function (seasonInput, inputIndex) {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonInputError && !$setup.seasonInputs.length]]), _hoisted_61, _hoisted_62, !$setup.seasonInputs.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, _hoisted_66)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasonInputs, function (seasonInput, inputIndex) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: inputIndex,
       "class": "d-flex align-items-center justify-content-start border-top"
@@ -2966,23 +2979,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(Number(seasonInput.cost_per_unit).toLocaleString(), " per ").concat(seasonInput.unit)), 1
     /* TEXT */
-    )]), _hoisted_70]);
+    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-danger min-width-0",
+      onClick: function onClick() {
+        return $setup.removeInput(inputIndex);
+      }
+    }, _hoisted_72, 8
+    /* PROPS */
+    , _hoisted_70)]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-block btn-dark text-uppercase",
     onClick: _cache[17] || (_cache[17] = function () {
       return $setup.showSeasonInputsModal && $setup.showSeasonInputsModal.apply($setup, arguments);
     })
-  }, _hoisted_74)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+  }, _hoisted_76)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4 text-uppercase", {
       'text-white-50': $setup.form.processing
     }]),
     disabled: $setup.form.processing
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_76];
+      return [_hoisted_78];
     }),
     _: 1
     /* STABLE */
@@ -2996,7 +3017,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "show-event": $setup.seasonInputModelEventName
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_season_input_form, {
+      return [_hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_season_input_form, {
         onOnSubmit: $setup.handleSeasonInputSubmission
       }, null, 8
       /* PROPS */

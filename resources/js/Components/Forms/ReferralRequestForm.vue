@@ -319,7 +319,7 @@
         <div class="bg-light rounded border p-3 my-4">
             <div
                 class="alert alert-warning"
-                v-show="showSeasonInputError"
+                v-show="showSeasonInputError && !seasonInputs.length"
             >
                 Add at least one(1) season input.
             </div>
@@ -331,7 +331,7 @@
                 All items/materials used in the season
             </div>
 
-            <div v-if="!seasonInputs.length && showSeasonInputError" class="px-2 py-2 text-center">
+            <div v-if="!seasonInputs.length" class="px-2 py-2 text-center">
                 Add at least one input for the season<br />
             </div>
 
@@ -349,6 +349,7 @@
                     <button
                         type="button"
                         class="btn btn-danger min-width-0"
+                        @click="() => removeInput(inputIndex)"
                     >
                         <i class="icon-close"></i>
                     </button>
@@ -474,6 +475,17 @@ export default {
             $(`#${seasonInputModalId}`).modal('hide')
         }
         const showSeasonInputError = ref(false)
+        const removeInput = (inputIndex) => {
+            if (seasonInputs.value.length <= 1) {
+                seasonInputs.value = []
+                return;
+            }
+
+            const newSeasonInputs = seasonInputs.value.filter((_input, _index) => inputIndex != _index)
+            seasonInputs.value = [...newSeasonInputs];
+        }
+
+
         const { scrollToFieldError } = useScrollToError('#referralForm')
 
         const jqueryValidator = ref(null)
@@ -635,13 +647,14 @@ export default {
             handleStateChange,
             jqueryValidator,
             referralForm,
+            removeInput,
             seasonInputModelEventName,
             seasonInputModalId,
             seasonInputs,
             selectedStateLgas,
+            showSeasonInputError,
             showSeasonInputsModal,
             updateSelectedStateLgas,
-            showSeasonInputError,
         }
     },
 };

@@ -104,8 +104,12 @@ class MyReferralController extends Controller
 
 
             $farmSeasonData = $request->only(array_keys(FarmSeason::defaultValidationRules()));
-            $farm->seasons()->create($farmSeasonData);
-                
+            $farmSeason = $farm->seasons()->create($farmSeasonData);
+
+            $farmSeason->seasonInputs()->createMany(
+                $request->farm_season_inputs
+            );
+
             $referralRequest->append(['is_editable', 'is_deletable']);
         });
 

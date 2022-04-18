@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\Rule;
 
 class FarmSeason extends Model
@@ -29,6 +30,16 @@ class FarmSeason extends Model
     public function farm(): BelongsTo
     {
         return $this->belongsTo(Farm::class);
+    }
+
+    /**
+     * Relationship: Has many farm season inputs
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function seasonInputs(): HasMany
+    {
+        return $this->hasMany(FarmSeasonInput::class);
     }
 
     /**

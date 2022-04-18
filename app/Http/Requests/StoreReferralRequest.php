@@ -30,6 +30,10 @@ class StoreReferralRequest extends FormRequest
         $referralRequestValidationRules = ReferralRequest::defaultValidationRules();
 
         $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
-        return array_merge($referralRequestValidationRules, $farmSeasonValidationRules);
+        $rules = array_merge($referralRequestValidationRules, $farmSeasonValidationRules);
+
+        $rules['farm_season_inputs'] = 'array|required|min:1|max:20';
+
+        return $rules;
     }
 }

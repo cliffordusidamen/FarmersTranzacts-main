@@ -4687,7 +4687,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "text-danger d-block",
+  "class": "text-danger small d-block",
   role: "alert"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -5277,7 +5277,7 @@ module.exports = function (cssWithMappingToString) {
 /***/ ((module) => {
 
 /*
- * International Telephone Input v17.0.15
+ * International Telephone Input v17.0.16
  * https://github.com/jackocnr/intl-tel-input.git
  * Licensed under the MIT license
  */
@@ -6618,7 +6618,7 @@ module.exports = function (cssWithMappingToString) {
         // default options
         intlTelInputGlobals.defaults = defaults;
         // version
-        intlTelInputGlobals.version = "17.0.15";
+        intlTelInputGlobals.version = "17.0.16";
         // convenience wrapper
         return function(input, options) {
             var iti = new Iti(input, options);

@@ -184,12 +184,13 @@ class MyReferralController extends Controller
         ];
 
         $seasons = FarmSeason::getSeasons(true);
+        $stateLgas = LocalGovernmentArea::listGroupedByStateId();
 
         $referralRequest->append(['full_name', 'status_number']);
 
         return Inertia::render('Referral/Edit', compact(
             'referralRequest', 'app_states', 'years', 'seasons',
-            'farmSeason'
+            'farmSeason', 'stateLgas'
         ));
     }
 

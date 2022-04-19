@@ -700,7 +700,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       jqueryValidator.value = $(referralForm.value).validate(validationConfig());
 
       if (!!(referralRequest !== null && referralRequest !== void 0 && referralRequest.state_id)) {
-        updateSelectedStateLgas(!(referralRequest !== null && referralRequest !== void 0 && referralRequest.state_id), referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id);
+        updateSelectedStateLgas(referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.state_id, referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id);
       }
     });
     return {
@@ -2007,7 +2007,8 @@ __webpack_require__.r(__webpack_exports__);
         referralRequest = _usePage$props$value.referralRequest,
         years = _usePage$props$value.years,
         seasons = _usePage$props$value.seasons,
-        farmSeason = _usePage$props$value.farmSeason;
+        farmSeason = _usePage$props$value.farmSeason,
+        stateLgas = _usePage$props$value.stateLgas;
     var breadcrumbLinks = [{
       text: "My Farmers",
       link: route('referrals.index')
@@ -2020,6 +2021,7 @@ __webpack_require__.r(__webpack_exports__);
       years: years,
       seasons: seasons,
       farmSeason: farmSeason,
+      stateLgas: stateLgas,
       breadcrumbLinks: breadcrumbLinks,
       usePage: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage,
       AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -6230,13 +6232,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         breadcrumbs: $setup.breadcrumbLinks
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ReferralRequestForm"], {
         "app-states": $setup.app_states,
+        "state-lgas": $setup.stateLgas,
         "referral-request": $setup.referralRequest,
         "farm-season": $setup.farmSeason,
         years: $setup.years,
         seasons: $setup.seasons
       }, null, 8
       /* PROPS */
-      , ["app-states", "referral-request", "farm-season", "years", "seasons"])])])])];
+      , ["app-states", "state-lgas", "referral-request", "farm-season", "years", "seasons"])])])])];
     }),
     _: 1
     /* STABLE */

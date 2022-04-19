@@ -140,6 +140,19 @@ class ReferralRequest extends Model
         return $rules;
     }
 
+    public static function getFullValidationRules($id = null): array
+    {
+        $referralRequestValidationRules = self::defaultValidationRules($id);
+
+        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
+        $rules = array_merge($referralRequestValidationRules, $farmSeasonValidationRules);
+
+        $rules['farm_season_inputs'] = 'array|required|min:1|max:20';
+        $rules['farm_season_produces'] = 'array|required|min:1|max:20';
+
+        return $rules;
+    }
+
     /**
      * Get full name
      * 

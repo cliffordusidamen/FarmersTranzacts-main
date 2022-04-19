@@ -700,7 +700,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       jqueryValidator.value = $(referralForm.value).validate(validationConfig());
 
       if (!!(referralRequest !== null && referralRequest !== void 0 && referralRequest.state_id)) {
-        updateSelectedStateLgas(!(referralRequest !== null && referralRequest !== void 0 && referralRequest.state_id), referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id);
+        updateSelectedStateLgas(referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.state_id, referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id);
       }
     });
     return {

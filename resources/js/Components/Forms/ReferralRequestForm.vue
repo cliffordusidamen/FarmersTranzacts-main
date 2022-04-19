@@ -843,7 +843,7 @@ export default {
             );
 
             if (!!referralRequest?.state_id) {
-                updateSelectedStateLgas(!referralRequest?.state_id, referralRequest?.local_government_area_id)
+                updateSelectedStateLgas(referralRequest?.state_id, referralRequest?.local_government_area_id)
             }
         })
 

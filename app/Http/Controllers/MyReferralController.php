@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Events\FarmerReferralEvent;
 use App\Http\Requests\StoreFarmSeasonRequest;
 use App\Http\Requests\StoreReferralRequest;
+use App\Http\Requests\UpdateReferralRequest;
 use App\Models\Agent;
 use App\Models\Farm;
 use App\Models\FarmSeason;
+use App\Models\FarmSeasonInput;
+use App\Models\FarmSeasonProduce;
 use App\Models\LocalGovernmentArea;
 use App\Models\ReferralRequest;
 use App\Models\State;
@@ -198,10 +201,10 @@ class MyReferralController extends Controller
      * Update the referral request
      * 
      * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateReferralRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update($id, Request  $request)
+    public function update($id, UpdateReferralRequest $request)
     {
         $referralRequest = auth()
             ->user()
@@ -210,14 +213,45 @@ class MyReferralController extends Controller
             ->editable()
             ->findOrFail($id);
 
-        $rules = ReferralRequest::defaultValidationRules($id);
+        $farmSeason = $referralRequest->farm->seasons()->first();
 
-        $this->validate($request, $rules);
+        $saved = false;
 
-        $referralRequest->forceFill($request->only(array_keys($rules)));
-        $referralRequest->approval_status = ReferralRequest::STATUS_PENDING;
+        DB::transaction(function() use ($request, &$referralRequest, $farmSeason, &$saved) {
+            $rules = ReferralRequest::defaultValidationRules();
+            $referralRequest->forceFill($request->only(array_keys($rules)));
+            $referralRequest->approval_status = ReferralRequest::STATUS_PENDING;
 
-        if ($referralRequest->save()) {
+            if (!$referralRequest->save()) {
+                return;
+            }
+
+            collect($request->farm_season_inputs)
+                ->each(function($inputData) use ($farmSeason) {
+                    if (!empty($inputData['id'])) {
+                        FarmSeasonInput::where('id', $inputData['id'])
+                            ->update($inputData);
+                        return;
+                    }
+
+                    $farmSeason->seasonInputs()->create($inputData);
+                });
+
+            collect($request->farm_season_produces)
+                ->each(function($produceData) use ($farmSeason) {
+                    if (!empty($produceData['id'])) {
+                        FarmSeasonProduce::where('id', $produceData['id'])
+                            ->update($produceData);
+                        return;
+                    }
+
+                    $farmSeason->seasonProduces()->create($produceData);
+                });
+
+            $saved = true;
+        });
+
+        if ($saved) {
             flashMessage('success', 'Farmer information updated!');
             return redirect(route('referrals.index'));
         }

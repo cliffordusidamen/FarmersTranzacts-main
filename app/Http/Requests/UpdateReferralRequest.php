@@ -29,7 +29,7 @@ class UpdateReferralRequest extends FormRequest
     public function rules()
     {
         $rules = ReferralRequest::getFullValidationRules(
-            Route::current()->getParameter('id')
+            request()->route()->parameter('id')
         );
 
         return $rules;

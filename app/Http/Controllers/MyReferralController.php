@@ -88,6 +88,8 @@ class MyReferralController extends Controller
      */
     public function storeRequest(StoreReferralRequest $request)
     {
+
+        Log::info($request->all());
         
         $referralRequest = null;
         
@@ -102,12 +104,14 @@ class MyReferralController extends Controller
                 ->referralRequests()
                 ->create($referralData);
 
-
             $farmSeasonData = $request->only(array_keys(FarmSeason::defaultValidationRules()));
             $farmSeason = $farm->seasons()->create($farmSeasonData);
 
             $farmSeason->seasonInputs()->createMany(
                 $request->farm_season_inputs
+            );
+            $farmSeason->seasonProduces()->createMany(
+                $request->farm_season_produces
             );
 
             $referralRequest->append(['is_editable', 'is_deletable']);

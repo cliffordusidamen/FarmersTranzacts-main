@@ -43,6 +43,16 @@ class FarmSeason extends Model
     }
 
     /**
+     * Relationship: Has many farm season produce
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function seasonProduces(): HasMany
+    {
+        return $this->hasMany(FarmSeasonProduce::class);
+    }
+
+    /**
      * Get list of seasons
      *
      * @param  bool $asKeys

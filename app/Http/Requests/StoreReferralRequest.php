@@ -27,7 +27,6 @@ class StoreReferralRequest extends FormRequest
      */
     public function rules()
     {
-        Log::info(request()->all());
         $referralRequestValidationRules = ReferralRequest::defaultValidationRules();
 
         $farmSeasonValidationRules = FarmSeason::defaultValidationRules();

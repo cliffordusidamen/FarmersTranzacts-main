@@ -88,8 +88,6 @@ class MyReferralController extends Controller
      */
     public function storeRequest(StoreReferralRequest $request)
     {
-
-        Log::info($request->all());
         
         $referralRequest = null;
         
@@ -170,9 +168,12 @@ class MyReferralController extends Controller
         $referralRequest = auth()
             ->user()
             ->referralRequests()
-            ->with('state')
+            ->with(['state', 'farm'])
             ->editable()
             ->findOrFail($id);
+
+        $farmSeason = $referralRequest->farm->seasons()->first();
+        $farmSeason->load(['seasonInputs', 'seasonProduces']);
 
         $app_states = State::pluck('state_name', 'id');
         $prevYear = date('Y') - 1;
@@ -187,7 +188,8 @@ class MyReferralController extends Controller
         $referralRequest->append(['full_name', 'status_number']);
 
         return Inertia::render('Referral/Edit', compact(
-            'referralRequest', 'app_states', 'years', 'seasons'
+            'referralRequest', 'app_states', 'years', 'seasons',
+            'farmSeason'
         ));
     }
 

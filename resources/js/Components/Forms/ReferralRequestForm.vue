@@ -539,6 +539,11 @@ export default {
             default: (() => ({})),
         },
 
+        farmSeason: {
+            type: Object,
+            default: (() => ({})),
+        },
+
         seasons: {
             type: Object,
             default: (() => ({})),
@@ -565,10 +570,18 @@ export default {
     },
 
     setup(props) {
-        const { appStates, referralRequest, seasons, years, stateLgas } = props;
+        const {
+            appStates,
+            referralRequest,
+            seasons,
+            years,
+            stateLgas,
+            farmSeason
+        } = props;
+
 
         // [START] Season input logic
-            const seasonInputs = ref([]);
+            const seasonInputs = ref(farmSeason?.season_inputs || []);
             const editSeasonInput = ref({});
             const editInputIndex = ref(null)
             const seasonInputModalId = 'seasonInputModal';
@@ -616,7 +629,7 @@ export default {
         // [END] Season input logic
 
         // [START] Season produce logic
-            const seasonProduces = ref([]);
+            const seasonProduces = ref(farmSeason?.season_produces || []);
             const editSeasonProduce = ref({});
             const editProduceIndex = ref(null)
             const seasonProduceModalId = 'seasonProduceModal';
@@ -687,13 +700,14 @@ export default {
             state_id: referralRequest?.state_id || '',
             local_government_area_id: referralRequest?.local_government_area_id || '',
             ward: referralRequest?.ward || '',
-            farm_size: referralRequest?.farm_size || '',
-            number_of_workers: referralRequest?.number_of_workers || '',
-            season: referralRequest?.season || '',
-            year: referralRequest?.year || '',
-            workers_pay: referralRequest?.workers_pay || '',
-            farm_season_inputs: [],
-            farm_season_produces: [],
+
+            farm_size: farmSeason?.farm_size || '',
+            number_of_workers: farmSeason?.number_of_workers || '',
+            season: farmSeason?.season || '',
+            year: farmSeason?.year || '',
+            workers_pay: farmSeason?.workers_pay || '',
+            farm_season_inputs: farmSeason?.season_inputs || [],
+            farm_season_produces: farmSeason?.season_produces || [],
         })
 
         const setLga = (lga_id) => {
@@ -827,6 +841,10 @@ export default {
             jqueryValidator.value = $(referralForm.value).validate(
                 validationConfig()
             );
+
+            if (!!referralRequest?.state_id) {
+                updateSelectedStateLgas(!referralRequest?.state_id, referralRequest?.local_government_area_id)
+            }
         })
 
         return {

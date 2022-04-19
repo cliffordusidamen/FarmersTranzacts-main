@@ -56,7 +56,11 @@ const resetForm = () => {
 }
 
 const onSubmit = (validatedData) => {
-    emits('onSubmit', {...validatedData})
+    let emitData = {...validatedData}
+    if (!!props.seasonProduce.id) {
+        emitData['id'] = props.seasonProduce.id;
+    }
+    emits('onSubmit', emitData)
     resetForm()
 }
 

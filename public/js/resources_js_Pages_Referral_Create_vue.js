@@ -394,6 +394,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return {};
       }
     },
+    farmSeason: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    },
     seasons: {
       type: Object,
       "default": function _default() {
@@ -425,9 +431,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         referralRequest = props.referralRequest,
         seasons = props.seasons,
         years = props.years,
-        stateLgas = props.stateLgas; // [START] Season input logic
+        stateLgas = props.stateLgas,
+        farmSeason = props.farmSeason; // [START] Season input logic
 
-    var seasonInputs = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)([]);
+    var seasonInputs = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_inputs) || []);
     var editSeasonInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)({});
     var editInputIndex = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
     var seasonInputModalId = 'seasonInputModal';
@@ -482,7 +489,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // [START] Season produce logic
 
 
-    var seasonProduces = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)([]);
+    var seasonProduces = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_produces) || []);
     var editSeasonProduce = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)({});
     var editProduceIndex = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
     var seasonProduceModalId = 'seasonProduceModal';
@@ -561,13 +568,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       state_id: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.state_id) || '',
       local_government_area_id: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id) || '',
       ward: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.ward) || '',
-      farm_size: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.farm_size) || '',
-      number_of_workers: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.number_of_workers) || '',
-      season: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.season) || '',
-      year: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.year) || '',
-      workers_pay: (referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.workers_pay) || '',
-      farm_season_inputs: [],
-      farm_season_produces: []
+      farm_size: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.farm_size) || '',
+      number_of_workers: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.number_of_workers) || '',
+      season: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season) || '',
+      year: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.year) || '',
+      workers_pay: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.workers_pay) || '',
+      farm_season_inputs: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_inputs) || [],
+      farm_season_produces: (farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_produces) || []
     });
 
     var setLga = function setLga(lga_id) {
@@ -691,6 +698,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_16__.onMounted)(function () {
       initIntlPhone(phoneInput, telInput, 'phone');
       jqueryValidator.value = $(referralForm.value).validate(validationConfig());
+
+      if (!!(referralRequest !== null && referralRequest !== void 0 && referralRequest.state_id)) {
+        updateSelectedStateLgas(!(referralRequest !== null && referralRequest !== void 0 && referralRequest.state_id), referralRequest === null || referralRequest === void 0 ? void 0 : referralRequest.local_government_area_id);
+      }
     });
     return {
       appStates: appStates,
@@ -802,7 +813,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
 
     var onSubmit = function onSubmit(validatedData) {
-      emits('onSubmit', _objectSpread({}, validatedData));
+      var emitData = _objectSpread({}, validatedData);
+
+      if (!!props.seasonInput.id) {
+        emitData['id'] = props.seasonInput.id;
+      }
+
+      emits('onSubmit', emitData);
       resetForm();
     };
 
@@ -930,7 +947,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
 
     var onSubmit = function onSubmit(validatedData) {
-      emits('onSubmit', _objectSpread({}, validatedData));
+      var emitData = _objectSpread({}, validatedData);
+
+      if (!!props.seasonProduce.id) {
+        emitData['id'] = props.seasonProduce.id;
+      }
+
+      emits('onSubmit', emitData);
       resetForm();
     };
 

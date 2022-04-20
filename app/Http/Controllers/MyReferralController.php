@@ -140,7 +140,7 @@ class MyReferralController extends Controller
         $referralRequest = auth()
             ->user()
             ->referralRequests()
-            ->with('state')
+            ->with(['state', 'localGovernmentArea'])
             ->findOrFail($id);
 
         $referralRequest->append([
@@ -152,7 +152,7 @@ class MyReferralController extends Controller
         ]);
 
         $seasons = $referralRequest->farm_id
-            ? $referralRequest->farm->seasons
+            ? $referralRequest->farm->seasons()->with(['seasonProduces', 'seasonInputs'])->get()
             : [];
 
         return Inertia::render('Referral/Show', compact(

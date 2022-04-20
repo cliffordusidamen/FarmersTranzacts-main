@@ -58,16 +58,6 @@
                                                 >
                                                     {{ refRequest.approval_status }}
                                                 </span>
-
-                                                <span class="text-uppercase d-block d-md-none">
-                                                    Last season:
-                                                    <span v-if="!!refRequest?.last_season?.id" class="ml-2">
-                                                        {{ `${refRequest.last_season.year}, ${refRequest.last_season.season} season` }}
-                                                    </span>
-                                                    <span v-else class="ml-2">
-                                                        {{ refRequest.season_year }}, {{ refRequest.season }} season
-                                                    </span>
-                                                </span>
                                             </inertia-link>
                                         </td>
 

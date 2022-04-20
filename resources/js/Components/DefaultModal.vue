@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "@vue/reactivity"
-import { onMounted } from "@vue/runtime-core"
+import { onMounted, onUnmounted } from "@vue/runtime-core"
 
 const props = defineProps({
     id: {
@@ -35,24 +35,30 @@ const props = defineProps({
 })
 
 const modal = ref(null)
+const modalEventListener = ref(null)
 
 
 onMounted(() => {
 
-    modal.current = $(`#${props.id}`).modal({
+    modal.value = $(`#${props.id}`).modal({
         show: false,
         backdrop: props.static == 'static' ? 'static' : true,
         keyboard: false,
         focus: false,
     })
-    document.addEventListener(props.showEvent, e => {
-        modal.current.modal('show')
+    modalEventListener.value = document.addEventListener(props.showEvent, e => {
+        modal.value.modal('show')
     })
 
     $(`#${props.id}`).on('hidden.bs.modal', () => {
         props.handleClose()
     })
 
+})
+
+onUnmounted(() => {
+    document.removeEventListener(props.showEvent, modalEventListener.value, false)
+    modal.value.modal('dispose')
 })
 </script>
 
@@ -66,7 +72,6 @@ onMounted(() => {
                         class="modal-header"
                     >
                         <h5 class="modal-title" :id="`${id}Label`">
-                            <i class="la la-exclamation-circle mr-2"></i>
                             {{ title }}
                         </h5>
                         <button

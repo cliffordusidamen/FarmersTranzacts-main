@@ -26,6 +26,8 @@ class Address extends Model
         'postal_code',
         'state_id',
         'country_id',
+        'local_government_area_id',
+        'ward',
     ];
 
     /**
@@ -56,6 +58,16 @@ class Address extends Model
     public function state(): BelongsTo
     {
         return $this->belongsTo(State::class);
+    }
+
+    /**
+     * Relationship: Belongs to local government area
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function localGovernmentArea(): BelongsTo
+    {
+        return $this->belongsTo(LocalGovernmentArea::class);
     }
 
     /**
@@ -91,6 +103,8 @@ class Address extends Model
             'city' => ['required', 'string', 'nullable', 'min:3', 'max:25'],
             'postal_code' => ['sometimes', 'string', 'nullable', 'min:3', 'max:10'],
             'state_id' => ['required', 'exists:states,id'],
+            'local_government_area_id' => ['sometimes', 'nullable', 'exists:local_government_areas,id'],
+            'ward' => ['sometimes', 'nullable', 'max:50'],
             'country_id' => ['sometimes', 'nullable', 'exists:countries,id'],
             'order_for_self' => 'sometimes|nullable|boolean',
             'referral' => [

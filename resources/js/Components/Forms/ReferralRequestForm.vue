@@ -18,9 +18,12 @@
         </div>
     </div>
     <form ref="referralForm" id="referralForm" class="px-4">
-        <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
-            Personal Information
+        <h4 class="text-center text-success border-bottom text-success text-uppercase">
+            Personal Details
         </h4>
+        <div class="mx-4 text-center text-muted mt-n4 mb-3">
+            Personal information of the farmer
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -107,9 +110,12 @@
         </div>
 
         
-        <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
-            Business information
+        <h4 class="text-center text-success border-bottom text-uppercase">
+            Farm details
         </h4>
+        <div class="mx-4 text-center text-muted mt-n4 mb-3">
+            Information of the farm as an organization/business
+        </div>
 
         <div class="row">
             <div class="col-md-6">
@@ -181,18 +187,53 @@
                         name="state_id"
                         v-model="form.state_id"
                         :options="appStates"
+                        @change="handleStateChange"
                         required
                     />
                     <jet-input-error :message="form.errors.state_id" />
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label class="required" for="local_government_area_id" value="Local Government Area" />
+                    <custom-select
+                        id="type"
+                        name="local_government_area_id"
+                        v-model="form.local_government_area_id"
+                        :options="selectedStateLgas"
+                        required
+                    />
+                    <jet-input-error :message="form.errors.local_government_area_id" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <jet-label for="ward" value="Ward" />
+                    <jet-input
+                        name="ward"
+                        max-length="50"
+                        id="ward"
+                        type="text"
+                        v-model="form.ward"
+                        autocomplete="ward"
+                    />
+                    <jet-input-error :message="form.errors.ward" />
+                </div>
+            </div>
         </div>
 
-        <h4 class="text-center text-success border-bottom mb-3 pb-2 text-uppercase">
-            Last season record
+        
+        <h4 class="text-center text-success border-bottom text-uppercase">
+            most recent season
         </h4>
-        <div class="row">
+        <div class="mx-4 text-center text-muted mt-n4 mb-3">
+            Information of the most recent season
+        </div>
 
+        <div class="row">
+            
             <div class="col-md-6">
                 <div class="form-group">
                     <jet-label class="required" for="season" value="Year" />
@@ -240,58 +281,6 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <jet-label for="seed_input" class="mb-0" value="Seeds used" />
-                    <span class="d-block small">
-                        Quantity of seeds used for the season
-                        <br />
-                        e.g. Maize-3kg, Beans-4kg...
-                    </span>
-                    <jet-input
-                        name="seed_input"
-                        max-length="50"
-                        id="seed_input"
-                        type="text"
-                        v-model="form.seed_input"
-                    />
-                    <jet-input-error :message="form.errors.seed_input" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="animal_feed_input" class="mb-0" value="Animal-feed used" />
-                    <span class="d-block small">
-                        Quantity of animal feed used for the season
-                        <br />
-                        e.g. Fish feed-30kg, Poultry feed-10 bags...
-                    </span>
-                    <jet-input
-                        name="animal_feed_input"
-                        max-length="50"
-                        id="animal_feed_input"
-                        type="text"
-                        v-model="form.animal_feed_input"
-                    />
-                    <jet-input-error :message="form.errors.animal_feed_input" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="fertilizer_bags" class="mb-0" value="Fertilizer used(Bags)" />
-
-                    <jet-input
-                        name="fertilizer_bags"
-                        max-length="50"
-                        id="fertilizer_bags"
-                        type="number"
-                        v-model="form.fertilizer_bags"
-                    />
-                    <jet-input-error :message="form.errors.fertilizer_bags" />
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
                     <jet-label for="number_of_workers" class="mb-0 required" value="Number of workers" />
                     <span class="d-block small">
                         That work directly on the farm
@@ -308,88 +297,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="agro_chemical_input" class="mb-0" value="Agro-chemical used" />
-                    <span class="d-block small">
-                        E.g. Pesticide- 4 Litres, Herbicide - 50litres
-                    </span>
-                    <jet-input
-                        name="agro_chemical_input"
-                        max-length="50"
-                        id="agro_chemical_input"
-                        type="text"
-                        v-model="form.agro_chemical_input"
-                    />
-                    <jet-input-error :message="form.errors.agro_chemical_input" />
-                </div>
-            </div>
-
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="crops_harvest" class="mb-0" value="Crops harvest" />
-                    <div class="text-muted small">
-                        Example: casava - 4bags, maize - 400tons, potato - 303kg...
-                    </div>
-                    <jet-textarea
-                        name="crops_harvest"
-                        max-length="500"
-                        id="crops_harvest"
-                        v-model="form.crops_harvest"
-                    />
-                    <jet-input-error :message="form.errors.crops_harvest" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="animals_harvest" class="mb-0" value="Animals harvest" />
-                    <div class="text-muted small">
-                        Example: goat - 190, sheep - 67, poultry-1100...
-                    </div>
-                    <jet-textarea
-                        name="animals_harvest"
-                        max-length="500"
-                        id="animals_harvest"
-                        v-model="form.animals_harvest"
-                    />
-                    <jet-input-error :message="form.errors.animals_harvest" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="crops_sale" class="mb-0" value="Crops sale" />
-                    <div class="text-muted small">
-                        Example: casava - N4,000 per bag, maize - N2,000 per ton, potato - N100 per kg...
-                    </div>
-                    <jet-textarea
-                        name="crops_sale"
-                        max-length="500"
-                        id="crops_sale"
-                        v-model="form.crops_sale"
-                    />
-                    <jet-input-error :message="form.errors.crops_sale" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="animals_sale" class="mb-0" value="Animals sale" />
-                    <div class="text-muted small">
-                        Example: N5000 per goat, N100 per sheep, N200 per poultry...
-                    </div>
-                    <jet-textarea
-                        name="animals_sale"
-                        max-length="500"
-                        id="animals_sale"
-                        v-model="form.animals_sale"
-                    />
-                    <jet-input-error :message="form.errors.animals_sale" />
-                </div>
-            </div>
-
+            
             <div class="col-md-6">
                 <div class="form-group">
                     <jet-label for="workers_pay" class="mb-0" value="Workers pay" />
@@ -406,40 +314,136 @@
                 </div>
             </div>
 
-            
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="input_supply_prices" class="mb-0" value="Input supplies prices" />
-                    <span class="d-block small">
-                        E.g. Pesticide- N4000 per Litres, Fertilizer - N500 per bag, Maize - N500 per bag
-                    </span>
-                    <jet-textarea
-                        name="input_supply_prices"
-                        max-length="500"
-                        id="input_supply_prices"
-                        v-model="form.input_supply_prices"
-                    />
-                    <jet-input-error :message="form.errors.input_supply_prices" />
+        </div>
+
+        <!-- FARM PRODUCE [START]  -->
+        <div class="bg-light rounded border p-3 my-4">
+            <jet-input-error
+                v-show="!showSeasonInputError"
+                :message="form.errors.farm_season_inputs"
+            />
+            <div
+                class="alert alert-warning"
+                v-show="showSeasonInputError && !seasonInputs.length"
+            >
+                Add at least one(1) season input.
+            </div>
+
+            <h5 class="text-center text-success border-bottom text-uppercase">
+                Season inputs
+            </h5>
+            <div class="mx-4 text-center text-muted mt-n4 mb-1">
+                All items/materials used in the season
+            </div>
+
+            <div v-if="!seasonInputs.length" class="px-2 py-2 text-center">
+                Add at least one input for the season<br />
+            </div>
+
+            <div v-else>
+                <div
+                    v-for="(seasonInput, inputIndex) in seasonInputs"
+                    :key="inputIndex"
+                    class="d-flex align-items-center justify-content-start border-top"
+                >
+                    <div class="flex-grow-1">
+                        <strong>{{ `${seasonInput.name} - ${seasonInput.quantity} ${seasonInput.unit}` }}</strong>
+                        <br />
+                        &#8358;{{ `${Number(seasonInput.cost_per_unit).toLocaleString()} per ${seasonInput.unit}` }}
+                    </div>
+                    <button
+                        type="button"
+                        class="btn btn-dark min-width-0"
+                        @click="() => setEditInput(inputIndex)"
+                    >
+                        <i class="icon-edit"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-danger min-width-0"
+                        @click="() => removeInput(inputIndex)"
+                    >
+                        <i class="icon-close"></i>
+                    </button>
                 </div>
             </div>
 
-            
-            <div class="col-md-6">
-                <div class="form-group">
-                    <jet-label for="season_notes" class="mb-0" value="Season notes" />
-                    <div class="text-muted small">
-                        What are the challenges, opportunities, successes, and notable experiences of the season?
-                    </div>
-                    <jet-textarea
-                        name="season_notes"
-                        max-length="5000"
-                        id="season_notes"
-                        v-model="form.season_notes"
-                    />
-                    <jet-input-error :message="form.errors.season_notes" />
-                </div>
+            <div class="mt-2">
+                <button
+                    type="button"
+                    class="btn btn-block btn-dark text-uppercase"
+                    @click="showSeasonInputsModal"
+                >
+                    <i class="icon-plus"></i>
+                    Add input
+                </button>
             </div>
         </div>
+        <!-- FARM PRODUCE [END]  -->
+
+        <!-- FARM PRODUCE [START]  -->
+        <div class="bg-light rounded border p-3 my-4">
+            <jet-input-error
+                v-show="!showSeasonProduceError"
+                :message="form.errors.farm_season_produces"
+            />
+            <div
+                class="alert alert-warning"
+                v-show="showSeasonProduceError && !seasonProduces.length"
+            >
+                Add at least one(1) season produce.
+            </div>
+
+            <h5 class="text-center text-success border-bottom text-uppercase">
+                Season produce
+            </h5>
+            <div class="mx-4 text-center text-muted mt-n4 mb-1">
+                All farm produce for the season
+            </div>
+
+            <div v-if="!!seasonProduces.length">
+                <div
+                    v-for="(seasonProduce, produceIndex) in seasonProduces"
+                    :key="produceIndex"
+                    class="d-flex align-items-center justify-content-start border-top"
+                >
+                    <div class="flex-grow-1">
+                        <strong>{{ `${seasonProduce.name} - ${seasonProduce.quantity_produced} ${seasonProduce.unit}` }}</strong>
+                        <br />
+                        Sold
+                        {{ `${seasonProduce.quantity_produced} ${seasonProduce.unit}` }}
+                        at
+                        &#8358;{{ `${Number(seasonProduce.price_per_unit).toLocaleString()} per ${seasonProduce.unit}` }}
+                    </div>
+                    <button
+                        type="button"
+                        class="btn btn-dark min-width-0"
+                        @click="() => setEditProduce(produceIndex)"
+                    >
+                        <i class="icon-edit"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-danger min-width-0"
+                        @click="() => removeProduce(produceIndex)"
+                    >
+                        <i class="icon-close"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <button
+                    type="button"
+                    class="btn btn-block btn-dark text-uppercase"
+                    @click="showSeasonProducesModal"
+                >
+                    <i class="icon-plus"></i>
+                    Add produce
+                </button>
+            </div>
+        </div>
+        <!-- FARM PRODUCE [END]  -->
 
         <div class="mb-0 text-center">
             <jet-button
@@ -451,6 +455,50 @@
             </jet-button>
         </div>
     </form>
+
+    <!-- [START] FARM SEASON INPUT MODAL -->
+    <default-modal
+        :id="seasonInputModalId"
+        :show-event="seasonInputModelEventName"
+    >
+        <div class="text-right">
+            <button type="button" class="btn btn-danger p-0 text-uppercase min-width-0" data-dismiss="modal">
+                <i class="icon-close"></i>
+            </button>
+        </div>
+        <div class="p-3">
+
+            <season-input-form
+                :key="editSeasonInput"
+                :season-input="editSeasonInput"
+                :index="editInputIndex"
+                @on-submit="handleSeasonInputSubmission"
+            />
+        </div>
+    </default-modal>
+    <!-- [END] FARM SEASON INPUT MODAL -->
+
+    <!-- [START] FARM SEASON PRODUCE MODAL -->
+    <default-modal
+        :id="seasonProduceModalId"
+        :show-event="seasonProduceModelEventName"
+    >
+        <div class="text-right">
+            <button type="button" class="btn btn-danger p-0 text-uppercase min-width-0" data-dismiss="modal">
+                <i class="icon-close"></i>
+            </button>
+        </div>
+        <div class="p-3">
+
+            <season-produce-form
+                :key="editSeasonProduce"
+                :season-produce="editSeasonProduce"
+                :index="editProduceIndex"
+                @on-submit="handleSeasonProduceSubmission"
+            />
+        </div>
+    </default-modal>
+    <!-- [END] FARM SEASON PRODUCE MODAL -->
 
 </template>
 
@@ -467,7 +515,12 @@ import JetLabel from "@/Jetstream/Label";
 import JetTextarea from "@/Jetstream/Textarea";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import CustomSelect from "@/Components/CustomSelect"
+import SeasonInputForm from "@/Components/Forms/SeasonInputForm"
+import SeasonProduceForm from "@/Components/Forms/SeasonProduceForm"
 import useInitIntlPhone from "@/composables/useInitIntlPhone"
+import useStateLgaSelection from "@/composables/useStateLgaSelection"
+import DefaultModal from "@/Components/DefaultModal"
+import useScrollToError from '@/composables/useScrollToError';
 
 export default {
     props: {
@@ -476,7 +529,17 @@ export default {
             required: true,
         },
 
+        stateLgas: {
+            type: Object,
+            required: true,
+        },
+
         referralRequest: {
+            type: Object,
+            default: (() => ({})),
+        },
+
+        farmSeason: {
             type: Object,
             default: (() => ({})),
         },
@@ -494,6 +557,7 @@ export default {
 
     components: {
         CustomSelect,
+        DefaultModal,
         JetButton,
         JetCheckbox,
         JetInput,
@@ -501,10 +565,119 @@ export default {
         JetLabel,
         JetTextarea,
         JetValidationErrors,
+        SeasonInputForm,
+        SeasonProduceForm,
     },
 
     setup(props) {
-        const { appStates, referralRequest, seasons, years } = props;
+        const {
+            appStates,
+            referralRequest,
+            seasons,
+            years,
+            stateLgas,
+            farmSeason
+        } = props;
+
+
+        // [START] Season input logic
+            const seasonInputs = ref(farmSeason?.season_inputs || []);
+            const editSeasonInput = ref({});
+            const editInputIndex = ref(null)
+            const seasonInputModalId = 'seasonInputModal';
+            const seasonInputModelEventName = 'show-season-input-form';
+            const showSeasonInputsModal = () => {
+                const seasonInputModalEvent = new CustomEvent(seasonInputModelEventName, {
+                    detail: {},
+                });
+                document.dispatchEvent(seasonInputModalEvent);
+            }
+
+            const resetEditInput = () => {
+                editSeasonInput.value = {}
+                editInputIndex.value = null
+            }
+            const handleSeasonInputSubmission = (seasonInputData) => {
+                if (editInputIndex.value === null) {
+                    seasonInputs.value.push({...seasonInputData})
+                } else {
+                    seasonInputs.value[editInputIndex.value] = {...seasonInputData}
+                }
+                $(`#${seasonInputModalId}`).modal('hide')
+                resetEditInput()
+            }
+            const showSeasonInputError = ref(false)
+            const removeInput = (inputIndex) => {
+                if (seasonInputs.value.length <= 1) {
+                    seasonInputs.value = []
+                    return;
+                }
+
+                const newSeasonInputs = seasonInputs.value.filter((_input, _index) => inputIndex != _index)
+                seasonInputs.value = [...newSeasonInputs];
+            }
+            const setEditInput = (inputIndex) => {
+                if (undefined === seasonInputs.value[inputIndex]) {
+                    return;
+                }
+
+                editSeasonInput.value = seasonInputs.value[inputIndex]
+                editInputIndex.value = inputIndex
+
+                showSeasonInputsModal()
+            }
+        // [END] Season input logic
+
+        // [START] Season produce logic
+            const seasonProduces = ref(farmSeason?.season_produces || []);
+            const editSeasonProduce = ref({});
+            const editProduceIndex = ref(null)
+            const seasonProduceModalId = 'seasonProduceModal';
+            const seasonProduceModelEventName = 'show-season-produce-form';
+            const showSeasonProducesModal = () => {
+                const seasonProduceModalEvent = new CustomEvent(seasonProduceModelEventName, {
+                    detail: {},
+                });
+                document.dispatchEvent(seasonProduceModalEvent);
+            }
+
+            const resetEditProduce = () => {
+                editSeasonProduce.value = {}
+                editProduceIndex.value = null
+            }
+            const handleSeasonProduceSubmission = (seasonProduceData) => {
+                if (editProduceIndex.value === null) {
+                    seasonProduces.value.push({...seasonProduceData})
+                } else {
+                    seasonProduces.value[editProduceIndex.value] = {...seasonProduceData}
+                }
+                $(`#${seasonProduceModalId}`).modal('hide')
+                resetEditProduce()
+            }
+            const showSeasonProduceError = ref(false)
+            const removeProduce = (inputIndex) => {
+                if (seasonProduces.value.length <= 1) {
+                    seasonProduces.value = []
+                    return;
+                }
+
+                const newSeasonProduces = seasonProduces.value.filter((_input, _index) => inputIndex != _index)
+                seasonProduces.value = [...newSeasonProduces];
+            }
+            const setEditProduce = (inputIndex) => {
+                if (undefined === seasonProduces.value[inputIndex]) {
+                    return;
+                }
+
+                editSeasonProduce.value = seasonProduces.value[inputIndex]
+                editProduceIndex.value = inputIndex
+
+                showSeasonProducesModal()
+            }
+        // [END] Season produce logic
+
+
+        const { scrollToFieldError } = useScrollToError('#referralForm')
 
         const jqueryValidator = ref(null)
         const referralForm = ref(null)
@@ -525,25 +698,34 @@ export default {
             address_line_2: referralRequest?.address_line_2 || '',
             city: referralRequest?.city || '',
             state_id: referralRequest?.state_id || '',
-            crops_harvest: referralRequest?.crops_harvest || '',
-            animals_harvest: referralRequest?.animals_harvest || '',
-            farm_size: referralRequest?.farm_size || '',
-            seed_input: referralRequest?.seed_input || '',
-            animal_feed_input: referralRequest?.animal_feed_input || '',
-            fertilizer_bags: referralRequest?.fertilizer_bags || '',
-            agro_chemical_input: referralRequest?.agro_chemical_input || '',
-            number_of_workers: referralRequest?.number_of_workers || '',
-            crops_sale: referralRequest?.crops_sale || '',
-            animals_sale: referralRequest?.animals_sale || '',
-            season: referralRequest?.season || '',
-            year: referralRequest?.year || '',
-            workers_pay: referralRequest?.workers_pay || '',
-            input_supply_prices: referralRequest?.input_supply_prices || '',
-            season_notes: referralRequest?.season_notes || '',
+            local_government_area_id: referralRequest?.local_government_area_id || '',
+            ward: referralRequest?.ward || '',
+
+            farm_size: farmSeason?.farm_size || '',
+            number_of_workers: farmSeason?.number_of_workers || '',
+            season: farmSeason?.season || '',
+            year: farmSeason?.year || '',
+            workers_pay: farmSeason?.workers_pay || '',
+            farm_season_inputs: farmSeason?.season_inputs || [],
+            farm_season_produces: farmSeason?.season_produces || [],
         })
+
+        const setLga = (lga_id) => {
+            form.local_government_area_id = lga_id ?? '';
+        }
+
+        const  {
+            selectedStateLgas,
+            updateSelectedStateLgas,
+            handleStateChange,
+        } = useStateLgaSelection(stateLgas, setLga)
 
         const submit = () => {
             form.phone = telInput.value.getNumber()
+            form.farm_season_inputs = [...seasonInputs.value]
+            form.farm_season_produces = [...seasonProduces.value]
+
+            console.log('Data:', {...form})
             const tartgetRoute = !referralRequest?.id
                 ? route("referrals.store")
                 : route("referrals.update", {id: referralRequest.id})
@@ -578,7 +760,20 @@ export default {
 
             return {
                 submitHandler() {
+                    showSeasonInputError.value = false
                     referralForm.value.classList.add("was-validated");
+                    const noInputOrProducSet = !seasonInputs.value.length
+                        || !seasonProduces.value.length
+                    if (!seasonInputs.value.length) {
+                        showSeasonInputError.value = true
+                    }
+                    if (!seasonProduces.value.length) {
+                        showSeasonProduceError.value = true
+                    }
+
+                    if (noInputOrProducSet) {
+                        return scrollToFieldError();
+                    }
                     submit();
                 },
                 rules: {
@@ -617,61 +812,25 @@ export default {
                         minlength: 3,
                     },
                     state_id: 'required',
+                    local_government_area_id: 'required',
+                    ward: {
+                        maxlength: 50,
+                    },
                     season: 'required',
                     year: 'required',
 
-                    crops_harvest: {
-                        required: () => {
-                            return $('#animals_harvest').val().trim().length == 0
-                        },
-                        minlength: 3,
-                    },
-                    animals_harvest: {
-                        required:  () => {
-                            return $('#crops_harvest').val().trim().length == 0
-                        },
-                        minlength: 3,
-                    },
                     farm_size: {
                         required: true,
                         minlength: 3,
                     },
 
-                    seed_input: {
-                        minlength: 3,
-                    },
-                    animal_feed_input: {
-                        minlength: 3,
-                    },
                     workers_pay: {
-                        minlength: 3,
-                    },
-                    input_supply_prices: {
-                        minlength: 3,
-                    },
-                    fertilizer_bags: {
-                        max: 9999999,
-                    },
-                    agro_chemical_input: {
                         minlength: 3,
                     },
                     number_of_workers: {
                         required: true,
                         digits: true,
                         min: 1,
-                    },
-
-                    crops_sale: {
-                        required: () => {
-                            return $('#animals_sale').val().trim().length == 0
-                        },
-                        minlength: 3,
-                    },
-                    animals_sale: {
-                        required:  () => {
-                            return $('#crops_sale').val().trim().length == 0
-                        },
-                        minlength: 3,
                     },
                 },
             };
@@ -682,13 +841,40 @@ export default {
             jqueryValidator.value = $(referralForm.value).validate(
                 validationConfig()
             );
+
+            if (!!referralRequest?.state_id) {
+                updateSelectedStateLgas(referralRequest?.state_id, referralRequest?.local_government_area_id)
+            }
         })
 
         return {
-            form,
-            referralForm,
-            jqueryValidator,
             appStates,
+            editInputIndex,
+            editSeasonInput,
+            editProduceIndex,
+            editSeasonProduce,
+            form,
+            handleSeasonInputSubmission,
+            handleSeasonProduceSubmission,
+            handleStateChange,
+            jqueryValidator,
+            referralForm,
+            removeInput,
+            removeProduce,
+            seasonInputModelEventName,
+            seasonProduceModelEventName,
+            seasonInputModalId,
+            seasonProduceModalId,
+            seasonInputs,
+            seasonProduces,
+            selectedStateLgas,
+            showSeasonInputError,
+            showSeasonProduceError,
+            showSeasonInputsModal,
+            showSeasonProducesModal,
+            updateSelectedStateLgas,
+            setEditInput,
+            setEditProduce,
         }
     },
 };

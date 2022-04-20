@@ -48,6 +48,16 @@ class ReferralRequest extends Model
     }
 
     /**
+     * Relationship: Belongs to local government area
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function localGovernmentArea(): BelongsTo
+    {
+        return $this->belongsTo(LocalGovernmentArea::class);
+    }
+
+    /**
      * Relationship: belongs to farm
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -111,8 +121,6 @@ class ReferralRequest extends Model
             $uniqueUserPhoneRule->ignore($id);
         }
 
-        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
-
         $rules = [
             'first_name' => "required|min:3|max:25",
             'last_name' => "required|min:3|max:25",
@@ -124,9 +132,25 @@ class ReferralRequest extends Model
             'address_line_2' => 'sometimes|nullable|max:255',
             'city' => 'sometimes|nullable|max:50',
             'state_id' => 'required|exists:states,id',
+            'local_government_area_id' => ['sometimes', 'nullable', 'exists:local_government_areas,id'],
+            'ward' => ['sometimes', 'nullable', 'max:50'],
         ];
 
-        return array_merge($rules, $farmSeasonValidationRules);
+
+        return $rules;
+    }
+
+    public static function getFullValidationRules($id = null): array
+    {
+        $referralRequestValidationRules = self::defaultValidationRules($id);
+
+        $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
+        $rules = array_merge($referralRequestValidationRules, $farmSeasonValidationRules);
+
+        $rules['farm_season_inputs'] = 'array|required|min:1|max:20';
+        $rules['farm_season_produces'] = 'array|required|min:1|max:20';
+
+        return $rules;
     }
 
     /**

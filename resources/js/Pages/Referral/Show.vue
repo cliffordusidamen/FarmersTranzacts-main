@@ -1,11 +1,14 @@
 <script setup>
 import { usePage } from '@inertiajs/inertia-vue3';
+import { ref } from '@vue/reactivity';
 
 import { getReferralApprovalCssClass } from '../../util/functions'
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BreadcrumbDefault from "@/Components/Utils/BreadcrumbDefault.vue";
 import ReferralActions from "@/Components/Controls/ReferralActions.vue";
 import PageHeader from "@/Components/Utils/PageHeader.vue";
+import DefaultModal from "@/Components/DefaultModal";
+import { computed } from '@vue/runtime-core';
 
 const { referralRequest, seasons } = usePage().props.value
 const breadcrumbLinks = [
@@ -18,6 +21,20 @@ const breadcrumbLinks = [
         text: referralRequest.full_name,
     },
 ]
+
+const displaySeason = ref(null)
+const displaySeasonTitle = computed(() => {
+    if (displaySeason.value) {
+        return `${displaySeason.value?.year}, ${displaySeason.value?.season.toUpperCase()} SEASON`;
+    }
+    return ''
+})
+const seasonDetailModelEventName = 'showSeasonDetailsModal';
+const showSeasonDetails = (season) => {
+    displaySeason.value = season
+    const seasonDetailModalEvent = new CustomEvent(seasonDetailModelEventName);
+    document.dispatchEvent(seasonDetailModalEvent);
+}
 
 
 </script>
@@ -58,13 +75,33 @@ const breadcrumbLinks = [
                             </div>
 
                             <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">business name:</strong>
+                                <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
+                            </div>
+
+                            <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">phone:</strong>
                                 <span>{{ referralRequest.phone }}</span>
                             </div>
 
                             <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">Age:</strong>
+                                <span>{{ referralRequest.age }}</span>
+                            </div>
+
+                            <div class="col-md-4 border-bottom mb-3">
                                 <strong class="d-block text-uppercase">email:</strong>
                                 <span>{{ referralRequest.email ?? 'N/A' }}</span>
+                            </div>
+
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">Local Govt. Area:</strong>
+                                <span>{{ referralRequest?.local_government_area?.local_govt_name ?? 'N/A' }}</span>
+                            </div>
+
+                            <div class="col-md-4 border-bottom mb-3">
+                                <strong class="d-block text-uppercase">Ward:</strong>
+                                <span>{{ referralRequest?.ward ?? 'N/A' }}</span>
                             </div>
 
 
@@ -91,105 +128,38 @@ const breadcrumbLinks = [
                                 </span>
                             </div>
 
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">business name:</strong>
-                                <span>{{ referralRequest.business_name ?? 'N/A' }}</span>
-                            </div>
                         </div>
 
-                        <h4 v-if="!referralRequest.farm_id" class="text-uppercase">Last season record</h4>
-                        <div v-if="!referralRequest.farm_id" class="row">
-
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">season:</strong>
-                                <span class="text-uppercase">
-                                    {{ !!referralRequest.season ? `${referralRequest.season} season` : '' }}
-                                    {{ !!referralRequest.year ? `, ${referralRequest.year}` : '' }}
-                                </span>
-                            </div>
-
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">farm size:</strong>
-                                <span>{{ referralRequest.farm_size ?? 'N/A' }}</span>
-                            </div>
-                            
-
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">number of workers:</strong>
-                                <span>{{ referralRequest.number_of_workers ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">seed(s) used:</strong>
-                                <span>{{ referralRequest.seed_input ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animal feed used:</strong>
-                                <span>{{ referralRequest.animal_feed_input ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">fertilizer used:</strong>
-                                <span>{{ referralRequest.fertilizer_bags ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">agro_chemical used:</strong>
-                                <span>{{ referralRequest.agro_chemical_input ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">crops harvest:</strong>
-                                <span>{{ referralRequest.crops_harvest ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animals harvest:</strong>
-                                <span>{{ referralRequest.animals_harvest ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">crops sale:</strong>
-                                <span>{{ referralRequest.crops_sale ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">animals sale:</strong>
-                                <span>{{ referralRequest.animals_sale ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">input supply prices:</strong>
-                                <span>{{ referralRequest.input_supply_prices ?? 'N/A' }}</span>
-                            </div>
-                            
-                            <div class="col-md-4 border-bottom mb-3">
-                                <strong class="d-block text-uppercase">workers pay:</strong>
-                                <span>{{ referralRequest.workers_pay ?? 'N/A' }}</span>
-                            </div>
-
-                        </div>
 
                         <div v-if="!!referralRequest.farm_id">
                             <h4 class="text-uppercase">season records</h4>
 
                             <div class="card shadow table-responsive">
-                                <table class="table table-sm m-0 p-0">
+                                <table class="table table-hover table-sm m-0 p-0">
                                     <thead>
                                         <tr class="small bg-light text-uppercase">
                                             <th>Year</th>
                                             <th>Season</th>
-                                            <th>Crops harvest</th>
-                                            <th>Animals harvest</th>
+                                            <th>Farm produce</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="season in seasons" :key="season.id">
+                                        <tr
+                                            v-for="season in seasons"
+                                            :key="season.id"
+                                            class="cursor-pointer"
+                                            title="click for details"
+                                            @click="() => showSeasonDetails(season)"
+                                        >
                                             <td>{{ season.year }}</td>
                                             <td class="text-uppercase">{{ season.season }}</td>
-                                            <td>{{ season.crops_harvest }}</td>
-                                            <td>{{ season.animals_harvest }}</td>
+                                            <td>
+                                                {{
+                                                    season.season_produces.map(
+                                                        (season_produce) => season_produce.name
+                                                    ).join(', ')
+                                                }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -197,6 +167,85 @@ const breadcrumbLinks = [
                         </div>
                     </div>
                 </div>
+
+                <default-modal
+                    :id="'seasonDetailsModal'"
+                    :show-event="seasonDetailModelEventName"
+                    :title="displaySeasonTitle"
+                >
+
+                    <div class="p-3">
+                        <div
+                            v-if="!!displaySeason?.season_produces.length"
+                            class="card mb-1"
+                        >
+                            <div class="card-header">
+                                <h5 class="text-uppercase px-4">season input/expense</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-sm m-0 p-0">
+                                    <thead>
+                                        <tr class="small bg-light text-uppercase">
+                                            <th>Item</th>
+                                            <th>Quantity</th>
+                                            <th>Unit</th>
+                                            <th class="text-center">Cost per Unit<br>(&#8358;)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            v-for="season_input in displaySeason.season_inputs"
+                                            :key="season_input.id"
+                                        >
+                                            <td>{{ season_input.name }}</td>
+                                            <td>{{ Number(season_input.quantity).toLocaleString() }}</td>
+                                            <td class="text-uppercase">{{ season_input.unit }}</td>
+                                            <td class="text-center">{{ Number(season_input.cost_per_unit).toLocaleString() }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div
+                            v-if="!!displaySeason?.season_produces.length"
+                            class="card mt-4"
+                        >
+                            <div class="card-header">
+                                <h5 class="text-uppercase px-4">season produce</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-sm m-0 p-0">
+                                    <thead>
+                                        <tr class="small bg-light text-uppercase">
+                                            <th>Item</th>
+                                            <th>Unit</th>
+                                            <th>Quantity produces</th>
+                                            <th>Quantity sold</th>
+                                            <th class="text-right">Price(&#8358;)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            v-for="season_produce in displaySeason.season_produces"
+                                            :key="season_produce.id"
+                                        >
+                                            <td>{{ season_produce.name }}</td>
+                                            <td class="text-uppercase">{{ season_produce.unit }}</td>
+                                            <td>{{ Number(season_produce.quantity_produced).toLocaleString() }}</td>
+                                            <td>{{ Number(season_produce.quantity_sold).toLocaleString() }}</td>
+                                            <td class="text-right">{{ Number(season_produce.price_per_unit).toLocaleString() }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </default-modal>
             </div>
         </div>
     </app-layout>

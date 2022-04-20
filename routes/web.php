@@ -36,11 +36,8 @@ Route::middleware(['guest'])->prefix('registration')->name('registration.')->gro
 
 Route::get('dashboard', \App\Http\Controllers\DashboardController::class)
     ->name('dashboard')
-    ->middleware(['auth:sanctum', 'verified']);
+    ->middleware(['auth:sanctum', 'verified', 'agent']);
 
-Route::middleware(['auth:sanctum', 'verified'])->prefix('categories')->name('categories.')->group(function() {
-
-});
 
 
 /*

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\Rule;
 
 class FarmSeason extends Model
@@ -29,6 +30,26 @@ class FarmSeason extends Model
     public function farm(): BelongsTo
     {
         return $this->belongsTo(Farm::class);
+    }
+
+    /**
+     * Relationship: Has many farm season inputs
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function seasonInputs(): HasMany
+    {
+        return $this->hasMany(FarmSeasonInput::class);
+    }
+
+    /**
+     * Relationship: Has many farm season produce
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function seasonProduces(): HasMany
+    {
+        return $this->hasMany(FarmSeasonProduce::class);
     }
 
     /**
@@ -58,30 +79,6 @@ class FarmSeason extends Model
     {
 
         $rules = [
-            'crops_harvest' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_harvest')))
-            ],
-            'animals_harvest' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_harvest')))
-            ],
-            'crops_sale' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('animals_sale')))
-            ],
-            'animals_sale' => [
-                'nullable',
-                Rule::requiredIf(fn() => empty(request('crops_sale')))
-            ],
-            'farm_size' => 'required|min:3|max:25',
-            'seed_input' => 'sometimes|nullable|max:500',
-            'animal_feed_input' => 'sometimes|nullable|max:500',
-            'fertilizer_bags' => 'sometimes|nullable|integer|max:500',
-            'agro_chemical_input' => 'sometimes|nullable|max:500',
-            'input_supply_prices' => 'sometimes|nullable|max:500',
-            'workers_pay' => 'sometimes|nullable|max:500',
-            'number_of_workers' => 'required|min:1|max:9999999',
             'year' => [
                 'required',
                 Rule::in([
@@ -95,6 +92,9 @@ class FarmSeason extends Model
                 Rule::in(FarmSeason::getSeasons()),
             ],
 
+            'farm_size' => 'required|min:3|max:25',
+            'workers_pay' => 'sometimes|nullable|max:500',
+            'number_of_workers' => 'required|min:1|max:9999999',
             'season_notes' => 'sometimes|nullable|max:5000',
         ];
 

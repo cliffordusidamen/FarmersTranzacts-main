@@ -60,7 +60,9 @@ class ReferralRequestController extends Controller
     {
         $referral = ReferralRequest::with([
                 'state',
-                'user'
+                'user',
+                'localGovernmentArea',
+                'farm',
             ])
             ->findOrFail($id);
 
@@ -69,11 +71,10 @@ class ReferralRequestController extends Controller
             'status_number',
         ]);
 
-        $seasons = [];
-
-        if (!empty($referral->farm_id)) {
-            $seasons = $referral->farm->seasons;
-        }
+        $seasons = $referral->farm->seasons()->with([
+            'seasonInputs',
+            'seasonProduces',
+        ])->get();
 
         return response()->json(compact('referral', 'seasons'));
     }

@@ -24,6 +24,6 @@ class StoreFarmSeasonRequest extends FormRequest
      */
     public function rules()
     {
-        return FarmSeason::defaultValidationRules();
+        return FarmSeason::getFullValidationRules();
     }
 }

@@ -407,7 +407,6 @@ export default {
 
     components: {
         CustomSelect,
-        DefaultModal,
         JetButton,
         JetCheckbox,
         JetInput,

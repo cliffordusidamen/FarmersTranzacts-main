@@ -369,17 +369,34 @@ class MyReferralController extends Controller
 
         if ($alreadyHasSeason) {
             flashMessage('danger', 'Season record for the selected year and season already exists!');
-            return back();
+            return back()->withInput();
         }
 
-        $farmSeason = $referralRequest->farm->seasons()->create($request->only(array_keys($rules)));
+        $saved = false;
+   
+        DB::transaction(function() use ($request, &$referralRequest, &$saved) {
 
-        if ($farmSeason->id) {
+            $farm = $referralRequest->farm;
+
+            $farmSeasonData = $request->only(array_keys(FarmSeason::defaultValidationRules()));
+            $farmSeason = $farm->seasons()->create($farmSeasonData);
+
+            $farmSeason->seasonInputs()->createMany(
+                $request->farm_season_inputs
+            );
+            $farmSeason->seasonProduces()->createMany(
+                $request->farm_season_produces
+            );
+
+            $saved = true;
+        });
+
+        if ($saved) {
             flashMessage('success', 'Farm season created!');
             return redirect(route('referrals.show', $referralRequest->id));
         }
 
         flashMessage('danger', 'Farm season was not created! Please, try again.');
-        return back();
+        return back()->withInput();
     }
 }

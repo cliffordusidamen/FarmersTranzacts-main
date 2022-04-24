@@ -424,7 +424,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   components: {
     CustomSelect: _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_8__["default"],
-    DefaultModal: _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_12__["default"],
     JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__["default"],
     JetCheckbox: _Jetstream_Checkbox__WEBPACK_IMPORTED_MODULE_4__["default"],
     JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__["default"],

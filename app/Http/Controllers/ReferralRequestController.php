@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Events\ReferralApprovedEvent;
 use App\Events\ReferralDisapprovedEvent;
+use App\Exports\FarmRecordsExport;
+use App\Models\Farm;
 use App\Models\ReferralRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +21,8 @@ class ReferralRequestController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:sanctum', 'frontend']);
+        $this->middleware(['auth:sanctum', 'frontend'])
+            ->except(['downloadSeasonRecords']);
     }
 
     /**
@@ -69,6 +73,10 @@ class ReferralRequestController extends Controller
         $referral->append([
             'full_name',
             'status_number',
+        ]);
+
+        $referral->farm->load([
+            'localGovernmentArea',
         ]);
 
         $seasons = $referral->farm->seasons()->with([
@@ -156,10 +164,10 @@ class ReferralRequestController extends Controller
         Request $request
     ) {
         $referral = ReferralRequest::with([
-                'state',
-                'user'
-            ])
-            ->findOrFail($id);
+            'state',
+            'user'
+        ])
+        ->findOrFail($id);
 
         $referral->append([
             'full_name',
@@ -169,5 +177,57 @@ class ReferralRequestController extends Controller
         $season = $referral->farm->seasons()->findOrFail($seasonId);
 
         return response()->json(compact('referral', 'season'));
+    }
+
+    /**
+     * Generate temporary signed url for downloading season information of a particular farm
+     * 
+     * @param  int  $referralRequestId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function generateSeasonDownloadUrl($referralRequestId)
+    {
+        $referral = ReferralRequest::with(['farm'])
+            ->findOrFail($referralRequestId);
+
+        $url = null;
+        $message = '';
+
+        if ($referral->farm->has('seasons')) {
+            $url = URL::temporarySignedRoute(
+                'referral_requests.download_season_records',
+                now()->addMinutes(3),
+                ['farm' => $referral->farm->id]
+            );
+        } else {
+            $message = 'No season records found!';
+        }
+
+        return response()->json(compact('url', 'message'));
+    }
+
+    /**
+     * Download farm season records for the indicated farm
+     *
+     * @param  Farm  $farm
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    public function downloadSeasonRecords(
+        Farm $farm,
+        Request $request
+    ) {
+        if (! $request->hasValidSignature()) {
+            abort(401);
+        }
+
+        return (new FarmRecordsExport($farm))->download('invoices.xlsx');
+
+        // get season records for the farm
+        // prepare the excel file
+        // make name for the file
+        // set header to excell
+        // initiate download
+
     }
 }

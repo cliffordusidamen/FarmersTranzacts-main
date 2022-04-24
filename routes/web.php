@@ -184,3 +184,13 @@ Route::prefix('referrals')->name('referrals.')->group(function() {
     Route::get('/{id}/new-season', [\App\Http\Controllers\MyReferralController::class, 'createSeason'])->name('create_season');
     Route::post('/{id}/store-season', [\App\Http\Controllers\MyReferralController::class, 'storeSeason'])->name('store_season');
 });
+
+/*
+|-----------------------------------------------------------------------------
+| Referrals routes
+|-----------------------------------------------------------------------------
+*/
+Route::prefix('referral-requests')->name('referral_requests.')->group(function() {
+    Route::get('/download_season_records/{farm}', [\App\Http\Controllers\ReferralRequestController::class, 'downloadSeasonRecords'])
+        ->name('download_season_records');
+});

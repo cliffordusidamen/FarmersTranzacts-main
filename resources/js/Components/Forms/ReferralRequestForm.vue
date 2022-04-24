@@ -507,7 +507,7 @@ export default {
                     form.processing = false;
                 },
                 onSuccess: () => {
-                    form.reset();
+                    // form.reset();
                     jqueryValidator.value.resetForm();
                     $('#referralForm').removeClass('was-validated');
                 },

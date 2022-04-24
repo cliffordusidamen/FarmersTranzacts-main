@@ -518,7 +518,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           form.processing = false;
         },
         onSuccess: function onSuccess() {
-          form.reset();
+          // form.reset();
           jqueryValidator.value.resetForm();
           $('#referralForm').removeClass('was-validated');
         }

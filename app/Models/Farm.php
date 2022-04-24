@@ -42,6 +42,16 @@ class Farm extends Model
     }
 
     /**
+     * Relationship: Belongs to local government area
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function localGovernmentArea(): BelongsTo
+    {
+        return $this->belongsTo(LocalGovernmentArea::class);
+    }
+
+    /**
      * Relationship: Has many farm seasons
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -81,7 +81,7 @@ const submit = () => {
             form.processing = false;
         },
         onSuccess: () => {
-            form.reset();
+            // form.reset();
             jqueryValidator.value.resetForm();
             $('#seasonForm').removeClass('was-validated');
         },

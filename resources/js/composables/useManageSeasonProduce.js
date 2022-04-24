@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-export default function useManageSeasonProduce(farmSeason) {
+export default function useManageSeasonProduces(farmSeason) {
 
     const seasonProduces = ref(farmSeason?.season_produces || []);
     const editSeasonProduce = ref({});
@@ -27,23 +27,23 @@ export default function useManageSeasonProduce(farmSeason) {
         $(`#${seasonProduceModalId}`).modal('hide')
         resetEditProduce()
     }
-    const showSeasonProduceError = ref(false)
-    const removeProduce = (inputIndex) => {
+
+    const removeProduce = (produceIndex) => {
         if (seasonProduces.value.length <= 1) {
             seasonProduces.value = []
             return;
         }
 
-        const newSeasonProduces = seasonProduces.value.filter((_input, _index) => inputIndex != _index)
+        const newSeasonProduces = seasonProduces.value.filter((_produce, _index) => produceIndex != _index)
         seasonProduces.value = [...newSeasonProduces];
     }
-    const setEditProduce = (inputIndex) => {
-        if (undefined === seasonProduces.value[inputIndex]) {
+    const setEditProduce = (produceIndex) => {
+        if (undefined === seasonProduces.value[produceIndex]) {
             return;
         }
 
-        editSeasonProduce.value = seasonProduces.value[inputIndex]
-        editProduceIndex.value = inputIndex
+        editSeasonProduce.value = seasonProduces.value[produceIndex]
+        editProduceIndex.value = produceIndex
 
         showSeasonProducesModal()
     }
@@ -58,7 +58,6 @@ export default function useManageSeasonProduce(farmSeason) {
         showSeasonProducesModal,
         resetEditProduce,
         handleSeasonProduceSubmission,
-        showSeasonProduceError,
         removeProduce,
         setEditProduce,
     }

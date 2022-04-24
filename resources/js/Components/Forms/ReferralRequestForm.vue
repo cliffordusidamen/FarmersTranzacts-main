@@ -317,7 +317,6 @@
         </div>
 
         <!-- FARM INPUT [START]  -->
-
         <div class="alert alert-warning mb-2" v-show="showSeasonInputError">
             Enter at least one(1) season input!
         </div>
@@ -329,67 +328,14 @@
         <!-- FARM INPUT [END]  -->
 
         <!-- FARM PRODUCE [START]  -->
-        <div class="bg-light rounded border p-3 my-4">
-            <jet-input-error
-                v-show="!showSeasonProduceError"
-                :message="form.errors.farm_season_produces"
-            />
-            <div
-                class="alert alert-warning"
-                v-show="showSeasonProduceError && !seasonProduces.length"
-            >
-                Add at least one(1) season produce.
-            </div>
-
-            <h5 class="text-center text-success border-bottom text-uppercase">
-                Season produce
-            </h5>
-            <div class="mx-4 text-center text-muted mt-n4 mb-1">
-                All farm produce for the season
-            </div>
-
-            <div v-if="!!seasonProduces.length">
-                <div
-                    v-for="(seasonProduce, produceIndex) in seasonProduces"
-                    :key="produceIndex"
-                    class="d-flex align-items-center justify-content-start border-top"
-                >
-                    <div class="flex-grow-1">
-                        <strong>{{ `${seasonProduce.name} - ${seasonProduce.quantity_produced} ${seasonProduce.unit}` }}</strong>
-                        <br />
-                        Sold
-                        {{ `${seasonProduce.quantity_produced} ${seasonProduce.unit}` }}
-                        at
-                        &#8358;{{ `${Number(seasonProduce.price_per_unit).toLocaleString()} per ${seasonProduce.unit}` }}
-                    </div>
-                    <button
-                        type="button"
-                        class="btn btn-dark min-width-0"
-                        @click="() => setEditProduce(produceIndex)"
-                    >
-                        <i class="icon-edit"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-danger min-width-0"
-                        @click="() => removeProduce(produceIndex)"
-                    >
-                        <i class="icon-close"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <button
-                    type="button"
-                    class="btn btn-block btn-dark text-uppercase"
-                    @click="showSeasonProducesModal"
-                >
-                    <i class="icon-plus"></i>
-                    Add produce
-                </button>
-            </div>
+        <div class="alert alert-warning mb-2" v-show="showSeasonProduceError">
+            Enter at least one(1) season produce!
         </div>
+        <manage-season-produce
+            @season-produces-changed="handleSeasonProducesChanged"
+            :farm-season="farmSeason"
+            :form="form"
+        />
         <!-- FARM PRODUCE [END]  -->
 
         <div class="mb-0 text-center">
@@ -402,29 +348,6 @@
             </jet-button>
         </div>
     </form>
-
-
-    <!-- [START] FARM SEASON PRODUCE MODAL -->
-    <default-modal
-        :id="seasonProduceModalId"
-        :show-event="seasonProduceModelEventName"
-    >
-        <div class="text-right">
-            <button type="button" class="btn btn-danger p-0 text-uppercase min-width-0" data-dismiss="modal">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="p-3">
-
-            <season-produce-form
-                :key="editSeasonProduce"
-                :season-produce="editSeasonProduce"
-                :index="editProduceIndex"
-                @on-submit="handleSeasonProduceSubmission"
-            />
-        </div>
-    </default-modal>
-    <!-- [END] FARM SEASON PRODUCE MODAL -->
 
 </template>
 
@@ -446,8 +369,8 @@ import useInitIntlPhone from "@/composables/useInitIntlPhone"
 import useStateLgaSelection from "@/composables/useStateLgaSelection"
 import DefaultModal from "@/Components/DefaultModal";
 import ManageSeasonInputs from "@/Components/ManageSeasonInputs";
+import ManageSeasonProduce from "@/Components/ManageSeasonProduce";
 import useScrollToError from '@/composables/useScrollToError';
-import useManageSeasonProduce from '@/composables/useManageSeasonProduce';
 
 export default {
     props: {
@@ -493,6 +416,7 @@ export default {
         JetTextarea,
         JetValidationErrors,
         ManageSeasonInputs,
+        ManageSeasonProduce,
         SeasonProduceForm,
     },
 
@@ -514,20 +438,14 @@ export default {
             form.errors.farm_season_inputs = !!newSeasonInputs.length ? [] : null;
         }
 
-        const {
-            seasonProduces,
-            editSeasonProduce,
-            editProduceIndex,
-            seasonProduceModalId,
-            seasonProduceModelEventName,
-            showSeasonProducesModal,
-            resetEditProduce,
-            handleSeasonProduceSubmission,
-            showSeasonProduceError,
-            removeProduce,
-            setEditProduce,
-        } = useManageSeasonProduce(farmSeason);
 
+        const showSeasonProduceError = ref(false)
+        const seasonProduces = ref(farmSeason?.season_inputs || []);
+        const handleSeasonProducesChanged = (newSeasonProduces) => {
+            showSeasonProduceError.value = !newSeasonProduces.length;
+            seasonProduces.value = [...newSeasonProduces];
+            form.errors.farm_season_inputs = !!newSeasonProduces.length ? [] : null;
+        }
 
         const { scrollToFieldError } = useScrollToError('#referralForm')
 
@@ -701,25 +619,18 @@ export default {
 
         return {
             appStates,
-            editProduceIndex,
-            editSeasonProduce,
             form,
             handleSeasonInputsChanged,
-            handleSeasonProduceSubmission,
+            handleSeasonProducesChanged,
             handleStateChange,
             jqueryValidator,
             referralForm,
-            removeProduce,
-            seasonProduceModelEventName,
-            seasonProduceModalId,
             seasonInputs,
             seasonProduces,
             selectedStateLgas,
             showSeasonInputError,
             showSeasonProduceError,
-            showSeasonProducesModal,
             updateSelectedStateLgas,
-            setEditProduce,
         }
     },
 };

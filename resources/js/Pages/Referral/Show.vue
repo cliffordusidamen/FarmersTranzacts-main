@@ -173,15 +173,12 @@ const showSeasonDetails = (season) => {
                     :show-event="seasonDetailModelEventName"
                     :title="displaySeasonTitle"
                 >
-
                     <div class="p-3">
+                        <h5 class="text-uppercase px-4 mb-2">season input/expense</h5>
                         <div
                             v-if="!!displaySeason?.season_produces.length"
                             class="card mb-1"
                         >
-                            <div class="card-header">
-                                <h5 class="text-uppercase px-4">season input/expense</h5>
-                            </div>
                             <div class="table-responsive">
                                 <table class="table table-hover table-sm m-0 p-0">
                                     <thead>
@@ -207,13 +204,11 @@ const showSeasonDetails = (season) => {
                             </div>
                         </div>
 
+                        <h5 class="text-uppercase px-4 mt-4 mb-2">season produce</h5>
                         <div
                             v-if="!!displaySeason?.season_produces.length"
-                            class="card mt-4"
+                            class="card"
                         >
-                            <div class="card-header">
-                                <h5 class="text-uppercase px-4">season produce</h5>
-                            </div>
                             <div class="table-responsive">
                                 <table class="table table-hover table-sm m-0 p-0">
                                     <thead>
@@ -241,10 +236,6 @@ const showSeasonDetails = (season) => {
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </default-modal>
             </div>
         </div>

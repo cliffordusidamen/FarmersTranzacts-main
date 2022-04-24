@@ -334,8 +334,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
-/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
+/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
 /* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
 /* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
@@ -344,12 +344,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_Textarea__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/Textarea */ "./resources/js/Jetstream/Textarea.vue");
 /* harmony import */ var _Jetstream_ValidationErrors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Jetstream/ValidationErrors */ "./resources/js/Jetstream/ValidationErrors.vue");
 /* harmony import */ var _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Components/CustomSelect */ "./resources/js/Components/CustomSelect.vue");
-/* harmony import */ var _Components_Forms_SeasonInputForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Components/Forms/SeasonInputForm */ "./resources/js/Components/Forms/SeasonInputForm.vue");
-/* harmony import */ var _Components_Forms_SeasonProduceForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/Components/Forms/SeasonProduceForm */ "./resources/js/Components/Forms/SeasonProduceForm.vue");
-/* harmony import */ var _composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/composables/useInitIntlPhone */ "./resources/js/composables/useInitIntlPhone.js");
-/* harmony import */ var _composables_useStateLgaSelection__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/composables/useStateLgaSelection */ "./resources/js/composables/useStateLgaSelection.js");
-/* harmony import */ var _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/Components/DefaultModal */ "./resources/js/Components/DefaultModal.vue");
+/* harmony import */ var _Components_Forms_SeasonProduceForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Components/Forms/SeasonProduceForm */ "./resources/js/Components/Forms/SeasonProduceForm.vue");
+/* harmony import */ var _composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/composables/useInitIntlPhone */ "./resources/js/composables/useInitIntlPhone.js");
+/* harmony import */ var _composables_useStateLgaSelection__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/composables/useStateLgaSelection */ "./resources/js/composables/useStateLgaSelection.js");
+/* harmony import */ var _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/Components/DefaultModal */ "./resources/js/Components/DefaultModal.vue");
+/* harmony import */ var _Components_ManageSeasonInputs__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/Components/ManageSeasonInputs */ "./resources/js/Components/ManageSeasonInputs.vue");
 /* harmony import */ var _composables_useScrollToError__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/composables/useScrollToError */ "./resources/js/composables/useScrollToError.js");
+/* harmony import */ var _composables_useManageSeasonProduce__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/composables/useManageSeasonProduce */ "./resources/js/composables/useManageSeasonProduce.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -362,11 +369,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -422,7 +424,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   components: {
     CustomSelect: _Components_CustomSelect__WEBPACK_IMPORTED_MODULE_8__["default"],
-    DefaultModal: _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_13__["default"],
+    DefaultModal: _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_12__["default"],
     JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_1__["default"],
     JetCheckbox: _Jetstream_Checkbox__WEBPACK_IMPORTED_MODULE_4__["default"],
     JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -430,8 +432,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_5__["default"],
     JetTextarea: _Jetstream_Textarea__WEBPACK_IMPORTED_MODULE_6__["default"],
     JetValidationErrors: _Jetstream_ValidationErrors__WEBPACK_IMPORTED_MODULE_7__["default"],
-    SeasonInputForm: _Components_Forms_SeasonInputForm__WEBPACK_IMPORTED_MODULE_9__["default"],
-    SeasonProduceForm: _Components_Forms_SeasonProduceForm__WEBPACK_IMPORTED_MODULE_10__["default"]
+    ManageSeasonInputs: _Components_ManageSeasonInputs__WEBPACK_IMPORTED_MODULE_13__["default"],
+    SeasonProduceForm: _Components_Forms_SeasonProduceForm__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   setup: function setup(props) {
     var appStates = props.appStates,
@@ -439,126 +441,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         seasons = props.seasons,
         years = props.years,
         stateLgas = props.stateLgas,
-        farmSeason = props.farmSeason; // [START] Season input logic
+        farmSeason = props.farmSeason;
+    var showSeasonInputError = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_16__.ref)(false);
+    var seasonInputs = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_16__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_inputs) || []);
 
-    var seasonInputs = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_inputs) || []);
-    var editSeasonInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)({});
-    var editInputIndex = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
-    var seasonInputModalId = 'seasonInputModal';
-    var seasonInputModelEventName = 'show-season-input-form';
-
-    var showSeasonInputsModal = function showSeasonInputsModal() {
-      var seasonInputModalEvent = new CustomEvent(seasonInputModelEventName, {
-        detail: {}
-      });
-      document.dispatchEvent(seasonInputModalEvent);
-    };
-
-    var resetEditInput = function resetEditInput() {
-      editSeasonInput.value = {};
-      editInputIndex.value = null;
-    };
-
-    var handleSeasonInputSubmission = function handleSeasonInputSubmission(seasonInputData) {
-      if (editInputIndex.value === null) {
-        seasonInputs.value.push(_objectSpread({}, seasonInputData));
-      } else {
-        seasonInputs.value[editInputIndex.value] = _objectSpread({}, seasonInputData);
-      }
-
-      $("#".concat(seasonInputModalId)).modal('hide');
-      resetEditInput();
-    };
-
-    var showSeasonInputError = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(false);
-
-    var removeInput = function removeInput(inputIndex) {
-      if (seasonInputs.value.length <= 1) {
-        seasonInputs.value = [];
-        return;
-      }
-
-      var newSeasonInputs = seasonInputs.value.filter(function (_input, _index) {
-        return inputIndex != _index;
-      });
+    var handleSeasonInputsChanged = function handleSeasonInputsChanged(newSeasonInputs) {
+      showSeasonInputError.value = !newSeasonInputs.length;
       seasonInputs.value = _toConsumableArray(newSeasonInputs);
+      form.errors.farm_season_inputs = !!newSeasonInputs.length ? [] : null;
     };
 
-    var setEditInput = function setEditInput(inputIndex) {
-      if (undefined === seasonInputs.value[inputIndex]) {
-        return;
-      }
-
-      editSeasonInput.value = seasonInputs.value[inputIndex];
-      editInputIndex.value = inputIndex;
-      showSeasonInputsModal();
-    }; // [END] Season input logic
-    // [START] Season produce logic
-
-
-    var seasonProduces = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_produces) || []);
-    var editSeasonProduce = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)({});
-    var editProduceIndex = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
-    var seasonProduceModalId = 'seasonProduceModal';
-    var seasonProduceModelEventName = 'show-season-produce-form';
-
-    var showSeasonProducesModal = function showSeasonProducesModal() {
-      var seasonProduceModalEvent = new CustomEvent(seasonProduceModelEventName, {
-        detail: {}
-      });
-      document.dispatchEvent(seasonProduceModalEvent);
-    };
-
-    var resetEditProduce = function resetEditProduce() {
-      editSeasonProduce.value = {};
-      editProduceIndex.value = null;
-    };
-
-    var handleSeasonProduceSubmission = function handleSeasonProduceSubmission(seasonProduceData) {
-      if (editProduceIndex.value === null) {
-        seasonProduces.value.push(_objectSpread({}, seasonProduceData));
-      } else {
-        seasonProduces.value[editProduceIndex.value] = _objectSpread({}, seasonProduceData);
-      }
-
-      $("#".concat(seasonProduceModalId)).modal('hide');
-      resetEditProduce();
-    };
-
-    var showSeasonProduceError = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(false);
-
-    var removeProduce = function removeProduce(inputIndex) {
-      if (seasonProduces.value.length <= 1) {
-        seasonProduces.value = [];
-        return;
-      }
-
-      var newSeasonProduces = seasonProduces.value.filter(function (_input, _index) {
-        return inputIndex != _index;
-      });
-      seasonProduces.value = _toConsumableArray(newSeasonProduces);
-    };
-
-    var setEditProduce = function setEditProduce(inputIndex) {
-      if (undefined === seasonProduces.value[inputIndex]) {
-        return;
-      }
-
-      editSeasonProduce.value = seasonProduces.value[inputIndex];
-      editProduceIndex.value = inputIndex;
-      showSeasonProducesModal();
-    }; // [END] Season produce logic
-
+    var _useManageSeasonProdu = (0,_composables_useManageSeasonProduce__WEBPACK_IMPORTED_MODULE_15__["default"])(farmSeason),
+        seasonProduces = _useManageSeasonProdu.seasonProduces,
+        editSeasonProduce = _useManageSeasonProdu.editSeasonProduce,
+        editProduceIndex = _useManageSeasonProdu.editProduceIndex,
+        seasonProduceModalId = _useManageSeasonProdu.seasonProduceModalId,
+        seasonProduceModelEventName = _useManageSeasonProdu.seasonProduceModelEventName,
+        showSeasonProducesModal = _useManageSeasonProdu.showSeasonProducesModal,
+        resetEditProduce = _useManageSeasonProdu.resetEditProduce,
+        handleSeasonProduceSubmission = _useManageSeasonProdu.handleSeasonProduceSubmission,
+        showSeasonProduceError = _useManageSeasonProdu.showSeasonProduceError,
+        removeProduce = _useManageSeasonProdu.removeProduce,
+        setEditProduce = _useManageSeasonProdu.setEditProduce;
 
     var _useScrollToError = (0,_composables_useScrollToError__WEBPACK_IMPORTED_MODULE_14__["default"])('#referralForm'),
         scrollToFieldError = _useScrollToError.scrollToFieldError;
 
-    var jqueryValidator = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
-    var referralForm = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
-    var phoneInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
-    var telInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_15__.ref)(null);
+    var jqueryValidator = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_16__.ref)(null);
+    var referralForm = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_16__.ref)(null);
+    var phoneInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_16__.ref)(null);
+    var telInput = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_16__.ref)(null);
 
-    var _useInitIntlPhone = (0,_composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_11__["default"])(),
+    var _useInitIntlPhone = (0,_composables_useInitIntlPhone__WEBPACK_IMPORTED_MODULE_10__["default"])(),
         initIntlPhone = _useInitIntlPhone.initIntlPhone;
 
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
@@ -588,7 +502,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       form.local_government_area_id = lga_id !== null && lga_id !== void 0 ? lga_id : '';
     };
 
-    var _useStateLgaSelection = (0,_composables_useStateLgaSelection__WEBPACK_IMPORTED_MODULE_12__["default"])(stateLgas, setLga),
+    var _useStateLgaSelection = (0,_composables_useStateLgaSelection__WEBPACK_IMPORTED_MODULE_11__["default"])(stateLgas, setLga),
         selectedStateLgas = _useStateLgaSelection.selectedStateLgas,
         updateSelectedStateLgas = _useStateLgaSelection.updateSelectedStateLgas,
         handleStateChange = _useStateLgaSelection.handleStateChange;
@@ -702,7 +616,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
     };
 
-    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_16__.onMounted)(function () {
+    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_17__.onMounted)(function () {
       initIntlPhone(phoneInput, telInput, 'phone');
       jqueryValidator.value = $(referralForm.value).validate(validationConfig());
 
@@ -712,31 +626,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
     return {
       appStates: appStates,
-      editInputIndex: editInputIndex,
-      editSeasonInput: editSeasonInput,
       editProduceIndex: editProduceIndex,
       editSeasonProduce: editSeasonProduce,
       form: form,
-      handleSeasonInputSubmission: handleSeasonInputSubmission,
+      handleSeasonInputsChanged: handleSeasonInputsChanged,
       handleSeasonProduceSubmission: handleSeasonProduceSubmission,
       handleStateChange: handleStateChange,
       jqueryValidator: jqueryValidator,
       referralForm: referralForm,
-      removeInput: removeInput,
       removeProduce: removeProduce,
-      seasonInputModelEventName: seasonInputModelEventName,
       seasonProduceModelEventName: seasonProduceModelEventName,
-      seasonInputModalId: seasonInputModalId,
       seasonProduceModalId: seasonProduceModalId,
       seasonInputs: seasonInputs,
       seasonProduces: seasonProduces,
       selectedStateLgas: selectedStateLgas,
       showSeasonInputError: showSeasonInputError,
       showSeasonProduceError: showSeasonProduceError,
-      showSeasonInputsModal: showSeasonInputsModal,
       showSeasonProducesModal: showSeasonProducesModal,
       updateSelectedStateLgas: updateSelectedStateLgas,
-      setEditInput: setEditInput,
       setEditProduce: setEditProduce
     };
   }
@@ -1075,6 +982,86 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classes']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _composables_useManageSeasonInputs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/composables/useManageSeasonInputs */ "./resources/js/composables/useManageSeasonInputs.js");
+/* harmony import */ var _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/DefaultModal */ "./resources/js/Components/DefaultModal.vue");
+/* harmony import */ var _Components_Forms_SeasonInputForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Forms/SeasonInputForm */ "./resources/js/Components/Forms/SeasonInputForm.vue");
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    farmSeason: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    }
+  },
+  emits: ['seasonInputsChanged'],
+  setup: function setup(__props, _ref) {
+    var expose = _ref.expose,
+        emits = _ref.emit;
+    expose();
+    var props = __props;
+
+    var _useManageSeasonInput = (0,_composables_useManageSeasonInputs__WEBPACK_IMPORTED_MODULE_0__["default"])(props.farmSeason),
+        seasonInputs = _useManageSeasonInput.seasonInputs,
+        editSeasonInput = _useManageSeasonInput.editSeasonInput,
+        editInputIndex = _useManageSeasonInput.editInputIndex,
+        seasonInputModalId = _useManageSeasonInput.seasonInputModalId,
+        seasonInputModelEventName = _useManageSeasonInput.seasonInputModelEventName,
+        showSeasonInputsModal = _useManageSeasonInput.showSeasonInputsModal,
+        resetEditInput = _useManageSeasonInput.resetEditInput,
+        handleSeasonInputSubmission = _useManageSeasonInput.handleSeasonInputSubmission,
+        showSeasonInputError = _useManageSeasonInput.showSeasonInputError,
+        removeInput = _useManageSeasonInput.removeInput,
+        setEditInput = _useManageSeasonInput.setEditInput;
+
+    var onSeasonInputSubmission = function onSeasonInputSubmission(seasonInputData) {
+      handleSeasonInputSubmission(seasonInputData);
+      emits('seasonInputsChanged', seasonInputs.value);
+    };
+
+    var __returned__ = {
+      props: props,
+      emits: emits,
+      seasonInputs: seasonInputs,
+      editSeasonInput: editSeasonInput,
+      editInputIndex: editInputIndex,
+      seasonInputModalId: seasonInputModalId,
+      seasonInputModelEventName: seasonInputModelEventName,
+      showSeasonInputsModal: showSeasonInputsModal,
+      resetEditInput: resetEditInput,
+      handleSeasonInputSubmission: handleSeasonInputSubmission,
+      showSeasonInputError: showSeasonInputError,
+      removeInput: removeInput,
+      setEditInput: setEditInput,
+      onSeasonInputSubmission: onSeasonInputSubmission,
+      useManageSeasonInputs: _composables_useManageSeasonInputs__WEBPACK_IMPORTED_MODULE_0__["default"],
+      DefaultModal: _Components_DefaultModal__WEBPACK_IMPORTED_MODULE_1__["default"],
+      SeasonInputForm: _Components_Forms_SeasonInputForm__WEBPACK_IMPORTED_MODULE_2__["default"]
+    };
+    Object.defineProperty(__returned__, '__isScriptSetup', {
+      enumerable: false,
+      value: true
+    });
+    return __returned__;
+  }
 });
 
 /***/ }),
@@ -2791,146 +2778,76 @@ var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_59 = {
-  "class": "bg-light rounded border p-3 my-4"
+  "class": "alert alert-warning mb-2"
 };
 var _hoisted_60 = {
-  "class": "alert alert-warning"
-};
-
-var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-  "class": "text-center text-success border-bottom text-uppercase"
-}, " Season inputs ", -1
-/* HOISTED */
-);
-
-var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "mx-4 text-center text-muted mt-n4 mb-1"
-}, " All items/materials used in the season ", -1
-/* HOISTED */
-);
-
-var _hoisted_63 = {
-  key: 0,
-  "class": "px-2 py-2 text-center"
-};
-
-var _hoisted_64 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add at least one input for the season");
-
-var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_66 = [_hoisted_64, _hoisted_65];
-var _hoisted_67 = {
-  key: 1
-};
-var _hoisted_68 = {
-  "class": "flex-grow-1"
-};
-
-var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_70 = ["onClick"];
-
-var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "icon-edit"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_72 = [_hoisted_71];
-var _hoisted_73 = ["onClick"];
-
-var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "icon-close"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_75 = [_hoisted_74];
-var _hoisted_76 = {
-  "class": "mt-2"
-};
-
-var _hoisted_77 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "icon-plus"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add input ");
-
-var _hoisted_79 = [_hoisted_77, _hoisted_78];
-var _hoisted_80 = {
   "class": "bg-light rounded border p-3 my-4"
 };
-var _hoisted_81 = {
+var _hoisted_61 = {
   "class": "alert alert-warning"
 };
 
-var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
   "class": "text-center text-success border-bottom text-uppercase"
 }, " Season produce ", -1
 /* HOISTED */
 );
 
-var _hoisted_83 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "mx-4 text-center text-muted mt-n4 mb-1"
 }, " All farm produce for the season ", -1
 /* HOISTED */
 );
 
-var _hoisted_84 = {
+var _hoisted_64 = {
   key: 0
 };
-var _hoisted_85 = {
+var _hoisted_65 = {
   "class": "flex-grow-1"
 };
 
-var _hoisted_86 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_66 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_87 = ["onClick"];
+var _hoisted_67 = ["onClick"];
 
-var _hoisted_88 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_68 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "icon-edit"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_89 = [_hoisted_88];
-var _hoisted_90 = ["onClick"];
+var _hoisted_69 = [_hoisted_68];
+var _hoisted_70 = ["onClick"];
 
-var _hoisted_91 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "icon-close"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_92 = [_hoisted_91];
-var _hoisted_93 = {
+var _hoisted_72 = [_hoisted_71];
+var _hoisted_73 = {
   "class": "mt-2"
 };
 
-var _hoisted_94 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "icon-plus"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_95 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add produce ");
+var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add produce ");
 
-var _hoisted_96 = [_hoisted_94, _hoisted_95];
-var _hoisted_97 = {
+var _hoisted_76 = [_hoisted_74, _hoisted_75];
+var _hoisted_77 = {
   "class": "mb-0 text-center"
 };
 
-var _hoisted_98 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
+var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" submit ");
 
-var _hoisted_99 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_79 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-right"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "button",
@@ -2942,23 +2859,7 @@ var _hoisted_99 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_100 = {
-  "class": "p-3"
-};
-
-var _hoisted_101 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-right"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  type: "button",
-  "class": "btn btn-danger p-0 text-uppercase min-width-0",
-  "data-dismiss": "modal"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "icon-close"
-})])], -1
-/* HOISTED */
-);
-
-var _hoisted_102 = {
+var _hoisted_80 = {
   "class": "p-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2976,13 +2877,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_jet_textarea = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-textarea");
 
+  var _component_manage_season_inputs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("manage-season-inputs");
+
   var _component_jet_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-button");
 
-  var _component_season_input_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("season-input-form");
+  var _component_season_produce_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("season-produce-form");
 
   var _component_default_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("default-modal");
-
-  var _component_season_produce_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("season-produce-form");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
     "class": "text-primary",
@@ -3325,58 +3226,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $setup.form.errors.workers_pay
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM PRODUCE [START]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
-    message: $setup.form.errors.farm_season_inputs
+  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM INPUT [START]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, " Enter at least one(1) season input! ", 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonInputError]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_manage_season_inputs, {
+    onSeasonInputsChanged: $setup.handleSeasonInputsChanged,
+    "farm-season": $props.farmSeason,
+    form: $setup.form
   }, null, 8
   /* PROPS */
-  , ["message"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$setup.showSeasonInputError]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, " Add at least one(1) season input. ", 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonInputError && !$setup.seasonInputs.length]]), _hoisted_61, _hoisted_62, !$setup.seasonInputs.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, _hoisted_66)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasonInputs, function (seasonInput, inputIndex) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: inputIndex,
-      "class": "d-flex align-items-center justify-content-start border-top"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(seasonInput.name, " - ").concat(seasonInput.quantity, " ").concat(seasonInput.unit)), 1
-    /* TEXT */
-    ), _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(Number(seasonInput.cost_per_unit).toLocaleString(), " per ").concat(seasonInput.unit)), 1
-    /* TEXT */
-    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      "class": "btn btn-dark min-width-0",
-      onClick: function onClick() {
-        return $setup.setEditInput(inputIndex);
-      }
-    }, _hoisted_72, 8
-    /* PROPS */
-    , _hoisted_70), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      "class": "btn btn-danger min-width-0",
-      onClick: function onClick() {
-        return $setup.removeInput(inputIndex);
-      }
-    }, _hoisted_75, 8
-    /* PROPS */
-    , _hoisted_73)]);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-block btn-dark text-uppercase",
-    onClick: _cache[17] || (_cache[17] = function () {
-      return $setup.showSeasonInputsModal && $setup.showSeasonInputsModal.apply($setup, arguments);
-    })
-  }, _hoisted_79)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM PRODUCE [END]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM PRODUCE [START]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
+  , ["onSeasonInputsChanged", "farm-season", "form"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM INPUT [END]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM PRODUCE [START]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input_error, {
     message: $setup.form.errors.farm_season_produces
   }, null, 8
   /* PROPS */
-  , ["message"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$setup.showSeasonProduceError]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, " Add at least one(1) season produce. ", 512
+  , ["message"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$setup.showSeasonProduceError]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, " Add at least one(1) season produce. ", 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonProduceError && !$setup.seasonProduces.length]]), _hoisted_82, _hoisted_83, !!$setup.seasonProduces.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_84, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasonProduces, function (seasonProduce, produceIndex) {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonProduceError && !$setup.seasonProduces.length]]), _hoisted_62, _hoisted_63, !!$setup.seasonProduces.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasonProduces, function (seasonProduce, produceIndex) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: produceIndex,
       "class": "d-flex align-items-center justify-content-start border-top"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(seasonProduce.name, " - ").concat(seasonProduce.quantity_produced, " ").concat(seasonProduce.unit)), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(seasonProduce.name, " - ").concat(seasonProduce.quantity_produced, " ").concat(seasonProduce.unit)), 1
     /* TEXT */
-    ), _hoisted_86, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Sold " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(seasonProduce.quantity_produced, " ").concat(seasonProduce.unit)) + " at ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(Number(seasonProduce.price_per_unit).toLocaleString(), " per ").concat(seasonProduce.unit)), 1
+    ), _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Sold " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(seasonProduce.quantity_produced, " ").concat(seasonProduce.unit)) + " at ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(Number(seasonProduce.price_per_unit).toLocaleString(), " per ").concat(seasonProduce.unit)), 1
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -3384,33 +3254,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick() {
         return $setup.setEditProduce(produceIndex);
       }
-    }, _hoisted_89, 8
+    }, _hoisted_69, 8
     /* PROPS */
-    , _hoisted_87), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    , _hoisted_67), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       "class": "btn btn-danger min-width-0",
       onClick: function onClick() {
         return $setup.removeProduce(produceIndex);
       }
-    }, _hoisted_92, 8
+    }, _hoisted_72, 8
     /* PROPS */
-    , _hoisted_90)]);
+    , _hoisted_70)]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-block btn-dark text-uppercase",
-    onClick: _cache[18] || (_cache[18] = function () {
+    onClick: _cache[17] || (_cache[17] = function () {
       return $setup.showSeasonProducesModal && $setup.showSeasonProducesModal.apply($setup, arguments);
     })
-  }, _hoisted_96)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM PRODUCE [END]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+  }, _hoisted_76)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FARM PRODUCE [END]  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4 text-uppercase", {
       'text-white-50': $setup.form.processing
     }]),
     disabled: $setup.form.processing
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_98];
+      return [_hoisted_78];
     }),
     _: 1
     /* STABLE */
@@ -3419,31 +3289,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["class", "disabled"])])], 512
   /* NEED_PATCH */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [START] FARM SEASON INPUT MODAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_default_modal, {
-    id: $setup.seasonInputModalId,
-    "show-event": $setup.seasonInputModelEventName
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_99, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_season_input_form, {
-        key: $setup.editSeasonInput,
-        "season-input": $setup.editSeasonInput,
-        index: $setup.editInputIndex,
-        onOnSubmit: $setup.handleSeasonInputSubmission
-      }, null, 8
-      /* PROPS */
-      , ["season-input", "index", "onOnSubmit"]))])];
-    }),
-    _: 1
-    /* STABLE */
-
-  }, 8
-  /* PROPS */
-  , ["id", "show-event"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [END] FARM SEASON INPUT MODAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [START] FARM SEASON PRODUCE MODAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_default_modal, {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" [START] FARM SEASON PRODUCE MODAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_default_modal, {
     id: $setup.seasonProduceModalId,
     "show-event": $setup.seasonProduceModelEventName
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_season_produce_form, {
+      return [_hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_season_produce_form, {
         key: $setup.editSeasonProduce,
         "season-produce": $setup.editSeasonProduce,
         index: $setup.editProduceIndex,
@@ -4083,6 +3934,168 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ))], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/ManageSeasonInputs.vue?vue&type=template&id=ab2aa488":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/ManageSeasonInputs.vue?vue&type=template&id=ab2aa488 ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "bg-light rounded border p-3 my-4"
+};
+var _hoisted_2 = {
+  "class": "alert alert-warning"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  "class": "text-center text-success border-bottom text-uppercase"
+}, " Season inputs ", -1
+/* HOISTED */
+);
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "mx-4 text-center text-muted mt-n4 mb-1"
+}, " All items/materials used in the season ", -1
+/* HOISTED */
+);
+
+var _hoisted_5 = {
+  key: 0,
+  "class": "px-2 py-2 text-center"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add at least one input for the season");
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_8 = [_hoisted_6, _hoisted_7];
+var _hoisted_9 = {
+  key: 1
+};
+var _hoisted_10 = {
+  "class": "flex-grow-1"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_12 = ["onClick"];
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-edit"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_14 = [_hoisted_13];
+var _hoisted_15 = ["onClick"];
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-close"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_17 = [_hoisted_16];
+var _hoisted_18 = {
+  "class": "mt-2"
+};
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-plus"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add input ");
+
+var _hoisted_21 = [_hoisted_19, _hoisted_20];
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-right"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "btn btn-danger p-0 text-uppercase min-width-0",
+  "data-dismiss": "modal"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "icon-close"
+})])], -1
+/* HOISTED */
+);
+
+var _hoisted_23 = {
+  "class": "p-3"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, " Add at least one(1) season input. ", 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showSeasonInputError && !$setup.seasonInputs.length]]), _hoisted_3, _hoisted_4, !$setup.seasonInputs.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, _hoisted_8)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.seasonInputs, function (seasonInput, inputIndex) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: inputIndex,
+      "class": "d-flex align-items-center justify-content-start border-top"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(seasonInput.name, " - ").concat(seasonInput.quantity, " ").concat(seasonInput.unit)), 1
+    /* TEXT */
+    ), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ₦" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(Number(seasonInput.cost_per_unit).toLocaleString(), " per ").concat(seasonInput.unit)), 1
+    /* TEXT */
+    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-dark min-width-0",
+      onClick: function onClick() {
+        return $setup.setEditInput(inputIndex);
+      }
+    }, _hoisted_14, 8
+    /* PROPS */
+    , _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-danger min-width-0",
+      onClick: function onClick() {
+        return $setup.removeInput(inputIndex);
+      }
+    }, _hoisted_17, 8
+    /* PROPS */
+    , _hoisted_15)]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-block btn-dark text-uppercase",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $setup.showSeasonInputsModal && $setup.showSeasonInputsModal.apply($setup, arguments);
+    })
+  }, _hoisted_21)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["DefaultModal"], {
+    id: $setup.seasonInputModalId,
+    "show-event": $setup.seasonInputModelEventName
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["SeasonInputForm"], {
+        key: $setup.editSeasonInput,
+        "season-input": $setup.editSeasonInput,
+        index: $setup.editInputIndex,
+        onOnSubmit: $setup.onSeasonInputSubmission
+      }, null, 8
+      /* PROPS */
+      , ["season-input", "index"]))])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["id", "show-event"])]);
 }
 
 /***/ }),
@@ -6416,6 +6429,207 @@ function useInitIntlPhone() {
 
   return {
     initIntlPhone: initIntlPhone
+  };
+}
+
+/***/ }),
+
+/***/ "./resources/js/composables/useManageSeasonInputs.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/composables/useManageSeasonInputs.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ useManageSeasonInputs)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+function useManageSeasonInputs(farmSeason) {
+  var seasonInputs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_inputs) || []);
+  var editSeasonInput = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+  var editInputIndex = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+  var seasonInputModalId = 'seasonInputModal';
+  var seasonInputModelEventName = 'show-season-input-form';
+
+  var showSeasonInputsModal = function showSeasonInputsModal() {
+    var seasonInputModalEvent = new CustomEvent(seasonInputModelEventName, {
+      detail: {}
+    });
+    document.dispatchEvent(seasonInputModalEvent);
+  };
+
+  var resetEditInput = function resetEditInput() {
+    editSeasonInput.value = {};
+    editInputIndex.value = null;
+  };
+
+  var handleSeasonInputSubmission = function handleSeasonInputSubmission(seasonInputData) {
+    if (editInputIndex.value === null) {
+      seasonInputs.value.push(_objectSpread({}, seasonInputData));
+    } else {
+      seasonInputs.value[editInputIndex.value] = _objectSpread({}, seasonInputData);
+    }
+
+    $("#".concat(seasonInputModalId)).modal('hide');
+    resetEditInput();
+  };
+
+  var removeInput = function removeInput(inputIndex) {
+    if (seasonInputs.value.length <= 1) {
+      seasonInputs.value = [];
+      return;
+    }
+
+    var newSeasonInputs = seasonInputs.value.filter(function (_input, _index) {
+      return inputIndex != _index;
+    });
+    seasonInputs.value = _toConsumableArray(newSeasonInputs);
+  };
+
+  var setEditInput = function setEditInput(inputIndex) {
+    if (undefined === seasonInputs.value[inputIndex]) {
+      return;
+    }
+
+    editSeasonInput.value = seasonInputs.value[inputIndex];
+    editInputIndex.value = inputIndex;
+    showSeasonInputsModal();
+  };
+
+  return {
+    seasonInputs: seasonInputs,
+    editSeasonInput: editSeasonInput,
+    editInputIndex: editInputIndex,
+    seasonInputModalId: seasonInputModalId,
+    seasonInputModelEventName: seasonInputModelEventName,
+    showSeasonInputsModal: showSeasonInputsModal,
+    resetEditInput: resetEditInput,
+    handleSeasonInputSubmission: handleSeasonInputSubmission,
+    removeInput: removeInput,
+    setEditInput: setEditInput
+  };
+}
+
+/***/ }),
+
+/***/ "./resources/js/composables/useManageSeasonProduce.js":
+/*!************************************************************!*\
+  !*** ./resources/js/composables/useManageSeasonProduce.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ useManageSeasonProduce)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+function useManageSeasonProduce(farmSeason) {
+  var seasonProduces = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)((farmSeason === null || farmSeason === void 0 ? void 0 : farmSeason.season_produces) || []);
+  var editSeasonProduce = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+  var editProduceIndex = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+  var seasonProduceModalId = 'seasonProduceModal';
+  var seasonProduceModelEventName = 'show-season-produce-form';
+
+  var showSeasonProducesModal = function showSeasonProducesModal() {
+    var seasonProduceModalEvent = new CustomEvent(seasonProduceModelEventName, {
+      detail: {}
+    });
+    document.dispatchEvent(seasonProduceModalEvent);
+  };
+
+  var resetEditProduce = function resetEditProduce() {
+    editSeasonProduce.value = {};
+    editProduceIndex.value = null;
+  };
+
+  var handleSeasonProduceSubmission = function handleSeasonProduceSubmission(seasonProduceData) {
+    if (editProduceIndex.value === null) {
+      seasonProduces.value.push(_objectSpread({}, seasonProduceData));
+    } else {
+      seasonProduces.value[editProduceIndex.value] = _objectSpread({}, seasonProduceData);
+    }
+
+    $("#".concat(seasonProduceModalId)).modal('hide');
+    resetEditProduce();
+  };
+
+  var showSeasonProduceError = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+
+  var removeProduce = function removeProduce(inputIndex) {
+    if (seasonProduces.value.length <= 1) {
+      seasonProduces.value = [];
+      return;
+    }
+
+    var newSeasonProduces = seasonProduces.value.filter(function (_input, _index) {
+      return inputIndex != _index;
+    });
+    seasonProduces.value = _toConsumableArray(newSeasonProduces);
+  };
+
+  var setEditProduce = function setEditProduce(inputIndex) {
+    if (undefined === seasonProduces.value[inputIndex]) {
+      return;
+    }
+
+    editSeasonProduce.value = seasonProduces.value[inputIndex];
+    editProduceIndex.value = inputIndex;
+    showSeasonProducesModal();
+  };
+
+  return {
+    seasonProduces: seasonProduces,
+    editSeasonProduce: editSeasonProduce,
+    editProduceIndex: editProduceIndex,
+    seasonProduceModalId: seasonProduceModalId,
+    seasonProduceModelEventName: seasonProduceModelEventName,
+    showSeasonProducesModal: showSeasonProducesModal,
+    resetEditProduce: resetEditProduce,
+    handleSeasonProduceSubmission: handleSeasonProduceSubmission,
+    showSeasonProduceError: showSeasonProduceError,
+    removeProduce: removeProduce,
+    setEditProduce: setEditProduce
   };
 }
 
@@ -14417,6 +14631,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/Components/ManageSeasonInputs.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/Components/ManageSeasonInputs.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ManageSeasonInputs_vue_vue_type_template_id_ab2aa488__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ManageSeasonInputs.vue?vue&type=template&id=ab2aa488 */ "./resources/js/Components/ManageSeasonInputs.vue?vue&type=template&id=ab2aa488");
+/* harmony import */ var _ManageSeasonInputs_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js */ "./resources/js/Components/ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var C_laragon_www_farmer_xpress_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_laragon_www_farmer_xpress_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_ManageSeasonInputs_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ManageSeasonInputs_vue_vue_type_template_id_ab2aa488__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/Components/ManageSeasonInputs.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/Components/NavBottom.vue":
 /*!***********************************************!*\
   !*** ./resources/js/Components/NavBottom.vue ***!
@@ -15337,6 +15579,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/Components/ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ManageSeasonInputs_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ManageSeasonInputs_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/ManageSeasonInputs.vue?vue&type=script&setup=true&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Components/NavBottom.vue?vue&type=script&lang=js":
 /*!***********************************************************************!*\
   !*** ./resources/js/Components/NavBottom.vue?vue&type=script&lang=js ***!
@@ -15893,6 +16151,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_InfoCircle_vue_vue_type_template_id_c1337bc4__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_InfoCircle_vue_vue_type_template_id_c1337bc4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./InfoCircle.vue?vue&type=template&id=c1337bc4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Icons/InfoCircle.vue?vue&type=template&id=c1337bc4");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/ManageSeasonInputs.vue?vue&type=template&id=ab2aa488":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/Components/ManageSeasonInputs.vue?vue&type=template&id=ab2aa488 ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ManageSeasonInputs_vue_vue_type_template_id_ab2aa488__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ManageSeasonInputs_vue_vue_type_template_id_ab2aa488__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ManageSeasonInputs.vue?vue&type=template&id=ab2aa488 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/ManageSeasonInputs.vue?vue&type=template&id=ab2aa488");
 
 
 /***/ }),

@@ -316,70 +316,17 @@
 
         </div>
 
-        <!-- FARM PRODUCE [START]  -->
-        <div class="bg-light rounded border p-3 my-4">
-            <jet-input-error
-                v-show="!showSeasonInputError"
-                :message="form.errors.farm_season_inputs"
-            />
-            <div
-                class="alert alert-warning"
-                v-show="showSeasonInputError && !seasonInputs.length"
-            >
-                Add at least one(1) season input.
-            </div>
+        <!-- FARM INPUT [START]  -->
 
-            <h5 class="text-center text-success border-bottom text-uppercase">
-                Season inputs
-            </h5>
-            <div class="mx-4 text-center text-muted mt-n4 mb-1">
-                All items/materials used in the season
-            </div>
-
-            <div v-if="!seasonInputs.length" class="px-2 py-2 text-center">
-                Add at least one input for the season<br />
-            </div>
-
-            <div v-else>
-                <div
-                    v-for="(seasonInput, inputIndex) in seasonInputs"
-                    :key="inputIndex"
-                    class="d-flex align-items-center justify-content-start border-top"
-                >
-                    <div class="flex-grow-1">
-                        <strong>{{ `${seasonInput.name} - ${seasonInput.quantity} ${seasonInput.unit}` }}</strong>
-                        <br />
-                        &#8358;{{ `${Number(seasonInput.cost_per_unit).toLocaleString()} per ${seasonInput.unit}` }}
-                    </div>
-                    <button
-                        type="button"
-                        class="btn btn-dark min-width-0"
-                        @click="() => setEditInput(inputIndex)"
-                    >
-                        <i class="icon-edit"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-danger min-width-0"
-                        @click="() => removeInput(inputIndex)"
-                    >
-                        <i class="icon-close"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <button
-                    type="button"
-                    class="btn btn-block btn-dark text-uppercase"
-                    @click="showSeasonInputsModal"
-                >
-                    <i class="icon-plus"></i>
-                    Add input
-                </button>
-            </div>
+        <div class="alert alert-warning mb-2" v-show="showSeasonInputError">
+            Enter at least one(1) season input!
         </div>
-        <!-- FARM PRODUCE [END]  -->
+        <manage-season-inputs
+            @season-inputs-changed="handleSeasonInputsChanged"
+            :farm-season="farmSeason"
+            :form="form"
+        />
+        <!-- FARM INPUT [END]  -->
 
         <!-- FARM PRODUCE [START]  -->
         <div class="bg-light rounded border p-3 my-4">
@@ -456,27 +403,6 @@
         </div>
     </form>
 
-    <!-- [START] FARM SEASON INPUT MODAL -->
-    <default-modal
-        :id="seasonInputModalId"
-        :show-event="seasonInputModelEventName"
-    >
-        <div class="text-right">
-            <button type="button" class="btn btn-danger p-0 text-uppercase min-width-0" data-dismiss="modal">
-                <i class="icon-close"></i>
-            </button>
-        </div>
-        <div class="p-3">
-
-            <season-input-form
-                :key="editSeasonInput"
-                :season-input="editSeasonInput"
-                :index="editInputIndex"
-                @on-submit="handleSeasonInputSubmission"
-            />
-        </div>
-    </default-modal>
-    <!-- [END] FARM SEASON INPUT MODAL -->
 
     <!-- [START] FARM SEASON PRODUCE MODAL -->
     <default-modal
@@ -514,13 +440,14 @@ import JetCheckbox from "@/Jetstream/Checkbox";
 import JetLabel from "@/Jetstream/Label";
 import JetTextarea from "@/Jetstream/Textarea";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
-import CustomSelect from "@/Components/CustomSelect"
-import SeasonInputForm from "@/Components/Forms/SeasonInputForm"
+import CustomSelect from "@/Components/CustomSelect";
 import SeasonProduceForm from "@/Components/Forms/SeasonProduceForm"
 import useInitIntlPhone from "@/composables/useInitIntlPhone"
 import useStateLgaSelection from "@/composables/useStateLgaSelection"
-import DefaultModal from "@/Components/DefaultModal"
+import DefaultModal from "@/Components/DefaultModal";
+import ManageSeasonInputs from "@/Components/ManageSeasonInputs";
 import useScrollToError from '@/composables/useScrollToError';
+import useManageSeasonProduce from '@/composables/useManageSeasonProduce';
 
 export default {
     props: {
@@ -565,7 +492,7 @@ export default {
         JetLabel,
         JetTextarea,
         JetValidationErrors,
-        SeasonInputForm,
+        ManageSeasonInputs,
         SeasonProduceForm,
     },
 
@@ -579,102 +506,27 @@ export default {
             farmSeason
         } = props;
 
+        const showSeasonInputError = ref(false)
+        const seasonInputs = ref(farmSeason?.season_inputs || []);
+        const handleSeasonInputsChanged = (newSeasonInputs) => {
+            showSeasonInputError.value = !newSeasonInputs.length;
+            seasonInputs.value = [...newSeasonInputs];
+            form.errors.farm_season_inputs = !!newSeasonInputs.length ? [] : null;
+        }
 
-        // [START] Season input logic
-            const seasonInputs = ref(farmSeason?.season_inputs || []);
-            const editSeasonInput = ref({});
-            const editInputIndex = ref(null)
-            const seasonInputModalId = 'seasonInputModal';
-            const seasonInputModelEventName = 'show-season-input-form';
-            const showSeasonInputsModal = () => {
-                const seasonInputModalEvent = new CustomEvent(seasonInputModelEventName, {
-                    detail: {},
-                });
-                document.dispatchEvent(seasonInputModalEvent);
-            }
-
-            const resetEditInput = () => {
-                editSeasonInput.value = {}
-                editInputIndex.value = null
-            }
-            const handleSeasonInputSubmission = (seasonInputData) => {
-                if (editInputIndex.value === null) {
-                    seasonInputs.value.push({...seasonInputData})
-                } else {
-                    seasonInputs.value[editInputIndex.value] = {...seasonInputData}
-                }
-                $(`#${seasonInputModalId}`).modal('hide')
-                resetEditInput()
-            }
-            const showSeasonInputError = ref(false)
-            const removeInput = (inputIndex) => {
-                if (seasonInputs.value.length <= 1) {
-                    seasonInputs.value = []
-                    return;
-                }
-
-                const newSeasonInputs = seasonInputs.value.filter((_input, _index) => inputIndex != _index)
-                seasonInputs.value = [...newSeasonInputs];
-            }
-            const setEditInput = (inputIndex) => {
-                if (undefined === seasonInputs.value[inputIndex]) {
-                    return;
-                }
-
-                editSeasonInput.value = seasonInputs.value[inputIndex]
-                editInputIndex.value = inputIndex
-
-                showSeasonInputsModal()
-            }
-        // [END] Season input logic
-
-        // [START] Season produce logic
-            const seasonProduces = ref(farmSeason?.season_produces || []);
-            const editSeasonProduce = ref({});
-            const editProduceIndex = ref(null)
-            const seasonProduceModalId = 'seasonProduceModal';
-            const seasonProduceModelEventName = 'show-season-produce-form';
-            const showSeasonProducesModal = () => {
-                const seasonProduceModalEvent = new CustomEvent(seasonProduceModelEventName, {
-                    detail: {},
-                });
-                document.dispatchEvent(seasonProduceModalEvent);
-            }
-
-            const resetEditProduce = () => {
-                editSeasonProduce.value = {}
-                editProduceIndex.value = null
-            }
-            const handleSeasonProduceSubmission = (seasonProduceData) => {
-                if (editProduceIndex.value === null) {
-                    seasonProduces.value.push({...seasonProduceData})
-                } else {
-                    seasonProduces.value[editProduceIndex.value] = {...seasonProduceData}
-                }
-                $(`#${seasonProduceModalId}`).modal('hide')
-                resetEditProduce()
-            }
-            const showSeasonProduceError = ref(false)
-            const removeProduce = (inputIndex) => {
-                if (seasonProduces.value.length <= 1) {
-                    seasonProduces.value = []
-                    return;
-                }
-
-                const newSeasonProduces = seasonProduces.value.filter((_input, _index) => inputIndex != _index)
-                seasonProduces.value = [...newSeasonProduces];
-            }
-            const setEditProduce = (inputIndex) => {
-                if (undefined === seasonProduces.value[inputIndex]) {
-                    return;
-                }
-
-                editSeasonProduce.value = seasonProduces.value[inputIndex]
-                editProduceIndex.value = inputIndex
-
-                showSeasonProducesModal()
-            }
-        // [END] Season produce logic
+        const {
+            seasonProduces,
+            editSeasonProduce,
+            editProduceIndex,
+            seasonProduceModalId,
+            seasonProduceModelEventName,
+            showSeasonProducesModal,
+            resetEditProduce,
+            handleSeasonProduceSubmission,
+            showSeasonProduceError,
+            removeProduce,
+            setEditProduce,
+        } = useManageSeasonProduce(farmSeason);
 
 
         const { scrollToFieldError } = useScrollToError('#referralForm')
@@ -849,31 +701,24 @@ export default {
 
         return {
             appStates,
-            editInputIndex,
-            editSeasonInput,
             editProduceIndex,
             editSeasonProduce,
             form,
-            handleSeasonInputSubmission,
+            handleSeasonInputsChanged,
             handleSeasonProduceSubmission,
             handleStateChange,
             jqueryValidator,
             referralForm,
-            removeInput,
             removeProduce,
-            seasonInputModelEventName,
             seasonProduceModelEventName,
-            seasonInputModalId,
             seasonProduceModalId,
             seasonInputs,
             seasonProduces,
             selectedStateLgas,
             showSeasonInputError,
             showSeasonProduceError,
-            showSeasonInputsModal,
             showSeasonProducesModal,
             updateSelectedStateLgas,
-            setEditInput,
             setEditProduce,
         }
     },

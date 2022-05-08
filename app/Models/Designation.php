@@ -60,6 +60,18 @@ class Designation extends Model
     }
 
     /**
+     * Get designation name of the given id
+     *
+     * @param integer $id
+     * @return string|null
+     */
+    public static function getDesignationName(int $id): ?string
+    {
+        $types = self::getList(true);
+        return $types[$id] ?? null;
+    }
+
+    /**
      * Get permissions for the currently authenticated users
      * 
      * @return array

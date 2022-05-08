@@ -308,3 +308,14 @@ Route::prefix('referral-requests')->name('referral-requests.')->group(function()
     Route::get('{id}/season-download-url', [\App\Http\Controllers\ReferralRequestController::class, 'generateSeasonDownloadUrl']);
 });
 
+
+/*
+|-----------------------------------------------------------------------------
+| Messages routes
+|-----------------------------------------------------------------------------
+*/
+Route::prefix('messages')->name('messages.')->group(function() {
+    Route::get('/', [\App\Http\Controllers\MessageController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\MessageController::class, 'store']);
+    Route::get('/create', [\App\Http\Controllers\MessageController::class, 'create']);
+});

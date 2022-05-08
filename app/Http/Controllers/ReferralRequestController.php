@@ -224,12 +224,5 @@ class ReferralRequestController extends Controller
         $fileName = $farm->id . '_season_records.xlsx';
 
         return (new FarmRecordsExport($farm))->download($fileName);
-
-        // get season records for the farm
-        // prepare the excel file
-        // make name for the file
-        // set header to excell
-        // initiate download
-
     }
 }

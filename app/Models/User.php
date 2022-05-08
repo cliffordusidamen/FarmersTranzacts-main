@@ -208,6 +208,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Farm::class);
     }
 
+
+    /**
+     * Messages sent to this user
+     *
+     * @return BelongsToMany
+     */
+    public function messages(): BelongsToMany
+    {
+        return $this->belongsToMany(Message::class);
+    }
+
     /**
      * Setter for "password" field
      * 

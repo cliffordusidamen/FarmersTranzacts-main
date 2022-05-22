@@ -18,7 +18,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::withCount(['recipients'])->paginate(15);
+        $messages = Message::withCount(['recipients'])->latest()->paginate(15);
         $messages->each(fn($message) => $message->append(['safe_content']));
         return response()->json(compact('messages'));
     }

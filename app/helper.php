@@ -412,3 +412,16 @@ if (!function_exists('formatDateValue')) {
         return null;
     }
 }
+
+if (!function_exists('prepTextForDisplay')) {
+    /**
+     * Prepare text for display
+     * 
+     * @param  string  $text
+     * @return string
+     */
+    function prepTextForDisplay(string $text): string
+    {
+        return nl2br(e($text));
+    }
+}

@@ -48,6 +48,28 @@ class Message extends Model
     }
 
     /**
+     * Messages sent
+     * 
+     * @return BelongsToMany
+     */
+    public function sentRecipients(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'message_user', 'message_id', 'user_id')
+            ->wherePivotNotNull('sent_at');
+    }
+
+    /**
+     * Messages not sent
+     * 
+     * @return BelongsToMany
+     */
+    public function notSentRecipients(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'message_user', 'message_id', 'user_id')
+            ->wherePivotNull('sent_at');
+    }
+
+    /**
      * Get list of channels
      *
      * @param boolean $asKeys

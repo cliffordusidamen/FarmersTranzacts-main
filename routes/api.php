@@ -314,8 +314,14 @@ Route::prefix('referral-requests')->name('referral-requests.')->group(function()
 | Messages routes
 |-----------------------------------------------------------------------------
 */
-Route::prefix('messages')->name('messages.')->group(function() {
-    Route::get('/', [\App\Http\Controllers\MessageController::class, 'index']);
-    Route::post('/', [\App\Http\Controllers\MessageController::class, 'store']);
-    Route::get('/create', [\App\Http\Controllers\MessageController::class, 'create']);
+Route::middleware(['auth:sanctum'])->prefix('messages')->name('messages.')->group(function() {
+    Route::get('', [\App\Http\Controllers\MessageController::class, 'index']);
+    Route::post('', [\App\Http\Controllers\MessageController::class, 'store']);
+    Route::get('create', [\App\Http\Controllers\MessageController::class, 'create']);
+    Route::get('{id}', [\App\Http\Controllers\MessageController::class, 'show']);
+    Route::delete('{id}', [\App\Http\Controllers\MessageController::class, 'destroy']);
 });
+
+Route::get('/messages/preview/{id}', [\App\Http\Controllers\MessageController::class, 'preview'])
+    ->name('messages.preview')
+    ->middleware('signed');

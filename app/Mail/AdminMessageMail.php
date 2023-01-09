@@ -52,7 +52,7 @@ class AdminMessageMail extends Mailable
 
         return $this->from(config('mail.from'))
             ->to($this->user->email, $this->user->full_name)
-            ->subject($this->message->subject ?? '[No subject]')
+            ->subject($this->adminMessage->subject ?? '[No subject]')
             ->view('emails.admin_message', [
                 'user' => $this->user,
                 'adminMessage' => $this->adminMessage,

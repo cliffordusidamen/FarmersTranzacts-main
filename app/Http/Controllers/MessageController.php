@@ -8,6 +8,8 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 
 class MessageController extends Controller
 {
@@ -18,8 +20,21 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::withCount(['recipients'])->latest()->paginate(15);
-        $messages->each(fn($message) => $message->append(['safe_content']));
+        $messages = Message::withCount([
+            'recipients',
+            'sentRecipients',
+        ])
+        ->with([
+            'creator',
+            'editor',
+        ])
+        ->latest()
+        ->paginate(15);
+
+        $messages->each(fn($message) => $message->append([
+            'safe_content',
+            'is_sent',
+        ]));
         return response()->json(compact('messages'));
     }
 
@@ -70,6 +85,22 @@ class MessageController extends Controller
     }
 
     /**
+     * Preview an email
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function preview($id)
+    {
+        $message = Message::findOrFail((int) $id);
+
+        return view('emails.admin_message', [
+            'user' => $message->user,
+            'adminMessage' => $message,
+        ]);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -77,7 +108,21 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        //
+        $message = Message::with([
+            'designation',
+            'recipients',
+            'creator',
+            'editor',
+        ])
+        ->withCount(['sentRecipients'])
+        ->findOrFail((int) $id);
+        
+        $message->append('is_sent');
+        $previewUrl = URL::temporarySignedRoute(
+            'messages.preview', now()->addMinutes(5), ['id' => (int) $id]
+        );
+
+        return response()->json(compact('message', 'previewUrl'));
     }
 
     /**
@@ -100,6 +145,17 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $message = Message::findOrFail((int) $id);
+
+        $deleted = false;
+        DB::transaction(function() use ($message, &$deleted) {
+            $message->recipients()->detach();
+            $deleted = $message->delete();
+        });
+        if (!$deleted) {
+            throw new \Exception('Message not deleted!');
+        }
+
+        return response()->json();
     }
 }

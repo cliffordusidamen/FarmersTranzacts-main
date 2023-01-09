@@ -38,13 +38,34 @@ class Message extends Model
     }
 
     /**
+     * User that created this message.
+     *
+     * @return BelongsTo
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Last user that edited this message.
+     *
+     * @return BelongsTo
+     */
+    public function editor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    /**
      * Recipients of the message.
      * 
      * @return BelongsToMany
      */
     public function recipients(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'message_user', 'message_id', 'user_id');
+        return $this->belongsToMany(User::class, 'message_user', 'message_id', 'user_id')
+            ->withPivot(['sent_at', 'message_quantity']);
     }
 
     /**
@@ -110,5 +131,20 @@ class Message extends Model
     public function getSafeContentAttribute(): string
     {
         return strip_tags($this->body);
+    }
+
+    /**
+     * Determine if the message sending is complete
+     * 
+     * @return bool
+     */
+    public function getIsSentAttribute(): bool
+    {
+        if ($this->is_draft) {
+            return false;
+        }
+
+        return $this->sentRecipients->count()
+            == $this->recipients->count();
     }
 }

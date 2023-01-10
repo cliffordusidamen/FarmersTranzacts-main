@@ -370,7 +370,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $urlPath = "/reset-password/{$token}?email={$this->email}";
         $url = url($urlPath);
 
-        if ($this->designation_id !== Designation::SHOPPER_ID) {
+        $isShopper = $this->designation_id == Designation::SHOPPER_ID;
+        $isAgent = $this->designation_id == Designation::AGENT_ID;
+
+        if (!$isShopper && !$isAgent) {
             $url = $this->designation_id == Designation::SELLER_ID
                 ? config('app.seller_app_url')
                 : config('app.admin_app_url');

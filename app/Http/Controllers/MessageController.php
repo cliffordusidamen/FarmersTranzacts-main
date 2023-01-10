@@ -63,11 +63,9 @@ class MessageController extends Controller
         DB::transaction(function () use ($request, &$saved, &$message) {
             $requestData = $request->all();
             $requestData['created_by'] =  auth()->user()->id;
-            info($requestData);
             $message = Message::create($requestData);
-            $designationName = Designation::getDesignationName($request->designation_id);
-            $usersList = User::designated($designationName)->pluck('id', 'id');
-            $message->recipients()->attach($usersList);
+            $message->createMessageUsers();
+
             $saved = true;
         });
 
@@ -127,17 +125,51 @@ class MessageController extends Controller
 
         return response()->json(compact('message', 'previewUrl'));
     }
+    
+    /**
+     * Get message for edit
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $message = Message::draft()->findOrFail((int) $id);
+
+        $designations = Designation::has('users')->get()->pluck('name', 'id');
+
+        return response()->json(compact('message', 'designations'));
+    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreMessageRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreMessageRequest $request, $id)
     {
-        //
+        $message = Message::draft()->findOrFail((int) $id);
+        $message->forceFill($request->validated());
+
+        $saved = false;
+        DB::transaction(function () use (&$saved, &$message) {
+            $message->updated_by = auth()->user()->id;
+            $message->save();
+            $message->recipients()->detach();
+            $message->createMessageUsers();
+            $saved = true;
+        });
+
+        if (!$saved) {
+            return response()->json([
+                'save_failed' => true,
+                'message' => 'Message not saved! Please, try again.'
+            ]);
+        }
+
+        return response()->json(compact('message'));
     }
 
     /**

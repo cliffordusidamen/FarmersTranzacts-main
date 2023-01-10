@@ -320,6 +320,8 @@ Route::middleware(['auth:sanctum'])->prefix('messages')->name('messages.')->grou
     Route::get('create', [\App\Http\Controllers\MessageController::class, 'create']);
     Route::get('{id}', [\App\Http\Controllers\MessageController::class, 'show']);
     Route::delete('{id}', [\App\Http\Controllers\MessageController::class, 'destroy']);
+    Route::get('edit/{id}', [\App\Http\Controllers\MessageController::class, 'edit']);
+    Route::post('update/{id}', [\App\Http\Controllers\MessageController::class, 'update']);
 });
 
 Route::get('/messages/preview/{id}', [\App\Http\Controllers\MessageController::class, 'preview'])

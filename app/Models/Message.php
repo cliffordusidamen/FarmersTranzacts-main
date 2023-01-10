@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +28,15 @@ class Message extends Model
         'is_draft',
         'created_by',
         'updated_by',
+    ];
+
+    /**
+     * Cast fields
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'is_draft' => 'boolean',
     ];
 
     /**
@@ -148,5 +158,33 @@ class Message extends Model
 
         return $this->sentRecipients->count()
             == $this->recipients->count();
+    }
+
+    
+    /**
+     * Filter draft messages only
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDraft(Builder $query): Builder
+    {
+        return $query->where('is_draft', true);
+    }
+
+    /**
+     * Create record of message_users for a message
+     * 
+     * @return void
+     */
+    public function createMessageUsers(): void
+    {
+        if ($this->is_draft) {
+            return;
+        }
+
+        $designationName = Designation::getDesignationName($this->designation_id);
+        $usersList = User::designated($designationName)->pluck('id', 'id');
+        $this->recipients()->attach($usersList);
     }
 }

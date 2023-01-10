@@ -56,9 +56,15 @@ class AuthFrontendController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
-        User::where('designation_id', '!=', Designation::SHOPPER_ID)
-            ->where('email', $request->email)
+        $user = User::where('email', $request->email)
             ->firstOrFail();
+
+        if (
+            $user->designation_id == Designation::SHOPPER_ID
+            || $user->designation_id == Designation::AGENT_ID
+        ) {
+            throw new \Exception('Invalid email address');
+        }
 
         $status = Password::sendResetLink($request->only('email'));
 

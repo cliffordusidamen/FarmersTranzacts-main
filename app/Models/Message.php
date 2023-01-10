@@ -25,6 +25,8 @@ class Message extends Model
         'subject',
         'body',
         'is_draft',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -116,7 +118,7 @@ class Message extends Model
             'designation_id' => 'required|exists:designations,id',
             'channel' => 'sometimes|nullable|in:'.implode(',', self::getChannels()),
             'subject' => 'sometimes|nullable|string|max:255',
-            'body' => 'required|string|max:65000',
+            'body' => 'required|string|max:' . 10_000_000,
             'is_draft' => 'sometimes|nullable|boolean',
         ];
 

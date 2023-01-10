@@ -61,7 +61,10 @@ class MessageController extends Controller
         $saved = false;
         $message = null;
         DB::transaction(function () use ($request, &$saved, &$message) {
-            $message = Message::create($request->all());
+            $requestData = $request->all();
+            $requestData['created_by'] =  auth()->user()->id;
+            info($requestData);
+            $message = Message::create($requestData);
             $designationName = Designation::getDesignationName($request->designation_id);
             $usersList = User::designated($designationName)->pluck('id', 'id');
             $message->recipients()->attach($usersList);

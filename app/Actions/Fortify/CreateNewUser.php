@@ -30,6 +30,8 @@ class CreateNewUser implements CreatesNewUsers
 
         $messages = [
             'phone.regex' => 'Enter only digits',
+            'email.unique' => 'The email address "' . request()->email . '" has already been taken!',
+            'phone.unique' => 'The phone address "' . request()->phone . '" has already been taken!',
         ];
 
         Validator::make($input, $rules, $messages)->validate();

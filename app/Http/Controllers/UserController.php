@@ -370,7 +370,14 @@ class UserController extends Controller
         }
 
         if ($rq_user->designation_id = Designation::AGENT_ID) {
-            $rq_user->load(['agent', 'agent.spendingVolume']);
+            $rq_user->load([
+                'agent',
+                'agent.spendingVolume',
+                'agent.productCategories',
+                'agent.address',
+                'agent.address.state',
+                'agent.address.localGovernmentArea',
+            ]);
         }
 
         $rq_user->append('full_name')->append('profile_photo_url');

@@ -439,11 +439,11 @@ export default {
 
 
         const showSeasonProduceError = ref(false)
-        const seasonProduces = ref(farmSeason?.season_inputs || []);
+        const seasonProduces = ref(farmSeason?.season_produces || []);
         const handleSeasonProducesChanged = (newSeasonProduces) => {
             showSeasonProduceError.value = !newSeasonProduces.length;
             seasonProduces.value = [...newSeasonProduces];
-            form.errors.farm_season_inputs = !!newSeasonProduces.length ? [] : null;
+            form.errors.farm_season_produces = !!newSeasonProduces.length ? [] : null;
         }
 
         const { scrollToFieldError } = useScrollToError('#referralForm')
@@ -490,16 +490,15 @@ export default {
         } = useStateLgaSelection(stateLgas, setLga)
 
         const submit = () => {
-            form.phone = telInput.value.getNumber()
-            form.farm_season_inputs = [...seasonInputs.value]
-            form.farm_season_produces = [...seasonProduces.value]
+            form.phone = telInput.value.getNumber();
+            form.farm_season_inputs = [...seasonInputs.value];
+            form.farm_season_produces = [...seasonProduces.value];
 
-            console.log('Data:', {...form})
             const tartgetRoute = !referralRequest?.id
                 ? route("referrals.store")
                 : route("referrals.update", {id: referralRequest.id})
 
-            const tartgetMethod = !referralRequest?.id ? 'post' : 'put'
+            const tartgetMethod = !referralRequest?.id ? 'post' : 'put';
 
             form[tartgetMethod](tartgetRoute, {
                 preserveState: true,
@@ -531,18 +530,18 @@ export default {
                 submitHandler() {
                     showSeasonInputError.value = false
                     referralForm.value.classList.add("was-validated");
-                    const noInputOrProducSet = !seasonInputs.value.length
-                        || !seasonProduces.value.length
-                    if (!seasonInputs.value.length) {
-                        showSeasonInputError.value = true
-                    }
-                    if (!seasonProduces.value.length) {
-                        showSeasonProduceError.value = true
-                    }
+                    // const noInputOrProducSet = !seasonInputs.value.length
+                    //     || !seasonProduces.value.length
+                    // if (!seasonInputs.value.length) {
+                    //     showSeasonInputError.value = true
+                    // }
+                    // if (!seasonProduces.value.length) {
+                    //     showSeasonProduceError.value = true
+                    // }
 
-                    if (noInputOrProducSet) {
-                        return scrollToFieldError();
-                    }
+                    // if (noInputOrProducSet) {
+                    //     return scrollToFieldError();
+                    // }
                     submit();
                 },
                 rules: {

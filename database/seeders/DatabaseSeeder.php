@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             DesignationSeeder::class,
             GeopoliticalZoneSeeder::class,
             StateSeeder::class,
+            LocalGovernmentAreaSeeder::class,
             ModelPermissionsSeeder::class,
             DeliveryStatusSeeder::class,
             AppSettingSeeder::class,

@@ -57,42 +57,41 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    document.removeEventListener(props.showEvent, modalEventListener.value, false)
-    modal.value.modal('dispose')
+    document.removeEventListener(props.showEvent, modalEventListener.value, false);
+    modal.value.modal('dispose');
+    modal.value = null;
 })
 </script>
 
 <template>
-    <teleport to="body">
-        <div class="modal fade" :id="id" tabindex="-1" :aria-labelledby="`${id}Label`" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div
-                        v-if="title?.length"
-                        class="modal-header"
+    <div class="modal fade" :id="id" tabindex="-1" :aria-labelledby="`${id}Label`" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div
+                    v-if="title?.length"
+                    class="modal-header"
+                >
+                    <h5 class="modal-title" :id="`${id}Label`">
+                        {{ title }}
+                    </h5>
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
                     >
-                        <h5 class="modal-title" :id="`${id}Label`">
-                            {{ title }}
-                        </h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <i class="la la-times"></i>
-                        </button>
-                    </div>
+                        <i class="la la-times"></i>
+                    </button>
+                </div>
 
-                    <div class="modal-body">
-                        <slot></slot>
-                    </div>
+                <div class="modal-body">
+                    <slot></slot>
+                </div>
 
-                    <div class="modal-footer p-0">
-                        <slot name="footer"></slot>
-                    </div>
+                <div class="modal-footer p-0">
+                    <slot name="footer"></slot>
                 </div>
             </div>
         </div>
-    </teleport>
+    </div>
 </template>

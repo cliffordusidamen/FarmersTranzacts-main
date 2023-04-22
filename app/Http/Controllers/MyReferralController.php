@@ -21,7 +21,7 @@ use Inertia\Inertia;
 
 class MyReferralController extends Controller
 {
-    
+
     /**
      * Create instance of the controller
      * 
@@ -50,12 +50,12 @@ class MyReferralController extends Controller
             ->latest()
             ->paginate(15);
 
-        $referralRequests->each(fn ($referralRequest) => (
-            $referralRequest->append([
-                'is_editable',
-                'is_deletable',
-                'status_number'
-            ])
+        $referralRequests->each(fn ($referralRequest) => ($referralRequest->append([
+            'is_editable',
+            'is_deletable',
+            'status_number',
+            'last_season',
+        ])
         ));
 
         return Inertia::render('Referral/Index', compact('referralRequests'));
@@ -80,7 +80,10 @@ class MyReferralController extends Controller
         $stateLgas = LocalGovernmentArea::listGroupedByStateId();
 
         return Inertia::render('Referral/Create', compact(
-            'app_states', 'years', 'seasons', 'stateLgas'
+            'app_states',
+            'years',
+            'seasons',
+            'stateLgas'
         ));
     }
 
@@ -91,10 +94,10 @@ class MyReferralController extends Controller
      */
     public function storeRequest(StoreReferralRequest $request)
     {
-        
+
         $referralRequest = null;
-        
-        DB::transaction(function() use ($request, &$referralRequest) {
+
+        DB::transaction(function () use ($request, &$referralRequest) {
 
             $farmData = $request->only(array_keys(Farm::defaultValidationRules()));
             $farm = Farm::create($farmData);
@@ -108,12 +111,17 @@ class MyReferralController extends Controller
             $farmSeasonData = $request->only(array_keys(FarmSeason::defaultValidationRules()));
             $farmSeason = $farm->seasons()->create($farmSeasonData);
 
-            $farmSeason->seasonInputs()->createMany(
-                $request->farm_season_inputs
-            );
-            $farmSeason->seasonProduces()->createMany(
-                $request->farm_season_produces
-            );
+            if (is_array($request->farm_season_inputs) && count($request->farm_season_inputs)) {
+                $farmSeason->seasonInputs()->createMany(
+                    $request->farm_season_inputs
+                );
+            }
+
+            if (is_array($request->farm_season_produces) && count($request->farm_season_produces)) {
+                $farmSeason->seasonProduces()->createMany(
+                    $request->farm_season_produces
+                );
+            }
 
             $referralRequest->append(['is_editable', 'is_deletable']);
         });
@@ -156,7 +164,8 @@ class MyReferralController extends Controller
             : [];
 
         return Inertia::render('Referral/Show', compact(
-            'referralRequest', 'seasons'
+            'referralRequest',
+            'seasons'
         ));
     }
 
@@ -192,8 +201,12 @@ class MyReferralController extends Controller
         $referralRequest->append(['full_name', 'status_number']);
 
         return Inertia::render('Referral/Edit', compact(
-            'referralRequest', 'app_states', 'years', 'seasons',
-            'farmSeason', 'stateLgas'
+            'referralRequest',
+            'app_states',
+            'years',
+            'seasons',
+            'farmSeason',
+            'stateLgas'
         ));
     }
 
@@ -206,6 +219,7 @@ class MyReferralController extends Controller
      */
     public function update($id, UpdateReferralRequest $request)
     {
+        info($request->all());
         $referralRequest = auth()
             ->user()
             ->referralRequests()
@@ -217,7 +231,7 @@ class MyReferralController extends Controller
 
         $saved = false;
 
-        DB::transaction(function() use ($request, &$referralRequest, $farmSeason, &$saved) {
+        DB::transaction(function () use ($request, &$referralRequest, $farmSeason, &$saved) {
             $rules = ReferralRequest::defaultValidationRules();
             $referralRequest->forceFill($request->only(array_keys($rules)));
             $referralRequest->approval_status = ReferralRequest::STATUS_PENDING;
@@ -226,27 +240,31 @@ class MyReferralController extends Controller
                 return;
             }
 
-            collect($request->farm_season_inputs)
-                ->each(function($inputData) use ($farmSeason) {
-                    if (!empty($inputData['id'])) {
-                        FarmSeasonInput::where('id', $inputData['id'])
-                            ->update($inputData);
-                        return;
-                    }
+            if (is_array($request->farm_season_inputs) && count($request->farm_season_inputs)) {
+                collect($request->farm_season_inputs)
+                    ->each(function ($inputData) use ($farmSeason) {
+                        if (!empty($inputData['id'])) {
+                            FarmSeasonInput::where('id', $inputData['id'])
+                                ->update($inputData);
+                            return;
+                        }
 
-                    $farmSeason->seasonInputs()->create($inputData);
-                });
+                        $farmSeason->seasonInputs()->create($inputData);
+                    });
+            }
 
-            collect($request->farm_season_produces)
-                ->each(function($produceData) use ($farmSeason) {
-                    if (!empty($produceData['id'])) {
-                        FarmSeasonProduce::where('id', $produceData['id'])
-                            ->update($produceData);
-                        return;
-                    }
+            if (is_array($request->farm_season_produces) && count($request->farm_season_produces)) {
+                collect($request->farm_season_produces)
+                    ->each(function ($produceData) use ($farmSeason) {
+                        if (!empty($produceData['id'])) {
+                            FarmSeasonProduce::where('id', $produceData['id'])
+                                ->update($produceData);
+                            return;
+                        }
 
-                    $farmSeason->seasonProduces()->create($produceData);
-                });
+                        $farmSeason->seasonProduces()->create($produceData);
+                    });
+            }
 
             $saved = true;
         });
@@ -260,7 +278,7 @@ class MyReferralController extends Controller
         return back();
     }
 
-    
+
 
     /**
      * Update the referral request
@@ -299,7 +317,7 @@ class MyReferralController extends Controller
 
         $referrals = [];
         $isSearch = false;
-        
+
         if (!empty($queryName) || is_numeric($queryState)) {
             $isSearch = true;
             $referrals = ReferralRequest::with('state')
@@ -310,7 +328,11 @@ class MyReferralController extends Controller
         }
 
         return Inertia::render('Referral/Search', compact(
-            'referrals', 'isSearch', 'queryName', 'queryState', 'app_states'
+            'referrals',
+            'isSearch',
+            'queryName',
+            'queryState',
+            'app_states'
         ));
     }
 
@@ -343,7 +365,9 @@ class MyReferralController extends Controller
         $seasons = FarmSeason::getSeasons(true);
 
         return Inertia::render('Referral/NewSeason', compact(
-            'referralRequest', 'years', 'seasons'
+            'referralRequest',
+            'years',
+            'seasons'
         ));
     }
 
@@ -373,8 +397,8 @@ class MyReferralController extends Controller
         }
 
         $saved = false;
-   
-        DB::transaction(function() use ($request, &$referralRequest, &$saved) {
+
+        DB::transaction(function () use ($request, &$referralRequest, &$saved) {
 
             $farm = $referralRequest->farm;
 

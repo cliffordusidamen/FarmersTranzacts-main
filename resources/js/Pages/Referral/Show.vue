@@ -176,7 +176,7 @@ const showSeasonDetails = (season) => {
                     <div class="p-3">
                         <h5 class="text-uppercase px-4 mb-2">season input/expense</h5>
                         <div
-                            v-if="!!displaySeason?.season_produces.length"
+                            v-if="!!displaySeason?.season_inputs.length"
                             class="card mb-1"
                         >
                             <div class="table-responsive">

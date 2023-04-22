@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/sw.js": "/sw.js",
-    "/css/app.css": "/css/app.css"
+    "/js/app.js": "/js/app.js?id=ced6c0e1e03bc6e01b60b86f07c7a5ee",
+    "/sw.js": "/sw.js?id=1078bf62f3836878c5b8f15cfc618c81",
+    "/css/app.css": "/css/app.css?id=6723093fdb6bae77863ff90e984a816e"
 }

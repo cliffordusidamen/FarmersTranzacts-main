@@ -83,7 +83,7 @@ class ReferralRequest extends Model
 
         return $asKeys ? $statuses : array_keys($statuses);
     }
-    
+
     /**
      * Get number associated to a status
      *
@@ -147,8 +147,8 @@ class ReferralRequest extends Model
         $farmSeasonValidationRules = FarmSeason::defaultValidationRules();
         $rules = array_merge($referralRequestValidationRules, $farmSeasonValidationRules);
 
-        $rules['farm_season_inputs'] = 'array|required|min:1|max:20';
-        $rules['farm_season_produces'] = 'array|required|min:1|max:20';
+        $rules['farm_season_inputs'] = 'array|sometimes|min:0|max:20';
+        $rules['farm_season_produces'] = 'array|sometimes|min:0|max:20';
 
         return $rules;
     }
@@ -233,7 +233,7 @@ class ReferralRequest extends Model
         ?string $searchString = null
     ): Builder {
         if (!empty($searchString)) {
-            $query->where(function(Builder $q) use ($searchString) {
+            $query->where(function (Builder $q) use ($searchString) {
                 $q->where(DB::raw('CONCAT(last_name, " ", first_name, " ", middle_name)'), 'LIKE', "%{$searchString}%")
                     ->orWhere(DB::raw('CONCAT(last_name, " ", middle_name, " ", first_name)'), 'LIKE', "%{$searchString}%")
                     ->orWhere(DB::raw('CONCAT(last_name, " ", first_name)'), 'LIKE', "%{$searchString}%")

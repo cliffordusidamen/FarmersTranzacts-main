@@ -9,7 +9,7 @@ export default function useManageSeasonInputs(farmSeason) {
     const seasonInputModelEventName = 'show-season-input-form';
     const showSeasonInputsModal = () => {
         const seasonInputModalEvent = new CustomEvent(seasonInputModelEventName, {
-            detail: {},
+            detail: { ...editSeasonInput.value },
         });
         document.dispatchEvent(seasonInputModalEvent);
     }
